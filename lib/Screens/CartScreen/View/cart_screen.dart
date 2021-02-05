@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../Amplitude/amplitude.dart';
 import '../../../data/data.dart';
+import '../../../data/data.dart';
 import '../../../models/RestaurantDataItems.dart';
 import '../../HomeScreen/Model/FilteredStores.dart';
 import '../../RestaurantScreen/View/restaurant_screen.dart';
@@ -118,7 +119,9 @@ class CartScreenState extends State<CartScreen> {
   CartScreenState(this.restaurant, this.parent, this.isTakeAwayScreen);
 
   _buildList() {
-    if(currentUser.cartModel == null || currentUser.cartModel.items.length == 0){
+    if(currentUser.cartModel == null
+        || currentUser.cartModel.items == null
+          || currentUser.cartModel.items.length == 0){
       return Container();
     }
     return Expanded(
@@ -143,6 +146,7 @@ class CartScreenState extends State<CartScreen> {
                   'uuid': currentUser.cartModel.items[index].product.uuid
                 });
                 await deleteItemFromCart(necessaryDataForAuth.device_id, currentUser.cartModel.items[index].id);
+                currentUser.cartModel.items.removeAt(index);
                 setState(() {
                   if(parent.totalPriceWidget.key.currentState != null){
                     parent.totalPriceWidget.key.currentState.setState(() {
@@ -189,7 +193,7 @@ class CartScreenState extends State<CartScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0, top: 5),
                                 child: Text(
-                                  (currentUser.cartModel.cookingPromiseTime != null)? '~' + '${currentUser.cartModel.cookingPromiseTime ~/ 60} мин' : '',
+                                  (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     color: Colors.black,
@@ -508,8 +512,7 @@ class CartScreenState extends State<CartScreen> {
             alignment: Alignment.topRight,
             child: Column(
               children: [
-                PriceField(key: priceFieldKey, order: currentUser.cartModel),
-
+                PriceField(key: priceFieldKey, order: order),
               ],
             ),
           )

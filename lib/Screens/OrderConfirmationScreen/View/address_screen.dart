@@ -5,6 +5,7 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_pave_view.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/API/create_order.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/add_address_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/order.dart';
 import 'package:flutter_app/data/data.dart';
@@ -17,6 +18,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../../data/data.dart';
 
 class AddressScreen extends StatefulWidget {
   MyFavouriteAddressesModel addedAddress;
@@ -39,7 +44,7 @@ class AddressScreenState extends State<AddressScreen>
   final FilteredStores restaurant;
   GlobalKey<DestinationPointsSelectorState> destinationPointsSelectorStateKey =
   GlobalKey();
-  CreateOrder createOrder;
+  //CreateOrder createOrder;
   GlobalKey<CartPageState> cartPageKey = GlobalKey();
 
   List<MyFavouriteAddressesModel> myAddressesModelList;
@@ -308,7 +313,7 @@ class AddressScreenState extends State<AddressScreen>
 
                     if(url == 'https://delivery-stage.faem.ru/payment-widget.html?status=success'){
                       _timer.cancel();
-                      await createOrder.sendData();
+                      //await createOrder.sendData();
                       // currentUser.cartModel.cart.clear();
                       // currentUser.cartModel.saveData();
                       homeScreenKey = new GlobalKey<HomeScreenState>();
@@ -1304,30 +1309,31 @@ class AddressScreenState extends State<AddressScreen>
                                 left: 60, top: 20, right: 60, bottom: 20),
                             onPressed: () async {
                               if (await Internet.checkConnection()) {
-                                if(selectedPaymentId != 1){
-                                  showAlertDialog(context);
-                                }
-                                print(addressSelectorKey.currentState.myFavouriteAddressesModel.address.unrestrictedValue);
-                                createOrder = new CreateOrder(
-                                  address: addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-                                  restaurantAddress: selectedAddress,
-                                  office: officeField.text,
-                                  floor: floorField.text,
-                                  entrance: entranceField.text,
-                                  intercom: intercomField.text,
-                                  comment: commentField.text,
-                                  // cartDataModel: currentUser.cartModel,
-                                  //restaurant: restaurant,
-                                  payment_type: (selectedPaymentId == 1) ? 'card' : 'cash',
-                                  door_to_door: status1,
-                                );
-                                if(selectedPaymentId == 1){
-                                  _cardPayment(totalPrice);
-                                  return;
-                                }
-                                await createOrder.sendData();
-                                // currentUser.cartModel.cart.clear();
-                                // currentUser.cartModel.saveData();
+                                // if(selectedPaymentId != 1){
+                                //   showAlertDialog(context);
+                                // }
+                                // print(addressSelectorKey.currentState.myFavouriteAddressesModel.address.unrestrictedValue);
+                                // createOrder = new CreateOrder(
+                                //   address: addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                //   restaurantAddress: selectedAddress,
+                                //   office: officeField.text,
+                                //   floor: floorField.text,
+                                //   entrance: entranceField.text,
+                                //   intercom: intercomField.text,
+                                //   comment: commentField.text,
+                                //   // cartDataModel: currentUser.cartModel,
+                                //   //restaurant: restaurant,
+                                //   payment_type: (selectedPaymentId == 1) ? 'card' : 'cash',
+                                //   door_to_door: status1,
+                                // );
+                                // if(selectedPaymentId == 1){
+                                //   _cardPayment(totalPrice);
+                                //   return;
+                                // }
+                                // await createOrder.sendData();
+                                // // currentUser.cartModel.cart.clear();
+                                // // currentUser.cartModel.saveData();
+                                await createOrder(currentUser.cartModel.uuid);
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
                                         builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),

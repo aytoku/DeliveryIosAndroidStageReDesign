@@ -20,6 +20,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../CartScreen/API/clear_cart.dart';
+import '../API/add_variant_to_cart.dart';
+import '../Model/ProductDataModel.dart';
+
 class RestaurantScreen extends StatefulWidget {
   final FilteredStores restaurant;
 
@@ -152,7 +158,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     );
   }
 
-  showCartClearDialog(BuildContext context, Order order,
+  showCartClearDialog(BuildContext context, ProductsDataModel productDataModel,
       GlobalKey<MenuItemCounterState> menuItemCounterKey) {
     showDialog(
       context: context,
@@ -170,7 +176,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 15, top: 20, bottom: 20, right: 15),
                       child: Text(
-                        'Все ранее добавленные блюда из ресторна ${currentUser.cartModel.storeUuid} будут удалены из корзины',
+                        'Все ранее добавленные блюда из ресторна ${currentUser.cartModel.storeData.name} будут удалены из корзины',
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.bold),
                       ),
@@ -197,23 +203,18 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       ),
                       onTap: () async {
                         if (await Internet.checkConnection()) {
-                          // if (currentUser.cartModel.cart.length > 0 &&
-                          //     currentUser
-                          //         .cartModel.cart[0].restaurant.uuid !=
-                          //         restaurant.uuid) {
-                          //   currentUser.cartModel.cart.clear();
-                          //   currentUser.cartModel.addItem(order);
-                          //   currentUser.cartModel.saveData();
-                          //   basketButtonStateKey.currentState.refresh();
-                          //   menuItemCounterKey.currentState.refresh();
-                          //   counterKey.currentState.refresh();
-                          // }
-                          // Navigator.pop(context);
-                          // Navigator.pop(context);
-                          // Padding(
-                          //   padding: EdgeInsets.only(bottom: 0),
-                          //   child: showAlertDialog(context),
-                          // );
+                          currentUser.cartModel = await clearCart(necessaryDataForAuth.device_id);
+                          currentUser.cartModel = await addVariantToCart(productDataModel, necessaryDataForAuth.device_id, counterKey.currentState.counter);
+                          basketButtonStateKey.currentState.refresh();
+                          menuItemCounterKey.currentState.refresh();
+                          counterKey.currentState.refresh();
+
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 0),
+                            child: showAlertDialog(context),
+                          );
                         } else {
                           noConnection(context);
                         }
@@ -833,7 +834,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     delegate: SliverChildBuilderDelegate(
                           (context, index){
                         return Container(
-                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.2),
+                          padding: (currentUser.cartModel.items == null || currentUser.cartModel.items.length < 1) ?
+                          EdgeInsets.only(bottom: 15)
+                              : EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.2),
                           decoration: BoxDecoration(
                             color: Colors.white
                           ),
@@ -848,7 +851,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 )
               ],
             ),
-           Align(
+            Align(
              alignment: Alignment.bottomCenter,
              child: Padding(
                padding:  EdgeInsets.only(bottom: 0),

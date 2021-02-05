@@ -72,8 +72,8 @@ class PaymentScreenState extends State<PaymentScreen> {
                       padding: const EdgeInsets.only(top: 30, left: 15, bottom: 5),
                       child: Text('Номер карты',
                         style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14
+                            color: Colors.grey,
+                            fontSize: 14
                         ),
                       ),
                     ),
@@ -220,8 +220,8 @@ class PaymentScreenState extends State<PaymentScreen> {
       ),
     );
   }
-  
-  
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -292,37 +292,37 @@ class PaymentScreenState extends State<PaymentScreen> {
               padding: const EdgeInsets.only(left: 15.0, right: 15, top: 10, bottom: 10),
               child: GestureDetector(
                 child: Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.only(right: 10, left: 15),
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4.0, // soften the shadow
-                          spreadRadius: 1.0, //extend the shadow
-                        )
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(width: 1.0, color: Colors.grey[200])),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/svg_images/visa.svg'),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Text('Наличными'),
-                            ),
-                          ],
-                        ),
-                        SvgPicture.asset('assets/svg_images/home_unselected_item.svg'),
-                      ],
-                    ),
-                  )
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.only(right: 10, left: 15),
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4.0, // soften the shadow
+                            spreadRadius: 1.0, //extend the shadow
+                          )
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(width: 1.0, color: Colors.grey[200])),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              SvgPicture.asset('assets/svg_images/visa.svg'),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text('Наличными'),
+                              ),
+                            ],
+                          ),
+                          SvgPicture.asset('assets/svg_images/home_unselected_item.svg'),
+                        ],
+                      ),
+                    )
                 ),
               ),
             ),
@@ -336,16 +336,16 @@ class PaymentScreenState extends State<PaymentScreen> {
                       width: 318,
                       height: 48,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(0xFF09B44D)
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color(0xFF09B44D)
                       ),
                       child: Center(
                           child: Text('Добавить карту',
-                              style: TextStyle(
+                            style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16
-                              ),
-                       )
+                            ),
+                          )
                       ),
                     ),
                     onTap: (){

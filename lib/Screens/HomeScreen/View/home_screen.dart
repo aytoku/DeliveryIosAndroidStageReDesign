@@ -4,6 +4,7 @@ import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Preloader/device_id_screen.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
+import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
 import 'package:flutter_app/Screens/HomeScreen/API/getFilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
@@ -22,8 +23,17 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../Preloader/device_id_screen.dart';
 import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../CartScreen/Model/CartModel.dart';
+import '../../CartScreen/Model/CartModel.dart';
 import '../../CityScreen/View/city_screen.dart';
+import '../../PaymentScreen/View/payment_screen.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
+import '../Model/FilteredStores.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -131,6 +141,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                   context,
                   new MaterialPageRoute(
                     builder: (context) => new ProfileScreen(),
+                  ),
+                );
+              } else {
+                noConnection(context);
+              }
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: ListTile(
+            leading: SvgPicture.asset('assets/svg_images/pay.svg'),
+            title: Text(
+              'Способы оплаты',
+              style: TextStyle(
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+            ),
+            onTap: () async {
+              if (await Internet.checkConnection()) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new PaymentScreen(),
                   ),
                 );
               } else {
@@ -406,7 +439,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             initialData: null,
             builder: (BuildContext context,
                 AsyncSnapshot<FilteredStoresData> snapshot) {
-              print(snapshot.connectionState);
               if (snapshot.hasData) {
                if (snapshot.data.filteredStoresList == null || snapshot.data.filteredStoresList.length == 0) {
                  return Column(
@@ -635,20 +667,39 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         ],
                       ),
                     ),
-                    // (currentUser.cartDataModel.cart != null &&
-                    //     currentUser.cartDataModel.cart.length != 0)
-                    //     ? Padding(
-                    //   padding: const EdgeInsets.only(bottom: 0),
-                    //   child: BasketButton(
-                    //     key: basketButtonStateKey,
-                    //     restaurant:
-                    //     currentUser.cartDataModel.cart[0].restaurant,
-                    //   ),
-                    // )
-                    //     : Visibility(
-                    //   child: Container(height: 80),
-                    //   visible: false,
-                    // )
+                    FutureBuilder<List<Item>>(
+                      future: getCartByDeviceId(necessaryDataForAuth.device_id),
+                      builder: (BuildContext context, AsyncSnapshot<List<Item>> snapshot){
+                        if(snapshot.connectionState == ConnectionState.done){
+                          currentUser.cartModel = new CartModel();
+                          currentUser.cartModel.items = snapshot.data;
+                          if(currentUser.cartModel.items == null || currentUser.cartModel.items.length < 1)
+                            return Container();
+
+                          FilteredStores restaurant;
+                          try{
+                            restaurant = restaurantsList.records_items.firstWhere((element) =>
+                                          element.uuid == currentUser.cartModel.items[0].product.storeUuid);
+                            currentUser.cartModel.storeData = StoreData.fromFilteredStores(restaurant);
+                            currentUser.cartModel.storeUuid = currentUser.cartModel.storeData.uuid;
+                          } catch(exception){
+                            restaurant = null;
+                          }
+                          if(restaurant == null)
+                            return Container();
+
+                          
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 0),
+                            child: CartButton(
+                              key: basketButtonStateKey,
+                              restaurant: restaurant,
+                            ),
+                          );
+                        }
+                        return Container();
+                      }
+                    ),
                   ],
                 );
               } else {

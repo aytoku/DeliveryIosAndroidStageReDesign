@@ -55,15 +55,19 @@ class ProductsDataModel {
     "variant_groups": List<dynamic>.from(variantGroups.map((x) => x.toJson())),
   };
 
-  Map<String, dynamic> toServerJson() => {
-    "product": {
-      "uuid": uuid,
-      "name": name,
-      "store_uuid": storeUuid,
-      "meta": meta.toJson(),
-      "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),
-    },
-    "variant_groups": List<dynamic>.from(variantGroups.map((x) => x.toJson())),
+  Map<String, dynamic> toServerJson(int count) => {
+    "source": "mod",
+    "item":{
+      "product": {
+        "uuid": uuid,
+        "name": name,
+        "store_uuid": storeUuid,
+        "meta": meta.toJson(),
+        "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),
+      },
+      "variant_groups": List<dynamic>.from(variantGroups.map((x) => x.toJson())),
+      "count": count
+    }
   };
 }
 

@@ -186,6 +186,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.8.0"
+  flutter_pay:
+    dependency: "direct main"
+    description:
+      name: flutter_pay
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.1"
   flutter_spinkit:
     dependency: "direct main"
     description:

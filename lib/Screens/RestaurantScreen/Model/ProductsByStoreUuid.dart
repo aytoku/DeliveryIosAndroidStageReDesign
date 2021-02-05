@@ -23,6 +23,7 @@ class ProductsByStoreUuid {
     this.uuid,
     this.name,
     this.price,
+    this.openable,
     this.defaultSet,
     this.image,
     this.productCategories,
@@ -30,6 +31,7 @@ class ProductsByStoreUuid {
 
   String uuid;
   String name;
+  bool openable;
   int price;
   bool defaultSet;
   List<String> image;
@@ -38,6 +40,7 @@ class ProductsByStoreUuid {
   factory ProductsByStoreUuid.fromJson(Map<String, dynamic> json) => ProductsByStoreUuid(
     uuid: json["uuid"],
     name: json["name"],
+    openable: json["openable"],
     price: json["price"],
     defaultSet: json["default_set"],
     image: List<String>.from(json["image"].map((x) => x)),
@@ -48,6 +51,7 @@ class ProductsByStoreUuid {
     "uuid": uuid,
     "name": name,
     "price": price,
+    "openable": openable,
     "default_set": defaultSet,
     "image": List<dynamic>.from(image.map((x) => x)),
     "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),

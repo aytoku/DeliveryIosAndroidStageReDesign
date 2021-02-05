@@ -1,6 +1,11 @@
+// To parse this JSON data, do
+//
+//     final cartModel = cartModelFromJson(jsonString);
+
 import 'dart:convert';
 
-import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
+import '../../HomeScreen/Model/FilteredStores.dart';
+import '../../RestaurantScreen/Model/ProductDataModel.dart';
 
 CartModel cartModelFromJson(String str) => CartModel.fromJson(json.decode(str));
 
@@ -24,13 +29,13 @@ class CartModel {
     this.items,
     this.paymentType,
     this.totalPrice,
+    this.ownDelivery,
     this.withoutDelivery,
     this.eatInStore,
-    this.ownDelivery,
     this.deliveryType,
     this.deliveryPrice,
     this.deliveryAddress,
-    this.cookingPromiseTime,
+    this.cookingTime,
     this.createdAt,
   });
 
@@ -50,13 +55,13 @@ class CartModel {
   List<Item> items;
   String paymentType;
   int totalPrice;
+  bool ownDelivery;
   bool withoutDelivery;
   bool eatInStore;
-  bool ownDelivery;
   String deliveryType;
   int deliveryPrice;
   Address deliveryAddress;
-  int cookingPromiseTime;
+  int cookingTime;
   DateTime createdAt;
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
@@ -76,13 +81,13 @@ class CartModel {
     items: (json["items"] == null) ? null : List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
     paymentType: json["payment_type"],
     totalPrice: json["total_price"],
+    ownDelivery: json["own_delivery"],
     withoutDelivery: json["without_delivery"],
     eatInStore: json["eat_in_store"],
-    ownDelivery: json["own_delivery"],
     deliveryType: json["delivery_type"],
     deliveryPrice: json["delivery_price"],
     deliveryAddress: Address.fromJson(json["delivery_address"]),
-    cookingPromiseTime: json["cooking_promise_time"],
+    cookingTime: json["cooking_time"],
     createdAt: DateTime.parse(json["created_at"]),
   );
 
@@ -103,13 +108,13 @@ class CartModel {
     "items": List<dynamic>.from(items.map((x) => x.toJson())),
     "payment_type": paymentType,
     "total_price": totalPrice,
+    "own_delivery": ownDelivery,
     "without_delivery": withoutDelivery,
     "eat_in_store": eatInStore,
-    "own_delivery": ownDelivery,
     "delivery_type": deliveryType,
     "delivery_price": deliveryPrice,
     "delivery_address": deliveryAddress.toJson(),
-    "cooking_promise_time": cookingPromiseTime,
+    "cooking_time": cookingTime,
     "created_at": createdAt.toIso8601String(),
   };
 }
@@ -121,6 +126,7 @@ class ClientData {
     this.comment,
     this.mainPhone,
     this.blocked,
+    this.addresses,
     this.meta,
   });
 
@@ -129,6 +135,7 @@ class ClientData {
   String comment;
   String mainPhone;
   bool blocked;
+  dynamic addresses;
   ClientDataMeta meta;
 
   factory ClientData.fromJson(Map<String, dynamic> json) => ClientData(
@@ -137,6 +144,7 @@ class ClientData {
     comment: json["comment"],
     mainPhone: json["main_phone"],
     blocked: json["blocked"],
+    addresses: json["addresses"],
     meta: ClientDataMeta.fromJson(json["meta"]),
   );
 
@@ -146,6 +154,7 @@ class ClientData {
     "comment": comment,
     "main_phone": mainPhone,
     "blocked": blocked,
+    "addresses": addresses,
     "meta": meta.toJson(),
   };
 }
@@ -160,123 +169,27 @@ class ClientDataMeta {
   };
 }
 
-class Address {
-  Address({
-    this.uuid,
-    this.pointType,
-    this.unrestrictedValue,
-    this.value,
-    this.country,
-    this.region,
-    this.regionType,
-    this.type,
-    this.city,
-    this.cityType,
-    this.street,
-    this.streetType,
-    this.streetWithType,
-    this.house,
-    this.frontDoor,
-    this.comment,
-    this.outOfTown,
-    this.houseType,
-    this.accuracyLevel,
-    this.radius,
-    this.lat,
-    this.lon,
-  });
-
-  String uuid;
-  String pointType;
-  String unrestrictedValue;
-  String value;
-  String country;
-  String region;
-  String regionType;
-  String type;
-  String city;
-  String cityType;
-  String street;
-  String streetType;
-  String streetWithType;
-  String house;
-  int frontDoor;
-  String comment;
-  bool outOfTown;
-  String houseType;
-  int accuracyLevel;
-  int radius;
-  int lat;
-  int lon;
-
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-    uuid: json["uuid"],
-    pointType: json["point_type"],
-    unrestrictedValue: json["unrestricted_value"],
-    value: json["value"],
-    country: json["country"],
-    region: json["region"],
-    regionType: json["region_type"],
-    type: json["type"],
-    city: json["city"],
-    cityType: json["city_type"],
-    street: json["street"],
-    streetType: json["street_type"],
-    streetWithType: json["street_with_type"],
-    house: json["house"],
-    frontDoor: json["front_door"],
-    comment: json["comment"],
-    outOfTown: json["out_of_town"],
-    houseType: json["house_type"],
-    accuracyLevel: json["accuracy_level"],
-    radius: json["radius"],
-    lat: json["lat"],
-    lon: json["lon"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "uuid": uuid,
-    "point_type": pointType,
-    "unrestricted_value": unrestrictedValue,
-    "value": value,
-    "country": country,
-    "region": region,
-    "region_type": regionType,
-    "type": type,
-    "city": city,
-    "city_type": cityType,
-    "street": street,
-    "street_type": streetType,
-    "street_with_type": streetWithType,
-    "house": house,
-    "front_door": frontDoor,
-    "comment": comment,
-    "out_of_town": outOfTown,
-    "house_type": houseType,
-    "accuracy_level": accuracyLevel,
-    "radius": radius,
-    "lat": lat,
-    "lon": lon,
-  };
-}
 
 class Item {
   Item({
     this.id,
     this.product,
     this.variantGroups,
+    this.price,
     this.count,
   });
 
   int id;
   Product product;
   List<VariantGroup> variantGroups;
+  int price;
   int count;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
     id: json["id"],
     product: Product.fromJson(json["product"]),
     variantGroups: (json["variant_groups"] == null) ? null : List<VariantGroup>.from(json["variant_groups"].map((x) => VariantGroup.fromJson(x))),
+    price: json["price"],
     count: json["count"],
   );
 
@@ -284,6 +197,7 @@ class Item {
     "id": id,
     "product": product.toJson(),
     "variant_groups": List<dynamic>.from(variantGroups.map((x) => x.toJson())),
+    "price": price,
     "count": count,
   };
 }
@@ -333,7 +247,7 @@ class ProductMeta {
 
   factory ProductMeta.fromJson(Map<String, dynamic> json) => ProductMeta(
     description: json["description"],
-    images: (json["images"] == null) ? null : List<String>.from(json["images"].map((x) => x)),
+    images: List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
   );
 
@@ -449,6 +363,14 @@ class StoreData {
   bool ownDelivery;
   String url;
   StoreDataMeta meta;
+
+  factory StoreData.fromFilteredStores(FilteredStores store){
+    return new StoreData(
+      name: store.name,
+      uuid: store.uuid,
+      address: store.address
+    );
+  }
 
   factory StoreData.fromJson(Map<String, dynamic> json) => StoreData(
     uuid: json["uuid"],

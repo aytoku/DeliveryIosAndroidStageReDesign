@@ -14,6 +14,8 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dar
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../data/data.dart';
+import '../CartButton/CartButton.dart';
 import 'ItemCounter.dart';
 
 class MenuItem extends StatefulWidget {
@@ -38,7 +40,6 @@ class MenuItem extends StatefulWidget {
 class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   final ProductsByStoreUuid restaurantDataItems;
   final RestaurantScreenState parent;
-  Item order;
 
 
   MenuItemState(this.restaurantDataItems, this.parent);
@@ -159,7 +160,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                       ],
                                     ),
                                   ),
-                                 MenuItemCounter(foodRecords: restaurantDataItems, key: menuItemCounterKey, order: order, parent: this)
+                                 MenuItemCounter(foodRecords: restaurantDataItems, menuItemCounterKey: menuItemCounterKey, parent: this)
                                 ],
                               ),
                             ),
@@ -547,10 +548,21 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                   cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
                                                   cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
                                                 });
-                                                Navigator.pop(context);
-                                                parent.basketButtonStateKey.currentState.refresh();
-                                                parent.counterKey.currentState.refresh();
-                                                currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
+
+                                                if(currentUser.cartModel != null && currentUser.cartModel.items != null
+                                                    && currentUser.cartModel.items.length > 0
+                                                    && productsDescription.storeUuid != currentUser.cartModel.storeUuid){
+                                                  print(productsDescription.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
+                                                  parent.showCartClearDialog(context, cartProduct, menuItemCounterKey);
+                                                } else {
+                                                  Navigator.pop(context);
+                                                  currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
+                                                  parent.basketButtonStateKey.currentState.refresh();
+                                                  menuItemCounterKey.currentState.refresh();
+                                                  parent.counterKey.currentState.refresh();
+                                                }
+
+
                                                 // FoodRecords foodOrder =
                                                 // FoodRecords.fromFoodRecords(
                                                 //     restaurantDataItems);

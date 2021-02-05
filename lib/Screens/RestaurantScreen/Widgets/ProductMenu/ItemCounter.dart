@@ -8,56 +8,69 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/PriceField.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../data/data.dart';
+import '../../../../data/data.dart';
+import '../../../../data/data.dart';
+import '../../../CartScreen/API/decriment_cart_item.dart';
+import '../../../CartScreen/API/increment_cart_item_count.dart';
+import '../../../OrdersScreen/Model/order.dart';
+import '../../Model/ProductsByStoreUuid.dart';
 import 'Item.dart';
 
 class MenuItemCounter extends StatefulWidget {
   GlobalKey<PriceFieldState> priceFieldKey;
-  Item order;
+  GlobalKey<MenuItemCounterState> menuItemCounterKey;
   ProductsByStoreUuid foodRecords;
   MenuItemState parent;
-  MenuItemCounter({Key key, this.priceFieldKey, this.foodRecords, this.order, this.parent}) : super(key: key);
+  MenuItemCounter({this.menuItemCounterKey, this.priceFieldKey, this.foodRecords, this.parent}) : super(key: menuItemCounterKey);
 
   @override
   MenuItemCounterState createState() {
-    return new MenuItemCounterState(priceFieldKey, this.foodRecords, this.order, this.parent);
+    return new MenuItemCounterState(priceFieldKey, this.foodRecords, this.parent, this.menuItemCounterKey);
   }
 }
 
 class MenuItemCounterState extends State<MenuItemCounter> {
   GlobalKey<PriceFieldState> priceFieldKey;
-  Item order;
   ProductsByStoreUuid foodRecords;
-  GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();
+  Item item;
+  GlobalKey<MenuItemCounterState> menuItemCounterKey;
 
   MenuItemState parent;
 
-  MenuItemCounterState(this.priceFieldKey, this.foodRecords, this.order, this.parent);
+  MenuItemCounterState(this.priceFieldKey, this.foodRecords, this.parent, this.menuItemCounterKey);
 
   int counter = 1;
 
   // ignore: non_constant_identifier_names
-  void _incrementCounter_plus() {
+  Future<void> _incrementCounter_plus() async {
+    currentUser.cartModel = await incrementCartItemCount(necessaryDataForAuth.device_id, item.id);
     setState(() {
-      counter++;
-      updateCartItemQuantity();
     });
   }
 
   // ignore: non_constant_identifier_names
-  void _incrementCounter_minus() {
+  Future<void> _incrementCounter_minus() async{
+    currentUser.cartModel = await decrementCartItem(necessaryDataForAuth.device_id, item.id);
+    item = findCartItem(foodRecords);
     setState(() {
-      counter--;
-      updateCartItemQuantity();
     });
   }
 
 
-  void updateCartItemQuantity(){
-    order.count = counter;
+  Item findCartItem(ProductsByStoreUuid product){
+    var item;
+    try {
+      item = currentUser.cartModel.items.firstWhere((element) => element.product.uuid == product.uuid);
+    }catch(e){
+      item = null;
+    }
+    return item;
   }
 
   Widget build(BuildContext context) {
-    if(order == null){
+    item = findCartItem(foodRecords);
+    if(item == null){
       return Align(
         alignment: Alignment.centerLeft,
         child: Padding(
@@ -83,15 +96,23 @@ class MenuItemCounterState extends State<MenuItemCounter> {
         ),
       );
     }
-    counter = order.count;
+
+    counter = 0;
+    for(int i = 0; i<currentUser.cartModel.items.length; i++){
+      var element = currentUser.cartModel.items[i];
+      if(element.product.uuid == foodRecords.uuid){
+        counter += element.count;
+      }
+    }
+
     return Padding(
         padding: EdgeInsets.only(left: 15, right: 0),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           InkWell(
-            onTap: () {
+            onTap: () async {
               if (counter != 1) {
-                _incrementCounter_minus();
-                // counter = restaurantDataItems.records_count;
+                await _incrementCounter_minus();
+
               }
             },
             child: SvgPicture.asset('assets/svg_images/rest_minus.svg'),
@@ -112,24 +133,21 @@ class MenuItemCounterState extends State<MenuItemCounter> {
               ),
             ),
           ),
-          // InkWell(
-          //   onTap: () async {
-          //     if (await Internet.checkConnection()) {
-          //       if(foodRecords.toppings != null || foodRecords.variants != null){
-          //         parent.onPressedButton(foodRecords, menuItemCounterKey);
-          //       }else{
-          //         setState(() {
-          //           _incrementCounter_plus();
-          //           // counter = restaurantDataItems.records_count;
-          //         });
-          //       }
-          //
-          //     } else {
-          //       noConnection(context);
-          //     }
-          //   },
-          //   child: SvgPicture.asset('assets/svg_images/rest_plus.svg'),
-          // ),
+          InkWell(
+            onTap: () async {
+              if (await Internet.checkConnection()) {
+                if(true){
+                  parent.onPressedButton(foodRecords, menuItemCounterKey);
+                }else{
+                  await _incrementCounter_plus();
+                }
+
+              } else {
+                noConnection(context);
+              }
+            },
+            child: SvgPicture.asset('assets/svg_images/rest_plus.svg'),
+          ),
         ])
     );
   }
