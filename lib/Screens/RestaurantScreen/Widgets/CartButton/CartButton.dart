@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
-import 'package:flutter_app/Screens/CartScreen/View/cart_pave_view.dart';
+import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/CartScreen/View/empty_cart_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
@@ -78,8 +78,7 @@ class CartButtonState extends State<CartButton> {
                           child: Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              '00',
-                              // (restaurant.order_preparation_time_second != null)? '${restaurant.order_preparation_time_second ~/ 60} мин' : '',
+                              (currentUser.cartModel.cookingTime != null)? '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
                               style: TextStyle(
                                 fontSize: 12.0,
                                 color: Colors.white,

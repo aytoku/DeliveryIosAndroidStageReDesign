@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
-import 'package:flutter_app/Screens/CartScreen/View/cart_pave_view.dart';
+import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/autocolplete_field_list.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/my_addresses_model.dart';
@@ -25,7 +25,6 @@ class AddAddressScreenState extends State<AddAddressScreen> {
   MyFavouriteAddressesModel myAddressesModel;
   GlobalKey<AutoCompleteFieldState> autoCompleteFieldKey = new GlobalKey();
   AddressScreenState parent;
-  TakeAwayState parent1;
 
 
   AddAddressScreenState(this.myAddressesModel, this.parent);
@@ -119,7 +118,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                       Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.push(context,
-                        new MaterialPageRoute(builder: (context) => new AddressScreen(restaurant: parent.restaurant, myAddressesModelList: parent.myAddressesModelList,)),
+                        new MaterialPageRoute(builder: (context) => new AddressScreen(restaurant: parent.restaurant, myAddressesModelList: parent.myAddressesModelList, isTakeAwayOrderConfirmation: false,)),
                       );
                     } else {
                       noConnection(context);

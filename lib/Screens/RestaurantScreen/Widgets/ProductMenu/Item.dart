@@ -555,10 +555,10 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                   print(productsDescription.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
                                                   parent.showCartClearDialog(context, cartProduct, menuItemCounterKey);
                                                 } else {
-                                                  Navigator.pop(context);
                                                   currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
-                                                  parent.basketButtonStateKey.currentState.refresh();
                                                   menuItemCounterKey.currentState.refresh();
+                                                  Navigator.pop(context);
+                                                  parent.basketButtonStateKey.currentState.refresh();
                                                   parent.counterKey.currentState.refresh();
                                                 }
 

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
+
 class FilteredStoresData{
   List<FilteredStores> filteredStoresList;
 
@@ -58,6 +60,14 @@ class FilteredStores {
   int lon;
   String url;
   FilteredStoreMeta meta;
+
+  factory FilteredStores.fromStoreData(StoreData store){
+    return new FilteredStores(
+        name: store.name,
+        uuid: store.uuid,
+        address: store.address
+    );
+  }
 
   factory FilteredStores.fromJson(Map<String, dynamic> json) => FilteredStores(
     uuid: json["uuid"],

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/Screens/OrdersScreen/API/getClientStoryOrders.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/orders_story_data.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrderStoryModel.dart';
+import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,9 +22,9 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
   int page = 1;
   int limit = 12;
   bool isLoading = true;
-  List<OrdersStoryModelItem> records_items = new List<OrdersStoryModelItem>();
+  List<OrderDetailsModelItem> records_items = new List<OrderDetailsModelItem>();
 
-  Widget column(OrdersStoryModelItem ordersStoryModelItem) {
+  Widget column(OrderDetailsModelItem ordersStoryModelItem) {
     var format = new DateFormat('  HH:mm    dd.MM.yyyy');
     return Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 10, top: 10),
@@ -49,11 +51,11 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(ordersStoryModelItem.productsData.store.name,
+                      Text(ordersStoryModelItem.storeData.name,
                           textAlign: TextAlign.start,
                           style: TextStyle(fontSize: 18, color: Color(0xFF000000))),
                       Text(
-                        '${ordersStoryModelItem.tariff.totalPrice + ordersStoryModelItem.tariff.productsPrice - ordersStoryModelItem.tariff.bonusPayment} \₽',
+                        '${ordersStoryModelItem.totalPrice} \₽',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
@@ -75,13 +77,13 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                               child: SvgPicture.asset('assets/svg_images/clock.svg'),
                             ),
                             Text(
-                              format.format(DateTime.fromMillisecondsSinceEpoch( ordersStoryModelItem.createdAtUnix * 1000)),
+                              format.format(ordersStoryModelItem.createdAt),
                               style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                             ),
                           ],
                         ),
                       ),
-                      (ordersStoryModelItem.stateTitle == "Завершен") ? Row(
+                      (ordersStoryModelItem.state == "finish") ? Row(
                         children: [
                           Text('Доставлен',
                             style: TextStyle(
@@ -95,7 +97,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                           )
                         ],
                       ) : Container(
-                        child: Text(ordersStoryModelItem.stateTitle,
+                        child: Text(ordersStoryModelItem.state,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 14
@@ -118,8 +120,8 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
     if(records_items == null){
       return Container();
     }else{
-      records_items.forEach((OrdersStoryModelItem ordersStoryModelItem) {
-        if(ordersStoryModelItem.productsData!= null && ordersStoryModelItem.productsData.products!= null && ordersStoryModelItem.productsData.products.length > 0){
+      records_items.forEach((OrderDetailsModelItem ordersStoryModelItem) {
+        if(ordersStoryModelItem.items!= null && ordersStoryModelItem.items.length > 0){
           restaurantList.add(
             InkWell(
                 child: column(ordersStoryModelItem),
@@ -129,7 +131,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                       context,
                       MaterialPageRoute(builder: (_) {
                         return OrdersDetailsScreen(
-                            ordersStoryModelItem: ordersStoryModelItem);
+                            ordersDetailsModelItem: ordersStoryModelItem);
                       }),
                     );
                   } else {
@@ -152,14 +154,14 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
             children: [
               ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'История зазказов',),
               Divider(height: 1.0, color: Colors.grey),
-              FutureBuilder<OrdersStoryModel>(
-                  future: loadOrdersStoryModel(),
+              FutureBuilder<OrderDetailsModel>(
+                  future: getClientStoryOrders(),
                   initialData: null,
                   builder: (BuildContext context,
-                      AsyncSnapshot<OrdersStoryModel> snapshot) {
+                      AsyncSnapshot<OrderDetailsModel> snapshot) {
                     print(snapshot.connectionState);
                     if (snapshot.hasData) {
-                      records_items = snapshot.data.ordersStoryModelItems;
+                      records_items = snapshot.data.orderDetailsModelItem;
                       return Expanded(
                         child: ListView(
                           children: <Widget>[

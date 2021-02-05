@@ -149,29 +149,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: ListTile(
-            leading: SvgPicture.asset('assets/svg_images/pay.svg'),
-            title: Text(
-              'Способы оплаты',
-              style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-            ),
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => new PaymentScreen(),
-                  ),
-                );
-              } else {
-                noConnection(context);
-              }
-            },
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
+        //   child: ListTile(
+        //     leading: SvgPicture.asset('assets/svg_images/pay.svg'),
+        //     title: Text(
+        //       'Способы оплаты',
+        //       style: TextStyle(
+        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+        //     ),
+        //     onTap: () async {
+        //       if (await Internet.checkConnection()) {
+        //         Navigator.push(
+        //           context,
+        //           new MaterialPageRoute(
+        //             builder: (context) => new PaymentScreen(),
+        //           ),
+        //         );
+        //       } else {
+        //         noConnection(context);
+        //       }
+        //     },
+        //   ),
+        // ),
         Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 10),
           child: ListTile(
@@ -639,16 +639,16 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           SizedBox(
                             height: 10,
                           ),
-                          GestureDetector(
-                            child: Container(
-                              height: 40,width: 40,
-                              child: Text('sdf'),
-                            ),
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => DeviceIdScreen()),);
-                            },
-                          ),
+                          // GestureDetector(
+                          //   child: Container(
+                          //     height: 40,width: 40,
+                          //     child: Text('sdf'),
+                          //   ),
+                          //   onTap: (){
+                          //     Navigator.push(context, MaterialPageRoute(
+                          //         builder: (context) => DeviceIdScreen()),);
+                          //   },
+                          // ),
                           Padding(
                             padding:
                             EdgeInsets.symmetric(horizontal: 20.0),
@@ -667,33 +667,22 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         ],
                       ),
                     ),
-                    FutureBuilder<List<Item>>(
+                    FutureBuilder<CartModel>(
                       future: getCartByDeviceId(necessaryDataForAuth.device_id),
-                      builder: (BuildContext context, AsyncSnapshot<List<Item>> snapshot){
+                      builder: (BuildContext context, AsyncSnapshot<CartModel> snapshot){
                         if(snapshot.connectionState == ConnectionState.done){
-                          currentUser.cartModel = new CartModel();
-                          currentUser.cartModel.items = snapshot.data;
-                          if(currentUser.cartModel.items == null || currentUser.cartModel.items.length < 1)
+                          currentUser.cartModel = snapshot.data;
+                          if(currentUser.cartModel == null
+                              || currentUser.cartModel.items == null
+                                || currentUser.cartModel.items.length < 1){
+                            currentUser.cartModel = new CartModel();
                             return Container();
-
-                          FilteredStores restaurant;
-                          try{
-                            restaurant = restaurantsList.records_items.firstWhere((element) =>
-                                          element.uuid == currentUser.cartModel.items[0].product.storeUuid);
-                            currentUser.cartModel.storeData = StoreData.fromFilteredStores(restaurant);
-                            currentUser.cartModel.storeUuid = currentUser.cartModel.storeData.uuid;
-                          } catch(exception){
-                            restaurant = null;
                           }
-                          if(restaurant == null)
-                            return Container();
-
-                          
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 0),
                             child: CartButton(
                               key: basketButtonStateKey,
-                              restaurant: restaurant,
+                              restaurant: FilteredStores.fromStoreData(currentUser.cartModel.storeData),
                             ),
                           );
                         }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/OrdersScreen/API/getClientsOrdersInProcess.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrderStoryModel.dart';
+import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_details.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,40 +11,33 @@ import '../API/getInitData.dart';
 import '../Model/InitData.dart';
 
 class OrderChecking extends StatefulWidget {
-  OrdersStoryModelItem ordersStoryModelItem;
+  OrderDetailsModelItem ordersDetailsItem;
 
-  OrderChecking({Key key, this.ordersStoryModelItem}) : super(key: key);
+  OrderChecking({Key key, this.ordersDetailsItem}) : super(key: key);
   static var state_array = [
-    'waiting_for_confirmation',
+    'created',
     'cooking',
-    'offer_offered',
-    'smart_distribution',
-    'finding_driver',
-    'offer_rejected',
-    'order_start',
-    'on_place',
-    'on_the_way',
-    'transferred_to_store',
-    'order_payment'
+    'ready',
+    'delivery'
   ];
 
   @override
   OrderCheckingState createState() {
-    return new OrderCheckingState(ordersStoryModelItem);
+    return new OrderCheckingState(ordersDetailsItem);
   }
 
   static Future<List<OrderChecking>> getActiveOrder() async {
     List<OrderChecking> activeOrderList = new List<OrderChecking>();
-    InitData initData = await getInitData();
+    OrderDetailsModel initData = await getClientsOrdersInProcess();
     orderCheckingStates.clear();
-    initData.ordersData
-        .forEach((OrdersStoryModelItem element) {
+    initData.orderDetailsModelItem
+        .forEach((OrderDetailsModelItem element) {
       if (state_array.contains(element.state)) {
         print(element.uuid);
         GlobalKey<OrderCheckingState> key = new GlobalKey<OrderCheckingState>();
         orderCheckingStates[element.uuid] = key;
         activeOrderList.add(new OrderChecking(
-          ordersStoryModelItem: element,
+          ordersDetailsItem: element,
           key: key,
         ));
       }
@@ -52,7 +47,7 @@ class OrderChecking extends StatefulWidget {
 }
 
 class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveClientMixin {
-  OrdersStoryModelItem ordersStoryModelItem;
+  OrderDetailsModelItem ordersStoryModelItem;
   @override
   bool get wantKeepAlive => true;
 
@@ -60,21 +55,13 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
 
   @override
   Widget build(BuildContext context) {
-    var processing = ['waiting_for_confirmation'
+    var processing = ['created'
     ];
     var cooking_state = [
       'cooking',
-      'offer_offered',
-      'smart_distribution',
-      'finding_driver',
-      'offer_rejected',
-      'order_start',
-      'on_place',
-      'transferred_to_store',
-      'order_accepted'
+      'ready'
     ];
-    var in_the_way = ['on_the_way'];
-    var take = ['order_payment'];
+    var in_the_way = ['delivery'];
 
     if (!OrderChecking.state_array.contains(ordersStoryModelItem.state)) {
       return Container();
@@ -96,65 +83,71 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
               border: Border.all(width: 1.0, color: Colors.grey[200])),
           child: Column(
             children: <Widget>[
-              Expanded(
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Align(
-                          child: Text(
-                            'Ваш заказ из ' +
-                                (ordersStoryModelItem.productsData != null
-                                    ? ordersStoryModelItem.productsData.store.name
-                                    : 'Пусто'),
-                            style: TextStyle(
-                                fontSize: 16.0, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 10, left: 20, bottom: 0),
-                        child: InkWell(
-                          child: Container(
-                            height: 30,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(10)),
-                                color: Color(0xF6F6F6F6)),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 7, top: 7, bottom: 5),
-                                  child: SvgPicture.asset('assets/svg_images/i.svg'),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 10, right: 10, top: 7, bottom: 5),
-                                    child: Text(
-                                      'Заказ',
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 13),
-                                    )),
-                              ],
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.only(right: 0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: 200,
+                          padding: EdgeInsets.only(right: 15),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Align(
+                              child: Text(
+                                'Ваш заказ из ' +
+                                    (ordersStoryModelItem.storeData != null
+                                        ? ordersStoryModelItem.storeData.name
+                                        : 'Пусто'),
+                                style: TextStyle(
+                                    fontSize: 16.0, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.start,
+                              ),
                             ),
                           ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) {
-                                return OrdersDetailsScreen(
-                                    ordersStoryModelItem: ordersStoryModelItem);
-                              }),
-                            );
-                          },
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: EdgeInsets.only(right: 10, left: 20, bottom: 0),
+                          child: InkWell(
+                            child: Container(
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                                  color: Color(0xF6F6F6F6)),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 7, top: 7, bottom: 5),
+                                    child: SvgPicture.asset('assets/svg_images/i.svg'),
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 10, right: 10, top: 7, bottom: 5),
+                                      child: Text(
+                                        'Заказ',
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 13),
+                                      )),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) {
+                                  return OrdersDetailsScreen(
+                                      ordersDetailsModelItem: ordersStoryModelItem);
+                                }),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -330,7 +323,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
           context,
           MaterialPageRoute(builder: (_) {
             return OrdersDetailsScreen(
-                ordersStoryModelItem: ordersStoryModelItem);
+                ordersDetailsModelItem: ordersStoryModelItem);
           }),
         );
       },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/data.dart';
 
 class TotalPrice extends StatefulWidget {
   GlobalKey<TotalPriceState> key;
@@ -15,7 +16,7 @@ class TotalPriceState extends State<TotalPrice> {
   TotalPriceState();
 
   Widget build(BuildContext context) {
-    double totalPrice = 0;
+    double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
     // currentUser.cartModel.cart.forEach(
     //         (Order order) {
     //       if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){

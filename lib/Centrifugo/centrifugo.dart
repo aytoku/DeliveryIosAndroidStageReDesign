@@ -51,7 +51,7 @@ class Centrifugo{
   static Future<void> OrderCheckingUpdater(String order_uuid, String order_state) async {
     if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null
         && !DeliveryStates.contains(order_state)){
-      homeScreenKey.currentState.orderList.removeWhere((element) => element.ordersStoryModelItem.uuid == order_uuid);
+      homeScreenKey.currentState.orderList.removeWhere((element) => element.ordersDetailsItem.uuid == order_uuid);
       if(homeScreenKey.currentState.orderList.length == 0)
         homeScreenKey.currentState.setState(() { });
       Navigator.push(
@@ -61,25 +61,25 @@ class Centrifugo{
         }),
       );
     }
-    if(orderCheckingStates.containsKey(order_uuid)) {
-      if(orderCheckingStates[order_uuid].currentState != null) {
-        orderCheckingStates[order_uuid].currentState.ordersStoryModelItem = await getOrder(order_uuid);
-        orderCheckingStates[order_uuid].currentState.setState(() {
-//          orderCheckingStates[order_uuid].currentState.ordersStoryModelItem
-//              .state = order_state;
-        });
-      } else {
-        if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null) {
-          homeScreenKey.currentState.orderList.forEach((element) async {
-            if(element.ordersStoryModelItem.uuid == order_uuid) {
-              element.ordersStoryModelItem = await getOrder(order_uuid);
-//              element.ordersStoryModelItem.state = order_state;
-              return;
-            }
-          });
-        }
-      }
-    }
+//     if(orderCheckingStates.containsKey(order_uuid)) {
+//       if(orderCheckingStates[order_uuid].currentState != null) {
+//         orderCheckingStates[order_uuid].currentState.ordersStoryModelItem = await getOrder(order_uuid);
+//         orderCheckingStates[order_uuid].currentState.setState(() {
+// //          orderCheckingStates[order_uuid].currentState.ordersStoryModelItem
+// //              .state = order_state;
+//         });
+//       } else {
+//         if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null) {
+//           homeScreenKey.currentState.orderList.forEach((element) async {
+//             if(element.ordersDetailsItem.uuid == order_uuid) {
+//               element.ordersDetailsItem = await getOrder(order_uuid);
+// //              element.ordersStoryModelItem.state = order_state;
+//               return;
+//             }
+//           });
+//         }
+//       }
+//     }
   }
 
   static void messageHandler(Map<String, dynamic> message) async {

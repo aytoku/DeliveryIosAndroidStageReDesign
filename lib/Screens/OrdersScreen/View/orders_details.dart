@@ -3,77 +3,53 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/OrderCancel.dart';
-import 'package:flutter_app/Screens/OrdersScreen/Model/OrderStoryModel.dart';
-import 'package:flutter_app/Screens/OrdersScreen/Model/order.dart';
-import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
+import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/ResponseData.dart';
-import 'package:flutter_app/models/RestaurantDataItems.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 
 class OrdersDetailsScreen extends StatefulWidget {
-  final OrdersStoryModelItem ordersStoryModelItem;
+  final OrderDetailsModelItem ordersDetailsModelItem;
 
-  OrdersDetailsScreen({Key key, this.ordersStoryModelItem}) : super(key: key);
+  OrdersDetailsScreen({Key key, this.ordersDetailsModelItem}) : super(key: key);
 
   @override
   OrdersDetailsScreenState createState() =>
-      OrdersDetailsScreenState(ordersStoryModelItem);
+      OrdersDetailsScreenState(ordersDetailsModelItem);
 }
 
 class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
-  final OrdersStoryModelItem ordersStoryModelItem;
+  final OrderDetailsModelItem ordersDetailsModelItem;
 
   bool status1 = false;
-  var processing = ['waiting_for_confirmation'
+  var processing = ['created'
   ];
   var cooking_state = [
     'cooking',
-    'offer_offered',
-    'smart_distribution',
-    'finding_driver',
-    'offer_rejected',
-    'order_start',
-    'on_place',
-    'transferred_to_store',
-    'order_accepted'
+    'ready'
   ];
-  var in_the_way = ['on_the_way'];
+  var in_the_way = ['delivery'];
 
   Map<String,String> statusIcons = {
     'cooking':'assets/svg_images/bell.svg',
-    'offer_offered':'assets/svg_images/bell.svg',
-    'smart_distribution':'assets/svg_images/bell.svg',
-    'finding_driver':'assets/svg_images/bell.svg',
-    'offer_rejected':'assets/svg_images/bell.svg',
-    'order_start':'assets/svg_images/bell.svg',
-    'on_place':'assets/svg_images/bell.svg',
-    'transferred_to_store':'assets/svg_images/bell.svg',
-    'order_accepted':'assets/svg_images/bell.svg',
-    'on_the_way':'assets/svg_images/car.svg',
-    'waiting_for_confirmation':'assets/svg_images/state_clock.svg',
+    'ready':'assets/svg_images/bell.svg',
+    'delivery':'assets/svg_images/car.svg',
+    'created':'assets/svg_images/state_clock.svg',
+    'cancelled':'assets/svg_images/order_cancel.svg',
   };
 
   Map<String,String> statusTitles = {
     'cooking':'Готовится',
-    'offer_offered':'Готовится',
-    'smart_distribution':'Готовится',
-    'finding_driver':'Готовится',
-    'offer_rejected':'Готовится',
-    'order_start':'Готовится',
-    'on_place':'Готовится',
-    'transferred_to_store':'Готовится',
-    'order_accepted':'Готовится',
-    'on_the_way':'В пути',
-    'waiting_for_confirmation':'Обработка',
+    'ready':'Готовится',
+    'delivery':'В пути',
+    'created':'Обработка',
+    'cancelled' : "Отменен"
   };
 
 
-  OrdersDetailsScreenState(this.ordersStoryModelItem);
+  OrdersDetailsScreenState(this.ordersDetailsModelItem);
 
 
   showAlertDialog(BuildContext context) {
@@ -147,16 +123,16 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
 
 
   List<Widget> _buildListItems(){
-    double totalPrice = ordersStoryModelItem.tariff.totalPrice.toDouble();
+    double totalPrice = ordersDetailsModelItem.totalPrice.toDouble();
     var format = new DateFormat('  HH:mm    dd.MM.yyyy');
     List<Widget> result = new List<Widget>();
-    if(ordersStoryModelItem.productsData == null || ordersStoryModelItem.productsData.products == null){
+    if(ordersDetailsModelItem == null || ordersDetailsModelItem.items == null){
       return List<Container>();
     }
     result.add(Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 14, bottom: 10, top: 10),
       child: Container(
-        height: (in_the_way.contains(ordersStoryModelItem.state)) ? 270 : 190,
+        height: (in_the_way.contains(ordersDetailsModelItem.state)) ? 270 : 190,
         padding: EdgeInsets.only(right: 10, left: 15),
         decoration: BoxDecoration(
             boxShadow: [
@@ -177,13 +153,13 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    (ordersStoryModelItem.productsData.store != null)
-                        ? ordersStoryModelItem.productsData.store.name
+                    (ordersDetailsModelItem.storeData != null)
+                        ? ordersDetailsModelItem.storeData.name
                         : 'Пусто',
                     style: TextStyle(fontSize: 18, color: Color(0xFF000000)),
                   ),
                   Text(
-                    '${ordersStoryModelItem.tariff.totalPrice + ordersStoryModelItem.tariff.productsPrice - ordersStoryModelItem.tariff.bonusPayment} \₽',
+                    '${ordersDetailsModelItem.totalPrice} \₽',
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -207,14 +183,14 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         Padding(
                           padding: EdgeInsets.only(bottom: 0, top: 0, right: 15),
                           child: Text(
-                            format.format(DateTime.fromMillisecondsSinceEpoch( ordersStoryModelItem.createdAtUnix * 1000)),
+                            format.format(ordersDetailsModelItem.createdAt),
                             style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  (ordersStoryModelItem.stateTitle == "Завершен") ? Row(
+                  (ordersDetailsModelItem.state == "finish") ? Row(
                     children: [
                       Text('Доставлен',
                         style: TextStyle(
@@ -229,7 +205,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     ],
                   ) : Row(
                     children: [
-                      Text(statusTitles[ordersStoryModelItem.state],
+                      Text(statusTitles[ordersDetailsModelItem.state],
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14
@@ -237,7 +213,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0, right: 5),
-                        child: SvgPicture.asset(statusIcons[ordersStoryModelItem.state]),
+                        child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state]),
                       ),
                     ],
                   )
@@ -279,8 +255,8 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            (ordersStoryModelItem.productsData.store != null)
-                                ? ordersStoryModelItem.routes[0].unrestrictedValue
+                            (ordersDetailsModelItem.storeData != null)
+                                ? ordersDetailsModelItem.storeData.address.unrestrictedValue
                                 : 'Пусто',
                             style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                             textAlign: TextAlign.start,
@@ -291,8 +267,8 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         child: Align(
                           alignment: Alignment.topRight,
                           child: Text(
-                            (ordersStoryModelItem.productsData.store != null && ordersStoryModelItem.routes.length > 1)
-                                ?  ordersStoryModelItem.routes[1].unrestrictedValue
+                            (true)
+                                ?  'тут будет адрес'
                                 : 'Пусто',
                             style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0),),
                             textAlign: TextAlign.start,
@@ -304,16 +280,16 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: (in_the_way
-                  .contains(ordersStoryModelItem.state)) ? Padding(
-                padding: EdgeInsets.only(right: 0, bottom: 5, left: 0),
-                child: Text('Курьер на' + ' ' + ordersStoryModelItem.driver.color + ' ' + ordersStoryModelItem.driver.car + ' ' + ordersStoryModelItem.driver.regNumber,
-                  style: TextStyle(color: Color(0xFF000000), fontSize: 14, fontWeight: FontWeight.w500)),
-              ) : Container(height: 0),
-            ),
-            (in_the_way.contains(ordersStoryModelItem.state)) ? GestureDetector(
+            // Align(
+            //   alignment: Alignment.centerLeft,
+            //   child: (in_the_way
+            //       .contains(ordersStoryModelItem.state)) ? Padding(
+            //     padding: EdgeInsets.only(right: 0, bottom: 5, left: 0),
+            //     child: Text('Курьер на' + ' ' + ordersStoryModelItem.driver.color + ' ' + ordersStoryModelItem.driver.car + ' ' + ordersStoryModelItem.driver.regNumber,
+            //       style: TextStyle(color: Color(0xFF000000), fontSize: 14, fontWeight: FontWeight.w500)),
+            //   ) : Container(height: 0),
+            // ),
+            (in_the_way.contains(ordersDetailsModelItem.state)) ? GestureDetector(
               child: Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 10, left: 0, right: 0),
                   child: Container(
@@ -339,7 +315,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                               ),
                             ),
                           ),
-                          FutureBuilder(future: ordersStoryModelItem.hasNewMessage(),
+                          FutureBuilder(future: ordersDetailsModelItem.hasNewMessage(),
                             builder: (BuildContext context, AsyncSnapshot snapshot) {
                               if(snapshot.connectionState == ConnectionState.done && snapshot.data){
                                 return Align(
@@ -362,7 +338,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 Navigator.pushReplacement(
                   context,
                   new MaterialPageRoute(
-                    builder: (context) => new ChatScreen(order_uuid: ordersStoryModelItem.uuid, key: chatKey),
+                    builder: (context) => new ChatScreen(order_uuid: ordersDetailsModelItem.uuid, key: chatKey),
                   ),
                 );
               },
@@ -371,19 +347,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
         ),
       ),
     ));
-    ordersStoryModelItem.productsData.products.forEach((product) {
-      if(product.selectedVariant != null && product.selectedVariant.price != null){
-        totalPrice += product.number * (product.price + product.selectedVariant.price);
-      }else{
-        totalPrice += product.number * product.price;
-      }
-      double toppingsCost = 0;
-      if(product.toppings != null){
-        product.toppings.forEach((element) {
-          toppingsCost += product.number * element.price;
-        });
-        totalPrice += toppingsCost;
-      }
+    ordersDetailsModelItem.items.forEach((item) {
       result.add(Column(
         children: <Widget>[
           Padding(
@@ -399,7 +363,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           topRight: Radius.circular(10),
                           bottomRight: Radius.circular(10)),
                       child: Image.network(
-                        getImage(product.image),
+                        getImage((item.product.meta.images.length == 0) ? null : item.product.meta.images[0]),
                         fit: BoxFit.cover,
                         height: 70,
                         width: 70,
@@ -412,7 +376,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            product.name,
+                            item.product.name,
                             style: TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 14.0,
@@ -420,37 +384,35 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        (product.selectedVariant != null)
-                            ? Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            product.selectedVariant.name,
-                            style: TextStyle(
-                                decoration: TextDecoration.none,
-                                fontSize: 10.0,
-                                color: Colors.grey),
-                            textAlign: TextAlign.start,
-                          ),
-                        ) : Text(''),
-                        (product.toppings != null)
-                            ? Align(
-                          alignment: Alignment.topLeft,
+                        (item.variantGroups != null)
+                            ? Container(
                           child: Column(
                             children: List.generate(
-                                product.toppings.length,
-                                    (index) => Text(
-                                  product.toppings[index]
-                                      .name,
-                                  style: TextStyle(
-                                      decoration:
-                                      TextDecoration.none,
-                                      fontSize: 10.0,
-                                      color: Colors.grey),
-                                  textAlign: TextAlign.start,
-                                )),
+                                item.variantGroups.length,
+                                    (index){
+                                  return Column(
+                                      children: List.generate(
+                                          item.variantGroups[index].variants.length,
+                                              (variantsIndex){
+                                            return Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(bottom: 0.0),
+                                                child: Text(item.variantGroups[index].variants[variantsIndex].name,
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 10
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                      )
+                                  );
+                                }
+                            ),
                           ),
-                        )
-                            : Text(''),
+                        ) : Container(height: 0,),
                       ],
                     ),
                   ),
@@ -461,9 +423,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         Padding(
                           padding: EdgeInsets.only(right: 15),
                           child: Text(
-                            '${(product.selectedVariant != null  && product.selectedVariant.price != null) ?
-                            (product.number * (product.price + product.selectedVariant.price) + toppingsCost).toStringAsFixed(0) :
-                            (product.number * product.price + toppingsCost).toStringAsFixed(0)} \₽',
+                            '${(item.price.toStringAsFixed(0))} \₽',
                             style: TextStyle(
                                 color: Colors.black, fontSize: 18),
                           ),
@@ -471,7 +431,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         Padding(
                           padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                           child: Text(
-                            '${product.number}шт',
+                            '${item.count}шт',
                             style: TextStyle(
                                 color: Colors.black, fontSize: 18),
                           ),
@@ -489,8 +449,8 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
         ],
       ));
     });
-    double own_delivery_price = totalPrice - ordersStoryModelItem.tariff.totalPrice;
-    (ordersStoryModelItem.ownDelivery != null && ordersStoryModelItem.ownDelivery) ? result.add(Column(
+    double own_delivery_price = ordersDetailsModelItem.totalPrice * 1.0;
+    (ordersDetailsModelItem.ownDelivery != null && ordersDetailsModelItem.ownDelivery) ? result.add(Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -548,7 +508,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 Padding(
                   padding: EdgeInsets.only(),
                   child: Text(
-                    (ordersStoryModelItem.tariff.totalPrice - ordersStoryModelItem.tariff.bonusPayment).toString() + ' \₽',
+                    (ordersDetailsModelItem.totalPrice).toString() + ' \₽',
                     style: TextStyle(
                         color: Colors.black, fontSize: 18),
                   ),
@@ -633,7 +593,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         ),
                       ),
                       onTap: () {
-                        launch("tel://" + ordersStoryModelItem.productsData.store.phone);
+                        // launch("tel://" + ordersDetailsModelItem.storeData.phone);
                       },
                     ),
                     Divider(
@@ -661,7 +621,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         ),
                       ),
                       onTap: () {
-                        launch("tel://" + ordersStoryModelItem.driver.phone);
+                        // launch("tel://" + ordersDetailsModelItem.driver.phone);
                       },
                     )
                   ],
@@ -676,48 +636,16 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     double totalPrice = 134;
-    // currentUser.cartModel.cart.forEach(
-    //         (Order order) {
-    //       if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){
-    //         totalPrice += order.quantity * (order.food.price + order.food.variants[0].price);
-    //       }else{
-    //         totalPrice += order.quantity * order.food.price;
-    //       }
-    //       double toppingsCost = 0;
-    //       if(order.food.toppings != null){
-    //         order.food.toppings.forEach((element) {
-    //           toppingsCost += order.quantity * element.price;
-    //         });
-    //         totalPrice += toppingsCost;
-    //       }
-    //     }
-    // );
     var state_array = [
-      'waiting_for_confirmation',
+      'created',
       'cooking',
-      'offer_offered',
-      'smart_distribution',
-      'finding_driver',
-      'offer_rejected',
-      'order_start',
-      'on_place',
-      'on_the_way',
-      'order_payment',
-      'transferred_to_store',
-      'order_accepted'
+      'ready',
+      'delivery',
     ];
     var not_cancel_state = [
       'cooking',
-      'offer_offered',
-      'smart_distribution',
-      'finding_driver',
-      'offer_rejected',
-      'order_start',
-      'on_place',
-      'on_the_way',
-      'order_payment',
-      'transferred_to_store',
-      'order_accepted'
+      'ready',
+      'delivery',
     ];
     // TODO: implement build
     return Scaffold(
@@ -779,7 +707,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                   padding: EdgeInsets.only(top: 20, bottom: 5, right: 10, left: 10),
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: (!state_array.contains(ordersStoryModelItem.state)) ? GestureDetector(
+                    child: (!state_array.contains(ordersDetailsModelItem.state)) ? GestureDetector(
                       child: Container(
                           height: 50,
                           width: 300,
@@ -821,7 +749,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         //   noConnection(context);
                         // }
                       },
-                    ) : (!not_cancel_state.contains(ordersStoryModelItem.state)) ?  GestureDetector(
+                    ) : (!not_cancel_state.contains(ordersDetailsModelItem.state)) ?  GestureDetector(
                       child: Container(
                           height: 50,
                           width: 340,
@@ -839,23 +767,23 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           )),
                       onTap: () async {
                         if (await Internet.checkConnection()) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) {
-                              return OrderRejectScreen(ordersStoryModelItem: ordersStoryModelItem,);
-                            }),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (_) {
+                          //     return OrderRejectScreen(ordersStoryModelItem: ordersDetailsModelItem,);
+                          //   }),
+                          // );
                         } else {
                           noConnection(context);
                         }
                       },
-                    ): (in_the_way.contains(ordersStoryModelItem.state)) ? Align(
+                    ): (in_the_way.contains(ordersDetailsModelItem.state)) ? Align(
                         alignment: Alignment.centerLeft,
                         child: GestureDetector(
                           child: Padding(
                             padding: EdgeInsets.only(
                                 top: 10, bottom: 10, right: 5, left: 5),
-                            child: (in_the_way.contains(ordersStoryModelItem.state))
+                            child: (in_the_way.contains(ordersDetailsModelItem.state))
                                 ? Container(
                               height: 40,
                               decoration: BoxDecoration(
@@ -919,7 +847,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                                         ),
                                                       ),
                                                       onTap: () {
-                                                        launch("tel://" + ordersStoryModelItem.productsData.store.phone);
+                                                        // launch("tel://" + ordersDetailsModelItem.productsData.store.phone);
                                                       },
                                                     ),
                                                   ),
@@ -939,7 +867,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                                       ),
                                                     ),
                                                     onTap: () {
-                                                      launch("tel://" + ordersStoryModelItem.driver.phone);
+                                                      // launch("tel://" + ordersDetailsModelItem.driver.phone);
                                                     },
                                                   ),
                                                 ],
@@ -985,7 +913,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                   padding: EdgeInsets.only(top: 10, bottom: 10, right: 10, left: 10),
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: (!state_array.contains(ordersStoryModelItem.state)) ? GestureDetector(
+                    child: (!state_array.contains(ordersDetailsModelItem.state)) ? GestureDetector(
                       child: Container(
                           height: 50,
                           width: 350,
@@ -1010,7 +938,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
 }
 
 class OrderRejectScreen extends StatefulWidget {
-  final OrdersStoryModelItem ordersStoryModelItem;
+  final OrderDetailsModelItem ordersStoryModelItem;
   OrderRejectScreen({Key key, this.ordersStoryModelItem}) : super(key: key);
 
   @override
@@ -1020,7 +948,7 @@ class OrderRejectScreen extends StatefulWidget {
 }
 
 class OrderRejectScreenState extends State<OrderRejectScreen> {
-  final OrdersStoryModelItem ordersStoryModelItem;
+  final OrderDetailsModelItem ordersStoryModelItem;
   OrderRejectScreenState(this.ordersStoryModelItem);
 
   showAlertDialog(BuildContext context) {

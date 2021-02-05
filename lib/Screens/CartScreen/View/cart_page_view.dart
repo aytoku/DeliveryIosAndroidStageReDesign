@@ -413,8 +413,7 @@ class CartPageState extends State<CartPageScreen> {
                               Padding(
                                 padding: EdgeInsets.all(10),
                                 child: Text(
-                                  '000',
-                                  // (restaurant.order_preparation_time_second != null)? '~' + '${restaurant.order_preparation_time_second ~/ 60} мин' : '',
+                                  (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
                                   style: TextStyle(
                                     fontSize: 18.0,
                                     color: Colors.black,
@@ -442,7 +441,7 @@ class CartPageState extends State<CartPageScreen> {
                                   Navigator.of(context).push(
                                       PageRouteBuilder(
                                           pageBuilder: (context, animation, anotherAnimation) {
-                                            return AddressScreen(restaurant: restaurant);
+                                            return AddressScreen(restaurant: restaurant, isTakeAwayOrderConfirmation: false);
                                           },
                                           transitionDuration: Duration(milliseconds: 300),
                                           transitionsBuilder:
@@ -460,7 +459,7 @@ class CartPageState extends State<CartPageScreen> {
                                   Navigator.of(context).push(
                                       PageRouteBuilder(
                                           pageBuilder: (context, animation, anotherAnimation) {
-                                            return TakeAway(restaurant: restaurant);
+                                            return AddressScreen(restaurant: restaurant, isTakeAwayOrderConfirmation: true);
                                           },
                                           transitionDuration: Duration(milliseconds: 300),
                                           transitionsBuilder:

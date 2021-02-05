@@ -14,9 +14,7 @@ class CartButtonCounter extends StatefulWidget {
 class CartButtonCounterState extends State<CartButtonCounter> {
   @override
   Widget build(BuildContext context) {
-    double totalPrice = 0;
-    // currentUser.cartModel.cart.forEach(
-    //         (Order order) => totalPrice += order.quantity * order.food.price);
+    double totalPrice = currentUser.cartModel.totalPrice * 1.0;
 
     return Text('${totalPrice.toStringAsFixed(0)} \₽',
         style: TextStyle(
