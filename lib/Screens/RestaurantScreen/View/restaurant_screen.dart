@@ -391,10 +391,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     String lastCategoryUuid = "";
     int lastCategoryIndex = -1;
     foodMenuItems.forEach((foodMenuItem) {
-      if(foodMenuItem.restaurantDataItems.productCategories[0].uuid != lastCategoryUuid){
+      if(foodMenuItem.restaurantDataItems.productCategories.length > 0 &&
+          foodMenuItem.restaurantDataItems.productCategories[0].uuid != lastCategoryUuid){
         lastCategoryIndex++;
         lastCategoryUuid = foodMenuItem.restaurantDataItems.productCategories[0].uuid;
-        menu.add(foodMenuTitles[lastCategoryIndex]);
+        if(lastCategoryIndex < foodMenuTitles.length){
+          menu.add(foodMenuTitles[lastCategoryIndex]);
+        }
       }
       print(foodMenuItem.restaurantDataItems.uuid);
       menu.add(foodMenuItem);
