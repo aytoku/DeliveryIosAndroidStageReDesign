@@ -117,8 +117,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                           child: Align(
                                             alignment: Alignment.topLeft,
                                             child: Text(
-                                              '000',
-//                                              restaurantDataItems.weight + '' + restaurantDataItems.weight_measure,
+                                              '${restaurantDataItems.weight.toStringAsFixed(0)}' + '' + restaurantDataItems.weightMeasurement,
                                               style: TextStyle(
                                                   fontSize: 10.0,
                                                   color: Colors.grey),
@@ -132,8 +131,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                               child: Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  '00000',
-//                                                  restaurantDataItems.weight + '' + restaurantDataItems.weight_measure,
+                                                 '${restaurantDataItems.weight.toStringAsFixed(0)}' + '' + restaurantDataItems.weightMeasurement,
                                                   style: TextStyle(
                                                       fontSize: 10.0,
                                                       color: Colors.grey),
