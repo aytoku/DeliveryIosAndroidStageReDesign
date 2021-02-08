@@ -108,23 +108,7 @@ class CartPageState extends State<CartPageScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                      InkWell(
-                         onTap: () => Navigator.of(context).pushAndRemoveUntil(
-                             PageRouteBuilder(
-                                 pageBuilder: (context, animation, anotherAnimation) {
-                                   return RestaurantScreen(restaurant: restaurant,);
-                                 },
-                                 transitionDuration: Duration(milliseconds: 300),
-                                 transitionsBuilder:
-                                     (context, animation, anotherAnimation, child) {
-                                   return SlideTransition(
-                                     position: Tween(
-                                         begin: Offset(1.0, 0.0),
-                                         end: Offset(0.0, 0.0))
-                                         .animate(animation),
-                                     child: child,
-                                   );
-                                 }
-                             ), (Route<dynamic> route) => false),
+                         onTap: () => Navigator.pop(context),
                          child: Container(
                              height: 40,
                              width: 60,

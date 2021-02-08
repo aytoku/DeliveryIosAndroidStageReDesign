@@ -34,7 +34,9 @@ class CartButtonState extends State<CartButton> {
     //             restaurant.uuid)) {
     //   return Container();
     // }
-    if(currentUser.cartModel.items == null || currentUser.cartModel.items.length < 1){
+    if(currentUser.cartModel == null ||
+        currentUser.cartModel.items == null ||
+          currentUser.cartModel.items.length < 1){
       return Container();
     }else{
       return Container(

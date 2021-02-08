@@ -62,10 +62,18 @@ class FilteredStores {
   FilteredStoreMeta meta;
 
   factory FilteredStores.fromStoreData(StoreData store){
+
+    List<CategoriesUuid> productCategoriesUuid = new List<CategoriesUuid>();
+    store.productCategoriesUuid.forEach((element) {
+      productCategoriesUuid.add(new CategoriesUuid(uuid: element));
+    });
+
+
     return new FilteredStores(
         name: store.name,
         uuid: store.uuid,
-        address: store.address
+        address: store.address,
+      productCategoriesUuid: productCategoriesUuid
     );
   }
 
