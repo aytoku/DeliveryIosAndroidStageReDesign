@@ -37,82 +37,83 @@ class ProductsByStoreUuid {
     this.variantGroups,
   });
 
-  final String uuid;
-  final String name;
-  final String storeUuid;
-  final String comment;
-  final String url;
-  final int price;
-  final bool defaultSet;
-  final int priority;
-  final String type;
-  final int weight;
-  final String weightMeasurement;
-  final bool openable;
-  final ProductsByStoreUuidMeta meta;
-  final List<ProductCategory> productCategories;
-  final dynamic variantGroups;
+  String uuid;
+  String name;
+  String storeUuid;
+  String comment;
+  String url;
+  int price;
+  bool defaultSet;
+  int priority;
+  String type;
+  double weight;
+  String weightMeasurement;
+  bool openable;
+  ProductsDataModelMeta meta;
+  List<ProductCategory> productCategories;
+  dynamic variantGroups;
 
   factory ProductsByStoreUuid.fromJson(Map<String, dynamic> json) => ProductsByStoreUuid(
-    uuid: json["uuid"] == null ? null : json["uuid"],
-    name: json["name"] == null ? null : json["name"],
-    storeUuid: json["store_uuid"] == null ? null : json["store_uuid"],
-    comment: json["comment"] == null ? null : json["comment"],
-    url: json["url"] == null ? null : json["url"],
-    price: json["price"] == null ? null : json["price"],
-    defaultSet: json["default_set"] == null ? null : json["default_set"],
-    priority: json["priority"] == null ? null : json["priority"],
-    type: json["type"] == null ? null : json["type"],
-    weight: json["weight"] == null ? null : json["weight"],
-    weightMeasurement: json["weight_measurement"] == null ? null : json["weight_measurement"],
-    openable: json["openable"] == null ? null : json["openable"],
-    meta: json["meta"] == null ? null : ProductsByStoreUuidMeta.fromJson(json["meta"]),
-    productCategories: json["product_categories"] == null ? null : List<ProductCategory>.from(json["product_categories"].map((x) => ProductCategory.fromJson(x))),
+    uuid: json["uuid"],
+    name: json["name"],
+    storeUuid: json["store_uuid"],
+    comment: json["comment"],
+    url: json["url"],
+    price: json["price"],
+    defaultSet: json["default_set"],
+    priority: json["priority"],
+    type: json["type"],
+    weight: json["weight"] * 1.0,
+    weightMeasurement: json["weight_measurement"],
+    openable: json["openable"],
+    meta: ProductsDataModelMeta.fromJson(json["meta"]),
+    productCategories: List<ProductCategory>.from(json["product_categories"].map((x) => ProductCategory.fromJson(x))),
     variantGroups: json["variant_groups"],
   );
 
   Map<String, dynamic> toJson() => {
-    "uuid": uuid == null ? null : uuid,
-    "name": name == null ? null : name,
-    "store_uuid": storeUuid == null ? null : storeUuid,
-    "comment": comment == null ? null : comment,
-    "url": url == null ? null : url,
-    "price": price == null ? null : price,
-    "default_set": defaultSet == null ? null : defaultSet,
-    "priority": priority == null ? null : priority,
-    "type": type == null ? null : type,
-    "weight": weight == null ? null : weight,
-    "weight_measurement": weightMeasurement == null ? null : weightMeasurement,
-    "openable": openable == null ? null : openable,
-    "meta": meta == null ? null : meta.toJson(),
-    "product_categories": productCategories == null ? null : List<dynamic>.from(productCategories.map((x) => x.toJson())),
+    "uuid": uuid,
+    "name": name,
+    "store_uuid": storeUuid,
+    "comment": comment,
+    "url": url,
+    "price": price,
+    "default_set": defaultSet,
+    "priority": priority,
+    "type": type,
+    "weight": weight,
+    "weight_measurement": weightMeasurement,
+    "openable": openable,
+    "meta": meta.toJson(),
+    "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),
     "variant_groups": variantGroups,
   };
 }
 
-class ProductsByStoreUuidMeta {
-  ProductsByStoreUuidMeta({
+class ProductsDataModelMeta {
+  ProductsDataModelMeta({
     this.description,
     this.images,
     this.energyValue,
   });
 
-  final String description;
-  final List<String> images;
-  final EnergyValue energyValue;
+  String description;
+  List<String> images;
+  EnergyValue energyValue;
 
-  factory ProductsByStoreUuidMeta.fromJson(Map<String, dynamic> json) => ProductsByStoreUuidMeta(
-    description: json["description"] == null ? null : json["description"],
-    images: json["images"] == null ? null : List<String>.from(json["images"].map((x) => x)),
-    energyValue: json["energy_value"] == null ? null : EnergyValue.fromJson(json["energy_value"]),
+  factory ProductsDataModelMeta.fromJson(Map<String, dynamic> json) => ProductsDataModelMeta(
+    description: json["description"],
+    images: List<String>.from(json["images"].map((x) => x)),
+    energyValue: EnergyValue.fromJson(json["energy_value"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "description": description == null ? null : description,
-    "images": images == null ? null : List<dynamic>.from(images.map((x) => x)),
-    "energy_value": energyValue == null ? null : energyValue.toJson(),
+    "description": description,
+    "images": List<dynamic>.from(images.map((x) => x)),
+    "energy_value": energyValue.toJson(),
   };
 }
+
 
 class EnergyValue {
   EnergyValue({
@@ -122,23 +123,23 @@ class EnergyValue {
     this.calories,
   });
 
-  final int protein;
-  final int fat;
-  final int carbohydrates;
-  final int calories;
+  int protein;
+  int fat;
+  int carbohydrates;
+  int calories;
 
   factory EnergyValue.fromJson(Map<String, dynamic> json) => EnergyValue(
-    protein: json["protein"] == null ? null : json["protein"],
-    fat: json["fat"] == null ? null : json["fat"],
-    carbohydrates: json["carbohydrates"] == null ? null : json["carbohydrates"],
-    calories: json["calories"] == null ? null : json["calories"],
+    protein: json["protein"],
+    fat: json["fat"],
+    carbohydrates: json["carbohydrates"],
+    calories: json["calories"],
   );
 
   Map<String, dynamic> toJson() => {
-    "protein": protein == null ? null : protein,
-    "fat": fat == null ? null : fat,
-    "carbohydrates": carbohydrates == null ? null : carbohydrates,
-    "calories": calories == null ? null : calories,
+    "protein": protein,
+    "fat": fat,
+    "carbohydrates": carbohydrates,
+    "calories": calories,
   };
 }
 
@@ -152,29 +153,29 @@ class ProductCategory {
     this.meta,
   });
 
-  final String uuid;
-  final String name;
-  final int priority;
-  final String comment;
-  final String url;
-  final ProductCategoryMeta meta;
+  String uuid;
+  String name;
+  int priority;
+  String comment;
+  String url;
+  ProductCategoryMeta meta;
 
   factory ProductCategory.fromJson(Map<String, dynamic> json) => ProductCategory(
-    uuid: json["uuid"] == null ? null : json["uuid"],
-    name: json["name"] == null ? null : json["name"],
-    priority: json["priority"] == null ? null : json["priority"],
-    comment: json["comment"] == null ? null : json["comment"],
-    url: json["url"] == null ? null : json["url"],
-    meta: json["meta"] == null ? null : ProductCategoryMeta.fromJson(json["meta"]),
+    uuid: json["uuid"],
+    name: json["name"],
+    priority: json["priority"],
+    comment: json["comment"],
+    url: json["url"],
+    meta: ProductCategoryMeta.fromJson(json["meta"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "uuid": uuid == null ? null : uuid,
-    "name": name == null ? null : name,
-    "priority": priority == null ? null : priority,
-    "comment": comment == null ? null : comment,
-    "url": url == null ? null : url,
-    "meta": meta == null ? null : meta.toJson(),
+    "uuid": uuid,
+    "name": name,
+    "priority": priority,
+    "comment": comment,
+    "url": url,
+    "meta": meta.toJson(),
   };
 }
 
@@ -187,4 +188,3 @@ class ProductCategoryMeta {
   Map<String, dynamic> toJson() => {
   };
 }
-

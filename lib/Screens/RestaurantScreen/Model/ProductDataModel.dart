@@ -11,6 +11,9 @@ class ProductsDataModel {
     this.storeUuid,
     this.comment,
     this.url,
+    this.weight_measurement,
+    this.weight,
+    this.type,
     this.price,
     this.defaultSet,
     this.meta,
@@ -25,6 +28,11 @@ class ProductsDataModel {
   String url;
   int price;
   bool defaultSet;
+  int priority;
+  String type;
+  double weight;
+  String weight_measurement;
+  bool openable;
   ProductsDataModelMeta meta;
   List<ProductCategory> productCategories;
   List<VariantGroup> variantGroups;
@@ -33,6 +41,9 @@ class ProductsDataModel {
     uuid: json["uuid"],
     name: json["name"],
     storeUuid: json["store_uuid"],
+    type: json["type"],
+    weight: json["weight"] * 1.0,
+    weight_measurement: json["weight_measurement"],
     comment: json["comment"],
     url: json["url"],
     price: json["price"],
@@ -47,7 +58,10 @@ class ProductsDataModel {
     "name": name,
     "store_uuid": storeUuid,
     "comment": comment,
+    "type": type,
     "url": url,
+    "weight": weight,
+    "weight_measurement": weight_measurement,
     "price": price,
     "default_set": defaultSet,
     "meta": meta.toJson(),
@@ -61,11 +75,12 @@ class ProductsDataModel {
       "product": {
         "uuid": uuid,
         "name": name,
+        "type": type,
         "store_uuid": storeUuid,
         "meta": meta.toJson(),
         "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),
       },
-      "variant_groups": List<dynamic>.from(variantGroups.map((x) => x.toJson())),
+      "variant_groups": (type.toLowerCase() == "single") ? null : List<dynamic>.from(variantGroups.map((x) => x.toJson())),
       "count": count
     }
   };

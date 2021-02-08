@@ -878,7 +878,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     return Scaffold(
       key: _scaffoldStateKey,
       body: FutureBuilder<ProductsByStoreUuidData>(
-          future: getProductsByStoreUuid(restaurant.uuid),
+          future: getSortedProductsByStoreUuid(restaurant),
           initialData: null,
           builder: (BuildContext context,
               AsyncSnapshot<ProductsByStoreUuidData> snapshot) {

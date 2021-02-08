@@ -33,7 +33,8 @@ class RestaurantsListState extends State<RestaurantsList>{
     int dayNumber  = now.weekday-1;
     List<Widget> restaurantList = [];
     records_items.forEach((FilteredStores restaurant) {
-      print(restaurant.uuid);
+      if(restaurant.uuid == "db52e0f2-82d5-45a5-97a1-86ff1f37435c")
+        print(restaurant.name + "ара пере анбангандон");
 //      int work_beginning = restaurant.work_schedule[dayNumber].work_beginning;
 //      int work_ending = restaurant.work_schedule[dayNumber].work_ending;
 //      bool day_off = restaurant.work_schedule[dayNumber].day_off;

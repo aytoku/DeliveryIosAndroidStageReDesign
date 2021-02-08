@@ -5,9 +5,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 
-Future<FilteredStoresData> getFilteredStores(String city_uuid) async {
+Future<FilteredStoresData> getFilteredStores(String city_uuid, bool only_parents) async {
   FilteredStoresData filteredStores = null;
-  var url = 'http://78.110.156.74:3003/api/v3/stores/filter?city_uuid=${city_uuid}';
+  var url = 'http://78.110.156.74:3003/api/v3/stores/filter?city_uuid=${city_uuid}&only_parents=$only_parents';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',

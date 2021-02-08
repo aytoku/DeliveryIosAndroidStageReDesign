@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/CreateOrderModel.dart';
@@ -22,4 +24,24 @@ Future<ProductsByStoreUuidData> getProductsByStoreUuid(String store_uuid) async 
   }
   //print(response.body);
   return productsByStoreUuid;
+}
+
+Future<ProductsByStoreUuidData> getSortedProductsByStoreUuid(FilteredStores store) async{
+  ProductsByStoreUuidData productsByStoreUuid = await getProductsByStoreUuid(store.uuid);
+  if(productsByStoreUuid == null || productsByStoreUuid.productsByStoreUuidList == null)
+    return productsByStoreUuid;
+
+
+    productsByStoreUuid.productsByStoreUuidList.sort((ProductsByStoreUuid a, ProductsByStoreUuid b) {
+      int ind1 = store.productCategoriesUuid.indexWhere((element) {
+        return (element.uuid == a.uuid);
+      });
+
+      int ind2 = store.productCategoriesUuid.indexWhere((element) {
+        return (element.uuid == b.uuid);
+      });
+
+      return (ind1 > ind2) ? 1 : -1;
+    });
+    return productsByStoreUuid;
 }
