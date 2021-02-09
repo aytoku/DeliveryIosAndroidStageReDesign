@@ -108,7 +108,10 @@ class CartPageState extends State<CartPageScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                      InkWell(
-                         onTap: () => Navigator.pop(context),
+                         onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context)=>
+                              RestaurantScreen(restaurant: restaurant,))
+                         ),
                          child: Container(
                              height: 40,
                              width: 60,

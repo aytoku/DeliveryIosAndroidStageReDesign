@@ -5,7 +5,6 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Preloader/device_id_screen.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
-import 'package:flutter_app/Screens/CityScreen/API/getStreet.dart';
 import 'package:flutter_app/Screens/HomeScreen/API/getFilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
@@ -24,15 +23,8 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../Preloader/device_id_screen.dart';
 import '../../../data/data.dart';
-import '../../../data/data.dart';
-import '../../../data/data.dart';
-import '../../../data/data.dart';
-import '../../../data/data.dart';
-import '../../../data/data.dart';
-import '../../CartScreen/Model/CartModel.dart';
 import '../../CartScreen/Model/CartModel.dart';
 import '../../CityScreen/View/city_screen.dart';
-import '../../PaymentScreen/View/payment_screen.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import '../Model/FilteredStores.dart';
 
@@ -447,7 +439,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                      Padding(
                        padding: const EdgeInsets.only(top: 50, left: 16, right: 15, bottom: 10),
                        child: Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          children: [
                            Padding(
                              padding: EdgeInsets.only(left: 8, top: 0),
@@ -461,41 +452,44 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                },
                              ),
                            ),
-                           GestureDetector(
-                             child: Container(
-                               width: 250,
-                               height: 38,
-                               decoration: BoxDecoration(
-                                   borderRadius: BorderRadius.circular(15),
-                                   color: Color(0xFF09B44D)
-                               ),
-                               child: Center(
-                                 child: Text(selectedCity.name,
-                                   style: TextStyle(
-                                       color: Colors.white,
-                                       fontSize: 13
+                           Padding(
+                             padding: const EdgeInsets.only(left: 20),
+                             child: GestureDetector(
+                               child: Container(
+                                 width: 250,
+                                 height: 38,
+                                 decoration: BoxDecoration(
+                                     borderRadius: BorderRadius.circular(15),
+                                     color: Color(0xFF09B44D)
+                                 ),
+                                 child: Center(
+                                   child: Text(selectedCity.name,
+                                     style: TextStyle(
+                                         color: Colors.white,
+                                         fontSize: 13
+                                     ),
                                    ),
                                  ),
                                ),
-                             ),
-                             onTap: (){
-                               Navigator.push(
-                                 context,
-                                 new MaterialPageRoute(
-                                   builder: (context) =>
-                                   new CityScreen(),
-                                 ),
-                               );
-                             },
-                           ),
-                           Padding(
-                             padding: EdgeInsets.only(bottom: 0, top: 0),
-                             child: InkWell(
-                               child: SvgPicture.asset(
-                                 'assets/svg_images/search.svg',
-                                 color: Colors.black,),
+                               onTap: (){
+                                 Navigator.push(
+                                   context,
+                                   new MaterialPageRoute(
+                                     builder: (context) =>
+                                     new CityScreen(),
+                                   ),
+                                 );
+                               },
                              ),
                            ),
+                           // Padding(
+                           //   padding: EdgeInsets.only(bottom: 0, top: 0),
+                           //   child: InkWell(
+                           //     child: SvgPicture.asset(
+                           //       'assets/svg_images/search.svg',
+                           //       color: Colors.black,),
+                           //   ),
+                           // ),
                          ],
                        ),
                      ),
@@ -520,7 +514,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                     Padding(
                       padding: const EdgeInsets.only(top: 50, left: 16, right: 15, bottom: 10),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
                             padding: EdgeInsets.only(left: 8, top: 0),
@@ -534,41 +527,44 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                               },
                             ),
                           ),
-                          GestureDetector(
-                            child: Container(
-                              width: 250,
-                              height: 38,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Color(0xFF09B44D)
-                              ),
-                              child: Center(
-                                child: Text(selectedCity.name,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 13
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: GestureDetector(
+                              child: Container(
+                                width: 250,
+                                height: 38,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Color(0xFF09B44D)
+                                ),
+                                child: Center(
+                                  child: Text(selectedCity.name,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 13
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            onTap: (){
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) =>
-                                  new CityScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 0, top: 0),
-                            child: InkWell(
-                              child: SvgPicture.asset(
-                                'assets/svg_images/search.svg',
-                                color: Colors.black,),
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                    builder: (context) =>
+                                    new CityScreen(),
+                                  ),
+                                );
+                              },
                             ),
                           ),
+                          // Padding(
+                          //   padding: EdgeInsets.only(bottom: 0, top: 0),
+                          //   child: InkWell(
+                          //     child: SvgPicture.asset(
+                          //       'assets/svg_images/search.svg',
+                          //       color: Colors.black,),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -606,37 +602,37 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                               }
                             },
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Акции и новинки',
-                                  style: TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 0, right: 10),
-                                      child: Text('Все',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                    SvgPicture.asset('assets/svg_images/arrow_right.svg',
-                                      color: Colors.grey,
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                          Promotion(),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Text('Акции и новинки',
+                          //         style: TextStyle(
+                          //             fontSize: 28,
+                          //             fontWeight: FontWeight.bold
+                          //         ),
+                          //       ),
+                          //       Row(
+                          //         children: [
+                          //           Padding(
+                          //             padding: const EdgeInsets.only(top: 0, right: 10),
+                          //             child: Text('Все',
+                          //               style: TextStyle(
+                          //                 fontSize: 14,
+                          //                 color: Colors.grey,
+                          //               ),
+                          //             ),
+                          //           ),
+                          //           SvgPicture.asset('assets/svg_images/arrow_right.svg',
+                          //             color: Colors.grey,
+                          //           )
+                          //         ],
+                          //       )
+                          //     ],
+                          //   ),
+                          // ),
+                          // Promotion(),
                           SizedBox(
                             height: 10,
                           ),

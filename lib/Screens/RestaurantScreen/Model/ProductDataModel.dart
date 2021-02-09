@@ -76,6 +76,7 @@ class ProductsDataModel {
         "uuid": uuid,
         "name": name,
         "type": type,
+        "price": price,
         "store_uuid": storeUuid,
         "meta": meta.toJson(),
         "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),

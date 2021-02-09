@@ -61,7 +61,7 @@ class AddCityScreenState extends State<AddCityScreen> {
                                   'assets/svg_images/arrow_left.svg'),
                             )))),
                 onTap: () {
-                  Navigator.pop(context);
+                   Navigator.pop(context);
                 },
               ),
             ],
@@ -80,42 +80,42 @@ class AddCityScreenState extends State<AddCityScreen> {
                 ),
               )
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 5),
-                child: FlatButton(
-                  child: Text(
-                      "Добавить город",
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white)
-                  ),
-                  color: Color(0xFF09B44D),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding:
-                  EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
-                  onPressed: () async {
-                    if (await Internet.checkConnection()) {
-                      selectedCity = autoCompleteFieldKey.currentState.selectedValue;
-                      necessaryDataForAuth.city_uuid = selectedCity.uuid;
-                      Navigator.pop(context);
-                      Navigator.push(context,
-                        new MaterialPageRoute(builder: (context) => new CityScreen()),
-                      );
-                    } else {
-                      noConnection(context);
-                    }
-                  },
-                ),
-              ),
-            ),
-          )
+          // Align(
+          //   alignment: Alignment.bottomCenter,
+          //   child: Container(
+          //     width: MediaQuery.of(context).size.width,
+          //     color: Colors.white,
+          //     child: Padding(
+          //       padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 5),
+          //       child: FlatButton(
+          //         child: Text(
+          //             "Добавить город",
+          //             style: TextStyle(
+          //                 fontSize: 16.0,
+          //                 color: Colors.white)
+          //         ),
+          //         color: Color(0xFF09B44D),
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(10),
+          //         ),
+          //         padding:
+          //         EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
+          //         onPressed: () async {
+          //           if (await Internet.checkConnection()) {
+          //             selectedCity = autoCompleteFieldKey.currentState.selectedValue;
+          //             necessaryDataForAuth.city_uuid = selectedCity.uuid;
+          //             Navigator.pop(context);
+          //             Navigator.push(context,
+          //               new MaterialPageRoute(builder: (context) => new CityScreen()),
+          //             );
+          //           } else {
+          //             noConnection(context);
+          //           }
+          //         },
+          //       ),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );

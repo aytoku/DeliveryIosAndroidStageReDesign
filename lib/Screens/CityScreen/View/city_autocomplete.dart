@@ -2,8 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CityScreen/API/getFilteredCities.dart';
 import 'package:flutter_app/Screens/CityScreen/Model/FilteredCities.dart';
+import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'city_screen.dart';
 
 class CityAutocomplete extends StatefulWidget {
   GlobalKey<CityAutocompleteState> key;
@@ -41,60 +44,60 @@ class CityAutocompleteState extends State<CityAutocomplete> with AutomaticKeepAl
       color: Colors.white,
       child: Column(
         children: [
-          Container(
-              child: Row(
-                children: [
-                  Stack(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(top: 15),
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: TextField(
-                          controller: controller,
-                          focusNode: node,
-                          decoration: new InputDecoration(
-                            suffix: Padding(
-                              padding: const EdgeInsets.only(right:8.0, top: 3),
-                              child: Cross(controller, autocompleteList),
-                            ),
-                            contentPadding: EdgeInsets.only(left: 10, right: 5, bottom: 10),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                          onChanged: (text) async {
-                            var temp = await findAddress(text);
-                            if(temp != null && autocompleteList.autoCompleteListKey.currentState != null){
-                              autocompleteList.autoCompleteListKey.currentState.setState(() {
-                                autocompleteList.autoCompleteListKey.currentState.suggestions = temp;
-                              });
-                            }
-                          },
-                        ),
-                      ),
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Container(
-                              color: Colors.white,
-                              child: Padding(
-                                padding: EdgeInsets.all(5),
-                                child: Text(
-                                  'Город',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                      ),
-                    ],
-                  ),
-                ],
-              )
-          ),
+          // Container(
+          //     child: Row(
+          //       children: [
+          //         Stack(
+          //           children: [
+          //             Container(
+          //               padding: const EdgeInsets.only(top: 15),
+          //               width: MediaQuery.of(context).size.width * 0.9,
+          //               child: TextField(
+          //                 controller: controller,
+          //                 focusNode: node,
+          //                 decoration: new InputDecoration(
+          //                   suffix: Padding(
+          //                     padding: const EdgeInsets.only(right:8.0, top: 3),
+          //                     child: Cross(controller, autocompleteList),
+          //                   ),
+          //                   contentPadding: EdgeInsets.only(left: 10, right: 5, bottom: 10),
+          //                   border: OutlineInputBorder(
+          //                       borderRadius: BorderRadius.circular(10)),
+          //                 ),
+          //                 onChanged: (text) async {
+          //                   var temp = await findAddress(text);
+          //                   if(temp != null && autocompleteList.autoCompleteListKey.currentState != null){
+          //                     autocompleteList.autoCompleteListKey.currentState.setState(() {
+          //                       autocompleteList.autoCompleteListKey.currentState.suggestions = temp;
+          //                     });
+          //                   }
+          //                 },
+          //               ),
+          //             ),
+          //             Align(
+          //                 alignment: Alignment.topLeft,
+          //                 child: Padding(
+          //                   padding: const EdgeInsets.only(left: 20),
+          //                   child: Container(
+          //                     color: Colors.white,
+          //                     child: Padding(
+          //                       padding: EdgeInsets.all(5),
+          //                       child: Text(
+          //                         'Город',
+          //                         style: TextStyle(
+          //                             fontSize: 12,
+          //                             color: Colors.grey
+          //                         ),
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 )
+          //             ),
+          //           ],
+          //         ),
+          //       ],
+          //     )
+          // ),
           autocompleteList
         ],
       ),
@@ -192,13 +195,18 @@ class AutocompleteListState extends State<AutocompleteList> {
               onTap: () async {
                 parent.selectedValue = suggestions[index];
                 parent.controller.text = suggestions[index].name;
+                selectedCity = parent.selectedValue;
+                necessaryDataForAuth.city_uuid = selectedCity.uuid;
+                Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => new CityScreen()),
+                );
                 // Избегаем потери фокуса и ставим курсор в конец
-                parent.node.requestFocus();
-                parent.controller.selection = TextSelection.fromPosition(TextPosition(offset: parent.controller.text.length));
-                if(parent.onSelected != null){
-                  await parent.onSelected();
-                }
-                FocusScope.of(context).requestFocus(new FocusNode());
+                // parent.node.requestFocus();
+                // parent.controller.selection = TextSelection.fromPosition(TextPosition(offset: parent.controller.text.length));
+                // if(parent.onSelected != null){
+                //   await parent.onSelected();
+                // }
+                // FocusScope.of(context).requestFocus(new FocusNode());
               },
             );
           })

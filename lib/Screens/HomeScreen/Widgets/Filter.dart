@@ -205,66 +205,66 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
     List<Widget> result = new List<Widget>();
     result.add(Row(
       children: [
-        GestureDetector(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Container(
-              height: 45,
-              decoration: BoxDecoration(
-                  color: Color(0xFFF6F6F6),
-                  borderRadius: BorderRadius.circular(10)
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: SvgPicture.asset('assets/svg_images/union.svg'),
-              ),
-            ),
-          ),
-          onTap: () async {
-            if (await Internet.checkConnection()) {
-              _priorityFilter();
-            } else {
-              noConnection(context);
-            }
-          },
-        ),
-
-        GestureDetector(
-          child: Padding(
-              padding:
-              EdgeInsets.only(left: 10, right: 5),
-              child: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color(0xFFF6F6F6)),
-                child: Padding(
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    child: Center(
-                      child: Row(
-                        children: [
-                          Text(
-                            "По расстоянию",
-                            style: TextStyle(
-                                color: Color(0xFF424242),
-                                fontSize: 15),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: SvgPicture.asset('assets/svg_images/arrow_down'),
-                          )
-                        ],
-                      ),
-                    )),
-              )),
-          onTap: () async {
-            if (await Internet.checkConnection()) {
-              _distanceFilter();
-            } else {
-              noConnection(context);
-            }
-          },
-        ),
+        // GestureDetector(
+        //   child: Padding(
+        //     padding: const EdgeInsets.only(left: 20),
+        //     child: Container(
+        //       height: 45,
+        //       decoration: BoxDecoration(
+        //           color: Color(0xFFF6F6F6),
+        //           borderRadius: BorderRadius.circular(10)
+        //       ),
+        //       child: Padding(
+        //         padding: const EdgeInsets.all(5.0),
+        //         child: SvgPicture.asset('assets/svg_images/union.svg'),
+        //       ),
+        //     ),
+        //   ),
+        //   onTap: () async {
+        //     if (await Internet.checkConnection()) {
+        //       _priorityFilter();
+        //     } else {
+        //       noConnection(context);
+        //     }
+        //   },
+        // ),
+        //
+        // GestureDetector(
+        //   child: Padding(
+        //       padding:
+        //       EdgeInsets.only(left: 10, right: 5),
+        //       child: Container(
+        //         height: 45,
+        //         decoration: BoxDecoration(
+        //             borderRadius: BorderRadius.all(Radius.circular(10)),
+        //             color: Color(0xFFF6F6F6)),
+        //         child: Padding(
+        //             padding: EdgeInsets.only(left: 15, right: 15),
+        //             child: Center(
+        //               child: Row(
+        //                 children: [
+        //                   Text(
+        //                     "По расстоянию",
+        //                     style: TextStyle(
+        //                         color: Color(0xFF424242),
+        //                         fontSize: 15),
+        //                   ),
+        //                   Padding(
+        //                     padding: const EdgeInsets.only(left: 8.0),
+        //                     child: SvgPicture.asset('assets/svg_images/arrow_down'),
+        //                   )
+        //                 ],
+        //               ),
+        //             )),
+        //       )),
+        //   onTap: () async {
+        //     if (await Internet.checkConnection()) {
+        //       _distanceFilter();
+        //     } else {
+        //       noConnection(context);
+        //     }
+        //   },
+        // ),
         GestureDetector(
           child: Padding(
               padding:

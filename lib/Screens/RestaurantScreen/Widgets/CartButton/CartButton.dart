@@ -41,7 +41,7 @@ class CartButtonState extends State<CartButton> {
     }else{
       return Container(
         width: MediaQuery.of(context).size.width,
-        height: 115,
+        height: 85,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -54,16 +54,16 @@ class CartButtonState extends State<CartButton> {
         ),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 5),
-              child: Center(
-                child: Text('До бесплатной доставки осталось 250\₽',
-                  style: TextStyle(
-                      fontSize: 12
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 15, bottom: 5),
+            //   child: Center(
+            //     child: Text('До бесплатной доставки осталось 250\₽',
+            //       style: TextStyle(
+            //           fontSize: 12
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.all(10),
               child: FlatButton(

@@ -376,7 +376,7 @@ class _CodeScreenState extends State<CodeScreen> {
                               necessaryDataForAuth.token =
                               authCodeData.token;
                               await NecessaryDataForAuth.saveData();
-                              await Centrifugo.connectToServer();
+                              //await Centrifugo.connectToServer();
                               if(necessaryDataForAuth.name == null){
                                 Navigator.push(
                                   context,

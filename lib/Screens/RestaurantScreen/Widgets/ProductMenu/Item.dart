@@ -12,6 +12,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/PriceField.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../data/data.dart';
@@ -374,87 +375,87 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                 height: 0,
                               ),
                               Divider(height: 0, color: Color(0xFFE6E6E6),),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 15),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Text('Белки',
-                                          style: TextStyle(
-                                              color: Color(0xFF7D7D7D),
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                        Text((productsDescription!= null) ? productsDescription.meta.energyValue.protein.toString(): '',
-                                          style: TextStyle(
-                                              color: Color(0xFF7D7D7D),
-                                              fontSize: 14
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 30),
-                                      child: Column(
-                                        children: [
-                                          Text('Жиры',
-                                            style: TextStyle(
-                                                color: Color(0xFF7D7D7D),
-                                                fontSize: 14
-                                            ),
-                                          ),
-                                          Text((productsDescription!= null) ? productsDescription.meta.energyValue.fat.toString(): '',
-                                            style: TextStyle(
-                                                color: Color(0xFF7D7D7D),
-                                                fontSize: 14
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 30),
-                                      child: Column(
-                                        children: [
-                                          Text('Углеводы',
-                                            style: TextStyle(
-                                                color: Color(0xFF7D7D7D),
-                                                fontSize: 14
-                                            ),
-                                          ),
-                                          Text((productsDescription!= null) ? productsDescription.meta.energyValue.carbohydrates.toString() :"",
-                                            style: TextStyle(
-                                                color: Color(0xFF7D7D7D),
-                                                fontSize: 14
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 30),
-                                      child: Column(
-                                        children: [
-                                          Text('Ккал',
-                                            style: TextStyle(
-                                                color: Color(0xFF7D7D7D),
-                                                fontSize: 14
-                                            ),
-                                          ),
-                                          Text((productsDescription!= null) ? productsDescription.meta.energyValue.calories.toString(): '',
-                                            style: TextStyle(
-                                                color: Color(0xFF7D7D7D),
-                                                fontSize: 14
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 15),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //     children: [
+                              //       Column(
+                              //         children: [
+                              //           Text('Белки',
+                              //             style: TextStyle(
+                              //                 color: Color(0xFF7D7D7D),
+                              //                 fontSize: 14
+                              //             ),
+                              //           ),
+                              //           Text((productsDescription!= null) ? productsDescription.meta.energyValue.protein.toString(): '',
+                              //             style: TextStyle(
+                              //                 color: Color(0xFF7D7D7D),
+                              //                 fontSize: 14
+                              //             ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //       Padding(
+                              //         padding: EdgeInsets.only(left: 30),
+                              //         child: Column(
+                              //           children: [
+                              //             Text('Жиры',
+                              //               style: TextStyle(
+                              //                   color: Color(0xFF7D7D7D),
+                              //                   fontSize: 14
+                              //               ),
+                              //             ),
+                              //             Text((productsDescription!= null) ? productsDescription.meta.energyValue.fat.toString(): '',
+                              //               style: TextStyle(
+                              //                   color: Color(0xFF7D7D7D),
+                              //                   fontSize: 14
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //       Padding(
+                              //         padding: EdgeInsets.only(left: 30),
+                              //         child: Column(
+                              //           children: [
+                              //             Text('Углеводы',
+                              //               style: TextStyle(
+                              //                   color: Color(0xFF7D7D7D),
+                              //                   fontSize: 14
+                              //               ),
+                              //             ),
+                              //             Text((productsDescription!= null) ? productsDescription.meta.energyValue.carbohydrates.toString() :"",
+                              //               style: TextStyle(
+                              //                   color: Color(0xFF7D7D7D),
+                              //                   fontSize: 14
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //       Padding(
+                              //         padding: EdgeInsets.only(left: 30),
+                              //         child: Column(
+                              //           children: [
+                              //             Text('Ккал',
+                              //               style: TextStyle(
+                              //                   color: Color(0xFF7D7D7D),
+                              //                   fontSize: 14
+                              //               ),
+                              //             ),
+                              //             Text((productsDescription!= null) ? productsDescription.meta.energyValue.calories.toString(): '',
+                              //               style: TextStyle(
+                              //                   color: Color(0xFF7D7D7D),
+                              //                   fontSize: 14
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               Column(
                                   children: variantsSelectors
                               ),
@@ -641,7 +642,15 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
             ),
           );
         }else{
-          return Container();
+          return Padding(
+            padding: const EdgeInsets.only(top: 40),
+            child: Center(
+              child: SpinKitFadingCircle(
+                color: Colors.green,
+                size: 50.0,
+              ),
+            ),
+          );
         }
       },
     );

@@ -136,7 +136,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
           InkWell(
             onTap: () async {
               if (await Internet.checkConnection()) {
-                if(true){
+                if(foodRecords.type == 'variable'){
                   parent.onPressedButton(foodRecords, menuItemCounterKey);
                 }else{
                   await _incrementCounter_plus();

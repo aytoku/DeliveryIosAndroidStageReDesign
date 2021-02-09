@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'package:flutter_app/Screens/MyAddressesScreen/Models/AddressesModel.dart';
+import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import '../../../data/data.dart';
 import '../../../models/CreateOrderModel.dart';
-import '../../../models/ResponseData.dart';
 
 
 Future<AddressesModelData> getStreet(String name, String city_uuid) async {

@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CityScreen extends StatefulWidget {
 
-  CityScreen({Key key}) : super(key: key);
+  CityScreen({Key key, String s}) : super(key: key);
 
   @override
   CityScreenState createState() {
@@ -20,6 +20,31 @@ class CityScreenState extends State<CityScreen>{
 
   TextEditingController cityController = new TextEditingController();
   CityScreenState();
+
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Padding(
+          padding: EdgeInsets.only(bottom: 500),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Выберите город"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,11 +163,13 @@ class CityScreenState extends State<CityScreen>{
                                 ),
                               ),
                               onTap: (){
+                                if(cityController.text.length == 0){
+                                  showAlertDialog(context);
+                                }
                                 homeScreenKey = new GlobalKey<HomeScreenState>();
-                                Navigator.of(context).pushAndRemoveUntil(
+                                Navigator.of(context).push(
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreen()),
-                                        (Route<dynamic> route) => false);
+                                        builder: (context) => HomeScreen()));
                               },
                             ),
                           ),

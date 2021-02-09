@@ -8,6 +8,9 @@ import '../Amplitude/amplitude.dart';
 
 class DeviceIdScreen extends StatelessWidget {
 
+  GlobalKey<CityScreenState> cityScreenKey = new GlobalKey();
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
