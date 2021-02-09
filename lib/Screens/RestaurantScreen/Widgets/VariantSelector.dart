@@ -41,6 +41,10 @@ class VariantsSelectorState extends State<VariantsSelector> {
     return selectedVariants;
   }
 
+  bool hasSelectedVariants(){
+    return selectedVariants.isNotEmpty;
+  }
+
   Widget build(BuildContext context) {
     List<Widget> widgetsList = new List<Widget>();
     widgetsList.add(

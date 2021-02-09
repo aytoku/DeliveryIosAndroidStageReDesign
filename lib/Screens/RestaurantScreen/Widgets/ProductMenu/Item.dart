@@ -544,8 +544,10 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 
                                                 cartProduct.variantGroups = new List<VariantGroup>();
                                                 variantsSelectors.forEach((variantGroupSelector) {
-                                                  cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
-                                                  cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
+                                                  if(variantGroupSelector.key.currentState.hasSelectedVariants()){
+                                                    cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
+                                                    cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
+                                                  }
                                                 });
 
                                                 if(currentUser.cartModel != null && currentUser.cartModel.items != null

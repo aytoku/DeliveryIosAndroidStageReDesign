@@ -572,6 +572,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                       child: ListView(
                         padding: EdgeInsets.zero,
                         children: <Widget>[
+                          (!currentUser.isLoggedIn) ? Container() :
                           FutureBuilder<List<OrderChecking>>(
                             future: OrderChecking.getActiveOrder(),
                             builder: (BuildContext context,

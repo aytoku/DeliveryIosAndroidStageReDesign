@@ -40,7 +40,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                         child: InkWell(
                           onTap: () {
                             homeScreenKey = new GlobalKey<HomeScreenState>();
-                            Navigator.of(context).pushAndRemoveUntil(
+                            Navigator.of(context).push(
                                 PageRouteBuilder(
                                     pageBuilder: (context, animation, anotherAnimation) {
                                       return HomeScreen();
@@ -56,7 +56,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                                         child: child,
                                       );
                                     }
-                                ), (Route<dynamic> route) => false);
+                                ));
                           },
                           child: Padding(
                               padding: EdgeInsets.only(right: 0),

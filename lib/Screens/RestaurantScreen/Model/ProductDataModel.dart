@@ -69,22 +69,28 @@ class ProductsDataModel {
     "variant_groups": List<dynamic>.from(variantGroups.map((x) => x.toJson())),
   };
 
-  Map<String, dynamic> toServerJson(int count) => {
-    "source": "mod",
-    "item":{
-      "product": {
-        "uuid": uuid,
-        "name": name,
-        "type": type,
-        "price": price,
-        "store_uuid": storeUuid,
-        "meta": meta.toJson(),
-        "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),
-      },
-      "variant_groups": (type.toLowerCase() == "single") ? null : List<dynamic>.from(variantGroups.map((x) => x.toJson())),
-      "count": count
-    }
-  };
+  Map<String, dynamic> toServerJson(int count){
+
+    Map<String, dynamic> request = {
+      "source": "mod",
+      "item":{
+        "product": {
+          "uuid": uuid,
+          "name": name,
+          "type": type,
+          "price": price,
+          "store_uuid": storeUuid,
+          "meta": meta.toJson(),
+          "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),
+        },
+        "count": count
+      }
+    };
+    if(type.toLowerCase() != "single" && variantGroups.length > 0)
+     request["variant_groups"] = List<dynamic>.from(variantGroups.map((x) => x.toJson()));
+
+    return request;
+  }
 }
 
 class ProductsDataModelMeta {

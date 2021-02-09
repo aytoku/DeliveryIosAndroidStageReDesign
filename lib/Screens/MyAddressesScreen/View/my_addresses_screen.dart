@@ -82,6 +82,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                   AsyncSnapshot<List<MyFavouriteAddressesModel>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   myAddressesModelList = snapshot.data;
+
                   if (addressScreenButton) {
                     myAddressesModelList
                         .add(new MyFavouriteAddressesModel(tag: MyFavouriteAddressesModel.MyAddressesTags[0]));
