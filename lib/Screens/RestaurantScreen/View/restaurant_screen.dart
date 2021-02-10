@@ -567,7 +567,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 child: Stack(
                   children: <Widget>[
                     Image.network(
-                      getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
+                      getImage((restaurant.meta.images != null
+                            && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
                       fit: BoxFit.cover,
                       height: 230.0,
                       width: MediaQuery.of(context).size.width,

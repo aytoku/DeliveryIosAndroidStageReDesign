@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../data/data.dart';
 import '../../../data/data.dart';
+import 'city_screen.dart';
 
 // ignore: must_be_immutable
 class AddCityScreen extends StatefulWidget {
@@ -61,7 +62,9 @@ class AddCityScreenState extends State<AddCityScreen> {
                                   'assets/svg_images/arrow_left.svg'),
                             )))),
                 onTap: () {
-                   Navigator.pop(context);
+                   Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CityScreen())
+                   );
                 },
               ),
             ],

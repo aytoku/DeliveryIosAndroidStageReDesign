@@ -82,7 +82,7 @@ class FilteredStores {
     name: json["name"],
     storeCategoriesUuid: (json["store_categories_uuid"] == null) ? null : List<CategoriesUuid>.from(json["store_categories_uuid"].map((x) => CategoriesUuid.fromJson(x))),
     productCategoriesUuid: (json["product_categories_uuid"] == null) ? null : List<CategoriesUuid>.from(json["product_categories_uuid"].map((x) => CategoriesUuid.fromJson(x))),
-    paymentTypes: List<String>.from(json["payment_types"]),
+    paymentTypes: (json["payment_types"] == null) ? null : List<String>.from(json["payment_types"]),
     cityUuid: json["city_uuid"],
     legalEntityUuid: json["legal_entity_uuid"],
     parentUuid: json["parent_uuid"],
@@ -94,7 +94,7 @@ class FilteredStores {
     lat: json["lat"],
     lon: json["lon"],
     url: json["url"],
-    meta: FilteredStoreMeta.fromJson(json["meta"]),
+    meta: (json['meta'] == null) ? null : FilteredStoreMeta.fromJson(json["meta"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -243,7 +243,7 @@ class FilteredStoreMeta {
   );
 
   Map<String, dynamic> toJson() => {
-    "images": List<dynamic>.from(images.map((x) => x)),
+    "images":(images == null) ? null : List<dynamic>.from(images.map((x) => x)),
     "rating": rating,
     "avg_delivery_time": avgDeliveryTime,
     "avg_delivery_price": avgDeliveryPrice,

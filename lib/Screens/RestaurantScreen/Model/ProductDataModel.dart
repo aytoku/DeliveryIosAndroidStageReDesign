@@ -86,8 +86,8 @@ class ProductsDataModel {
         "count": count
       }
     };
-    if(type.toLowerCase() != "single" && variantGroups.length > 0)
-     request["variant_groups"] = List<dynamic>.from(variantGroups.map((x) => x.toJson()));
+    if(type.toLowerCase() != "single")
+     request["item"]["variant_groups"] = List<dynamic>.from(variantGroups.map((x) => x.toJson()));
 
     return request;
   }

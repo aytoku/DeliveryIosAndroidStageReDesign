@@ -223,83 +223,86 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 //
 //          }
           return Container(
-            height: 600,
-            child: Stack(
-              children: [
-                Container(
-                  height: 600,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                      ),
-                      color: Colors.white
-                  ),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.only(
+            height: (restaurantDataItems.type == 'single') ? 400: 500,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Stack(
+                children: [
+                  Container(
+                    height: 180,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(12),
                           topRight: Radius.circular(12),
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(0)),
-                      child: Stack(
-                        children: <Widget>[
-                          Image.network(
-                            getImage(restaurantDataItems.meta.images[0]),
-                            fit: BoxFit.cover,
-                            height: 180.0,
-                            width: MediaQuery.of(context).size.width,
-                          ),
-                          Align(
-                              alignment: Alignment.topRight,
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 10, right: 15),
-                                child: GestureDetector(
-                                  child: SvgPicture.asset(
-                                      'assets/svg_images/bottom_close.svg'),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ))
-                        ],
-                      )),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 450,
-                    child: ListView.builder(
-                      itemCount: 1,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (BuildContext context ,int index){
-                        return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
-                      },
+                        ),
+                        color: Colors.white
                     ),
-                  )
-                ),
-                // Align(
-                //   alignment: Alignment.bottomCenter,
-                //   child: Container(
-                //     child: DraggableScrollableSheet(
-                //         initialChildSize: 0.8,
-                //         minChildSize: 0.4,
-                //         maxChildSize: 0.9,
-                //         builder: (BuildContext context, myscrollController) {
-                //           return Container(
-                //             child: ListView.builder(
-                //               controller: myscrollController,
-                //               itemCount: 1,
-                //               scrollDirection: Axis.vertical,
-                //               itemBuilder: (BuildContext context ,int index){
-                //                 return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
-                //               },
-                //             ),
-                //           );
-                //         }
-                //     ),
-                //   ),
-                // )
-              ],
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(0)),
+                        child: Stack(
+                          children: <Widget>[
+                            Image.network(
+                              getImage(restaurantDataItems.meta.images[0]),
+                              fit: BoxFit.cover,
+                              height: 180.0,
+                              width: MediaQuery.of(context).size.width,
+                            ),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 10, right: 15),
+                                  child: GestureDetector(
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/bottom_close.svg'),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ))
+                          ],
+                        )),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: (restaurantDataItems.type == 'single') ? 250 : 350,
+                      child: ListView.builder(
+                        itemCount: 1,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (BuildContext context ,int index){
+                          return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
+                        },
+                      ),
+                    )
+                  ),
+                  // Align(
+                  //   alignment: Alignment.bottomCenter,
+                  //   child: Container(
+                  //     child: DraggableScrollableSheet(
+                  //         initialChildSize: 0.8,
+                  //         minChildSize: 0.4,
+                  //         maxChildSize: 0.9,
+                  //         builder: (BuildContext context, myscrollController) {
+                  //           return Container(
+                  //             child: ListView.builder(
+                  //               controller: myscrollController,
+                  //               itemCount: 1,
+                  //               scrollDirection: Axis.vertical,
+                  //               itemBuilder: (BuildContext context ,int index){
+                  //                 return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
+                  //               },
+                  //             ),
+                  //           );
+                  //         }
+                  //     ),
+                  //   ),
+                  // )
+                ],
+              ),
             ),
           );
         });
@@ -697,17 +700,13 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 //   }
 // }
 //
-// double getBottomSheetContainerHeight(ProductsDataModel food){
-//   if(food.variants != null && food.toppings == null|| food.variants == null&& food.toppings != null){
-//     return 550;
-//   }else if(food.comment != "" && food.comment != null){
-//     return 493;
-//   }else if(food.variants == null || food.toppings == null){
-//     return 390;
-//   }else{
-//     return 610;
-//   }
-// }
+double getBottomSheetContainerHeight(ProductsByStoreUuid food){
+  if(food.variantGroups == null){
+    return 400;
+  }else{
+    return 600;
+  }
+}
 //
 // double getInitialChildHeight(ProductsDataModel food){
 //   if(food.variants != null && food.toppings == null|| food.variants == null&& food.toppings != null){

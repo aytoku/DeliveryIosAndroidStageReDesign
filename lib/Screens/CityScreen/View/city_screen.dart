@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CityScreen extends StatefulWidget {
 
-  CityScreen({Key key, String s}) : super(key: key);
+  CityScreen({Key key}) : super(key: key);
 
   @override
   CityScreenState createState() {

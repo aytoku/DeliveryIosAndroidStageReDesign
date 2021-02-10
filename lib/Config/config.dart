@@ -7,6 +7,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import '../Centrifugo/centrifugo.dart';
+import '../Screens/CityScreen/Model/FilteredCities.dart';
+import '../Screens/CityScreen/Model/FilteredCities.dart';
+import '../Screens/CityScreen/Model/FilteredCities.dart';
+import '../Screens/CityScreen/Model/FilteredCities.dart';
+import '../Screens/CityScreen/Model/FilteredCities.dart';
 import '../data/data.dart';
 import '../data/data.dart';
 import '../data/data.dart';
@@ -17,14 +22,14 @@ class NecessaryDataForAuth{
   String refresh_token;
   String name;
   String token;
-  String city_uuid;
+  FilteredCities city;
   static NecessaryDataForAuth _necessaryDataForAuth;
 
   NecessaryDataForAuth({
     this.device_id,
     this.phone_number,
     this.token,
-    this.city_uuid,
+    this.city,
     this.refresh_token,
     this.name
   });
@@ -38,8 +43,15 @@ class NecessaryDataForAuth{
     String phone_number = prefs.getString('phone_number');
     String refresh_token = prefs.getString('refresh_token');
     String name = prefs.getString('name');
-    String city_uuid = prefs.getString('city_uuid');
+    String cityJson = prefs.getString('city');
     String token = prefs.getString('token');
+
+
+    FilteredCities city;
+
+    if(cityJson != null){
+      city = FilteredCities.fromJson(convert.jsonDecode(cityJson));
+    }
 
     NecessaryDataForAuth result = new NecessaryDataForAuth(
         device_id: device_id,
@@ -47,10 +59,9 @@ class NecessaryDataForAuth{
         refresh_token: refresh_token,
         name: name,
         token: token,
-        city_uuid: city_uuid,
+        city: city,
     );
 
-    print('1');
     refresh_token = await refreshToken(refresh_token, token, device_id);
 
     result.refresh_token = refresh_token;
@@ -68,13 +79,13 @@ class NecessaryDataForAuth{
     String phone_number = _necessaryDataForAuth.phone_number;
     String refresh_token = _necessaryDataForAuth.refresh_token;
     String name = _necessaryDataForAuth.name;
-    String city_uuid = _necessaryDataForAuth.city_uuid;
+    String city = convert.jsonEncode(_necessaryDataForAuth.city.toJson());
     String token = _necessaryDataForAuth.token;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('phone_number', phone_number);
     prefs.setString('refresh_token',refresh_token);
     prefs.setString('name',name);
-    prefs.setString('city_uuid',city_uuid);
+    prefs.setString('city',city);
     prefs.setString('token',token);
   }
 

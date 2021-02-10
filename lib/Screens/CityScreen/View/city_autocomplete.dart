@@ -6,6 +6,8 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../Config/config.dart';
+import '../../../models/NecessaryAddressModel.dart';
 import 'city_screen.dart';
 
 class CityAutocomplete extends StatefulWidget {
@@ -196,7 +198,8 @@ class AutocompleteListState extends State<AutocompleteList> {
                 parent.selectedValue = suggestions[index];
                 parent.controller.text = suggestions[index].name;
                 selectedCity = parent.selectedValue;
-                necessaryDataForAuth.city_uuid = selectedCity.uuid;
+                necessaryDataForAuth.city = selectedCity;
+                NecessaryDataForAuth.saveData();
                 Navigator.push(context,
                   new MaterialPageRoute(builder: (context) => new CityScreen()),
                 );

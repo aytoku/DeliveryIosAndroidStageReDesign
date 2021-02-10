@@ -5,6 +5,11 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/CartDataModel.dart';
 
 import '../Amplitude/amplitude.dart';
+import '../Screens/HomeScreen/View/home_screen.dart';
+import '../data/data.dart';
+import '../data/data.dart';
+import '../data/data.dart';
+import '../data/data.dart';
 
 class DeviceIdScreen extends StatelessWidget {
 
@@ -32,13 +37,23 @@ class DeviceIdScreen extends StatelessWidget {
               AmplitudeAnalytics.initialize(necessaryDataForAuth.device_id).then((value){
                 AmplitudeAnalytics.analytics.logEvent('open_app');
               });
-              return CityScreen();
+              if(necessaryDataForAuth.city == null){
+                return CityScreen();
+              }else{
+                selectedCity = necessaryDataForAuth.city;
+                return HomeScreen();
+              }
             }
             print(necessaryDataForAuth.refresh_token);
             AmplitudeAnalytics.initialize(necessaryDataForAuth.phone_number).then((value){
               AmplitudeAnalytics.analytics.logEvent('open_app');
             });
-            return CityScreen();
+            if(necessaryDataForAuth.city == null){
+              return CityScreen();
+            }else{
+              selectedCity = necessaryDataForAuth.city;
+              return HomeScreen();
+            }
           } else {
             return Center(
               child: Image(
