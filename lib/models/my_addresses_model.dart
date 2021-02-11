@@ -1,29 +1,38 @@
+import 'package:flutter_app/Screens/MyAddressesScreen/API/add_address.dart';
+import 'package:flutter_app/Screens/MyAddressesScreen/API/delete_address_by_uuid.dart';
+import 'package:flutter_app/Screens/MyAddressesScreen/API/get_client_addresses.dart';
+import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
 import 'package:flutter_app/models/InitialAddressModel.dart';
 import 'package:flutter_app/models/RecommendationAddressModel.dart';
-import 'package:flutter_app/models/ResponseData.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import '../data/data.dart';
-import 'CreateOrderModel.dart';
+import 'RefreshToken.dart';
 
 class MyFavouriteAddressesModel{
   // Список возможных тегов
   // null = empty
   static const List<String> MyAddressesTags = ["work","house","study", null];
 
+  // useful
   String uuid;
-  FavouriteAddress address;
+  DestinationPoints address;
+  String type;
+  bool favorite;
+
+
+  // useless
   String name;
   String description;
-  String tag;
   String clientUuid;
 
   MyFavouriteAddressesModel( {
     this.address,
     this.name,
+    this.favorite,
     this.description,
     this.uuid,
-    this.tag,
+    this.type,
     this.clientUuid
   });
 
@@ -38,102 +47,45 @@ class MyFavouriteAddressesModel{
 
   Future<MyFavouriteAddressesModel> save() async{
     // Обновляем токен
-    await CreateOrder.sendRefreshToken();
+    await RefreshToken.sendRefreshToken();
     // Отправляем данные на сервер
-    MyFavouriteAddressesModel result;
-    var jsonRequest = convert.jsonEncode(this.toServerSaveJson());
-    var url = 'https://client.apis.stage.faem.pro/api/v2/addresses/favorite';
-    var response = await http.post(url, body: jsonRequest, headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json',
-      'Source':'ios_client_app_1',
-      'Authorization':'Bearer ' + authCodeData.token
-    });
-    if (response.statusCode == 200) {
-      var jsonResponse = convert.jsonDecode(response.body);
-      print(response.body);
-      result = MyFavouriteAddressesModel.fromJson(jsonResponse);
-    } else {
-      print(response.body);
-      print('Request failed with status: ${response.statusCode}.');
-    }
-    return result;
+
+    await addAddress(type, favorite, address);
+
+    return this;
   }
 
   Future<MyFavouriteAddressesModel> update() async{
-    // Обновляем токен
-    await CreateOrder.sendRefreshToken();
-    // Отправляем данные на сервер
-    MyFavouriteAddressesModel result;
-    var jsonRequest = convert.jsonEncode(this.toServerSaveJson());
-    var url = 'https://client.apis.stage.faem.pro/api/v2/addresses/favorite/$uuid';
-    var response = await http.put(url, body: jsonRequest, headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json',
-      'Source':'ios_client_app_1',
-      'Authorization':'Bearer ' + authCodeData.token
-    });
-    if (response.statusCode == 200) {
-      var jsonResponse = convert.jsonDecode(response.body);
-      result = MyFavouriteAddressesModel.fromJson(jsonResponse);
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
-    return result;
+    return this;
   }
 
   Future<void> delete() async{
-    // Обновляем токен
-    await CreateOrder.sendRefreshToken();
-    // Отправляем данные на сервер
-    var url = 'https://client.apis.stage.faem.pro/api/v2/addresses/favorite/$uuid';
-    var response = await http.delete(url, headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json',
-      'Source':'ios_client_app_1',
-      'Authorization':'Bearer ' + authCodeData.token
-    });
-    if (response.statusCode == 200) {
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
+      await deleteAddressByUuid(uuid);
   }
 
   static Future<List<MyFavouriteAddressesModel>> getAddresses() async{
     List<MyFavouriteAddressesModel> addressesList = List<MyFavouriteAddressesModel>();
-    // Обновляем токен
-    await CreateOrder.sendRefreshToken();
-    // Получаем данные с сервера
-    var url = 'https://client.apis.stage.faem.pro/api/v2/addresses/favorite';
-    var response = await http.get(url, headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json',
-      'Source':'ios_client_app_1', 
-      'Authorization':'Bearer ' + authCodeData.token
-    });
-    var jsonResponse;
-    if (response.statusCode == 200) {
-      jsonResponse = convert.jsonDecode(response.body) as List;
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
 
+    AddressesModelData addressesModelData = await getClientAddress();
 
-
-    addressesList = new List<MyFavouriteAddressesModel>();
     // Если что-то пошло не так, возвращаем пустой список
-    if(jsonResponse == null)
+
+    if(addressesModelData == null || addressesModelData.addressModelList == null)
       return addressesList;
+
+
     // Иначе возвращаем заполненный
-    addressesList = jsonResponse.map<MyFavouriteAddressesModel>((i) =>
-        MyFavouriteAddressesModel.fromJson(i)).toList();
+    addressesModelData.addressModelList.forEach((element) {
+      addressesList.add(MyFavouriteAddressesModel.fromAddressesModel(element));
+    });
+
     return addressesList;
   }
 
   Map<String, dynamic> toServerSaveJson() => {
     "name": name,
     "description": description,
-    "tag": tag,
+    "tag": type,
     "address": address.toJson(),
   };
 
@@ -141,29 +93,42 @@ class MyFavouriteAddressesModel{
     "uuid": uuid,
     "name": name,
     "description": description,
-    "tag": tag,
+    "tag": type,
     "client_uuid": clientUuid,
     "address": address.toJson(),
   };
 
+  factory MyFavouriteAddressesModel.fromAddressesModel(AddressesModel addressesModelData){
+    return MyFavouriteAddressesModel(
+      address:  addressesModelData.point,
+      uuid: addressesModelData.uuid,
+      name: '',
+      type: addressesModelData.type,
+      favorite: addressesModelData.favorite,
+      description: '',
+      clientUuid: '',
+    );
+  }
+
   factory MyFavouriteAddressesModel.fromJson(Map<String, dynamic> parsedJson){
     return new MyFavouriteAddressesModel(
-      address:FavouriteAddress.fromJson(parsedJson['address']),
+      address:DestinationPoints.fromJson(parsedJson['address']),
       uuid: parsedJson["uuid"],
       name: parsedJson["name"],
       description: parsedJson["description"],
-      tag: parsedJson["tag"],
+      type: parsedJson["tag"],
       clientUuid: parsedJson["client_uuid"],
     );
   }
 }
 
-class FavouriteAddress extends InitialAddressModel {
+class DestinationPoints extends InitialAddressModel {
   // Поля класса
   String type;
   int frontDoor;
 
-  FavouriteAddress({
+  DestinationPoints({
+    String uuid,
     String unrestrictedValue,
     String value,
     String country,
@@ -184,6 +149,7 @@ class FavouriteAddress extends InitialAddressModel {
     double lat,
     double lon,
   }):super( // Передаем данные в родительский конструктор
+      uuid: uuid,
       unrestrictedValue: unrestrictedValue,
       value: value,
       country: country,
@@ -204,8 +170,9 @@ class FavouriteAddress extends InitialAddressModel {
       comment: ""
   );
 
-  factory FavouriteAddress.fromJson(Map<String, dynamic> json) => FavouriteAddress(
+  factory DestinationPoints.fromJson(Map<String, dynamic> json) => DestinationPoints(
     unrestrictedValue: json["unrestricted_value"],
+    uuid: json["uuid"],
     value: json["value"],
     country: json["country"],
     region: json["region"],
@@ -228,6 +195,7 @@ class FavouriteAddress extends InitialAddressModel {
 
   Map<String, dynamic> toJson() => {
     "unrestricted_value": unrestrictedValue,
+    "uuid": uuid,
     "value": value,
     "country": country,
     "region": region,
@@ -247,14 +215,15 @@ class FavouriteAddress extends InitialAddressModel {
     "lat": lat,
     "lon": lon,
   };
-  factory FavouriteAddress.fromInitialAddressModelChild(var address){
+  factory DestinationPoints.fromInitialAddressModelChild(var address){
     // Из InitialAddressModel наследуются только DestinationPoints и FavouriteAddress
     // (InitialAddressModel нигде не используется в чистом виде)
 
     // Таким образом,
     // Если мы имеем дело с DestinationPoints, то на ее основе строим FavouriteAddress
     if (address is DestinationPoints) {
-      return FavouriteAddress(
+      return DestinationPoints(
+          uuid: address.uuid,
           unrestrictedValue: address.unrestrictedValue,
           value: address.value,
           country: address.country,
@@ -267,10 +236,10 @@ class FavouriteAddress extends InitialAddressModel {
           streetType: address.streetType,
           streetWithType: address.streetWithType,
           house: address.house,
-          frontDoor: address.front_door,
+          frontDoor: address.frontDoor,
           outOfTown: address.outOfTown,
-          houseType: address.house_type,
-          accuracyLevel: address.accuracy_level,
+          houseType: address.houseType,
+          accuracyLevel: address.accuracyLevel,
           radius: address.radius,
           lat: address.lat,
           lon: address.lon

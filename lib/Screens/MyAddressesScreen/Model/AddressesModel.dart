@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../../../models/ResponseData.dart';
+import '../../../models/my_addresses_model.dart';
 
 AddressesModel addressesModelFromJson(String str) => AddressesModel.fromJson(json.decode(str));
 

@@ -19,7 +19,6 @@ import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/last_addresses_model.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -256,7 +255,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                 authCodeData.refreshToken.value = null;
                 authCodeData.token = null;
                 await NecessaryDataForAuth.saveData();
-                await LastAddressesModel.clear();
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (context) => DeviceIdScreen()),

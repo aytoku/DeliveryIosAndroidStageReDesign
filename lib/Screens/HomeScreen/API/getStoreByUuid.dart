@@ -1,5 +1,5 @@
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/CreateOrderModel.dart';
+import 'package:flutter_app/models/RefreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -7,7 +7,7 @@ import '../Model/StoreByUuid.dart';
 
 
 Future<StoreByUuid> getStoreByUuid() async {
-  await CreateOrder.sendRefreshToken();
+  await RefreshToken.sendRefreshToken();
   StoreByUuid storeByUuid = null;
   var url = 'http://78.110.156.74:3003/api/v3/stores/2c4d40ad-c1d6-400a-9f45-ab6bb7382db0';
   var response = await http.get(url, headers: <String, String>{

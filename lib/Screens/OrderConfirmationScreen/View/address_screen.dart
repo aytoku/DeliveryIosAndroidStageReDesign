@@ -472,7 +472,7 @@ class AddressScreenState extends State<AddressScreen>
               if (snapshot.connectionState == ConnectionState.done) {
                 myAddressesModelList = snapshot.data;
                 myAddressesModelList
-                    .add(new MyFavouriteAddressesModel(tag: null));
+                    .add(new MyFavouriteAddressesModel(type: null));
                 return buildAddressesListSelector();
               } else {
                 return Center(

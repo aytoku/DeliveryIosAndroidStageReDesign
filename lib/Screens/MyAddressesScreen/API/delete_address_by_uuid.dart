@@ -1,17 +1,21 @@
 import 'package:flutter_app/Screens/CityScreen/Model/FilteredCities.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
+import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/models/RefreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 
-Future<AddressesModelData> deleteAddressByUuid(String client_uuid, String address_uuid) async {
+Future<AddressesModelData> deleteAddressByUuid(String address_uuid) async {
   AddressesModelData addressModel = null;
-  var url = 'http://78.110.156.74:3003/api/v3/clients/$client_uuid/addresses/$address_uuid';
+  await RefreshToken.sendRefreshToken();
+  var url = 'http://78.110.156.74:3003/api/v3/clients/addresses/$address_uuid';
   var response = await http.delete(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',
     'Source':'ios_client_app_1',
     "ServiceName": 'faem_food',
+    'Authorization':'Bearer ' + authCodeData.token
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);

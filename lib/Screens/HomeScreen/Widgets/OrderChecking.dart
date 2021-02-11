@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/getClientsOrdersInProcess.dart';
-import 'package:flutter_app/Screens/OrdersScreen/Model/OrderStoryModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_details.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../API/getInitData.dart';
-import '../Model/InitData.dart';
 
 class OrderChecking extends StatefulWidget {
   OrderDetailsModelItem ordersDetailsItem;

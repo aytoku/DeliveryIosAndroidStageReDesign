@@ -11,7 +11,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../Amplitude/amplitude.dart';
 import '../../../data/data.dart';
 import '../../../data/data.dart';
-import '../../../models/RestaurantDataItems.dart';
 import '../../HomeScreen/Model/FilteredStores.dart';
 import '../../RestaurantScreen/View/restaurant_screen.dart';
 import '../API/clear_cart.dart';
@@ -548,13 +547,5 @@ class CartScreenState extends State<CartScreen> {
     );
   }
 
-  double getBasketButtonHeight(FoodRecords food){
-    if(food.variants == null && food.toppings == null){
-      return 25;
-    }else if(food.variants != null && food.toppings == null){
-      return 30;
-    }else{
-      return 50;
-    }
-  }
+
 }

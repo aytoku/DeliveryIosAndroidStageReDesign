@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
-import 'package:flutter_app/Screens/OrdersScreen/Model/order.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/PriceField.dart';
@@ -9,11 +8,8 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../data/data.dart';
-import '../../../../data/data.dart';
-import '../../../../data/data.dart';
 import '../../../CartScreen/API/decriment_cart_item.dart';
 import '../../../CartScreen/API/increment_cart_item_count.dart';
-import '../../../OrdersScreen/Model/order.dart';
 import '../../Model/ProductsByStoreUuid.dart';
 import 'Item.dart';
 

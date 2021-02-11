@@ -1,7 +1,7 @@
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/my_addresses_model.dart';
 
-import 'CreateOrderModel.dart';
+import 'RefreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -9,7 +9,7 @@ class RecommendationAddress {
   static Future<List<RecommendationAddressModel>> getRecommendations(String destination) async{
     List<RecommendationAddressModel> addressesList;
     // Обновляем токен
-    await CreateOrder.sendRefreshToken();
+    await RefreshToken.sendRefreshToken();
     // Получаем данные с сервера
     var url = 'https://client.apis.stage.faem.pro/api/v2/addresses/recommended/$destination';
     var response = await http.get(url, headers: <String, String>{
@@ -40,7 +40,7 @@ class RecommendationAddress {
 
 class RecommendationAddressModel {
   static const List<String> MyAddressesTags = ["work","house","study", null];
-  FavouriteAddress address;
+  DestinationPoints address;
   String name;
   String tag;
 
@@ -60,7 +60,7 @@ class RecommendationAddressModel {
     return RecommendationAddressModel(
         name: parsedJson["name"],
         tag: parsedJson["tag"],
-        address: FavouriteAddress.fromJson(parsedJson["address"])
+        address: DestinationPoints.fromJson(parsedJson["address"])
     );
   }
 }

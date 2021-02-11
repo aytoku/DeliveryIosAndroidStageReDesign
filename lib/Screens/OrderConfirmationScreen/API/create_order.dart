@@ -3,11 +3,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import '../../../data/data.dart';
-import '../../../models/CreateOrderModel.dart';
+import '../../../models/RefreshToken.dart';
 
 
 Future<CartModel> createOrder(String order_uuid) async {
-  await CreateOrder.sendRefreshToken();
+  await RefreshToken.sendRefreshToken();
   CartModel cartModel = null;
   var url = 'http://78.110.156.74:3003/api/v3/orders/${order_uuid}';
   var response = await http.put(url, headers: <String, String>{

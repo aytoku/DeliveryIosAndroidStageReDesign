@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/ResponseData.dart';
+import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DestinationPointsSelector extends StatefulWidget {

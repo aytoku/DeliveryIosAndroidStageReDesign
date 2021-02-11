@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class InitialAddressModel{
   InitialAddressModel({
+    this.uuid,
     this.unrestrictedValue,
     this.value,
     this.country,
@@ -23,6 +24,7 @@ class InitialAddressModel{
   });
 
   String unrestrictedValue;
+  String uuid;
   String value;
   String country;
   String region;
@@ -45,6 +47,7 @@ class InitialAddressModel{
   factory InitialAddressModel.fromJson(Map<String, dynamic> json) => InitialAddressModel(
       unrestrictedValue: json["unrestricted_value"],
       value: json["value"],
+      uuid: json["uuid"],
       country: json["country"],
       region: json["region"],
       regionType: json["region_type"],
@@ -65,6 +68,7 @@ class InitialAddressModel{
   Map<String, dynamic> toJson() => {
     "unrestricted_value": unrestrictedValue,
     "value": value,
+    "uuid": uuid,
     "country": country,
     "region": region,
     "region_type": regionType,

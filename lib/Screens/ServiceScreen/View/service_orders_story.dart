@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
-import 'package:flutter_app/Screens/OrdersScreen/API/orders_story_data.dart';
-import 'package:flutter_app/Screens/OrdersScreen/Model/OrderStoryModel.dart';
+import 'package:flutter_app/Screens/OrdersScreen/API/getClientStoryOrders.dart';
+import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/Model/TicketModel.dart';
 import 'package:flutter_app/data/data.dart';
@@ -24,12 +24,12 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
   int page = 1;
   int limit = 12;
   bool isLoading = true;
-  List<OrdersStoryModelItem> records_items = new List<OrdersStoryModelItem>();
+  List<OrderDetailsModelItem> records_items = new List<OrderDetailsModelItem>();
   final TicketModel ticketModel;
 
   ServiceOrdersStoryScreenState({this.ticketModel});
 
-  Widget column(OrdersStoryModelItem ordersStoryModelItem) {
+  Widget column(OrderDetailsModelItem ordersStoryModelItem) {
     var format = new DateFormat('  HH:mm    dd.MM.yyyy');
     return Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 15, bottom: 10, top: 10),
@@ -56,11 +56,11 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(ordersStoryModelItem.productsData.store.name,
+                      Text(ordersStoryModelItem.storeData.name,
                           textAlign: TextAlign.start,
                           style: TextStyle(fontSize: 18, color: Color(0xFF000000))),
                       Text(
-                        '${ordersStoryModelItem.tariff.totalPrice + ordersStoryModelItem.tariff.productsPrice - ordersStoryModelItem.tariff.bonusPayment} \₽',
+                        '${ordersStoryModelItem.totalPrice} \₽',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
@@ -78,19 +78,19 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(right: 5.0),
+                              padding: const EdgeInsets.only(bottom: 2.0),
                               child: SvgPicture.asset('assets/svg_images/clock.svg'),
                             ),
                             Text(
-                              format.format(DateTime.fromMillisecondsSinceEpoch( ordersStoryModelItem.createdAtUnix * 1000)),
+                              format.format(ordersStoryModelItem.createdAt),
                               style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                             ),
                           ],
                         ),
                       ),
-                      Row(
+                      (ordersStoryModelItem.state == "finish") ? Row(
                         children: [
-                          Text((ordersStoryModelItem.stateTitle = "Завершен") != null ? 'Доставлен' : '',
+                          Text('Доставлен',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14
@@ -101,6 +101,13 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                             child: SvgPicture.asset('assets/svg_images/delivered.svg'),
                           )
                         ],
+                      ) : Container(
+                        child: Text(ordersStoryModelItem.state,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -117,35 +124,29 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
     int i = 0;
     if(records_items == null){
       return Container();
+    }else{
+      records_items.forEach((OrderDetailsModelItem ordersStoryModelItem) {
+        if(ordersStoryModelItem.items!= null && ordersStoryModelItem.items.length > 0){
+          restaurantList.add(
+            InkWell(
+                child: column(ordersStoryModelItem),
+                onTap: () async {
+                  if (await Internet.checkConnection()) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) {
+                        return CostErrorScreen(ticketModel: ticketModel,);
+                      }),
+                    );
+                  } else {
+                    noConnection(context);
+                  }
+                }),
+          );
+        }
+        i++;
+      });
     }
-    records_items.forEach((OrdersStoryModelItem ordersStoryModelItem) {
-      var format = new DateFormat('HH:mm, dd-MM-yy');
-      var date = new DateTime.fromMicrosecondsSinceEpoch(
-          ordersStoryModelItem.createdAtUnix * 1000);
-      var time = '';
-      time = format.format(date);
-      if(ordersStoryModelItem.productsData.products != null && ordersStoryModelItem.productsData.products.length > 0){
-        restaurantList.add(
-          InkWell(
-              child: column(ordersStoryModelItem),
-              onTap: () async {
-                if (await Internet.checkConnection()) {
-                  ticketModel.uuid = ordersStoryModelItem.uuid;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) {
-                      return CostErrorScreen(ticketModel: ticketModel);
-                    }),
-                  );
-                } else {
-                  noConnection(context);
-                }
-              }),
-        );
-      }
-      i++;
-    });
-
     return Column(children: restaurantList);
   }
 
@@ -208,14 +209,14 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                         color: Color(0xFFB9B9B9))),
               ),
             ),
-            FutureBuilder<OrdersStoryModel>(
-                future: loadOrdersStoryModel(),
+            FutureBuilder<OrderDetailsModel>(
+                future: getClientStoryOrders(),
                 initialData: null,
                 builder: (BuildContext context,
-                    AsyncSnapshot<OrdersStoryModel> snapshot) {
+                    AsyncSnapshot<OrderDetailsModel> snapshot) {
                   print(snapshot.connectionState);
                   if (snapshot.hasData) {
-                    records_items = snapshot.data.ordersStoryModelItems;
+                    records_items = snapshot.data.orderDetailsModelItem;
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.8,
                       child: Column(

@@ -30,7 +30,7 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
   void initState() {
     if(myFavouriteAddressList.length > 0){
       myFavouriteAddressesModel = myFavouriteAddressList[0];
-      if(myFavouriteAddressList.last.address != null && myFavouriteAddressList.last.tag == null){
+      if(myFavouriteAddressList.last.address != null && myFavouriteAddressList.last.type == null){
         myFavouriteAddressesModel = myFavouriteAddressList.last;
         notFavouriteAddressController.text = myFavouriteAddressList.last.address.street + ' ' +
             myFavouriteAddressList.last.address.house;
@@ -42,7 +42,7 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
   Widget build(BuildContext context) {
     List<Widget> widgetsList = new List<Widget>();
     myFavouriteAddressList.forEach((element) {
-      if(element.tag == null) {
+      if(element.type == null) {
         widgetsList.add(Container()
         );
       } else {

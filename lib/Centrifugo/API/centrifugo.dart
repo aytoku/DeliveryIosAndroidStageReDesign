@@ -1,11 +1,11 @@
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/CreateOrderModel.dart';
+import 'package:flutter_app/models/RefreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 
 Future<String> getCentrifugoToken() async {
-  await CreateOrder.sendRefreshToken();
+  await RefreshToken.sendRefreshToken();
   var url = 'https://notifier.apis.stage.faem.pro/api/v2/connectiontoken';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',

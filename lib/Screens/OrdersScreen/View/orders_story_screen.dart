@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/getClientStoryOrders.dart';
-import 'package:flutter_app/Screens/OrdersScreen/API/orders_story_data.dart';
-import 'package:flutter_app/Screens/OrdersScreen/Model/OrderStoryModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

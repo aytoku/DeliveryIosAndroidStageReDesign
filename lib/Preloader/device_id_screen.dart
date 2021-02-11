@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/CartDataModel.dart';
 
 import '../Amplitude/amplitude.dart';
 import '../Screens/HomeScreen/View/home_screen.dart';

@@ -95,7 +95,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
                       child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
                     ),
                     AutoCompleteField(autoCompleteFieldKey, onSelected: (){
-                      myAddressesModel.address = FavouriteAddress.fromInitialAddressModelChild(autoCompleteFieldKey.currentState.selectedValue);
+                      myAddressesModel.address = DestinationPoints.fromInitialAddressModelChild(autoCompleteFieldKey.currentState.selectedValue);
                       return;
                     }, initialValue: (myAddressesModel.address == null) ? '' : myAddressesModel.address.unrestrictedValue,)
                   ],

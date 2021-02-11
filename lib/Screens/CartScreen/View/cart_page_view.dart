@@ -13,11 +13,8 @@ import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
-import 'package:flutter_app/Screens/OrdersScreen/Model/order.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/ResponseData.dart';
-import 'package:flutter_app/models/RestaurantDataItems.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:io' show Platform;
 

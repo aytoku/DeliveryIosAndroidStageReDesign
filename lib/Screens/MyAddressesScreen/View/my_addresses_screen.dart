@@ -85,11 +85,11 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
 
                   if (addressScreenButton) {
                     myAddressesModelList
-                        .add(new MyFavouriteAddressesModel(tag: MyFavouriteAddressesModel.MyAddressesTags[0]));
+                        .add(new MyFavouriteAddressesModel(type: MyFavouriteAddressesModel.MyAddressesTags[0]));
                     myAddressesModelList
-                        .add(new MyFavouriteAddressesModel(tag: MyFavouriteAddressesModel.MyAddressesTags[1]));
+                        .add(new MyFavouriteAddressesModel(type: MyFavouriteAddressesModel.MyAddressesTags[1]));
                     myAddressesModelList
-                        .add(new MyFavouriteAddressesModel(tag: MyFavouriteAddressesModel.MyAddressesTags[2]));
+                        .add(new MyFavouriteAddressesModel(type: MyFavouriteAddressesModel.MyAddressesTags[2]));
                     addressScreenButton = false;
                   }
                   if(myAddressesModelList.isEmpty){
@@ -132,8 +132,8 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                                             padding:
                                                             EdgeInsets.only(left: 20),
                                                             child: Text(
-                                                              (myAddressesModelList[index].tag == MyFavouriteAddressesModel.MyAddressesTags[0]) ?
-                                                              "Добавить адрес работы" : ((myAddressesModelList[index].tag == MyFavouriteAddressesModel.MyAddressesTags[1]) ?
+                                                              (myAddressesModelList[index].type == MyFavouriteAddressesModel.MyAddressesTags[0]) ?
+                                                              "Добавить адрес работы" : ((myAddressesModelList[index].type == MyFavouriteAddressesModel.MyAddressesTags[1]) ?
                                                               "Добавить адрес дома" : "Добавить адрес"),
                                                               style: TextStyle(
                                                                   fontSize: 16,
@@ -193,8 +193,8 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                                 child: Column(
                                                   children: [
                                                     //(myAddressesModelList[index].tag = "Дом") != null ? SvgPicture.asset('assets/svg_images/home_my_addresses.svg') : SvgPicture.asset('assets/svg_images/star_my_addresses.svg'),
-                                                    (myAddressesModelList[index].tag == MyFavouriteAddressesModel.MyAddressesTags[0]) ?
-                                                    SvgPicture.asset('assets/svg_images/work.svg') : ((myAddressesModelList[index].tag == MyFavouriteAddressesModel.MyAddressesTags[1]) ?
+                                                    (myAddressesModelList[index].type == MyFavouriteAddressesModel.MyAddressesTags[0]) ?
+                                                    SvgPicture.asset('assets/svg_images/work.svg') : ((myAddressesModelList[index].type == MyFavouriteAddressesModel.MyAddressesTags[1]) ?
                                                     SvgPicture.asset('assets/svg_images/home_my_addresses.svg') : SvgPicture.asset('assets/svg_images/star_my_addresses.svg')),
                                                     Text(
                                                       (myAddressesModelList[index].name != " ") ?
@@ -268,9 +268,6 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                                                         ),
                                                                         onTap: () async {
                                                                           await myAddressesModelList[index].delete();
-                                                                          setState((){
-
-                                                                          });
                                                                           Navigator.pushReplacement(
                                                                             context,
                                                                             new MaterialPageRoute(
@@ -332,9 +329,6 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                                                   ),
                                                                   onTap: () async {
                                                                     await myAddressesModelList[index].delete();
-                                                                    setState((){
-
-                                                                    });
                                                                     Navigator.pushReplacement(
                                                                       context,
                                                                       new MaterialPageRoute(

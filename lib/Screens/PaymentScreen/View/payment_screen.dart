@@ -4,7 +4,6 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/last_addresses_model.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PaymentScreen extends StatefulWidget {

@@ -10,7 +10,6 @@ import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/tickets_chat_screen.dart';
-import 'package:flutter_app/models/RestaurantDataItems.dart';
 import 'package:flutter_app/models/user.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:convert' as convert;
@@ -22,7 +21,6 @@ GlobalKey<HomeScreenState>homeScreenKey = new GlobalKey<HomeScreenState>(debugLa
 var home  = new MaterialPageRoute(
   builder: (context) => new HomeScreen(),
 );
-RestaurantDataItems restaurantDataItems = null;
 GlobalKey<ChatScreenState>chatKey = new GlobalKey<ChatScreenState>();
 AuthCodeData authCodeData = null;
 AuthData authData = null;
@@ -71,8 +69,6 @@ var DeliveryStates = [
 final currentUser = User(
   cartModel: null,
   name: '',
-  orders: [
-  ],
 );
 //checking on internet connection
 noConnection(BuildContext context) {

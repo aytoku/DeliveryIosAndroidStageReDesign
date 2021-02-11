@@ -1,14 +1,14 @@
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/CreateOrderModel.dart';
+import 'package:flutter_app/models/RefreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 
 
 Future<OrderDetailsModel> getClientStoryOrders() async {
-  await CreateOrder.sendRefreshToken();
+  await RefreshToken.sendRefreshToken();
   OrderDetailsModel ordersDetails = null;
   var url = 'http://78.110.156.74:3003/api/v3/orders/clients/story';
   var response = await http.get(url, headers: <String, String>{

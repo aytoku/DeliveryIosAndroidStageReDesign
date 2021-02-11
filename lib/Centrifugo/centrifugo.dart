@@ -6,7 +6,6 @@ import 'API/centrifugo.dart';
 import 'package:flutter_app/Screens/ChatScreen/Model/ChatHistoryModel.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';
 import 'package:flutter_app/Screens/CompletedOrderScreen/View/completed_order_screen.dart';
-import 'package:flutter_app/Screens/OrdersScreen/API/getOrder.dart';
 import 'package:flutter_app/data/data.dart';
 import 'dart:convert' as convert;
 

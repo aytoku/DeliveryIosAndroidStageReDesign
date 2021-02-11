@@ -1,5 +1,5 @@
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/CreateOrderModel.dart';
+import 'package:flutter_app/models/RefreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -7,7 +7,7 @@ import '../../CityScreen/Model/StoreCategoriesByCItyUuid.dart';
 
 
 Future<StoreCategoriesByCItyUuid> getCategoriesByCityUuid() async {
-  await CreateOrder.sendRefreshToken();
+  await RefreshToken.sendRefreshToken();
   StoreCategoriesByCItyUuid storeCategoriesByCityUuid = null;
   var url = 'http://78.110.156.74:3003/api/v3/stores/categories';
   var response = await http.get(url, headers: <String, String>{

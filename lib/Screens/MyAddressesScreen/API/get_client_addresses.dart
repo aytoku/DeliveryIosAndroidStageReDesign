@@ -1,13 +1,13 @@
 
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/CreateOrderModel.dart';
+import 'package:flutter_app/models/RefreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 
 Future<AddressesModelData> getClientAddress() async {
-  await CreateOrder.sendRefreshToken();
+  await RefreshToken.sendRefreshToken();
   AddressesModelData addressModel = null;
   var url = 'http://78.110.156.74:3003/api/v3/clients/addresses';
   var response = await http.get(url, headers: <String, String>{
