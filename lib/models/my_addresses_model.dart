@@ -118,6 +118,8 @@ class MyFavouriteAddressesModel{
       print('Request failed with status: ${response.statusCode}.');
     }
 
+
+
     addressesList = new List<MyFavouriteAddressesModel>();
     // Если что-то пошло не так, возвращаем пустой список
     if(jsonResponse == null)

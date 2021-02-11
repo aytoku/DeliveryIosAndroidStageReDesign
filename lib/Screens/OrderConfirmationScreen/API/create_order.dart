@@ -6,7 +6,7 @@ import '../../../data/data.dart';
 import '../../../models/CreateOrderModel.dart';
 
 
-Future<void> createOrder(String order_uuid) async {
+Future<CartModel> createOrder(String order_uuid) async {
   await CreateOrder.sendRefreshToken();
   CartModel cartModel = null;
   var url = 'http://78.110.156.74:3003/api/v3/orders/${order_uuid}';
@@ -16,7 +16,7 @@ Future<void> createOrder(String order_uuid) async {
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
-    //cartModel = new CartModel.fromJson(jsonResponse);
+    cartModel = new CartModel.fromJson(jsonResponse);
   } else {
     print('Request failed with status: ${response.statusCode}. ');
   }

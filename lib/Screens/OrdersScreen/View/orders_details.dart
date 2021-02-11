@@ -3,6 +3,7 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/OrderCancel.dart';
+import 'package:flutter_app/Screens/OrdersScreen/API/cancel_order.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -767,12 +768,12 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           )),
                       onTap: () async {
                         if (await Internet.checkConnection()) {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (_) {
-                          //     return OrderRejectScreen(ordersStoryModelItem: ordersDetailsModelItem,);
-                          //   }),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) {
+                              return OrderRejectScreen(ordersStoryModelItem: ordersDetailsModelItem,);
+                            }),
+                          );
                         } else {
                           noConnection(context);
                         }
@@ -1072,7 +1073,7 @@ class OrderRejectScreenState extends State<OrderRejectScreen> {
                     onTap: () async {
                       if (await Internet.checkConnection()) {
                         showAlertDialog(context);
-                        await loadOrderCancel(ordersStoryModelItem.uuid);
+                        await cancelOrder(ordersStoryModelItem.uuid);
                         homeScreenKey = new GlobalKey();
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(

@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/CityScreen/API/getStreet.dart';
+import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/InitialAddressModel.dart';
 import 'package:flutter_app/models/RecommendationAddressModel.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -112,12 +114,12 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
       if (searchText.length > 0) {
         // то получаем релеватные подсказки с сервера
         necessaryAddressDataItems =
-            (await loadNecessaryAddressData(searchText)).destinationPoints;
+            (await getStreet(searchText, selectedCity.uuid)).destinationPoints;
       } else {
         // иначе получаем список рекомендаций для заполнения с того же сервера
-        List<RecommendationAddressModel> temp = await RecommendationAddress.getRecommendations("target");
-        // который загоняем в подсказски автокомплита
-        necessaryAddressDataItems = temp.map<InitialAddressModel>((item) => item.address).toList();
+        // List<RecommendationAddressModel> temp = await RecommendationAddress.getRecommendations("target");
+        // // который загоняем в подсказски автокомплита
+        // necessaryAddressDataItems = temp.map<InitialAddressModel>((item) => item.address).toList();
       }
     }
     catch (e) {
@@ -220,6 +222,7 @@ class AutocompleteListState extends State<AutocompleteList> {
               return suggestionRow();
             }
           }
+          return Container();
           return Padding(
             padding: const EdgeInsets.only(top: 50),
             child: Center(

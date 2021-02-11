@@ -7,22 +7,22 @@ import 'dart:convert' as convert;
 
 
 
-Future<void> cancelOrder(String order_uuid) async {
+Future<CartModel> cancelOrder(String order_uuid) async {
   await CreateOrder.sendRefreshToken();
-  OrderDetailsModel ordersDetails = null;
-  var url = 'http://78.110.156.74:3003/api/v3/orders/${order_uuid}/cancel';
-  var response = await http.get(url, headers: <String, String>{
+  CartModel cartModel = null;
+  var url = 'http://78.110.156.74:3002/api/v3/orders/$order_uuid/cancel';
+  var response = await http.put(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization':'Bearer ' + authCodeData.token
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
     if(jsonResponse != null){
-    //  ordersDetails = new OrderDetailsModel.fromJson(jsonResponse);
+      cartModel  = new CartModel.fromJson(jsonResponse);
     }
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
   print(response.body + 'vah');
-  return ordersDetails;
+  return cartModel;
 }
