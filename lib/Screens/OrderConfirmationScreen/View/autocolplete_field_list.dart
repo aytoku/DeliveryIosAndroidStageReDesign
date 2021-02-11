@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CityScreen/API/getStreet.dart';
+import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/InitialAddressModel.dart';
-import 'package:flutter_app/models/RecommendationAddressModel.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

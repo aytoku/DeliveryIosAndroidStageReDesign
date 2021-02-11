@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
+import 'package:flutter_app/data/RefreshToken.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/RefreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-import '../../../models/my_addresses_model.dart';
+import '../Model/my_addresses_model.dart';
 
 
 Future<AddressesModelData> addAddress(String type, bool favorite, DestinationPoints point) async {

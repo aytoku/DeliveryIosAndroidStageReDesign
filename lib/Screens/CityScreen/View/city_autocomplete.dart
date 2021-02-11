@@ -7,7 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../Config/config.dart';
-import '../../../models/NecessaryAddressModel.dart';
+import '../../MyAddressesScreen/Model/NecessaryAddressModel.dart';
 import 'city_screen.dart';
 
 class CityAutocomplete extends StatefulWidget {

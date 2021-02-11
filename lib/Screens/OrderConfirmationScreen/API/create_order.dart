@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import '../../../data/data.dart';
-import '../../../models/RefreshToken.dart';
+import '../../../data/RefreshToken.dart';
 
 
 Future<CartModel> createOrder(String order_uuid) async {

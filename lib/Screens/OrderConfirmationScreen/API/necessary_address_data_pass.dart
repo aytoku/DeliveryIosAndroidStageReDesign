@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter_app/models/NecessaryAddressModel.dart';
+import 'package:flutter_app/Screens/MyAddressesScreen/Model/NecessaryAddressModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 

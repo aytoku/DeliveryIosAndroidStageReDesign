@@ -10,7 +10,7 @@ import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/tickets_chat_screen.dart';
-import 'package:flutter_app/models/user.dart';
+import 'package:flutter_app/data/user.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:convert' as convert;
 

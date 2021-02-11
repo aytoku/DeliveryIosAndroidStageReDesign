@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'package:flutter_app/models/InitialAddressModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import '../Amplitude/amplitude.dart';
 import '../Config/config.dart';
 import '../Screens/OrderConfirmationScreen/API/necessary_address_data_pass.dart';
-import '../data/data.dart';
+import 'data.dart';
 import '../Screens/CodeScreen/Model/AuthCode.dart';
 
 class RefreshToken {

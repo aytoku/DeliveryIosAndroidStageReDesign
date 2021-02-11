@@ -2,12 +2,8 @@ import 'package:flutter_app/Screens/MyAddressesScreen/API/add_address.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/API/delete_address_by_uuid.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/API/get_client_addresses.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
-import 'package:flutter_app/models/InitialAddressModel.dart';
-import 'package:flutter_app/models/RecommendationAddressModel.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
-import '../data/data.dart';
-import 'RefreshToken.dart';
+import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.dart';
+import '../../../data/RefreshToken.dart';
 
 class MyFavouriteAddressesModel{
   // Список возможных тегов
@@ -73,12 +69,8 @@ class MyFavouriteAddressesModel{
     if(addressesModelData == null || addressesModelData.addressModelList == null)
       return addressesList;
 
-
     // Иначе возвращаем заполненный
-    addressesModelData.addressModelList.forEach((element) {
-      addressesList.add(MyFavouriteAddressesModel.fromAddressesModel(element));
-    });
-
+    addressesList = addressesModelData.addressModelList;
     return addressesList;
   }
 
@@ -98,26 +90,17 @@ class MyFavouriteAddressesModel{
     "address": address.toJson(),
   };
 
-  factory MyFavouriteAddressesModel.fromAddressesModel(AddressesModel addressesModelData){
-    return MyFavouriteAddressesModel(
-      address:  addressesModelData.point,
-      uuid: addressesModelData.uuid,
-      name: '',
-      type: addressesModelData.type,
-      favorite: addressesModelData.favorite,
-      description: '',
-      clientUuid: '',
-    );
-  }
 
   factory MyFavouriteAddressesModel.fromJson(Map<String, dynamic> parsedJson){
     return new MyFavouriteAddressesModel(
-      address:DestinationPoints.fromJson(parsedJson['address']),
+      address:DestinationPoints.fromJson(parsedJson['point']),
       uuid: parsedJson["uuid"],
-      name: parsedJson["name"],
-      description: parsedJson["description"],
-      type: parsedJson["tag"],
-      clientUuid: parsedJson["client_uuid"],
+      type: parsedJson["type"],
+      favorite: parsedJson["favorite"],
+
+      name: "",
+      description: "",
+      clientUuid: "",
     );
   }
 }

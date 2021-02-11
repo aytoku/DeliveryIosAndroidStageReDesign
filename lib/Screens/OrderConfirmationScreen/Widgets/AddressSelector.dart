@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/add_address_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddressSelector extends StatefulWidget {

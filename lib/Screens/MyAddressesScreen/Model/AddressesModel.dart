@@ -1,55 +1,23 @@
 import 'dart:convert';
 
-import '../../../models/my_addresses_model.dart';
+import 'my_addresses_model.dart';
 
-AddressesModel addressesModelFromJson(String str) => AddressesModel.fromJson(json.decode(str));
-
-String addressesModelToJson(AddressesModel data) => json.encode(data.toJson());
 
 class AddressesModelData{
-  List<AddressesModel> addressModelList;
+  List<MyFavouriteAddressesModel> addressModelList;
 
   AddressesModelData( {
     this.addressModelList,
   });
 
   factory AddressesModelData.fromJson(List<dynamic> parsedJson){
-    List<AddressesModel> storesList = null;
+    List<MyFavouriteAddressesModel> favouriteAddressList = null;
     if(parsedJson != null){
-      storesList = parsedJson.map((i) => AddressesModel.fromJson(i)).toList();
+      favouriteAddressList = parsedJson.map((i) => MyFavouriteAddressesModel.fromJson(i)).toList();
     }
 
     return AddressesModelData(
-      addressModelList:storesList,
+      addressModelList:favouriteAddressList,
     );
   }
-}
-
-
-class AddressesModel {
-  AddressesModel({
-    this.uuid,
-    this.type,
-    this.favorite,
-    this.point,
-  });
-
-  String uuid;
-  String type;
-  bool favorite;
-  DestinationPoints point;
-
-  factory AddressesModel.fromJson(Map<String, dynamic> json) => AddressesModel(
-    uuid: json["uuid"],
-    type: json["type"],
-    favorite: json["favorite"],
-    point: DestinationPoints.fromJson(json["point"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "uuid": uuid,
-    "type": type,
-    "favorite": favorite,
-    "point": point.toJson(),
-  };
 }

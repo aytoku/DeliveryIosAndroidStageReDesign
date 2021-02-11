@@ -8,12 +8,6 @@ import 'dart:convert' as convert;
 
 import '../Centrifugo/centrifugo.dart';
 import '../Screens/CityScreen/Model/FilteredCities.dart';
-import '../Screens/CityScreen/Model/FilteredCities.dart';
-import '../Screens/CityScreen/Model/FilteredCities.dart';
-import '../Screens/CityScreen/Model/FilteredCities.dart';
-import '../Screens/CityScreen/Model/FilteredCities.dart';
-import '../data/data.dart';
-import '../data/data.dart';
 import '../data/data.dart';
 
 class NecessaryDataForAuth{
