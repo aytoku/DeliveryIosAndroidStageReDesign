@@ -67,7 +67,8 @@ class ProductsByStoreUuid {
     weightMeasurement: json["weight_measurement"],
     openable: json["openable"],
     meta: ProductsDataModelMeta.fromJson(json["meta"]),
-    productCategories: List<ProductCategory>.from(json["product_categories"].map((x) => ProductCategory.fromJson(x))),
+    productCategories: (json["product_categories"] == null) ? null
+        : List<ProductCategory>.from(json["product_categories"].map((x) => ProductCategory.fromJson(x))),
     variantGroups: json["variant_groups"],
   );
 
@@ -103,7 +104,7 @@ class ProductsDataModelMeta {
 
   factory ProductsDataModelMeta.fromJson(Map<String, dynamic> json) => ProductsDataModelMeta(
     description: json["description"],
-    images: List<String>.from(json["images"].map((x) => x)),
+    images: (json["images"] == null) ? null : List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
   );
 
