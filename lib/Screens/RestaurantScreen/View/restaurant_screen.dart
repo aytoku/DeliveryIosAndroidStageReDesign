@@ -903,20 +903,23 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     if(isLoading)
       return false;
     isLoading = true;
-    // находим итем с данной категорией
-    MenuItemTitle targetCategory = menuWithTitles.firstWhere((element) => element is MenuItemTitle && element.title == restaurant.productCategoriesUuid[categoryIndex].name);
-    if(targetCategory != null){
-      while(targetCategory.key.currentContext == null) {
-        await sliverScrollController.animateTo(sliverScrollController.offset+200, duration: new Duration(milliseconds: 15),
-            curve: Curves.ease);
-      }
-      // джампаем к нему
+    try{
+      // находим итем с данной категорией
+      MenuItemTitle targetCategory = menuWithTitles.firstWhere((element) => element is MenuItemTitle && element.title == restaurant.productCategoriesUuid[categoryIndex].name);
+      if(targetCategory != null){
+        while(targetCategory.key.currentContext == null) {
+          await sliverScrollController.animateTo(sliverScrollController.offset+200, duration: new Duration(milliseconds: 15),
+              curve: Curves.ease);
+        }
+        // джампаем к нему
 
-      await Scrollable.ensureVisible(targetCategory.key.currentContext, duration: new Duration(milliseconds: 100),
-          curve: Curves.ease);
-      sliverScrollController.position.jumpTo(sliverScrollController.position.pixels-60);
+        await Scrollable.ensureVisible(targetCategory.key.currentContext, duration: new Duration(milliseconds: 100),
+            curve: Curves.ease);
+        sliverScrollController.position.jumpTo(sliverScrollController.position.pixels-60);
+      }
+    }finally{
+      isLoading = false;
     }
-    isLoading = false;
     return true;
   }
 }
