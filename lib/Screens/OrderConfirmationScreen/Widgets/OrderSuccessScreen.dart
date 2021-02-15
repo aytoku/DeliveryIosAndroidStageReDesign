@@ -42,7 +42,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                 alignment: Alignment.center,
                 child: Padding(
                   padding: EdgeInsets.only(top: 60),
-                  child: Text('Вы можете отследить его статус\nна главной странце!',
+                  child: Text('Вы можете отследить его статус\nна главной странице!',
                     style: TextStyle(
                         fontSize: 18
                     ),

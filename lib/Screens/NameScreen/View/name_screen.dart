@@ -6,16 +6,21 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:async';
 
+import '../../AuthScreen/View/auth_screen.dart';
+
 class NameScreen extends StatefulWidget {
-  NameScreen({Key key}) : super(key: key);
+  NameScreen({this.source = AuthSources.Drawer, Key key}) : super(key: key);
+  AuthSources source;
 
   @override
-  NameScreenState createState() => NameScreenState();
+  NameScreenState createState() => NameScreenState(source);
 }
 
 class NameScreenState extends State<NameScreen> {
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
   TextEditingController nameFieldController = new TextEditingController();
+  AuthSources source;
+  NameScreenState(this.source);
 
   @override
   void initState() {
@@ -127,6 +132,16 @@ class NameScreenState extends State<NameScreen> {
                                   currentUser.isLoggedIn = true;
                                   await NecessaryDataForAuth.saveData();
                                   print(necessaryDataForAuth.name);
+
+                                  if(source == AuthSources.Cart){
+                                    for(int i = 0; i<3;i++)
+                                      Navigator.pop(context);
+                                    setState(() {
+
+                                    });
+                                    return;
+                                  }
+
                                   homeScreenKey =
                                       new GlobalKey<HomeScreenState>();
                                   Navigator.of(context).pushAndRemoveUntil(
@@ -172,17 +187,19 @@ class ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return FlatButton(
-      child: Text('Далее',
-          style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.white)),
-      color: color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+    return GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text('Далее',
+            style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.white)),
+        padding: EdgeInsets.only(left: 130, top: 20, right: 130, bottom: 20),
       ),
-      padding: EdgeInsets.only(left: 130, top: 20, right: 130, bottom: 20),
-      onPressed: () async {
+      onTap: () async {
         await onTap();
       },
     );

@@ -568,7 +568,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     Image.network(
                       getImage((restaurant.meta.images != null
                             && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitHeight,
                       height: 230.0,
                       width: MediaQuery.of(context).size.width,
                     ),
@@ -662,7 +662,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                               Image.network(
                                 getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
                                 fit: BoxFit.cover,
-                                height: 230.0,
+                                height: 500.0,
                                 width: MediaQuery.of(context).size.width,
                               ),
                               Align(
@@ -714,7 +714,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                          padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                           child: Row(
                             children: [
                               Padding(
@@ -722,7 +722,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 child: Text(
                                   this.restaurant.name,
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 21,
                                       color: Color(0xFF3F3F3F)),
                                 ),
                               ),

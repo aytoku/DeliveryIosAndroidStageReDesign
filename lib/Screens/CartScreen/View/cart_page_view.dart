@@ -19,6 +19,8 @@ import 'package:flutter_svg/svg.dart';
 import 'dart:io' show Platform;
 
 import '../../../Amplitude/amplitude.dart';
+import '../../AuthScreen/View/auth_screen.dart';
+import '../../RestaurantScreen/View/restaurant_screen.dart';
 import 'cart_screen.dart';
 import 'empty_cart_screen.dart';
 
@@ -105,7 +107,11 @@ class CartPageState extends State<CartPageScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                      InkWell(
-                         onTap: () => Navigator.pop(context),
+                         onTap: () => Navigator.push(context,
+                            MaterialPageRoute(builder:
+                              (context)=> RestaurantScreen(restaurant: restaurant,)
+                            )
+                         ),
                          child: Container(
                              height: 40,
                              width: 60,
@@ -312,7 +318,11 @@ class CartPageState extends State<CartPageScreen> {
                         ),
                         onTap: () async {
                           if (await Internet.checkConnection()) {
-                            _controller.jumpToPage(0);
+                            _controller.animateToPage(
+                              0,
+                              duration: const Duration(milliseconds: 400),
+                              curve: Curves.easeInOut,
+                            );
                           } else {
                             noConnection(context);
                           }
@@ -345,7 +355,11 @@ class CartPageState extends State<CartPageScreen> {
                         ),
                         onTap: () async {
                           if (await Internet.checkConnection()) {
-                            _controller.jumpToPage(1);
+                            _controller.animateToPage(
+                              1,
+                              duration: const Duration(milliseconds: 400),
+                              curve: Curves.easeIn,
+                            );
                           } else {
                             noConnection(context);
                           }
@@ -404,18 +418,20 @@ class CartPageState extends State<CartPageScreen> {
                             ],
                           ),
                         ),
-                        FlatButton(
-                          child: Text('Далее',
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.white)),
-                          color: Color(0xFF09B44D),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                        GestureDetector(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFF09B44D),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text('Далее',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.white)),
+                            padding: EdgeInsets.only(
+                                left: 70, top: 20, right: 70, bottom: 20),
                           ),
-                          padding: EdgeInsets.only(
-                              left: 70, top: 20, right: 70, bottom: 20),
-                          onPressed: () async {
+                          onTap: () async {
                             if (await Internet.checkConnection()) {
                               if (currentUser.isLoggedIn) {
                                 if(selectedPageId == 0){
@@ -459,7 +475,7 @@ class CartPageState extends State<CartPageScreen> {
                                 Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                      builder: (context) => new AuthScreen()),
+                                      builder: (context) => new AuthScreen(source: AuthSources.Cart,)),
                                 );
                               }
                             } else {

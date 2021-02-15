@@ -17,15 +17,18 @@ import '../../../Amplitude/amplitude.dart';
 import '../../../Centrifugo/centrifugo.dart';
 import '../../../data/data.dart';
 import '../../../data/data.dart';
+import '../../AuthScreen/View/auth_screen.dart';
 
 class CodeScreen extends StatefulWidget {
-  CodeScreen({Key key}) : super(key: key);
+  AuthSources source;
+  CodeScreen({this.source = AuthSources.Drawer, Key key}) : super(key: key);
 
   @override
-  _CodeScreenState createState() => _CodeScreenState();
+  _CodeScreenState createState() => _CodeScreenState(source);
 }
 
 class _CodeScreenState extends State<CodeScreen> {
+  AuthSources source;
   TextField code1;
   TextField code2;
   TextField code3;
@@ -40,6 +43,7 @@ class _CodeScreenState extends State<CodeScreen> {
   String temp3 = '';
   String temp4 = '';
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
+  _CodeScreenState(this.source);
 
   void buttonColor() {
     String code = code1.controller.text +
@@ -382,11 +386,18 @@ class _CodeScreenState extends State<CodeScreen> {
                                   context,
                                   new MaterialPageRoute(
                                     builder: (context) =>
-                                    new NameScreen(),
+                                    new NameScreen(source: source,),
                                   ),
                                 );
                               }
                               else{
+                                currentUser.isLoggedIn = true;
+                                if(source == AuthSources.Cart){
+                                  for(int i = 0; i<2;i++)
+                                    Navigator.pop(context);
+
+                                  return;
+                                }
                                 homeScreenKey =
                                 new GlobalKey<HomeScreenState>();
                                 currentUser.isLoggedIn = true;
@@ -515,18 +526,19 @@ class ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return FlatButton(
-      child: Text('Далее',
-          style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.white)),
-      color: color,
-      splashColor: Colors.grey,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+    return GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text('Далее',
+            style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.white)),
+        padding: EdgeInsets.only(left: 130, top: 20, right: 130, bottom: 20),
       ),
-      padding: EdgeInsets.only(left: 130, top: 20, right: 130, bottom: 20),
-      onPressed: () async {
+      onTap: () async {
         if (await Internet.checkConnection()) {
           await onTap();
         } else {

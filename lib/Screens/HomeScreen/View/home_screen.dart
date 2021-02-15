@@ -441,11 +441,16 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                        child: Row(
                          children: [
                            Padding(
-                             padding: EdgeInsets.only(left: 8, top: 0),
+                             padding: EdgeInsets.only(left: 0, top: 0),
                              child: InkWell(
-                               child: SvgPicture.asset(
-                                 'assets/svg_images/home_menu.svg',
-                                 color: Colors.black,
+                               child: Container(
+                                 height: 40,
+                                 width: 40,
+                                 padding: EdgeInsets.all(5),
+                                 child: SvgPicture.asset(
+                                   'assets/svg_images/home_menu.svg',
+                                   color: Colors.black,
+                                 ),
                                ),
                                onTap: () {
                                  _scaffoldKey.currentState.openDrawer();
@@ -516,11 +521,16 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                       child: Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 8, top: 0),
+                            padding: EdgeInsets.only(left: 0, top: 0),
                             child: InkWell(
-                              child: SvgPicture.asset(
-                                'assets/svg_images/home_menu.svg',
-                                color: Colors.black,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                padding: EdgeInsets.all(5),
+                                child: SvgPicture.asset(
+                                  'assets/svg_images/home_menu.svg',
+                                  color: Colors.black,
+                                ),
                               ),
                               onTap: () {
                                 _scaffoldKey.currentState.openDrawer();

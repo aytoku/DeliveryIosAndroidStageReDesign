@@ -66,58 +66,60 @@ class CartButtonState extends State<CartButton> {
             // ),
             Padding(
               padding: EdgeInsets.all(10),
-              child: FlatButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(
-                        flex: 1,
-                        child: Container(
+              child: GestureDetector(
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Flexible(
+                          flex: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFF09B44D),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                (currentUser.cartModel.cookingTime != null)? '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          )),
+                      Flexible(
+                          flex: 1,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              right: 15,
+                            ),
+                            child: Text('Корзина',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.white)),
+                          )),
+                      Container(
                           decoration: BoxDecoration(
                             color: Color(0xFF09B44D),
                             borderRadius: BorderRadius.all(Radius.circular(5)),
                           ),
                           child: Padding(
                             padding: EdgeInsets.all(10),
-                            child: Text(
-                              (currentUser.cartModel.cookingTime != null)? '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.white,
-                              ),
+                            child: new CartButtonCounter(
+                              key: buttonCounterKey,
                             ),
-                          ),
-                        )),
-                    Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            right: 15,
-                          ),
-                          child: Text('Корзина',
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.white)),
-                        )),
-                    Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFF09B44D),
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: new CartButtonCounter(
-                            key: buttonCounterKey,
-                          ),
-                        ))
-                  ],
+                          ))
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF09B44D),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
                 ),
-                color: Color(0xFF09B44D),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
-                onPressed: () async {
+                onTap: () async {
                   if (await Internet.checkConnection()) {
                     if (currentUser.cartModel.items.length == 0) {
                       Navigator.of(context).push(

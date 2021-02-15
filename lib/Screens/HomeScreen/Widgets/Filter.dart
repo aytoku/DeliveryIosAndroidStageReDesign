@@ -265,68 +265,80 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
         //     }
         //   },
         // ),
-        GestureDetector(
-          child: Padding(
-              padding:
-              EdgeInsets.only(left: 10, right: 5,),
-              child: Stack(
-                children: [
-                  Container(
-                    height: 45,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: (!selectedCategoryFromHomeScreen && categoryUuid.length > 0) ? Color(0xFF09B44D) : Color(0xFFF6F6F6)),
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Кухни",
-                                style: TextStyle(
-                                    color: (!selectedCategoryFromHomeScreen && categoryUuid.length > 0) ? Colors.white: Color(0xFF424242),
-                                    fontSize: 15),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: SvgPicture.asset('assets/svg_images/arrow_down',
-                                  color: (!selectedCategoryFromHomeScreen && categoryUuid.length > 0) ? Colors.white: Colors.black,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                    ),
-                  ),
-                  (categoryUuid.length != 0 && !selectedCategoryFromHomeScreen) ? Padding(
-                    padding: const EdgeInsets.only(left: 70, bottom: 20),
-                    child: Container(
-                        width: 23,
-                        height: 23,
-                        padding: EdgeInsets.all(5),
+        Container(
+          child: Stack(
+            children: [
+              GestureDetector(
+                child: Padding(
+                    padding:
+                    EdgeInsets.only(left: 20, right: 5,),
+                    child: Center(
+                      child: Container(
+                        height: 45,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: (!selectedCategoryFromHomeScreen && categoryUuid.length > 0) ? Color(0xFF09B44D) : Color(0xFFF6F6F6)),
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 15, right: 15),
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Кухни",
+                                    style: TextStyle(
+                                        color: (!selectedCategoryFromHomeScreen && categoryUuid.length > 0) ? Colors.white: Color(0xFF424242),
+                                        fontSize: 15),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: SvgPicture.asset('assets/svg_images/arrow_down',
+                                      color: (!selectedCategoryFromHomeScreen && categoryUuid.length > 0) ? Colors.white: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
                         ),
-                        child: Center(
-                          child: Text('${categoryUuid.length}',
-                            style: TextStyle(
-                                fontSize: 14
-                            ),
-                          ),
-                        )
+                      ),
                     ),
-                  ): Container()
-                ],
-              )),
-          onTap: () async {
-            if (await Internet.checkConnection()) {
-              _kitchensFilter(categories);
-            } else {
-              noConnection(context);
-            }
-          },
+                ),
+                onTap: () async {
+                  if (await Internet.checkConnection()) {
+                    _kitchensFilter(categories);
+                  } else {
+                    noConnection(context);
+                  }
+                },
+              ),
+              (categoryUuid.length != 0 && !selectedCategoryFromHomeScreen) ? Padding(
+                padding: const EdgeInsets.only(left: 95, bottom: 25),
+                child: Container(
+                    width: 23,
+                    height: 23,
+                    padding: EdgeInsets.all(0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 2.0, // soften the shadow
+                            spreadRadius: 1.0, //extend the shadow
+                          )
+                        ],
+                    ),
+                    child: Center(
+                      child: Text('${categoryUuid.length}',
+                        style: TextStyle(
+                            fontSize: 14
+                        ),
+                      ),
+                    )
+                ),
+              ): Container()
+            ],
+          ),
         ),
       ],
     ));
@@ -334,7 +346,9 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
       result.add(GestureDetector(
         child: Padding(
             padding:
-            EdgeInsets.only(left: 5, right: 5),
+            EdgeInsets.only(left: 5, right: 5,
+                top: (categoryUuid.length != 0 && !selectedCategoryFromHomeScreen || selectedCategoryFromHomeScreen) ? 7: 0,
+                bottom: (categoryUuid.length != 0 && !selectedCategoryFromHomeScreen || selectedCategoryFromHomeScreen) ? 7: 0,),
             child: Container(
               height: 45,
               decoration: BoxDecoration(
@@ -422,7 +436,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
       return Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Container(
-          height: 45,
+          height:  60,
           child: ListView(
               controller: catScrollController,
               scrollDirection: Axis.horizontal,

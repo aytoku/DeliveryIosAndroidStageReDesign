@@ -14,16 +14,19 @@ import '../../../data/data.dart';
 import '../../CodeScreen/View/code_screen.dart';
 
 class AuthScreen extends StatefulWidget {
-  AuthScreen({Key key}) : super(key: key);
+  AuthSources source;
+  AuthScreen({this.source = AuthSources.Drawer,Key key}) : super(key: key);
 
   @override
-  _AuthScreenState createState() => _AuthScreenState();
+  _AuthScreenState createState() => _AuthScreenState(source);
 }
 
 class _AuthScreenState extends State<AuthScreen> {
   String error = '';
+  AuthSources source;
   var controller = new MaskedTextController(mask: '+7 000 000-00-00');
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
+  _AuthScreenState(this.source);
 
   @override
   void initState() {
@@ -213,7 +216,7 @@ class _AuthScreenState extends State<AuthScreen> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                   padding: EdgeInsets.only(bottom: 20),
-                  child: Button(key: buttonStateKey, color: Color(0xF3F3F3F3),)
+                  child: Button(key: buttonStateKey, color: Color(0xF3F3F3F3), source: source,)
               ),
             ),
           ],
@@ -223,20 +226,22 @@ class _AuthScreenState extends State<AuthScreen> {
 
 class Button extends StatefulWidget {
   Color color;
+  AuthSources source;
 
-  Button({Key key, this.color}) : super(key: key);
+  Button({Key key, this.color, this.source}) : super(key: key);
 
   @override
   ButtonState createState() {
-    return new ButtonState(color);
+    return new ButtonState(color, source);
   }
 }
 
 class ButtonState extends State<Button> {
   String error = '';
   Color color = Color(0xFFF3F3F3);
+  AuthSources source;
 
-  ButtonState(this.color);
+  ButtonState(this.color, this.source);
 
   String validateMobile(String value) {
     String pattern = r'(^(?:[+]?7)[0-9]{10}$)';
@@ -253,18 +258,19 @@ class ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return FlatButton(
-      child: Text('Далее',
-          style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.white)),
-      color: color,
-      splashColor: Colors.grey,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+    return GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text('Далее',
+            style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.white)),
+        padding: EdgeInsets.only(left: 130, top: 20, right: 130, bottom: 20),
       ),
-      padding: EdgeInsets.only(left: 130, top: 20, right: 130, bottom: 20),
-      onPressed: () async {
+      onTap: () async {
         if (await Internet.checkConnection()) {
           currentUser.phone = currentUser.phone.replaceAll('-', '');
           currentUser.phone = currentUser.phone.replaceAll(' ', '');
@@ -279,7 +285,7 @@ class ButtonState extends State<Button> {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                  builder: (context) => new CodeScreen(),
+                  builder: (context) => new CodeScreen(source: source,),
                 ),
               );
             } else {
@@ -294,7 +300,7 @@ class ButtonState extends State<Button> {
                 Navigator.push(
                   context,
                   new MaterialPageRoute(
-                    builder: (context) => new CodeScreen(),
+                    builder: (context) => new CodeScreen(source: source,),
                   ),
                 );
               }
@@ -319,4 +325,9 @@ class ButtonState extends State<Button> {
       },
     );
   }
+}
+
+enum AuthSources{
+  Drawer,
+  Cart
 }

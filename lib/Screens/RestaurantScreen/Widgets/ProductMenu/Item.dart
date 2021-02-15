@@ -12,6 +12,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dar
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../../data/data.dart';
 import '../CartButton/CartButton.dart';
@@ -220,54 +221,122 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 //          }else{
 //
 //          }
+
+
+
+        // return Container(
+        //   height: 500,
+        //   child: SlidingUpPanel(
+        //     minHeight: 340,
+        //     body: Container(
+        //       height: 180,
+        //       decoration: BoxDecoration(
+        //           borderRadius: BorderRadius.only(
+        //             topLeft: Radius.circular(12),
+        //             topRight: Radius.circular(12),
+        //           ),
+        //           color: Colors.white
+        //       ),
+        //       child: ClipRRect(
+        //           borderRadius: BorderRadius.only(
+        //               topLeft: Radius.circular(12),
+        //               topRight: Radius.circular(12),
+        //               bottomLeft: Radius.circular(0),
+        //               bottomRight: Radius.circular(0)),
+        //           child: Stack(
+        //             children: <Widget>[
+        //               Image.network(
+        //                 getImage(restaurantDataItems.meta.images[0]),
+        //                 fit: BoxFit.cover,
+        //                 height: 180.0,
+        //                 width: MediaQuery.of(context).size.width,
+        //               ),
+        //               Align(
+        //                   alignment: Alignment.topRight,
+        //                   child: Padding(
+        //                     padding: EdgeInsets.only(top: 10, right: 15),
+        //                     child: GestureDetector(
+        //                       child: SvgPicture.asset(
+        //                           'assets/svg_images/bottom_close.svg'),
+        //                       onTap: () {
+        //                         Navigator.pop(context);
+        //                       },
+        //                     ),
+        //                   ))
+        //             ],
+        //           )),
+        //     ),
+        //     panel: Align(
+        //         alignment: Alignment.bottomCenter,
+        //         child: Container(
+        //             decoration: BoxDecoration(
+        //                 borderRadius: BorderRadius.only(
+        //                   topLeft: Radius.circular(12),
+        //                   topRight: Radius.circular(12),
+        //                 ),
+        //                 color: Colors.white
+        //             ),
+        //           child: _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey)
+        //         )
+        //     ),
+        //   ),
+        // );
           return Container(
-            height: (restaurantDataItems.type == 'single') ? 400: 500,
+            height: (restaurantDataItems.type == 'single') ? 400: 540,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Stack(
                 children: [
-                  Container(
-                    height: 180,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        color: Colors.white
-                    ),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                            bottomLeft: Radius.circular(0),
-                            bottomRight: Radius.circular(0)),
-                        child: Stack(
-                          children: <Widget>[
-                            Image.network(
-                              getImage(restaurantDataItems.meta.images[0]),
-                              fit: BoxFit.cover,
-                              height: 180.0,
-                              width: MediaQuery.of(context).size.width,
+                  Column(
+                    children: [
+                      Container(
+                        height: 180,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
                             ),
-                            Align(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 10, right: 15),
-                                  child: GestureDetector(
-                                    child: SvgPicture.asset(
-                                        'assets/svg_images/bottom_close.svg'),
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ))
-                          ],
-                        )),
+                            color: Colors.white
+                        ),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                                bottomLeft: Radius.circular(0),
+                                bottomRight: Radius.circular(0)),
+                            child: Stack(
+                              children: <Widget>[
+                                Image.network(
+                                  getImage(restaurantDataItems.meta.images[0]),
+                                  fit: BoxFit.cover,
+                                  height: 180.0,
+                                  width: MediaQuery.of(context).size.width,
+                                ),
+                                Align(
+                                    alignment: Alignment.topRight,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 10, right: 15),
+                                      child: GestureDetector(
+                                        child: SvgPicture.asset(
+                                            'assets/svg_images/bottom_close.svg'),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ))
+                              ],
+                            )),
+                      ),
+                      Container(
+                        height: (restaurantDataItems.type == 'single') ? 220: 360,
+                        decoration: BoxDecoration(color: Colors.white),
+                      )
+                    ],
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      height: (restaurantDataItems.type == 'single') ? 250 : 350,
+                      height: (restaurantDataItems.type == 'single') ? 250 : 390,
                       child: ListView.builder(
                         itemCount: 1,
                         scrollDirection: Axis.vertical,
@@ -277,6 +346,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                       ),
                     )
                   ),
+
                   // Align(
                   //   alignment: Alignment.bottomCenter,
                   //   child: Container(
@@ -527,19 +597,21 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                         alignment: Alignment.bottomRight,
                                         child: Padding(
                                           padding: EdgeInsets.only(left: 6, right: 15, bottom: 0),
-                                          child: FlatButton(
-                                            child: Text(
-                                              "Добавить",
-                                              style:
-                                              TextStyle(color: Colors.white, fontSize: 18),
+                                          child: GestureDetector(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFF09B44D),
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child: Text(
+                                                "Добавить",
+                                                style:
+                                                TextStyle(color: Colors.white, fontSize: 18),
+                                              ),
+                                              padding: EdgeInsets.only(
+                                                  left: 55, top: 20, right: 55, bottom: 20),
                                             ),
-                                            color: Color(0xFF09B44D),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            padding: EdgeInsets.only(
-                                                left: 55, top: 20, right: 55, bottom: 20),
-                                            onPressed: () async {
+                                            onTap: () async {
                                               if (await Internet.checkConnection()) {
                                                 ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
 

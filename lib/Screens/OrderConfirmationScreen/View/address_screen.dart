@@ -431,7 +431,7 @@ class AddressScreenState extends State<AddressScreen>
   Widget buildAddressesList(){
     if(myAddressesModelList != null){
       return Container(
-          height: 220,
+        height: 220,
           child: Column(
             children: [
               Align(
@@ -512,828 +512,842 @@ class AddressScreenState extends State<AddressScreen>
       child: Scaffold(
         key: _scaffoldStateKey,
         resizeToAvoidBottomPadding: false,
-        body:  Container(
-            color: Colors.white,
-            child:  Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05, bottom: 10),
-                  child: Stack(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 0),
-                          child: InkWell(
-                            onTap: () => Navigator.of(context).push(
-                                PageRouteBuilder(
-                                    pageBuilder: (context, animation, anotherAnimation) {
-                                      return CartPageScreen(restaurant: restaurant);
-                                    },
-                                    transitionDuration: Duration(milliseconds: 300),
-                                    transitionsBuilder:
-                                        (context, animation, anotherAnimation, child) {
-                                      return SlideTransition(
-                                        position: Tween(
-                                            begin: Offset(1.0, 0.0),
-                                            end: Offset(0.0, 0.0))
-                                            .animate(animation),
-                                        child: child,
-                                      );
-                                    }
-                                )),
-                            child: Padding(
-                                padding: EdgeInsets.only(right: 0),
-                                child: Container(
-                                    height: 40,
-                                    width: 60,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 12, bottom: 12, right: 20),
-                                      child: SvgPicture.asset(
-                                          'assets/svg_images/arrow_left.svg'),
-                                    ))),
+        body:  GestureDetector(
+          child: Container(
+              color: Colors.white,
+              child:  Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05, bottom: 10),
+                    child: Stack(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 0),
+                            child: InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                      pageBuilder: (context, animation, anotherAnimation) {
+                                        return CartPageScreen(restaurant: restaurant);
+                                      },
+                                      transitionDuration: Duration(milliseconds: 300),
+                                      transitionsBuilder:
+                                          (context, animation, anotherAnimation, child) {
+                                        return SlideTransition(
+                                          position: Tween(
+                                              begin: Offset(1.0, 0.0),
+                                              end: Offset(0.0, 0.0))
+                                              .animate(animation),
+                                          child: child,
+                                        );
+                                      }
+                                  )),
+                              child: Padding(
+                                  padding: EdgeInsets.only(right: 0),
+                                  child: Container(
+                                      height: 40,
+                                      width: 60,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 12, bottom: 12, right: 20),
+                                        child: SvgPicture.asset(
+                                            'assets/svg_images/arrow_left.svg'),
+                                      ))),
+                            ),
                           ),
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Text(
-                            "Подтверждение заказа",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF000000)),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Подтверждение заказа",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF000000)),
+                            ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: <Widget>[
-                      // Padding(
-                      //   padding: EdgeInsets.only(
-                      //       top: 10, left: 12, right: 12, bottom: 15),
-                      //   child: (status2) ? Container(
-                      //     decoration: BoxDecoration(
-                      //         boxShadow: [
-                      //           BoxShadow(
-                      //               color: Colors.black12,
-                      //               blurRadius: 2.0,
-                      //               offset: Offset(0.0, 1)
-                      //           )
-                      //         ],
-                      //         color: Color(0xFFF6F6F6),
-                      //         borderRadius: BorderRadius.circular(10.0),
-                      //         border: Border.all(width: 1.0, color: Colors.grey[200])),
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.all(10.0),
-                      //       child: Column(
-                      //         children: [
-                      //           Container(
-                      //             child: Row(
-                      //               mainAxisAlignment:
-                      //               MainAxisAlignment.spaceBetween,
-                      //               children: <Widget>[
-                      //                 Text(
-                      //                   'Заказ другому человеку',
-                      //                   style: TextStyle(
-                      //                       color: Color(0xFF3F3F3F),
-                      //                       fontSize: 15),
-                      //                 ),
-                      //                 Padding(
-                      //                   padding: EdgeInsets.only(right: 0),
-                      //                   child: FlutterSwitch(
-                      //                     width: 55.0,
-                      //                     height: 25.0,
-                      //                     inactiveColor: Color(0xD6D6D6D6),
-                      //                     activeColor: Colors.green,
-                      //                     valueFontSize: 12.0,
-                      //                     toggleSize: 18.0,
-                      //                     value: status2,
-                      //                     onToggle: (value) {
-                      //                       setState(() {
-                      //                         status2 = value;
-                      //                       });
-                      //                     },
-                      //                   ),
-                      //                 )
-                      //               ],
-                      //             ),
-                      //           ),
-                      //           Container(
-                      //             height: 30,
-                      //             child: TextField(
-                      //               controller: phoneNumberController,
-                      //               decoration: new InputDecoration(
-                      //                 hintText: 'Номер телефона получателя',
-                      //                 contentPadding: EdgeInsets.only(top: 5),
-                      //                 hintStyle: TextStyle(
-                      //                     fontSize: 14,
-                      //                     color: Colors.grey
-                      //                 ),
-                      //                 border: InputBorder.none,
-                      //               ),
-                      //             ),
-                      //           ),
-                      //           Divider(color: Colors.grey,),
-                      //           Container(
-                      //             height: 30,
-                      //             child: TextField(
-                      //               controller: nameController,
-                      //               decoration: new InputDecoration(
-                      //                 contentPadding: EdgeInsets.only(top: 5),
-                      //                 hintText: 'Имя получателя',
-                      //                 hintStyle: TextStyle(
-                      //                     fontSize: 14,
-                      //                     color: Colors.grey
-                      //                 ),
-                      //                 border: InputBorder.none,
-                      //                 counterText: '',
-                      //               ),
-                      //             ),
-                      //           ),
-                      //           Divider(color: Colors.grey,),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ) : Container(
-                      //     decoration: BoxDecoration(
-                      //         boxShadow: [
-                      //           BoxShadow(
-                      //               color: Colors.black12,
-                      //               blurRadius: 2.0,
-                      //               offset: Offset(0.0, 1)
-                      //           )
-                      //         ],
-                      //         color: Color(0xFFF6F6F6),
-                      //         borderRadius: BorderRadius.circular(10.0),
-                      //         border: Border.all(width: 1.0, color: Colors.grey[200])),
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.all(10.0),
-                      //       child: Row(
-                      //         mainAxisAlignment:
-                      //         MainAxisAlignment.spaceBetween,
-                      //         children: <Widget>[
-                      //           Text(
-                      //             'Заказ другому человеку',
-                      //             style: TextStyle(
-                      //                 color: Color(0xFF3F3F3F),
-                      //                 fontSize: 15),
-                      //           ),
-                      //           Padding(
-                      //             padding: EdgeInsets.only(right: 0),
-                      //             child: FlutterSwitch(
-                      //               width: 55.0,
-                      //               height: 25.0,
-                      //               inactiveColor: Color(0xD6D6D6D6),
-                      //               activeColor: Colors.green,
-                      //               valueFontSize: 12.0,
-                      //               toggleSize: 18.0,
-                      //               value: status2,
-                      //               onToggle: (value) {
-                      //                 setState(() {
-                      //                   status2 = value;
-                      //                 });
-                      //               },
-                      //             ),
-                      //           )
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      // Align(
-                      //   alignment: Alignment.centerLeft,
-                      //   child: Padding(
-                      //     padding: EdgeInsets.only(left: 15, bottom: 15),
-                      //     child: Text('Адрес отправки',
-                      //         style: TextStyle(
-                      //             fontSize: 18,
-                      //             fontWeight: FontWeight.bold,
-                      //             color: Color(0xFF424242))),
-                      //   ),
-                      // ),
-                      // InkWell(
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.only(left: 15, right: 15),
-                      //     child: Container(
-                      //       height: 64,
-                      //       decoration: BoxDecoration(
-                      //           boxShadow: [
-                      //             BoxShadow(
-                      //                 color: Colors.black12,
-                      //                 blurRadius: 2.0,
-                      //                 offset: Offset(0.0, 1)
-                      //             )
-                      //           ],
-                      //           color: Colors.white,
-                      //           borderRadius: BorderRadius.circular(10.0),
-                      //           border: Border.all(width: 1.0, color: Colors.grey[200])),
-                      //       child: Column(
-                      //         children: [
-                      //           Padding(
-                      //             padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-                      //             child: Row(
-                      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //               children: [
-                      //                 Text('С какого адреса вам отправить?',
-                      //                   style: TextStyle(
-                      //                       fontSize: 12,
-                      //                       color: Color(0xFFB8B8B8)
-                      //                   ),
-                      //                 ),
-                      //                 Text('Изменить',
-                      //                   style: TextStyle(
-                      //                     fontSize: 12,
-                      //                   ),
-                      //                 ),
-                      //               ],
-                      //             ),
-                      //           ),
-                      //           Padding(
-                      //             padding: const EdgeInsets.only(left: 15, top: 15),
-                      //             child: Align(
-                      //                 alignment: Alignment.topLeft,
-                      //                 child: Container(
-                      //                   height: 20,
-                      //                   child: TextField(
-                      //                     controller: addressValueController,
-                      //                     enabled: false,
-                      //                     decoration: new InputDecoration(
-                      //                       border: InputBorder.none,
-                      //                       counterText: '',
-                      //                     ),
-                      //                     style: TextStyle(
-                      //                         fontSize: 16
-                      //                     ),
-                      //                   ),
-                      //                 )
-                      //             ),
-                      //           )
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      //   onTap: (){
-                      //     _dispatchAddress();
-                      //   },
-                      // ),
-                      (isTakeAwayOrderConfirmation) ? Container() : buildAddressesList(),
-                      (isTakeAwayOrderConfirmation) ? Container() : Padding(
-                        padding: EdgeInsets.only(
-                            top: 15, left: 15, bottom: 5, right: 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              width: 60,
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'Подъезд',
-                                        style: TextStyle(
-                                            color: Color(0xFFB0B0B0),
-                                            fontSize: 13),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                      padding: EdgeInsets.only( bottom: 0, top: 5),
-                                      child: Container(
-                                        height: 20,
-                                        child: TextField(
-                                          textCapitalization: TextCapitalization.sentences,
-                                          controller: entranceField,
-                                          focusNode: focusNode,
-                                          decoration: new InputDecoration(
-                                            border: InputBorder.none,
-                                            counterText: '',
-                                          ),
+                  Expanded(
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: <Widget>[
+                        // Padding(
+                        //   padding: EdgeInsets.only(
+                        //       top: 10, left: 12, right: 12, bottom: 15),
+                        //   child: (status2) ? Container(
+                        //     decoration: BoxDecoration(
+                        //         boxShadow: [
+                        //           BoxShadow(
+                        //               color: Colors.black12,
+                        //               blurRadius: 2.0,
+                        //               offset: Offset(0.0, 1)
+                        //           )
+                        //         ],
+                        //         color: Color(0xFFF6F6F6),
+                        //         borderRadius: BorderRadius.circular(10.0),
+                        //         border: Border.all(width: 1.0, color: Colors.grey[200])),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.all(10.0),
+                        //       child: Column(
+                        //         children: [
+                        //           Container(
+                        //             child: Row(
+                        //               mainAxisAlignment:
+                        //               MainAxisAlignment.spaceBetween,
+                        //               children: <Widget>[
+                        //                 Text(
+                        //                   'Заказ другому человеку',
+                        //                   style: TextStyle(
+                        //                       color: Color(0xFF3F3F3F),
+                        //                       fontSize: 15),
+                        //                 ),
+                        //                 Padding(
+                        //                   padding: EdgeInsets.only(right: 0),
+                        //                   child: FlutterSwitch(
+                        //                     width: 55.0,
+                        //                     height: 25.0,
+                        //                     inactiveColor: Color(0xD6D6D6D6),
+                        //                     activeColor: Colors.green,
+                        //                     valueFontSize: 12.0,
+                        //                     toggleSize: 18.0,
+                        //                     value: status2,
+                        //                     onToggle: (value) {
+                        //                       setState(() {
+                        //                         status2 = value;
+                        //                       });
+                        //                     },
+                        //                   ),
+                        //                 )
+                        //               ],
+                        //             ),
+                        //           ),
+                        //           Container(
+                        //             height: 30,
+                        //             child: TextField(
+                        //               controller: phoneNumberController,
+                        //               decoration: new InputDecoration(
+                        //                 hintText: 'Номер телефона получателя',
+                        //                 contentPadding: EdgeInsets.only(top: 5),
+                        //                 hintStyle: TextStyle(
+                        //                     fontSize: 14,
+                        //                     color: Colors.grey
+                        //                 ),
+                        //                 border: InputBorder.none,
+                        //               ),
+                        //             ),
+                        //           ),
+                        //           Divider(color: Colors.grey,),
+                        //           Container(
+                        //             height: 30,
+                        //             child: TextField(
+                        //               controller: nameController,
+                        //               decoration: new InputDecoration(
+                        //                 contentPadding: EdgeInsets.only(top: 5),
+                        //                 hintText: 'Имя получателя',
+                        //                 hintStyle: TextStyle(
+                        //                     fontSize: 14,
+                        //                     color: Colors.grey
+                        //                 ),
+                        //                 border: InputBorder.none,
+                        //                 counterText: '',
+                        //               ),
+                        //             ),
+                        //           ),
+                        //           Divider(color: Colors.grey,),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ) : Container(
+                        //     decoration: BoxDecoration(
+                        //         boxShadow: [
+                        //           BoxShadow(
+                        //               color: Colors.black12,
+                        //               blurRadius: 2.0,
+                        //               offset: Offset(0.0, 1)
+                        //           )
+                        //         ],
+                        //         color: Color(0xFFF6F6F6),
+                        //         borderRadius: BorderRadius.circular(10.0),
+                        //         border: Border.all(width: 1.0, color: Colors.grey[200])),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.all(10.0),
+                        //       child: Row(
+                        //         mainAxisAlignment:
+                        //         MainAxisAlignment.spaceBetween,
+                        //         children: <Widget>[
+                        //           Text(
+                        //             'Заказ другому человеку',
+                        //             style: TextStyle(
+                        //                 color: Color(0xFF3F3F3F),
+                        //                 fontSize: 15),
+                        //           ),
+                        //           Padding(
+                        //             padding: EdgeInsets.only(right: 0),
+                        //             child: FlutterSwitch(
+                        //               width: 55.0,
+                        //               height: 25.0,
+                        //               inactiveColor: Color(0xD6D6D6D6),
+                        //               activeColor: Colors.green,
+                        //               valueFontSize: 12.0,
+                        //               toggleSize: 18.0,
+                        //               value: status2,
+                        //               onToggle: (value) {
+                        //                 setState(() {
+                        //                   status2 = value;
+                        //                 });
+                        //               },
+                        //             ),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // Align(
+                        //   alignment: Alignment.centerLeft,
+                        //   child: Padding(
+                        //     padding: EdgeInsets.only(left: 15, bottom: 15),
+                        //     child: Text('Адрес отправки',
+                        //         style: TextStyle(
+                        //             fontSize: 18,
+                        //             fontWeight: FontWeight.bold,
+                        //             color: Color(0xFF424242))),
+                        //   ),
+                        // ),
+                        // InkWell(
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.only(left: 15, right: 15),
+                        //     child: Container(
+                        //       height: 64,
+                        //       decoration: BoxDecoration(
+                        //           boxShadow: [
+                        //             BoxShadow(
+                        //                 color: Colors.black12,
+                        //                 blurRadius: 2.0,
+                        //                 offset: Offset(0.0, 1)
+                        //             )
+                        //           ],
+                        //           color: Colors.white,
+                        //           borderRadius: BorderRadius.circular(10.0),
+                        //           border: Border.all(width: 1.0, color: Colors.grey[200])),
+                        //       child: Column(
+                        //         children: [
+                        //           Padding(
+                        //             padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                        //             child: Row(
+                        //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //               children: [
+                        //                 Text('С какого адреса вам отправить?',
+                        //                   style: TextStyle(
+                        //                       fontSize: 12,
+                        //                       color: Color(0xFFB8B8B8)
+                        //                   ),
+                        //                 ),
+                        //                 Text('Изменить',
+                        //                   style: TextStyle(
+                        //                     fontSize: 12,
+                        //                   ),
+                        //                 ),
+                        //               ],
+                        //             ),
+                        //           ),
+                        //           Padding(
+                        //             padding: const EdgeInsets.only(left: 15, top: 15),
+                        //             child: Align(
+                        //                 alignment: Alignment.topLeft,
+                        //                 child: Container(
+                        //                   height: 20,
+                        //                   child: TextField(
+                        //                     controller: addressValueController,
+                        //                     enabled: false,
+                        //                     decoration: new InputDecoration(
+                        //                       border: InputBorder.none,
+                        //                       counterText: '',
+                        //                     ),
+                        //                     style: TextStyle(
+                        //                         fontSize: 16
+                        //                     ),
+                        //                   ),
+                        //                 )
+                        //             ),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   onTap: (){
+                        //     _dispatchAddress();
+                        //   },
+                        // ),
+                        (isTakeAwayOrderConfirmation) ? Container() : buildAddressesList(),
+                        (isTakeAwayOrderConfirmation) ? Container() : Padding(
+                          padding: EdgeInsets.only(
+                              top: 15, left: 15, bottom: 5, right: 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                width: 60,
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Подъезд',
+                                          style: TextStyle(
+                                              color: Color(0xFFB0B0B0),
+                                              fontSize: 13),
                                         ),
-                                      )),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: 60,
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'Этаж',
-                                        style: TextStyle(
-                                            color: Color(0xFFB0B0B0),
-                                            fontSize: 13),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                      padding: EdgeInsets.only( bottom: 0, top: 5),
-                                      child: Container(
-                                        height: 20,
-                                        child: TextField(
-                                          textCapitalization: TextCapitalization.sentences,
-                                          controller: floorField,
-                                          focusNode: focusNode,
-                                          decoration: new InputDecoration(
-                                            border: InputBorder.none,
-                                            counterText: '',
+                                      ],
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only( bottom: 0, top: 5),
+                                        child: Container(
+                                          height: 20,
+                                          child: TextField(
+                                            textCapitalization: TextCapitalization.sentences,
+                                            controller: entranceField,
+                                            maxLength: 3,
+                                            keyboardType: TextInputType.number,
+                                            focusNode: focusNode,
+                                            decoration: new InputDecoration(
+                                              border: InputBorder.none,
+                                              counterText: '',
+                                            ),
                                           ),
-                                        ),
-                                      )),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: 60,
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'Кв./офис',
-                                        style: TextStyle(
-                                            color: Color(0xFFB0B0B0),
-                                            fontSize: 13),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                      padding: EdgeInsets.only( bottom: 0, top: 5),
-                                      child: Container(
-                                        height: 20,
-                                        child: TextField(
-                                          textCapitalization: TextCapitalization.sentences,
-                                          controller: officeField,
-                                          focusNode: focusNode,
-                                          decoration: new InputDecoration(
-                                            border: InputBorder.none,
-                                            counterText: '',
-                                          ),
-                                        ),
-                                      )),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: 80,
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'Домофон',
-                                        style: TextStyle(
-                                            color: Color(0xFFB0B0B0),
-                                            fontSize: 13),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                      padding: EdgeInsets.only( bottom: 5, top: 5),
-                                      child: Container(
-                                        height: 20,
-                                        child: TextField(
-                                          textCapitalization: TextCapitalization.sentences,
-                                          controller: intercomField,
-                                          focusNode: focusNode,
-                                          decoration: new InputDecoration(
-                                            border: InputBorder.none,
-                                            counterText: '',
-                                          ),
-                                        ),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: Stack(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(top: 15),
-                              child: TextFormField(
-                                textCapitalization: TextCapitalization.sentences,
-                                controller: commentField,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(left: 15),
-                                  hintText: 'Оставить комментарий',
-                                  hintStyle: TextStyle(
-                                      color: Color(0xFFE6E6E6)
-                                  ),
-                                  enabledBorder:  OutlineInputBorder(
-                                    // width: 0.0 produces a thin "hairline" border
-                                    borderSide: BorderSide(color: Colors.black26),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10)),
+                                        )),
+                                  ],
                                 ),
                               ),
-                            ),
-                            Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: Text(
-                                        'Комментарий',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey
+                              Container(
+                                width: 60,
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Этаж',
+                                          style: TextStyle(
+                                              color: Color(0xFFB0B0B0),
+                                              fontSize: 13),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ),
-                                )
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
-                        child: Divider(color: Colors.grey),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 5, left: 17, bottom: 5, right: 17),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Стоимость',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14),
-                            ),
-                            Text(
-                              '${currentUser.cartModel.totalPrice} \₽',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14),
-                            )
-                          ],
-                        ),
-                      ),
-                      (isTakeAwayOrderConfirmation) ? Container() : Padding(
-                        padding: EdgeInsets.only(
-                            top: 17, left: 15, bottom: 5, right: 17),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Доставка',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      '30-50 мин.',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              '${currentUser.cartModel.deliveryPrice} \₽',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14),
-                            )
-                          ],
-                        ),
-                      ),
-                     // (promoTextKey.currentState!= null && promoTextKey.currentState.title.length != null) ? Padding(
-                     //   padding: EdgeInsets.only(
-                     //       top: 15, left: 17, bottom: 5, right: 17),
-                     //   child: Row(
-                     //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     //     children: <Widget>[
-                     //       Text(
-                     //         'Скидка',
-                     //         style: TextStyle(
-                     //             color: Colors.red,
-                     //             fontSize: 14),
-                     //       ),
-                     //       Text(
-                     //         '-150 \₽',
-                     //         style: TextStyle(
-                     //             color: Colors.red,
-                     //             fontSize: 14),
-                     //       )
-                     //     ],
-                     //   ),
-                     // ) : Container(),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 15, left: 17, bottom: 5, right: 17),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Итого',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 22),
-                            ),
-                            Text(
-                              '${(totalPrice).toStringAsFixed(0)} \₽',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 22),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: Divider(color: Colors.grey),
-                      ),
-                      // Container(
-                      //   height: 10,
-                      //   color: Color(0xFAFAFAFA),
-                      // ),
-                      // Padding(
-                      //   padding: EdgeInsets.only(
-                      //       top: 10, left: 15, right: 15, bottom: 10),
-                      //   child: Container(
-                      //     decoration: BoxDecoration(
-                      //         boxShadow: [
-                      //           BoxShadow(
-                      //             color: Colors.black12,
-                      //             blurRadius: 4.0, // soften the shadow
-                      //             spreadRadius: 1.0, //extend the shadow
-                      //           )
-                      //         ],
-                      //         color: Colors.white,
-                      //         borderRadius: BorderRadius.circular(10.0),
-                      //         border: Border.all(width: 1.0, color: Colors.grey[200])),
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.all(10.0),
-                      //       child: Row(
-                      //         mainAxisAlignment:
-                      //         MainAxisAlignment.spaceBetween,
-                      //         children: <Widget>[
-                      //           Text(
-                      //             'До двери',
-                      //             style: TextStyle(
-                      //                 color: Color(0xFF3F3F3F),
-                      //                 fontSize: 15),
-                      //           ),
-                      //           Padding(
-                      //             padding: EdgeInsets.only(right: 0),
-                      //             child: FlutterSwitch(
-                      //               width: 55.0,
-                      //               height: 25.0,
-                      //               inactiveColor: Color(0xD6D6D6D6),
-                      //               activeColor: Colors.green,
-                      //               valueFontSize: 12.0,
-                      //               toggleSize: 18.0,
-                      //               value: status1,
-                      //               onToggle: (value) {
-                      //                 setState(() {
-                      //                   status1 = value;
-                      //                 });
-                      //               },
-                      //             ),
-                      //           )
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      // (isTakeAwayOrderConfirmation) ? Container() : Padding(
-                      //   padding: EdgeInsets.only(
-                      //       top: 10, left: 15, right: 15, bottom: 10),
-                      //   child: Container(
-                      //     decoration: BoxDecoration(
-                      //         boxShadow: [
-                      //           BoxShadow(
-                      //               color: Colors.black12,
-                      //               blurRadius: 2.0,
-                      //               offset: Offset(0.0, 1)
-                      //           )
-                      //         ],
-                      //         color: Colors.white,
-                      //         borderRadius: BorderRadius.circular(10.0),
-                      //         border: Border.all(width: 1.0, color: Colors.grey[200])),
-                      //     child: Padding(
-                      //       padding: EdgeInsets.only(
-                      //           top: 10, left: 15, right: 15, bottom: 10),
-                      //       child: Row(
-                      //         mainAxisAlignment:
-                      //         MainAxisAlignment.spaceBetween,
-                      //         children: <Widget>[
-                      //           Column(
-                      //             children: [
-                      //               Text(
-                      //                 'Время доставки',
-                      //                 style: TextStyle(
-                      //                     color: Color(0xFF3F3F3F),
-                      //                     fontSize: 15),
-                      //               ),
-                      //               Text(
-                      //                 '30-40 мин',
-                      //                 style: TextStyle(
-                      //                     color: Color(0xFF3F3F3F),
-                      //                     fontSize: 15),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //           Text(
-                      //             'Изменить',
-                      //             style: TextStyle(
-                      //                 color: Color(0xFF3F3F3F),
-                      //                 fontSize: 15),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30, right: 10),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 10, left: 15, right: 15, bottom: 10),
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: GestureDetector(
-                                  child: Container(
-                                    width: 160,
-                                    height: 64,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black12,
-                                              blurRadius: 2.0,
-                                              offset: Offset(0.0, 1)
-                                          )
-                                        ],
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        border: Border.all(width: 1.0, color: Colors.grey[200])),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 10, left: 15, right: 20, bottom: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Column(
-                                            children: [
-                                              Text(
-                                                "Способ оплаты",
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Color(0xFFB8B8B8)),
-                                              ),
-                                              Text(
-                                                'Наличными',
-                                                // (selectedPaymentId == 1) ? card : cash,
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.black),
-                                              ),
-                                            ],
+                                    Padding(
+                                        padding: EdgeInsets.only( bottom: 0, top: 5),
+                                        child: Container(
+                                          height: 20,
+                                          child: TextField(
+                                            textCapitalization: TextCapitalization.sentences,
+                                            controller: floorField,
+                                            keyboardType: TextInputType.number,
+                                            focusNode: focusNode,
+                                            maxLength: 2,
+                                            decoration: new InputDecoration(
+                                              border: InputBorder.none,
+                                              counterText: '',
+                                            ),
                                           ),
-                                          // Padding(
-                                          //   padding: EdgeInsets.only(left: 10),
-                                          //   child: SvgPicture.asset(
-                                          //       'assets/svg_images/arrow_down.svg'),
-                                          // ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () async {
-                                    // _payment();
-                                  },
+                                        )),
+                                  ],
                                 ),
                               ),
-                            ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(right: 0),
-                            //   child: PromoText(key: promoTextKey,),
-                            // )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 2.0,
-                              offset: Offset(0.0, 1)
-                          )
-                        ],
-                        color: Colors.white,),
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                  '${(totalPrice).toStringAsFixed(0)} \₽',
-                                  style: TextStyle(
-                                      fontSize: 18.0,
-                                      color: Colors.black)),
-                              Text(
-                                '~30-50 мин.',
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  color: Colors.black,
+                              Container(
+                                width: 60,
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Кв./офис',
+                                          style: TextStyle(
+                                              color: Color(0xFFB0B0B0),
+                                              fontSize: 13),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only( bottom: 0, top: 5),
+                                        child: Container(
+                                          height: 20,
+                                          child: TextField(
+                                            textCapitalization: TextCapitalization.sentences,
+                                            controller: officeField,
+                                            maxLength: 6,
+                                            focusNode: focusNode,
+                                            decoration: new InputDecoration(
+                                              border: InputBorder.none,
+                                              counterText: '',
+                                            ),
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: 80,
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Домофон',
+                                          style: TextStyle(
+                                              color: Color(0xFFB0B0B0),
+                                              fontSize: 13),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only( bottom: 5, top: 5),
+                                        child: Container(
+                                          height: 20,
+                                          child: TextField(
+                                            textCapitalization: TextCapitalization.sentences,
+                                            controller: intercomField,
+                                            maxLength: 6,
+                                            keyboardType: TextInputType.number,
+                                            focusNode: focusNode,
+                                            decoration: new InputDecoration(
+                                              border: InputBorder.none,
+                                              counterText: '',
+                                            ),
+                                          ),
+                                        )),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                          FlatButton(
-                            child: Text('Заказать',
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: Stack(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: TextFormField(
+                                  textCapitalization: TextCapitalization.sentences,
+                                  controller: commentField,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.only(left: 15),
+                                    hintText: 'Оставить комментарий',
+                                    hintStyle: TextStyle(
+                                        color: Color(0xFFE6E6E6)
+                                    ),
+                                    enabledBorder:  OutlineInputBorder(
+                                      // width: 0.0 produces a thin "hairline" border
+                                      borderSide: BorderSide(color: Colors.black26),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10)),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: Container(
+                                      color: Colors.white,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(5),
+                                        child: Text(
+                                          'Комментарий',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
+                          child: Divider(color: Colors.grey),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 5, left: 17, bottom: 5, right: 17),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Стоимость',
                                 style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.white)),
-                            color: Color(0xFF09B44D),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: EdgeInsets.only(
-                                left: 60, top: 20, right: 60, bottom: 20),
-                            onPressed: () async {
-                              if (await Internet.checkConnection()) {
-                                // if(selectedPaymentId != 1){
-                                //   showAlertDialog(context);
-                                // }
-                                // print(addressSelectorKey.currentState.myFavouriteAddressesModel.address.unrestrictedValue);
-                                // createOrder = new CreateOrder(
-                                //   address: addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-                                //   restaurantAddress: selectedAddress,
-                                //   office: officeField.text,
-                                //   floor: floorField.text,
-                                //   entrance: entranceField.text,
-                                //   intercom: intercomField.text,
-                                //   comment: commentField.text,
-                                //   // cartDataModel: currentUser.cartModel,
-                                //   //restaurant: restaurant,
-                                //   payment_type: (selectedPaymentId == 1) ? 'card' : 'cash',
-                                //   door_to_door: status1,
-                                // );
-                                // if(selectedPaymentId == 1){
-                                //   _cardPayment(totalPrice);
-                                //   return;
-                                // }
-                                // await createOrder.sendData();
-                                // // currentUser.cartModel.cart.clear();
-                                // // currentUser.cartModel.saveData();
-                                await createOrder(currentUser.cartModel.uuid);
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-                                        (Route<dynamic> route) => false);
-                              } else {
-                                noConnection(context);
-                              }
-                            },
-                          )
-                        ],
-                      ),
+                                    color: Colors.black,
+                                    fontSize: 14),
+                              ),
+                              Text(
+                                '${currentUser.cartModel.totalPrice} \₽',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14),
+                              )
+                            ],
+                          ),
+                        ),
+                        (isTakeAwayOrderConfirmation) ? Container() : Padding(
+                          padding: EdgeInsets.only(
+                              top: 17, left: 18, bottom: 5, right: 17),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Доставка',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        '30-50 мин.',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                '${currentUser.cartModel.deliveryPrice} \₽',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14),
+                              )
+                            ],
+                          ),
+                        ),
+                       // (promoTextKey.currentState!= null && promoTextKey.currentState.title.length != null) ? Padding(
+                       //   padding: EdgeInsets.only(
+                       //       top: 15, left: 17, bottom: 5, right: 17),
+                       //   child: Row(
+                       //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       //     children: <Widget>[
+                       //       Text(
+                       //         'Скидка',
+                       //         style: TextStyle(
+                       //             color: Colors.red,
+                       //             fontSize: 14),
+                       //       ),
+                       //       Text(
+                       //         '-150 \₽',
+                       //         style: TextStyle(
+                       //             color: Colors.red,
+                       //             fontSize: 14),
+                       //       )
+                       //     ],
+                       //   ),
+                       // ) : Container(),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 15, left: 17, bottom: 5, right: 17),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Итого',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22),
+                              ),
+                              Text(
+                                '${(totalPrice).toStringAsFixed(0)} \₽',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: Divider(color: Colors.grey),
+                        ),
+                        // Container(
+                        //   height: 10,
+                        //   color: Color(0xFAFAFAFA),
+                        // ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(
+                        //       top: 10, left: 15, right: 15, bottom: 10),
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //         boxShadow: [
+                        //           BoxShadow(
+                        //             color: Colors.black12,
+                        //             blurRadius: 4.0, // soften the shadow
+                        //             spreadRadius: 1.0, //extend the shadow
+                        //           )
+                        //         ],
+                        //         color: Colors.white,
+                        //         borderRadius: BorderRadius.circular(10.0),
+                        //         border: Border.all(width: 1.0, color: Colors.grey[200])),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.all(10.0),
+                        //       child: Row(
+                        //         mainAxisAlignment:
+                        //         MainAxisAlignment.spaceBetween,
+                        //         children: <Widget>[
+                        //           Text(
+                        //             'До двери',
+                        //             style: TextStyle(
+                        //                 color: Color(0xFF3F3F3F),
+                        //                 fontSize: 15),
+                        //           ),
+                        //           Padding(
+                        //             padding: EdgeInsets.only(right: 0),
+                        //             child: FlutterSwitch(
+                        //               width: 55.0,
+                        //               height: 25.0,
+                        //               inactiveColor: Color(0xD6D6D6D6),
+                        //               activeColor: Colors.green,
+                        //               valueFontSize: 12.0,
+                        //               toggleSize: 18.0,
+                        //               value: status1,
+                        //               onToggle: (value) {
+                        //                 setState(() {
+                        //                   status1 = value;
+                        //                 });
+                        //               },
+                        //             ),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // (isTakeAwayOrderConfirmation) ? Container() : Padding(
+                        //   padding: EdgeInsets.only(
+                        //       top: 10, left: 15, right: 15, bottom: 10),
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //         boxShadow: [
+                        //           BoxShadow(
+                        //               color: Colors.black12,
+                        //               blurRadius: 2.0,
+                        //               offset: Offset(0.0, 1)
+                        //           )
+                        //         ],
+                        //         color: Colors.white,
+                        //         borderRadius: BorderRadius.circular(10.0),
+                        //         border: Border.all(width: 1.0, color: Colors.grey[200])),
+                        //     child: Padding(
+                        //       padding: EdgeInsets.only(
+                        //           top: 10, left: 15, right: 15, bottom: 10),
+                        //       child: Row(
+                        //         mainAxisAlignment:
+                        //         MainAxisAlignment.spaceBetween,
+                        //         children: <Widget>[
+                        //           Column(
+                        //             children: [
+                        //               Text(
+                        //                 'Время доставки',
+                        //                 style: TextStyle(
+                        //                     color: Color(0xFF3F3F3F),
+                        //                     fontSize: 15),
+                        //               ),
+                        //               Text(
+                        //                 '30-40 мин',
+                        //                 style: TextStyle(
+                        //                     color: Color(0xFF3F3F3F),
+                        //                     fontSize: 15),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //           Text(
+                        //             'Изменить',
+                        //             style: TextStyle(
+                        //                 color: Color(0xFF3F3F3F),
+                        //                 fontSize: 15),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30, right: 10),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10, left: 0, right: 15, bottom: 10),
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: GestureDetector(
+                                    child: Container(
+                                      width: 160,
+                                      height: 64,
+                                      // decoration: BoxDecoration(
+                                      //     boxShadow: [
+                                      //       BoxShadow(
+                                      //           color: Colors.black12,
+                                      //           blurRadius: 2.0,
+                                      //           offset: Offset(0.0, 1)
+                                      //       )
+                                      //     ],
+                                      //     color: Colors.white,
+                                      //     borderRadius: BorderRadius.circular(10.0),
+                                      //     border: Border.all(width: 1.0, color: Colors.grey[200])),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 10, left: 15, right: 20, bottom: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  "Способ оплаты",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Color(0xFFB8B8B8)),
+                                                ),
+                                                Text(
+                                                  'Наличными',
+                                                  // (selectedPaymentId == 1) ? card : cash,
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.black),
+                                                ),
+                                              ],
+                                            ),
+                                            // Padding(
+                                            //   padding: EdgeInsets.only(left: 10),
+                                            //   child: SvgPicture.asset(
+                                            //       'assets/svg_images/arrow_down.svg'),
+                                            // ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      // _payment();
+                                    },
+                                  ),
+                                ),
+                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(right: 0),
+                              //   child: PromoText(key: promoTextKey,),
+                              // )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                )
-              ],
-            )
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 5.0,
+                                offset: Offset(0.0, 1)
+                            )
+                          ],
+                          color: Colors.white,),
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                    '${(totalPrice).toStringAsFixed(0)} \₽',
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Colors.black)),
+                                Text(
+                                  '~30-50 мин.',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF09B44D),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text('Заказать',
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Colors.white)),
+                                padding: EdgeInsets.only(
+                                    left: 60, top: 20, right: 60, bottom: 20),
+                              ),
+                              onTap: () async {
+                                if (await Internet.checkConnection()) {
+                                  // if(selectedPaymentId != 1){
+                                  //   showAlertDialog(context);
+                                  // }
+                                  // print(addressSelectorKey.currentState.myFavouriteAddressesModel.address.unrestrictedValue);
+                                  // createOrder = new CreateOrder(
+                                  //   address: addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                  //   restaurantAddress: selectedAddress,
+                                  //   office: officeField.text,
+                                  //   floor: floorField.text,
+                                  //   entrance: entranceField.text,
+                                  //   intercom: intercomField.text,
+                                  //   comment: commentField.text,
+                                  //   // cartDataModel: currentUser.cartModel,
+                                  //   //restaurant: restaurant,
+                                  //   payment_type: (selectedPaymentId == 1) ? 'card' : 'cash',
+                                  //   door_to_door: status1,
+                                  // );
+                                  // if(selectedPaymentId == 1){
+                                  //   _cardPayment(totalPrice);
+                                  //   return;
+                                  // }
+                                  // await createOrder.sendData();
+                                  // // currentUser.cartModel.cart.clear();
+                                  // // currentUser.cartModel.saveData();
+                                  await createOrder(currentUser.cartModel.uuid);
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                                          (Route<dynamic> route) => false);
+                                } else {
+                                  noConnection(context);
+                                }
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              )
+          ),
+          onTap: (){
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
         ),),
     );
   }

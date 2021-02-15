@@ -702,236 +702,240 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 children: _buildListItems(),
               ),
             ),
-            Center(
-              child: Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 5, right: 10, left: 10),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: (!state_array.contains(ordersDetailsModelItem.state)) ? GestureDetector(
-                      child: Container(
-                          height: 50,
-                          width: 300,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF09B44D),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Повторить заказ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,),
-                            ),
-                          )),
-                      onTap: () async {
-                        // if (await Internet.checkConnection()) {
-                        //   Records restaurant = ordersStoryModelItem.productsData.store;
-                        //   currentUser.cartDataModel.cart.clear();
-                        //   ordersStoryModelItem.productsData.products
-                        //       .forEach((Product element) {
-                        //     FoodRecords foodItem =
-                        //     FoodRecords.fromFoodRecordsStory(element);
-                        //     Order order = new Order(
-                        //         restaurant: restaurant,
-                        //         food: foodItem,
-                        //         date: DateTime.now().toString(),
-                        //         quantity: element.number,
-                        //         isSelected: false);
-                        //     currentUser.cartDataModel.cart.add(order);
-                        //   });
-                        //   Navigator.push(
-                        //     context,
-                        //     new MaterialPageRoute(builder: (context) {
-                        //       return new CartPageScreen(restaurant: restaurant);
-                        //     }),
-                        //   );
-                        // } else {
-                        //   noConnection(context);
-                        // }
-                      },
-                    ) : (!not_cancel_state.contains(ordersDetailsModelItem.state)) ?  GestureDetector(
-                      child: Container(
-                          height: 50,
-                          width: 340,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFFE534F),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Отменить заказ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,),
-                            ),
-                          )),
-                      onTap: () async {
-                        if (await Internet.checkConnection()) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) {
-                              return OrderRejectScreen(ordersStoryModelItem: ordersDetailsModelItem,);
-                            }),
-                          );
-                        } else {
-                          noConnection(context);
-                        }
-                      },
-                    ): (in_the_way.contains(ordersDetailsModelItem.state)) ? Align(
-                        alignment: Alignment.centerLeft,
-                        child: GestureDetector(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 10, bottom: 10, right: 5, left: 5),
-                            child: (in_the_way.contains(ordersDetailsModelItem.state))
-                                ? Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(11)),
-                                  color: Color(0xFF09B44D)),
-                              child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 5, right: 0, bottom: 5, left: 0),
-                                  child:  Center(
-                                    child: Text(
-                                      'Позвонить',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white
-                                      ),
-                                    ),
-                                  )
-                              ),
-                            )
-                                : Container(),
-                          ),
-                          onTap: () {
-                            if(Platform.isIOS){
-                              return showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.48),
-                                    child: Column(
-                                      children: [
-                                        Dialog(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                                            child: Container(
-                                              height: 180,
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 15, bottom: 15),
-                                                    child: Text('Кому вы хотите позвонить?',
-                                                      style: TextStyle(
-                                                          fontSize: 20
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Divider(color: Colors.grey,),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 5, bottom: 5),
-                                                    child: InkWell(
-                                                      child: Container(
-                                                        height: 30,
-                                                        width: 140,
-                                                        child: Center(
-                                                          child: Text("В заведение",
-                                                            style: TextStyle(
-                                                                color: Color(0xFF007AFF),
-                                                                fontSize: 20
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      onTap: () {
-                                                        // launch("tel://" + ordersDetailsModelItem.productsData.store.phone);
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Divider(color: Colors.grey,),
-                                                  InkWell(
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(top: 8),
-                                                      height: 30,
-                                                      width: 100,
-                                                      child: Center(
-                                                        child: Text("Водителю",
-                                                          style: TextStyle(
-                                                              color: Color(0xFF007AFF),
-                                                              fontSize: 20
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    onTap: () {
-                                                      // launch("tel://" + ordersDetailsModelItem.driver.phone);
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                        ),
-                                        Container(
-                                          child: Dialog(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                                            child: InkWell(
-                                              child: Container(
-                                                height: 40,
-                                                width: 100,
-                                                child: Center(
-                                                  child: Text("Отмена",
-                                                    style: TextStyle(
-                                                        color: Color(0xFFDC634A),
-                                                        fontSize: 20
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              onTap: (){
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            }
-                            callTo(context);
-                          },
-                        )) : Container(),
-                  )),
-            ),
-            Center(
-              child: Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 10, right: 10, left: 10),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: (!state_array.contains(ordersDetailsModelItem.state)) ? GestureDetector(
-                      child: Container(
-                          height: 50,
-                          width: 350,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFDC634A),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Удалить данные о заказе',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,),
-                            ),
-                          )),
-                    ) : Container(height: 0,),
-                  )),
-            )
+            // Center(
+            //   child: Padding(
+            //       padding: EdgeInsets.only(top: 20, bottom: 5, right: 10, left: 10),
+            //       child: Align(
+            //         alignment: Alignment.bottomCenter,
+            //         child: (!state_array.contains(ordersDetailsModelItem.state)) ?
+            //         Container()
+            //         // GestureDetector(
+            //         //   child: Container(
+            //         //       height: 50,
+            //         //       width: 300,
+            //         //       decoration: BoxDecoration(
+            //         //         color: Color(0xFF09B44D),
+            //         //         borderRadius: BorderRadius.circular(10.0),
+            //         //       ),
+            //         //       child: Center(
+            //         //         child: Text(
+            //         //           'Повторить заказ',
+            //         //           style: TextStyle(
+            //         //             color: Colors.white,
+            //         //             fontSize: 18,),
+            //         //         ),
+            //         //       )),
+            //         //   onTap: () async {
+            //         //     // if (await Internet.checkConnection()) {
+            //         //     //   Records restaurant = ordersStoryModelItem.productsData.store;
+            //         //     //   currentUser.cartDataModel.cart.clear();
+            //         //     //   ordersStoryModelItem.productsData.products
+            //         //     //       .forEach((Product element) {
+            //         //     //     FoodRecords foodItem =
+            //         //     //     FoodRecords.fromFoodRecordsStory(element);
+            //         //     //     Order order = new Order(
+            //         //     //         restaurant: restaurant,
+            //         //     //         food: foodItem,
+            //         //     //         date: DateTime.now().toString(),
+            //         //     //         quantity: element.number,
+            //         //     //         isSelected: false);
+            //         //     //     currentUser.cartDataModel.cart.add(order);
+            //         //     //   });
+            //         //     //   Navigator.push(
+            //         //     //     context,
+            //         //     //     new MaterialPageRoute(builder: (context) {
+            //         //     //       return new CartPageScreen(restaurant: restaurant);
+            //         //     //     }),
+            //         //     //   );
+            //         //     // } else {
+            //         //     //   noConnection(context);
+            //         //     // }
+            //         //   },
+            //         // )
+            //
+            //             : (!not_cancel_state.contains(ordersDetailsModelItem.state)) ?  GestureDetector(
+            //           child: Container(
+            //               height: 50,
+            //               width: 340,
+            //               decoration: BoxDecoration(
+            //                 color: Color(0xFFFE534F),
+            //                 borderRadius: BorderRadius.circular(10.0),
+            //               ),
+            //               child: Center(
+            //                 child: Text(
+            //                   'Отменить заказ',
+            //                   style: TextStyle(
+            //                     color: Colors.white,
+            //                     fontSize: 18,),
+            //                 ),
+            //               )),
+            //           onTap: () async {
+            //             if (await Internet.checkConnection()) {
+            //               Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(builder: (_) {
+            //                   return OrderRejectScreen(ordersStoryModelItem: ordersDetailsModelItem,);
+            //                 }),
+            //               );
+            //             } else {
+            //               noConnection(context);
+            //             }
+            //           },
+            //         ): (in_the_way.contains(ordersDetailsModelItem.state)) ? Align(
+            //             alignment: Alignment.centerLeft,
+            //             child: GestureDetector(
+            //               child: Padding(
+            //                 padding: EdgeInsets.only(
+            //                     top: 10, bottom: 10, right: 5, left: 5),
+            //                 child: (in_the_way.contains(ordersDetailsModelItem.state))
+            //                     ? Container(
+            //                   height: 40,
+            //                   decoration: BoxDecoration(
+            //                       borderRadius:
+            //                       BorderRadius.all(Radius.circular(11)),
+            //                       color: Color(0xFF09B44D)),
+            //                   child: Padding(
+            //                       padding: EdgeInsets.only(
+            //                           top: 5, right: 0, bottom: 5, left: 0),
+            //                       child:  Center(
+            //                         child: Text(
+            //                           'Позвонить',
+            //                           style: TextStyle(
+            //                               fontSize: 18,
+            //                               color: Colors.white
+            //                           ),
+            //                         ),
+            //                       )
+            //                   ),
+            //                 )
+            //                     : Container(),
+            //               ),
+            //               onTap: () {
+            //                 if(Platform.isIOS){
+            //                   return showDialog(
+            //                     context: context,
+            //                     builder: (BuildContext context) {
+            //                       return Container(
+            //                         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.48),
+            //                         child: Column(
+            //                           children: [
+            //                             Dialog(
+            //                                 shape: RoundedRectangleBorder(
+            //                                     borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            //                                 child: Container(
+            //                                   height: 180,
+            //                                   child: Column(
+            //                                     children: [
+            //                                       Padding(
+            //                                         padding: const EdgeInsets.only(top: 15, bottom: 15),
+            //                                         child: Text('Кому вы хотите позвонить?',
+            //                                           style: TextStyle(
+            //                                               fontSize: 20
+            //                                           ),
+            //                                         ),
+            //                                       ),
+            //                                       Divider(color: Colors.grey,),
+            //                                       Padding(
+            //                                         padding: const EdgeInsets.only(top: 5, bottom: 5),
+            //                                         child: InkWell(
+            //                                           child: Container(
+            //                                             height: 30,
+            //                                             width: 140,
+            //                                             child: Center(
+            //                                               child: Text("В заведение",
+            //                                                 style: TextStyle(
+            //                                                     color: Color(0xFF007AFF),
+            //                                                     fontSize: 20
+            //                                                 ),
+            //                                               ),
+            //                                             ),
+            //                                           ),
+            //                                           onTap: () {
+            //                                             // launch("tel://" + ordersDetailsModelItem.productsData.store.phone);
+            //                                           },
+            //                                         ),
+            //                                       ),
+            //                                       Divider(color: Colors.grey,),
+            //                                       InkWell(
+            //                                         child: Container(
+            //                                           padding: EdgeInsets.only(top: 8),
+            //                                           height: 30,
+            //                                           width: 100,
+            //                                           child: Center(
+            //                                             child: Text("Водителю",
+            //                                               style: TextStyle(
+            //                                                   color: Color(0xFF007AFF),
+            //                                                   fontSize: 20
+            //                                               ),
+            //                                             ),
+            //                                           ),
+            //                                         ),
+            //                                         onTap: () {
+            //                                           // launch("tel://" + ordersDetailsModelItem.driver.phone);
+            //                                         },
+            //                                       ),
+            //                                     ],
+            //                                   ),
+            //                                 )
+            //                             ),
+            //                             Container(
+            //                               child: Dialog(
+            //                                 shape: RoundedRectangleBorder(
+            //                                     borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            //                                 child: InkWell(
+            //                                   child: Container(
+            //                                     height: 40,
+            //                                     width: 100,
+            //                                     child: Center(
+            //                                       child: Text("Отмена",
+            //                                         style: TextStyle(
+            //                                             color: Color(0xFFDC634A),
+            //                                             fontSize: 20
+            //                                         ),
+            //                                       ),
+            //                                     ),
+            //                                   ),
+            //                                   onTap: (){
+            //                                     Navigator.pop(context);
+            //                                   },
+            //                                 ),
+            //                               ),
+            //                             )
+            //                           ],
+            //                         ),
+            //                       );
+            //                     },
+            //                   );
+            //                 }
+            //                 callTo(context);
+            //               },
+            //             )) : Container(),
+            //       )),
+            // ),
+            // Center(
+            //   child: Padding(
+            //       padding: EdgeInsets.only(top: 10, bottom: 10, right: 10, left: 10),
+            //       child: Align(
+            //         alignment: Alignment.bottomCenter,
+            //         child: (!state_array.contains(ordersDetailsModelItem.state)) ? GestureDetector(
+            //           child: Container(
+            //               height: 50,
+            //               width: 350,
+            //               decoration: BoxDecoration(
+            //                 color: Color(0xFFDC634A),
+            //                 borderRadius: BorderRadius.circular(10.0),
+            //               ),
+            //               child: Center(
+            //                 child: Text(
+            //                   'Удалить данные о заказе',
+            //                   style: TextStyle(
+            //                     color: Colors.white,
+            //                     fontSize: 18,),
+            //                 ),
+            //               )),
+            //         ) : Container(height: 0,),
+            //       )),
+            // )
           ],
         ));
   }

@@ -94,13 +94,19 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                             child: SvgPicture.asset('assets/svg_images/delivered.svg'),
                           )
                         ],
-                      ) : Container(
-                        child: Text(ordersStoryModelItem.state,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14
+                      ) : Row(
+                        children: [
+                          Text('Отменен',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: SvgPicture.asset('assets/svg_images/order_cancel.svg'),
+                          )
+                        ],
                       )
                     ],
                   ),

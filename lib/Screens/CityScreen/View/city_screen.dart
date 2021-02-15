@@ -81,10 +81,9 @@ class CityScreenState extends State<CityScreen>{
                       ),
                     ),
                     onTap: (){
-                      Navigator.of(context).pushAndRemoveUntil(
+                      Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => AuthScreen()),
-                              (Route<dynamic> route) => false);
+                              builder: (context) => AuthScreen()));
                     },
                   ),
                 ),
@@ -94,7 +93,7 @@ class CityScreenState extends State<CityScreen>{
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 276,
+                  height: 190,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
