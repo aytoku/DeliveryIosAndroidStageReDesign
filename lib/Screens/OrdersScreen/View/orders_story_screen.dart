@@ -20,7 +20,13 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
   int page = 1;
   int limit = 12;
   bool isLoading = true;
-  List<OrderDetailsModelItem> records_items = new List<OrderDetailsModelItem>();
+  List<OrderDetailsModelItem> records_items;
+
+  @override
+  void initState(){
+    super.initState();
+    records_items = new List<OrderDetailsModelItem>();
+  }
 
   Widget column(OrderDetailsModelItem ordersStoryModelItem) {
     var format = new DateFormat('  HH:mm    dd.MM.yyyy');

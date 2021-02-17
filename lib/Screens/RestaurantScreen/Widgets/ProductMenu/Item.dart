@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
@@ -60,6 +62,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
               onTap: () async {
                 if (await Internet.checkConnection()) {
                   onPressedButton(restaurantDataItems, menuItemCounterKey);
+                  // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
                 } else {
                   noConnection(context);
                 }
@@ -223,66 +226,9 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 //          }
 
 
-
-        // return Container(
-        //   height: 500,
-        //   child: SlidingUpPanel(
-        //     minHeight: 340,
-        //     body: Container(
-        //       height: 180,
-        //       decoration: BoxDecoration(
-        //           borderRadius: BorderRadius.only(
-        //             topLeft: Radius.circular(12),
-        //             topRight: Radius.circular(12),
-        //           ),
-        //           color: Colors.white
-        //       ),
-        //       child: ClipRRect(
-        //           borderRadius: BorderRadius.only(
-        //               topLeft: Radius.circular(12),
-        //               topRight: Radius.circular(12),
-        //               bottomLeft: Radius.circular(0),
-        //               bottomRight: Radius.circular(0)),
-        //           child: Stack(
-        //             children: <Widget>[
-        //               Image.network(
-        //                 getImage(restaurantDataItems.meta.images[0]),
-        //                 fit: BoxFit.cover,
-        //                 height: 180.0,
-        //                 width: MediaQuery.of(context).size.width,
-        //               ),
-        //               Align(
-        //                   alignment: Alignment.topRight,
-        //                   child: Padding(
-        //                     padding: EdgeInsets.only(top: 10, right: 15),
-        //                     child: GestureDetector(
-        //                       child: SvgPicture.asset(
-        //                           'assets/svg_images/bottom_close.svg'),
-        //                       onTap: () {
-        //                         Navigator.pop(context);
-        //                       },
-        //                     ),
-        //                   ))
-        //             ],
-        //           )),
-        //     ),
-        //     panel: Align(
-        //         alignment: Alignment.bottomCenter,
-        //         child: Container(
-        //             decoration: BoxDecoration(
-        //                 borderRadius: BorderRadius.only(
-        //                   topLeft: Radius.circular(12),
-        //                   topRight: Radius.circular(12),
-        //                 ),
-        //                 color: Colors.white
-        //             ),
-        //           child: _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey)
-        //         )
-        //     ),
-        //   ),
-        // );
+        if(restaurantDataItems.type == 'single'){
           return Container(
-            height: (restaurantDataItems.type == 'single') ? 400: 540,
+            height: 400,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Stack(
@@ -328,23 +274,23 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                             )),
                       ),
                       Container(
-                        height: (restaurantDataItems.type == 'single') ? 220: 360,
+                        height: 220,
                         decoration: BoxDecoration(color: Colors.white),
                       )
                     ],
                   ),
                   Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: (restaurantDataItems.type == 'single') ? 250 : 390,
-                      child: ListView.builder(
-                        itemCount: 1,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (BuildContext context ,int index){
-                          return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
-                        },
-                      ),
-                    )
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: 250,
+                        child: ListView.builder(
+                          itemCount: 1,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (BuildContext context ,int index){
+                            return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
+                          },
+                        ),
+                      )
                   ),
 
                   // Align(
@@ -373,6 +319,140 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
               ),
             ),
           );
+        }else{
+          return Container(
+            height: 530,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        height: 180,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                            ),
+                            color: Colors.white
+                        ),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                                bottomLeft: Radius.circular(0),
+                                bottomRight: Radius.circular(0)),
+                            child: Stack(
+                              children: <Widget>[
+                                Image.network(
+                                  getImage(restaurantDataItems.meta.images[0]),
+                                  fit: BoxFit.cover,
+                                  height: 180.0,
+                                  width: MediaQuery.of(context).size.width,
+                                ),
+                                Align(
+                                    alignment: Alignment.topRight,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 10, right: 15),
+                                      child: GestureDetector(
+                                        child: SvgPicture.asset(
+                                            'assets/svg_images/bottom_close.svg'),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ))
+                              ],
+                            )),
+                      ),
+                      Container(
+                        height: 220,
+                        decoration: BoxDecoration(color: Colors.white),
+                      )
+                    ],
+                  ),
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: 400,
+                        child: ListView.builder(
+                          itemCount: 1,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (BuildContext context ,int index){
+                            return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
+                          },
+                        ),
+                      )
+                  ),
+                ],
+              ),
+            ),
+          );
+          return Container(
+          height: 530,
+          child: SlidingUpPanel(
+            minHeight: 400,
+            maxHeight: 530,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12),
+              topRight: Radius.circular(12),
+            ),
+            body: Container(
+              height: 180,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                  color: Colors.white
+              ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                      bottomLeft: Radius.circular(0),
+                      bottomRight: Radius.circular(0)),
+                  child: Stack(
+                    children: <Widget>[
+                      Image.network(
+                        getImage(restaurantDataItems.meta.images[0]),
+                        fit: BoxFit.cover,
+                        height: 180.0,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 10, right: 15),
+                            child: GestureDetector(
+                              child: SvgPicture.asset(
+                                  'assets/svg_images/bottom_close.svg'),
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ))
+                    ],
+                  )),
+            ),
+            panel: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 530,
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: ListView.builder(
+                    itemCount: 1,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context ,int index){
+                      return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
+                    },
+                  ),
+                )
+            ),
+          ),
+        );
+        }
         });
   }
 
@@ -740,36 +820,6 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
     return result;
   }
 
-
-  // Order getCartItem(){
-  //   if(order != null){
-  //     return order;
-  //   }
-  //   try{
-  //     // order = currentUser.cartModel.cart.firstWhere((element) => element.food.uuid == restaurantDataItems.uuid);
-  //   }catch(e){
-  //     order = null;
-  //   }
-  //   return order;
-  // }
-  //
-  // int getQuantity(){
-  //   order = getCartItem();
-  //   return (order == null) ? 0 : order.quantity;
-  // }
-
-// double getBottomSheetHeight(ProductsDataModel food){
-//   if(food.variants != null && food.toppings == null|| food.variants == null&& food.toppings != null){
-//     return 553;
-//   }else if(food.comment != "" && food.comment != null){
-//     return 420;
-//   }else if(food.variants == null || food.toppings == null){
-//     return 360;
-//   }else{
-//     return 600;
-//   }
-// }
-//
 double getBottomSheetContainerHeight(ProductsByStoreUuid food){
   if(food.variantGroups == null){
     return 400;
@@ -777,16 +827,5 @@ double getBottomSheetContainerHeight(ProductsByStoreUuid food){
     return 600;
   }
 }
-//
-// double getInitialChildHeight(ProductsDataModel food){
-//   if(food.variants != null && food.toppings == null|| food.variants == null&& food.toppings != null){
-//     return 0.72;
-//   }else if(food.comment != "" && food.comment != null){
-//     return 0.65;
-//   }else if(food.variants == null || food.toppings == null){
-//     return 0.57;
-//   }else{
-//     return 0.75;
-//   }
 // }
 }

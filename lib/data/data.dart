@@ -41,8 +41,8 @@ String getImage(String imgJson) {
     print('not parsedJson ' + imgJson);
     return imgJson;
   } catch(e){
-    if(imgJson.startsWith('"\\"')) {
-      imgJson = imgJson.substring(3, imgJson.length - 3);
+    if(imgJson.startsWith('"\\\"')) {
+      imgJson = imgJson.substring(4, imgJson.length - 4);
     }else if(imgJson.startsWith('"')){
       imgJson = imgJson.substring(1, imgJson.length - 1);
     }

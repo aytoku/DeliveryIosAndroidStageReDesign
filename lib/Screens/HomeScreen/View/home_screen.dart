@@ -5,16 +5,13 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Preloader/device_id_screen.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
-import 'package:flutter_app/Screens/CityScreen/API/getStreet.dart';
 import 'package:flutter_app/Screens/HomeScreen/API/getFilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
-import 'package:flutter_app/Screens/HomeScreen/Widgets/Promotion.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/RestaurantsList.dart';
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.dart';
-import 'package:flutter_app/Screens/OrdersScreen/API/cancel_order.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
@@ -39,12 +36,12 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   List<OrderChecking> orderList;
-  List<FilteredStores> recordsItems = new List<FilteredStores>();
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  GlobalKey<CartButtonState> basketButtonStateKey = new GlobalKey<CartButtonState>();
+  List<FilteredStores> recordsItems;
+  GlobalKey<ScaffoldState> _scaffoldKey;
+  GlobalKey<CartButtonState> basketButtonStateKey;
   Filter filter;
   RestaurantsList restaurantsList;
-  GlobalKey<CityScreenState> cityScreenKey = new GlobalKey<CityScreenState>();
+  GlobalKey<CityScreenState> cityScreenKey;
 
 
   @override
@@ -56,15 +53,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitDown,
     ]);
     filter = Filter(this, key: new GlobalKey<FilterState>());
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state == AppLifecycleState.resumed){
-      setState(() {
-
-      });
-    }
+    recordsItems = new List<FilteredStores>();
+    _scaffoldKey = new GlobalKey<ScaffoldState>();
+    basketButtonStateKey = new GlobalKey<CartButtonState>();
+    cityScreenKey = new GlobalKey<CityScreenState>();
   }
 
   @override
@@ -74,7 +66,20 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitDown,
     ]);
     WidgetsBinding.instance.removeObserver(this);
+    filter.key.currentState.dispose();
+    _scaffoldKey.currentState.dispose();
+    basketButtonStateKey.currentState.dispose();
+    cityScreenKey.currentState.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.resumed){
+      setState(() {
+
+      });
+    }
   }
 
   List<Widget> getSideBarItems(bool isLogged) {
@@ -299,98 +304,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           ));
     }
     return allSideBarItems;
-  }
-
-
-  void _dispatchAddress() {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(20),
-              topRight: const Radius.circular(20),
-            )),
-        context: context,
-        builder: (context) {
-          return Container(
-            height: 200,
-            child: _buildDispatchAddressBottomNavigationMenu(),
-            decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(20),
-                  topRight: const Radius.circular(20),
-                )),
-          );
-        });
-  }
-
-  _buildDispatchAddressBottomNavigationMenu() {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(20),
-            topRight: const Radius.circular(20),
-          )),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 30, bottom: 20),
-              child: Row(
-                children: [
-                  Text('Адреса',
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  Text('Сменить город',
-                    style: TextStyle(
-                        fontSize: 16,
-                      color: Colors.grey,
-                      decoration: TextDecoration.underline
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(left:15, right: 15, top: 15, bottom: 15),
-                child: InkWell(
-                  child: Container(
-                    width: 380,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        color: Color(0xFF09B44D),
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: Center(
-                      child: Text('Готово',
-                        style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.white
-                        ),
-                      ),
-                    ),
-                  ),
-                  onTap: (){
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
   }
 
 

@@ -24,15 +24,34 @@ class AddCityScreen extends StatefulWidget {
 class AddCityScreenState extends State<AddCityScreen> {
   bool status1 = false;
   String name;
-  GlobalKey<CityAutocompleteState> autoCompleteFieldKey = new GlobalKey();
+  GlobalKey<CityAutocompleteState> autoCompleteFieldKey;
   AddressScreenState parent;
-
+  TextEditingController nameField;
+  TextEditingController commentField;
+  GlobalKey<CartPageState>cartPageKey;
 
   AddCityScreenState(this.parent);
 
-  TextEditingController nameField = new TextEditingController();
-  TextEditingController commentField = new TextEditingController();
-  GlobalKey<CartPageState>cartPageKey = new GlobalKey();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    autoCompleteFieldKey = new GlobalKey();
+    nameField = new TextEditingController();
+    commentField = new TextEditingController();
+    cartPageKey = new GlobalKey();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    autoCompleteFieldKey.currentState.dispose();
+    nameField.dispose();
+    commentField.dispose();
+    cartPageKey.currentState.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

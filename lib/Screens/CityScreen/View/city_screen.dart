@@ -18,7 +18,21 @@ class CityScreen extends StatefulWidget {
 
 class CityScreenState extends State<CityScreen>{
 
-  TextEditingController cityController = new TextEditingController();
+  TextEditingController cityController;
+
+  @override
+  void initState(){
+    super.initState();
+    cityController = new TextEditingController();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    cityController.dispose();
+  }
+
+
   CityScreenState();
 
   showAlertDialog(BuildContext context) {

@@ -24,13 +24,15 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   String error = '';
   AuthSources source;
-  var controller = new MaskedTextController(mask: '+7 000 000-00-00');
-  GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
+  var controller;
+  GlobalKey<ButtonState> buttonStateKey;
   _AuthScreenState(this.source);
 
   @override
   void initState() {
     super.initState();
+    controller = new MaskedTextController(mask: '+7 000 000-00-00');
+    buttonStateKey = new GlobalKey<ButtonState>();
     controller.afterChange = (String previous, String next){
       if(next.length > previous.length){
         controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
@@ -43,6 +45,12 @@ class _AuthScreenState extends State<AuthScreen> {
       }
       return true;
     };
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    buttonStateKey.currentState.dispose();
   }
 
   @override

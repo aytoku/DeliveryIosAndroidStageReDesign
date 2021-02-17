@@ -26,23 +26,31 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
   bool get wantKeepAlive => true;
   AutoCompleteFieldState(this.onSelected, this.initialValue);
   String initialValue;
-  List<InitialAddressModel> suggestions = new List<InitialAddressModel>();
+  List<InitialAddressModel> suggestions;
   TextEditingController controller;
   AutocompleteList autocompleteList;
   InitialAddressModel selectedValue;
   AsyncCallback onSelected;
-  FocusNode node = new FocusNode();
+  FocusNode node;
 
   @override
   void initState(){
     autocompleteList = AutocompleteList(suggestions, this, new GlobalKey(), initialValue);
     controller = new TextEditingController(text: (initialValue != null) ? initialValue :  '');
+    suggestions = new List<InitialAddressModel>();
+    node = new FocusNode();
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    controller.dispose();
+    node.dispose();
   }
 
   Widget build(BuildContext context) {
     return Container(
-//      height: 500,
       child: Column(
         children: [
           Padding(
@@ -146,11 +154,16 @@ class AutocompleteList extends StatefulWidget {
 
 class AutocompleteListState extends State<AutocompleteList> {
 
-  List<InitialAddressModel> suggestions = new List<InitialAddressModel>();
+  List<InitialAddressModel> suggestions;
   AutoCompleteFieldState parent;
   String initialValue;
   AutocompleteListState(this.suggestions, this.parent, this.initialValue);
 
+  @override
+  void initState(){
+    super.initState();
+    suggestions = new List<InitialAddressModel>();
+  }
 
   Widget suggestionRow(){
     return Container(

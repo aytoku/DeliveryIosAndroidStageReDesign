@@ -24,12 +24,30 @@ class CategoryListState extends State<CategoryList> {
   CategoriesUuid currentCategory;
   List<CategoryListItem> categoryItems;
   bool firstStart;
-  ScrollController categoryListScrollController = new ScrollController();
-  final ItemScrollController itemScrollController = ItemScrollController();
-  final ItemPositionsListener itemPositionsListener = ItemPositionsListener.create();
+  ScrollController categoryListScrollController;
+  ItemScrollController itemScrollController;
+  ItemPositionsListener itemPositionsListener;
 
 
   CategoryListState(this.restaurant, this.parent);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    categoryItems = new List<CategoryListItem>();
+    currentCategory = (restaurant.productCategoriesUuid.length > 0) ? restaurant.productCategoriesUuid[0] : '';
+    firstStart = true;
+    categoryListScrollController = new ScrollController();
+    itemScrollController = ItemScrollController();
+    itemPositionsListener = ItemPositionsListener.create();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    categoryListScrollController.dispose();
+  }
 
   _category() {
     showModalBottomSheet(
@@ -99,15 +117,6 @@ class CategoryListState extends State<CategoryList> {
     );
   }
 
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    categoryItems = new List<CategoryListItem>();
-    currentCategory = (restaurant.productCategoriesUuid.length > 0) ? restaurant.productCategoriesUuid[0] : '';
-    firstStart = true;
-  }
   @override
   Widget build(BuildContext context) {
     // Если категории в списке отличаются от категорий ресторана

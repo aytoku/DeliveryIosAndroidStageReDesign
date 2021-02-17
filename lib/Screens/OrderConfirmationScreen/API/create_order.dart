@@ -1,4 +1,5 @@
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
+import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -9,7 +10,7 @@ import '../../../data/RefreshToken.dart';
 Future<CartModel> createOrder(String order_uuid) async {
   await RefreshToken.sendRefreshToken();
   CartModel cartModel = null;
-  var url = 'http://78.110.156.74:3003/api/v3/orders/${order_uuid}';
+  var url = '${apiUrl}orders/${order_uuid}';
   var response = await http.put(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization':'Bearer ' + authCodeData.token

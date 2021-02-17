@@ -20,14 +20,17 @@ class AddressSelector extends StatefulWidget {
 class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliveClientMixin{
   @override
   bool get wantKeepAlive => true;
-  MyFavouriteAddressesModel myFavouriteAddressesModel = null;
+  MyFavouriteAddressesModel myFavouriteAddressesModel;
   List<MyFavouriteAddressesModel> myFavouriteAddressList;
   AddressScreenState parent;
-  TextEditingController notFavouriteAddressController = new TextEditingController();
+  TextEditingController notFavouriteAddressController;
 
   AddressSelectorState(this.myFavouriteAddressList, this.parent);
 
+  @override
   void initState() {
+    super.initState();
+    notFavouriteAddressController = new TextEditingController();
     if(myFavouriteAddressList.length > 0){
       myFavouriteAddressesModel = myFavouriteAddressList[0];
       if(myFavouriteAddressList.last.address != null && myFavouriteAddressList.last.type == null){
@@ -36,6 +39,12 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
             myFavouriteAddressList.last.address.house;
       }
     }
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    notFavouriteAddressController.dispose();
   }
 
 

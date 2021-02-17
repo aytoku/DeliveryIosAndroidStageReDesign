@@ -247,7 +247,7 @@ class ProductMeta {
 
   factory ProductMeta.fromJson(Map<String, dynamic> json) => ProductMeta(
     description: json["description"],
-    images: List<String>.from(json["images"].map((x) => x)),
+    images: (json["images"] == null) ? null : List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
   );
 

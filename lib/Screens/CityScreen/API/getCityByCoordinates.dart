@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -11,7 +12,7 @@ Future<CityByCoordinates> getCityByCoordinates(double lat, double long) async {
     "lat": lat,
     "long": long
   });
-  var url = 'http://78.110.156.74:3003/api/v3/cities/findaddress';
+  var url = '${apiUrl}cities/findaddress';
   var response = await http.post(url, body: json_request, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   });

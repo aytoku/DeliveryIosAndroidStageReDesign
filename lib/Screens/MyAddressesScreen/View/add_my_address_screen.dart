@@ -21,12 +21,30 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
   bool status1 = false;
   String name;
   MyFavouriteAddressesModel myAddressesModel;
-  GlobalKey<AutoCompleteFieldState> autoCompleteFieldKey = new GlobalKey();
+  GlobalKey<AutoCompleteFieldState> autoCompleteFieldKey;
 
   AddMyAddressScreenState(this.myAddressesModel);
 
-  TextEditingController nameField = new TextEditingController();
-  TextEditingController commentField = new TextEditingController();
+  TextEditingController nameField;
+  TextEditingController commentField;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    autoCompleteFieldKey = new GlobalKey();
+    nameField = new TextEditingController();
+    commentField = new TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    autoCompleteFieldKey.currentState.dispose();
+    nameField.dispose();
+    commentField.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
+import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -8,7 +9,7 @@ import 'dart:convert' as convert;
 Future<CartModel> clearCart(String device_id) async {
 
   CartModel cartModel = null;
-  var url = 'http://78.110.156.74:3003/api/v3/orders/carts/${device_id}/clear';
+  var url = '${apiUrl}orders/carts/${device_id}/clear';
   var response = await http.delete(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   });

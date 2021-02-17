@@ -64,9 +64,13 @@ class FilteredStores {
   factory FilteredStores.fromStoreData(StoreData store){
 
     List<CategoriesUuid> productCategoriesUuid = new List<CategoriesUuid>();
-    store.productCategoriesUuid.forEach((element) {
-      productCategoriesUuid.add(new CategoriesUuid(uuid: element));
-    });
+    if(store.productCategoriesUuid != null){
+      store.productCategoriesUuid.forEach((element) {
+        productCategoriesUuid.add(new CategoriesUuid(uuid: element));
+      });
+    }else{
+      return null;
+    }
 
 
     return new FilteredStores(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/NecessaryAddressModel.dart';
+import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -15,7 +16,7 @@ Future<NecessaryAddressData> getStreet(String name, String city_uuid) async {
     "name": name,
     "city_uuid": city_uuid
   });
-  var url = 'http://78.110.156.74:3003/api/v3/addresses';
+  var url = '${apiUrl}addresses';
   var response = await http.post(url, body: json_request, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     //'Authorization':'Bearer ' + authCodeData.token

@@ -15,7 +15,7 @@ class PriorityScreenState extends State<PriorityScreen>{
 
   PriorityScreenState();
 
-  List<bool> selectedFilterItem = List.generate(5, (index) => false);
+  List<bool> selectedFilterItem;
 
   List<String> titles = [
     'Доверюсь вам',
@@ -25,6 +25,12 @@ class PriorityScreenState extends State<PriorityScreen>{
     'Дорогие',
   ];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectedFilterItem = List.generate(5, (index) => false);
+  }
 
   @override
   Widget build(BuildContext context) {

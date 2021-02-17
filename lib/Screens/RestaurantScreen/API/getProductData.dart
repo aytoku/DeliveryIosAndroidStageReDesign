@@ -1,11 +1,12 @@
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
+import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 
 Future<ProductsDataModel> getProductData(String uuid) async {
   ProductsDataModel productDataModelItem = null;
-  var url = 'http://78.110.156.74:3003/api/v3/products/${uuid}';
+  var url = '${apiUrl}products/${uuid}';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',

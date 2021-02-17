@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_app/Screens/AuthScreen/Model/Auth.dart';
+import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -11,7 +12,7 @@ Future<AuthData> loadAuthData(String device_id, String phone, String service) as
     "service": service
   });
   print(device_id+ " " + phone + " " + service);
-  var url = 'http://78.110.156.74:3005/api/v3/clients/new';
+  var url = '${authApiUrl}clients/new';
   var response = await http.post(url, body: json_request, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   });

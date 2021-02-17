@@ -12,7 +12,21 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class ProfileScreenState extends State<ProfileScreen> {
-  TextEditingController nameField = new TextEditingController();
+  TextEditingController nameField;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nameField = new TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    nameField.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

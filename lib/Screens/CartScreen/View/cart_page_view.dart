@@ -3,24 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/clear_cart.dart';
-import 'package:flutter_app/Screens/CartScreen/API/decriment_cart_item.dart';
-import 'package:flutter_app/Screens/CartScreen/API/delete_item_from_cart.dart';
-import 'package:flutter_app/Screens/CartScreen/API/increment_cart_item_count.dart';
-import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
-import 'package:flutter_app/Screens/CartScreen/Widgets/Counter.dart';
-import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
-import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:io' show Platform;
-
 import '../../../Amplitude/amplitude.dart';
 import '../../AuthScreen/View/auth_screen.dart';
-import '../../RestaurantScreen/View/restaurant_screen.dart';
+import '../../HomeScreen/View/home_screen.dart';
 import 'cart_screen.dart';
 import 'empty_cart_screen.dart';
 
@@ -40,23 +32,16 @@ class CartPageState extends State<CartPageScreen> {
   final FilteredStores restaurant;
 
   int selectedPageId = 0;
-  GlobalKey<CartScreenState> cartTakeAwayScreenKey = new GlobalKey<CartScreenState>();
-  GlobalKey<CartScreenState> cartScreenKey = new GlobalKey<CartScreenState>();
-  TotalPrice totalPriceWidget = new TotalPrice(key: new GlobalKey(),);
+  GlobalKey<CartScreenState> cartTakeAwayScreenKey;
+  GlobalKey<CartScreenState> cartScreenKey;
+  TotalPrice totalPriceWidget;
 
   int selectedPaymentId = 0;
 
   CartPageState(this.restaurant);
 
-  PageController _controller = PageController(
-    initialPage: 0,
-  );
+  PageController _controller;
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
   @override
   void initState() {
     super.initState();
@@ -64,6 +49,18 @@ class CartPageState extends State<CartPageScreen> {
         statusBarColor: Colors.black, // Color for Android
         statusBarBrightness: Brightness.dark // Dark == white status bar -- for IOS.
     ));
+    cartTakeAwayScreenKey = new GlobalKey<CartScreenState>();
+    cartScreenKey = new GlobalKey<CartScreenState>();
+    totalPriceWidget = new TotalPrice(key: new GlobalKey(),);
+    _controller  = PageController(
+      initialPage: 0,
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
 
@@ -109,7 +106,7 @@ class CartPageState extends State<CartPageScreen> {
                      InkWell(
                          onTap: () => Navigator.push(context,
                             MaterialPageRoute(builder:
-                              (context)=> RestaurantScreen(restaurant: restaurant,)
+                              (context)=> HomeScreen()
                             )
                          ),
                          child: Container(

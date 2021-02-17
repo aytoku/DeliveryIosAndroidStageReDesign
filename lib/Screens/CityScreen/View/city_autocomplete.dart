@@ -27,18 +27,27 @@ class CityAutocompleteState extends State<CityAutocomplete> with AutomaticKeepAl
   bool get wantKeepAlive => true;
   CityAutocompleteState(this.onSelected, this.initialValue);
   String initialValue;
-  List<FilteredCities> suggestions = new List<FilteredCities>();
+  List<FilteredCities> suggestions;
   TextEditingController controller;
   AutocompleteList autocompleteList;
   FilteredCities selectedValue;
   AsyncCallback onSelected;
-  FocusNode node = new FocusNode();
+  FocusNode node;
 
   @override
   void initState(){
     autocompleteList = AutocompleteList(suggestions, this, new GlobalKey(), initialValue);
     controller = new TextEditingController(text: (initialValue != null) ? initialValue :  '');
+    suggestions = new List<FilteredCities>();
+    node = new FocusNode();
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    controller.dispose();
+    node.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -147,10 +156,16 @@ class AutocompleteList extends StatefulWidget {
 
 class AutocompleteListState extends State<AutocompleteList> {
 
-  List<FilteredCities> suggestions = new List<FilteredCities>();
+  List<FilteredCities> suggestions;
   CityAutocompleteState parent;
   String initialValue;
   AutocompleteListState(this.suggestions, this.parent, this.initialValue);
+
+  @override
+  void initState(){
+    super.initState();
+    suggestions = new List<FilteredCities>();
+  }
 
 
   Widget suggestionRow(){

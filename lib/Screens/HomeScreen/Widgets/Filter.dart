@@ -29,11 +29,11 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
   HomeScreenState parent;
   KitchenListScreen kitchenListScreen;
   bool selectedCategoryFromHomeScreen = false;
-  List<String> categoryUuid = new List<String>();
+  List<String> categoryUuid;
   List<bool> selectedKitchens;
   List<AllStoreCategories> restaurantCategories;
   ScrollController catScrollController;
-  GlobalKey<KitchenListScreenState> kitchenListKey = new GlobalKey();
+  GlobalKey<KitchenListScreenState> kitchenListKey;
 
 
   @override
@@ -42,6 +42,14 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
   @override
   void initState() {
     super.initState();
+    categoryUuid = new List<String>();
+    kitchenListKey = new GlobalKey();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    kitchenListKey.currentState.dispose();
   }
 
   // Фильтр по предпочтениям

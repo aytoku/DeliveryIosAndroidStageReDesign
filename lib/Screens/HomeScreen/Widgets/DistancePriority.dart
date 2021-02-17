@@ -17,7 +17,7 @@ class DistancePriorityScreenState extends State<DistancePriorityScreen>{
 
   DistancePriorityScreenState();
 
-  List<bool> selectedFilterItem = List.generate(5, (index) => false);
+  List<bool> selectedFilterItem;
 
   List<String> titles = [
     'до 1 км',
@@ -26,6 +26,13 @@ class DistancePriorityScreenState extends State<DistancePriorityScreen>{
     'до 5 км',
     'Любые',
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectedFilterItem = List.generate(5, (index) => false);
+  }
 
 
   @override

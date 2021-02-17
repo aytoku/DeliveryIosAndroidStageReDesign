@@ -18,8 +18,6 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../../data/data.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/API/clear_cart.dart';
 import '../API/add_variant_to_cart.dart';
@@ -41,18 +39,17 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   ProductsByStoreUuidData restaurantDataItems; // Модель текущего меню
   CategoryList categoryList; // Виджет с категориями еды
   // (для подгрузки ВПЕРЕД по клику по категории)
-  List<MenuItem> foodMenuItems = new List<MenuItem>(); // Виджеты с хавкой
-  List<MenuItemTitle> foodMenuTitles = new List<MenuItemTitle>(); // Тайтлы категорий
-  List<Widget> menuWithTitles = new List<Widget>();
+  List<MenuItem> foodMenuItems; // Виджеты с хавкой
+  List<MenuItemTitle> foodMenuTitles; // Тайтлы категорий
+  List<Widget> menuWithTitles;
 
-  GlobalKey<ProductDescCounterState> counterKey = new GlobalKey();
-  GlobalKey<CartButtonState> basketButtonStateKey =
-  new GlobalKey<CartButtonState>();
+  GlobalKey<ProductDescCounterState> counterKey;
+  GlobalKey<CartButtonState> basketButtonStateKey;
   bool isLoading = true;
 
-  GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
+  GlobalKey<ScaffoldState> _scaffoldStateKey;
 
-  ScrollController sliverScrollController = new ScrollController();
+  ScrollController sliverScrollController;
 
   RestaurantScreenState(this.restaurant);
 
@@ -60,9 +57,25 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   @override
   void initState() {
     super.initState();
+    foodMenuItems = new List<MenuItem>();
+    foodMenuTitles = new List<MenuItemTitle>();
+    menuWithTitles = new List<Widget>();
+    counterKey = new GlobalKey();
+    basketButtonStateKey = new GlobalKey<CartButtonState>();
+    _scaffoldStateKey = GlobalKey();
+    sliverScrollController = new ScrollController();
 
     // Инициализируем список категорий
     categoryList = new CategoryList(key: new GlobalKey<CategoryListState>(), restaurant: restaurant, parent: this);
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    counterKey.currentState.dispose();
+    basketButtonStateKey.currentState.dispose();
+    _scaffoldStateKey.currentState.dispose();
+    sliverScrollController.dispose();
   }
 
   bool get _isAppBarExpanded {
@@ -409,7 +422,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   Widget _buildScreen() {
     isLoading = false;
     // Если хавки нет
-    if (restaurantDataItems.productsByStoreUuidList.length == 0) {
+    if (restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length == 0) {
       return Container(
         color: Colors.white,
         child: Column(

@@ -17,14 +17,24 @@ class NameScreen extends StatefulWidget {
 }
 
 class NameScreenState extends State<NameScreen> {
-  GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
-  TextEditingController nameFieldController = new TextEditingController();
+  GlobalKey<ButtonState> buttonStateKey;
+  TextEditingController nameFieldController;
   AuthSources source;
   NameScreenState(this.source);
 
   @override
   void initState() {
     super.initState();
+    buttonStateKey = new GlobalKey<ButtonState>();
+    nameFieldController = new TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    buttonStateKey.currentState.dispose();
+    nameFieldController.dispose();
   }
 
   @override

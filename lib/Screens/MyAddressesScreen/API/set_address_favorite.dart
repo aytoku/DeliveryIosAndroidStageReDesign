@@ -1,6 +1,7 @@
 
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
 import 'package:flutter_app/data/RefreshToken.dart';
+import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -9,7 +10,7 @@ import 'dart:convert' as convert;
 Future<AddressesModelData> setAddressFavorite(String address_uuid) async {
   AddressesModelData addressModel = null;
   await RefreshToken.sendRefreshToken();
-  var url = 'http://78.110.156.74:3003/api/v3/clients/addresses/$address_uuid';
+  var url = '${apiUrl}clients/addresses/$address_uuid';
   var response = await http.put(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',

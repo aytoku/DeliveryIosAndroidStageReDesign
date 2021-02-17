@@ -20,10 +20,23 @@ class CartButton extends StatefulWidget {
 }
 
 class CartButtonState extends State<CartButton> {
-  GlobalKey<CartButtonCounterState> buttonCounterKey = new GlobalKey();
+  GlobalKey<CartButtonCounterState> buttonCounterKey;
   final FilteredStores restaurant;
 
   CartButtonState(this.restaurant);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    buttonCounterKey = new GlobalKey();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

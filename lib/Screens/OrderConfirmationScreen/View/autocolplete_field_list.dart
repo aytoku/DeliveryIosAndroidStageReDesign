@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CityScreen/API/getStreet.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/Cross.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,18 +26,27 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
   bool get wantKeepAlive => true;
   AutoCompleteFieldState(this.onSelected, this.initialValue);
   String initialValue;
-  List<InitialAddressModel> suggestions = new List<InitialAddressModel>();
+  List<InitialAddressModel> suggestions;
   TextEditingController controller;
   AutocompleteList autocompleteList;
   InitialAddressModel selectedValue;
   AsyncCallback onSelected;
-  FocusNode node = new FocusNode();
+  FocusNode node;
 
   @override
   void initState(){
     autocompleteList = AutocompleteList(suggestions, this, new GlobalKey(), initialValue);
     controller = new TextEditingController(text: (initialValue != null) ? initialValue :  '');
+    suggestions = new List<InitialAddressModel>();
+    node = new FocusNode();
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    controller.dispose();
+    node.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -144,11 +154,16 @@ class AutocompleteList extends StatefulWidget {
 
 class AutocompleteListState extends State<AutocompleteList> {
 
-  List<InitialAddressModel> suggestions = new List<InitialAddressModel>();
+  List<InitialAddressModel> suggestions;
   AutoCompleteFieldState parent;
   String initialValue;
   AutocompleteListState(this.suggestions, this.parent, this.initialValue);
 
+  @override
+  void initState(){
+    super.initState();
+    suggestions = new List<InitialAddressModel>();
+  }
 
   Widget suggestionRow(){
     return Container(
@@ -235,53 +250,5 @@ class AutocompleteListState extends State<AutocompleteList> {
       );
     }
     return suggestionRow();
-  }
-}
-
-
-class Cross extends StatefulWidget {
-
-  TextEditingController controller;
-  AutocompleteList autocompleteList;
-  Cross(this.controller, this.autocompleteList, {Key key}) : super(key: key);
-
-  @override
-  CrossState createState() {
-    return new CrossState(controller, autocompleteList);
-  }
-}
-
-class CrossState extends State<Cross> {
-  TextEditingController controller;
-  AutocompleteList autocompleteList;
-  CrossState(this.controller, this.autocompleteList);
-
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(() {
-      setState(() {
-
-      });
-    });
-  }
-
-  Widget build(BuildContext context) {
-    if(controller.text.length == 0){
-      return Container();
-    }
-    return GestureDetector(
-      child: SvgPicture.asset(
-          'assets/svg_images/auto_cross.svg'),
-      onTap: (){
-        if(controller.text != ''){
-          autocompleteList.autoCompleteListKey.currentState.suggestions.clear();
-          controller.clear();
-          autocompleteList.autoCompleteListKey.currentState.setState((){
-
-          });
-        }
-      },
-    );
   }
 }

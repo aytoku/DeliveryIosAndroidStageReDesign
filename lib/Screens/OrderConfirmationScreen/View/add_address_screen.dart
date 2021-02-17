@@ -23,15 +23,35 @@ class AddAddressScreenState extends State<AddAddressScreen> {
   bool status1 = false;
   String name;
   MyFavouriteAddressesModel myAddressesModel;
-  GlobalKey<AutoCompleteFieldState> autoCompleteFieldKey = new GlobalKey();
+  GlobalKey<AutoCompleteFieldState> autoCompleteFieldKey;
   AddressScreenState parent;
+  TextEditingController nameField;
+  TextEditingController commentField;
+  GlobalKey<CartPageState>cartPageKey;
 
 
   AddAddressScreenState(this.myAddressesModel, this.parent);
 
-  TextEditingController nameField = new TextEditingController();
-  TextEditingController commentField = new TextEditingController();
-  GlobalKey<CartPageState>cartPageKey = new GlobalKey();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    autoCompleteFieldKey = new GlobalKey();
+    nameField = new TextEditingController();
+    commentField = new TextEditingController();
+    cartPageKey = new GlobalKey();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    autoCompleteFieldKey.currentState.dispose();
+    nameField.dispose();
+    commentField.dispose();
+    cartPageKey.currentState.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -17,8 +17,20 @@ class PromoText extends StatefulWidget {
 class PromoTextState extends State<PromoText>{
 
   String title = '  Введите\nпромокод';
-  TextEditingController promoCodeField = new TextEditingController();
+  TextEditingController promoCodeField;
   PromoTextState(title);
+
+  @override
+  void initState(){
+    super.initState();
+    promoCodeField = new TextEditingController();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    promoCodeField.dispose();
+  }
 
   _promoCode() {
     showModalBottomSheet(

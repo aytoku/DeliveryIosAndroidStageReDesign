@@ -43,77 +43,6 @@ class CartScreenState extends State<CartScreen> {
   bool delete = false;
   bool isTakeAwayScreen;
 
-  showCartItemDeleteDialogAlertDialog(BuildContext context, int index) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: EdgeInsets.only(bottom: 0),
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            child: Container(
-                height: 202,
-                width: 300,
-                child: Column(
-                  children: <Widget>[
-                    InkWell(
-                      child: Container(
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 20, bottom: 20),
-                            child: Center(
-                              child: Text(
-                                'Удалить',
-                                style: TextStyle(
-                                    color: Color(0xFFFF0600),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            )),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          AmplitudeAnalytics.analytics.logEvent('remove_from_cart_all');
-                          // currentUser.cartModel.cart.clear();
-                          // currentUser.cartModel.saveData();
-                        });
-                        Navigator.pushReplacement(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) =>
-                            new EmptyCartScreen(restaurant: restaurant),
-                          ),
-                        );
-                      },
-                    ),
-                    Divider(
-                      height: 1,
-                      color: Colors.grey,
-                    ),
-                    InkWell(
-                      child: Container(
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 20, bottom: 20),
-                            child: Center(
-                              child: Text(
-                                'Отмена',
-                                style: TextStyle(
-                                    fontSize: 17, color: Color(0xFF424242)),
-                              ),
-                            )),
-                      ),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    )
-                  ],
-                )),
-          ),
-        );
-      },
-    );
-  }
-
 
   CartScreenState(this.restaurant, this.parent, this.isTakeAwayScreen);
 
@@ -266,21 +195,21 @@ class CartScreenState extends State<CartScreen> {
       padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
       child: Stack(
         children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10)),
-              child: Image.network(
-                getImage((order.product.meta.images != null && order.product.meta.images.length != 0) ? order.product.meta.images[0] : null ),
-                fit: BoxFit.cover,
-                height: 70,
-                width: 70,
-              ),),
-          ),
+          // Align(
+          //   alignment: Alignment.topLeft,
+          //   child: ClipRRect(
+          //     borderRadius: BorderRadius.only(
+          //         bottomLeft: Radius.circular(10),
+          //         topLeft: Radius.circular(10),
+          //         topRight: Radius.circular(10),
+          //         bottomRight: Radius.circular(10)),
+          //     child: Image.network(
+          //       getImage((order.product.meta.images != null && order.product.meta.images.length != 0) ? order.product.meta.images[0] : null ),
+          //       fit: BoxFit.cover,
+          //       height: 70,
+          //       width: 70,
+          //     ),),
+          // ),
           Padding(
             padding: EdgeInsets.only(left: 85),
             child: Column(
@@ -546,6 +475,4 @@ class CartScreenState extends State<CartScreen> {
       ),
     );
   }
-
-
 }
