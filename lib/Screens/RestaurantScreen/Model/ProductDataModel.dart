@@ -96,7 +96,7 @@ class ProductsDataModel {
       "item": {
         "product_uuid": uuid,
         "variant_groups": variantGroupsList,
-        "count": 1
+        "count": count
       }
     };
     // if(type.toLowerCase() != "single")
