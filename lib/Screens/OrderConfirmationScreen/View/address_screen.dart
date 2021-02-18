@@ -104,16 +104,6 @@ class AddressScreenState extends State<AddressScreen>
   @override
   void dispose(){
     super.dispose();
-    addressSelectorKey.currentState.dispose();
-    floorField.dispose();
-    entranceField.dispose();
-    entranceField.dispose();
-    intercomField.dispose();
-    officeField.dispose();
-    commentField.dispose();
-    _scaffoldStateKey.currentState.dispose();
-    cartPageKey.currentState.dispose();
-    destinationPointsSelectorStateKey.currentState.dispose();
   }
 
   showPaymentErrorAlertDialog(BuildContext context) {

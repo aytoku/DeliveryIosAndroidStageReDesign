@@ -66,10 +66,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitDown,
     ]);
     WidgetsBinding.instance.removeObserver(this);
-    filter.key.currentState.dispose();
-    _scaffoldKey.currentState.dispose();
-    basketButtonStateKey.currentState.dispose();
-    cityScreenKey.currentState.dispose();
     super.dispose();
   }
 

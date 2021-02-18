@@ -11,7 +11,7 @@ import 'dart:convert' as convert;
 Future<OrderDetailsModel> getClientStoryOrders() async {
   await RefreshToken.sendRefreshToken();
   OrderDetailsModel ordersDetails = null;
-  var url = '${apiUrl}orders/clients/story';
+  var url = '${apiUrl}orders/history';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization':'Bearer ' + authCodeData.token

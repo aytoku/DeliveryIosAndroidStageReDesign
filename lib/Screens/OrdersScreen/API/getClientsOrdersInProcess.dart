@@ -11,11 +11,12 @@ import 'dart:convert' as convert;
 Future<OrderDetailsModel> getClientsOrdersInProcess() async {
  await RefreshToken.sendRefreshToken();
  OrderDetailsModel ordersDetails = null;
-  var url = '${apiUrl}orders/clients/current';
+  var url = 'http://78.110.156.74:3003/api/v3/orders/current';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization':'Bearer ' + authCodeData.token
   });
+  print(response.body + 'vai');
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
     if(jsonResponse != null){
@@ -24,6 +25,6 @@ Future<OrderDetailsModel> getClientsOrdersInProcess() async {
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
- // print(response.body + 'vah');
+  print(response.body + 'vai');
   return ordersDetails;
 }

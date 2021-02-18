@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/CartScreen/API/change_item_count_in_cart.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -35,7 +36,7 @@ class CounterState extends State<Counter> {
   // ignore: non_constant_identifier_names
   Future<void> _incrementCounter_plus() async {
 
-    currentUser.cartModel = await incrementCartItemCount(necessaryDataForAuth.device_id, order.id);
+    currentUser.cartModel = await changeItemCountInCart(necessaryDataForAuth.device_id, order.id, 1);
     parent.setState(() {
 
     });
@@ -47,7 +48,7 @@ class CounterState extends State<Counter> {
 
   // ignore: non_constant_identifier_names
   Future<void> _incrementCounter_minus() async {
-    currentUser.cartModel = await decrementCartItem(necessaryDataForAuth.device_id, order.id);
+    currentUser.cartModel = await changeItemCountInCart(necessaryDataForAuth.device_id, order.id, -1);
     parent.setState(() {
 
     });

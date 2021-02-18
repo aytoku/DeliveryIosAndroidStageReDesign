@@ -33,6 +33,7 @@ class DeviceIdScreen extends StatelessWidget {
                 necessaryDataForAuth.phone_number == null ||
                 necessaryDataForAuth.name == null) {
               currentUser.isLoggedIn = false;
+
               AmplitudeAnalytics.initialize(necessaryDataForAuth.device_id).then((value){
                 AmplitudeAnalytics.analytics.logEvent('open_app');
               });

@@ -6,11 +6,11 @@ import 'dart:convert' as convert;
 import '../Model/CartModel.dart';
 
 
-Future<CartModel> getCartByDeviceId(String device_id) async {
+Future<CartModel> changeItemCountInCart(String device_id, int item_id, int count) async {
 
   CartModel cartModelItems = null;
-  var url = '${apiUrl}orders/device/${device_id}/last';
-  var response = await http.get(url, headers: <String, String>{
+  var url = '${apiUrl}orders/carts/$device_id/$item_id/$count';
+  var response = await http.put(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   });
   if (response.statusCode == 200) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/Screens/CartScreen/API/change_item_count_in_cart.dart';
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
@@ -40,14 +41,14 @@ class MenuItemCounterState extends State<MenuItemCounter> {
 
   // ignore: non_constant_identifier_names
   Future<void> _incrementCounter_plus() async {
-    currentUser.cartModel = await incrementCartItemCount(necessaryDataForAuth.device_id, item.id);
+    currentUser.cartModel = await changeItemCountInCart(necessaryDataForAuth.device_id, item.id, 1);
     setState(() {
     });
   }
 
   // ignore: non_constant_identifier_names
   Future<void> _incrementCounter_minus() async{
-    currentUser.cartModel = await decrementCartItem(necessaryDataForAuth.device_id, item.id);
+    currentUser.cartModel = await changeItemCountInCart(necessaryDataForAuth.device_id, item.id, -1);
     item = findCartItem(foodRecords);
     setState(() {
     });
@@ -108,7 +109,6 @@ class MenuItemCounterState extends State<MenuItemCounter> {
             onTap: () async {
               if (counter != 1) {
                 await _incrementCounter_minus();
-
               }
             },
             child: SvgPicture.asset('assets/svg_images/rest_minus.svg'),

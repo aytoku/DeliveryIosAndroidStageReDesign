@@ -72,10 +72,6 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   @override
   void dispose(){
     super.dispose();
-    counterKey.currentState.dispose();
-    basketButtonStateKey.currentState.dispose();
-    _scaffoldStateKey.currentState.dispose();
-    sliverScrollController.dispose();
   }
 
   bool get _isAppBarExpanded {

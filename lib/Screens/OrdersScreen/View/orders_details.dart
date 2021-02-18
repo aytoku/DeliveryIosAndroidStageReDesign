@@ -221,7 +221,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 0, right: 0),
               child: Divider(color: Color(0xFFE6E6E6),),
             ),
             Padding(
@@ -354,21 +354,21 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
               padding: EdgeInsets.only(top: 10, bottom: 10, left: 15),
               child: Stack(
                 children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                          bottomRight: Radius.circular(10)),
-                      child: Image.network(
-                        getImage((item.product.meta.images.length == 0) ? null : item.product.meta.images[0]),
-                        fit: BoxFit.cover,
-                        height: 70,
-                        width: 70,
-                      ),),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.topLeft,
+                  //   child: ClipRRect(
+                  //     borderRadius: BorderRadius.only(
+                  //         bottomLeft: Radius.circular(10),
+                  //         topLeft: Radius.circular(10),
+                  //         topRight: Radius.circular(10),
+                  //         bottomRight: Radius.circular(10)),
+                  //     child: Image.network(
+                  //       getImage((item.product.meta.images.length == 0) ? null : item.product.meta.images[0]),
+                  //       fit: BoxFit.cover,
+                  //       height: 70,
+                  //       width: 70,
+                  //     ),),
+                  // ),
                   Padding(
                     padding: EdgeInsets.only(left: 100),
                     child: Column(
@@ -429,7 +429,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                          padding: EdgeInsets.only(left: 20, right: 15, top: 10),
                           child: Text(
                             '${item.count}шт',
                             style: TextStyle(
@@ -443,7 +443,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
               )
           ),
           Padding(
-            padding: EdgeInsets.only(left: 10, right: 10),
+            padding: EdgeInsets.only(left: 15, right: 15),
             child: Divider(color: Color(0xFFE6E6E6)),
           ),
         ],

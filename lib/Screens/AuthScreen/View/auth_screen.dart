@@ -50,7 +50,6 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   void dispose() {
     super.dispose();
-    buttonStateKey.currentState.dispose();
   }
 
   @override

@@ -37,6 +37,7 @@ class ProductsDataModel {
   List<ProductCategory> productCategories;
   List<VariantGroup> variantGroups;
 
+
   factory ProductsDataModel.fromJson(Map<String, dynamic> json) => ProductsDataModel(
     uuid: json["uuid"],
     name: json["name"],
@@ -86,31 +87,15 @@ class ProductsDataModel {
     //     "count": count
     //   }
     // };
+    List<dynamic> variantGroupsList = new List<dynamic>();
+    variantGroups.forEach((element) {
+      variantGroupsList.add(element.toServerJson());
+    });
     Map<String, dynamic> request = {
       "source": "mod",
       "item": {
-        "product_uuid": "4bee9b65-f641-4363-823f-18fe6a01a8d9",
-        "variant_groups": [
-          {
-            "variant_group_uuid": "5038f805-e717-4a47-a8b1-66d4cc2d6f9d",
-            "variants_uuid": [
-              "0303c064-0d27-4253-85ee-b603f14d00f1"
-            ]
-          },
-          {
-            "variant_group_uuid": "cbb48e54-7a3a-4c15-b074-bdaf92443eca",
-            "variants_uuid": [
-              "5247d31d-2a5c-4270-91c9-451742ecea8e"
-            ]
-          },
-          {
-            "variant_group_uuid": "6569fa1b-d1df-4895-8288-066edb7c1603",
-            "variants_uuid": [
-              "71c9994c-b448-41bb-91fa-a4a998fe4f29",
-              "cac55e84-cee3-4b22-a535-fc64726552f5"
-            ]
-          }
-        ],
+        "product_uuid": uuid,
+        "variant_groups": variantGroupsList,
         "count": 1
       }
     };
@@ -271,6 +256,19 @@ class VariantGroup {
     "meta": meta.toJson(),
     "variants": List<dynamic>.from(variants.map((x) => x.toJson())),
   };
+
+  Map<String, dynamic> toServerJson(){
+    List<String> variantList = new List<String>();
+    variants.forEach((element) {
+      variantList.add(element.uuid);
+    });
+    Map<String, dynamic> request = {
+      "variant_group_uuid": uuid,
+      "variants_uuid": variantList
+    };
+
+    return request;
+  }
 }
 
 class Variant {

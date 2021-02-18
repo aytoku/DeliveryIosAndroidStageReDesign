@@ -49,7 +49,6 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
   @override
   void dispose(){
     super.dispose();
-    kitchenListKey.currentState.dispose();
   }
 
   // Фильтр по предпочтениям
