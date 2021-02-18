@@ -195,21 +195,21 @@ class CartScreenState extends State<CartScreen> {
       padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
       child: Stack(
         children: [
-          // Align(
-          //   alignment: Alignment.topLeft,
-          //   child: ClipRRect(
-          //     borderRadius: BorderRadius.only(
-          //         bottomLeft: Radius.circular(10),
-          //         topLeft: Radius.circular(10),
-          //         topRight: Radius.circular(10),
-          //         bottomRight: Radius.circular(10)),
-          //     child: Image.network(
-          //       getImage((order.product.meta.images != null && order.product.meta.images.length != 0) ? order.product.meta.images[0] : null ),
-          //       fit: BoxFit.cover,
-          //       height: 70,
-          //       width: 70,
-          //     ),),
-          // ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
+              child: Image.network(
+                getImage((order.product.meta.images != null && order.product.meta.images.length != 0) ? order.product.meta.images[0] : ''),
+                fit: BoxFit.cover,
+                height: 70,
+                width: 70,
+              ),),
+          ),
           Padding(
             padding: EdgeInsets.only(left: 85),
             child: Column(

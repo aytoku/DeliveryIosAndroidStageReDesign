@@ -104,11 +104,7 @@ class CartPageState extends State<CartPageScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                      InkWell(
-                         onTap: () => Navigator.push(context,
-                            MaterialPageRoute(builder:
-                              (context)=> HomeScreen()
-                            )
-                         ),
+                         onTap: () => Navigator.pop(context),
                          child: Container(
                              height: 40,
                              width: 60,

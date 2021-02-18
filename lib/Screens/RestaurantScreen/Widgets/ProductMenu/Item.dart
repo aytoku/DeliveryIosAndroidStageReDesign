@@ -322,6 +322,62 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
         }else{
           return Container(
             height: 530,
+            child: SlidingUpPanel(
+              minHeight: 400,
+              maxHeight: 530,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
+              body: Container(
+                height: 180,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                    color: Colors.white
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(0)),
+                    child: Stack(
+                      children: <Widget>[
+                        Image.network(
+                          getImage(restaurantDataItems.meta.images[0]),
+                          fit: BoxFit.cover,
+                          height: 180.0,
+                          width: MediaQuery.of(context).size.width,
+                        ),
+                        Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 10, right: 15),
+                              child: GestureDetector(
+                                child: SvgPicture.asset(
+                                    'assets/svg_images/bottom_close.svg'),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ))
+                      ],
+                    )),
+              ),
+              panelBuilder: (ScrollController sc) => ListView.builder(
+                itemCount: 1,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context ,int index){
+                  return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
+                },
+              ),
+            ),
+          );
+          return Container(
+            height: 530,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Stack(
@@ -389,69 +445,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
               ),
             ),
           );
-          return Container(
-          height: 530,
-          child: SlidingUpPanel(
-            minHeight: 400,
-            maxHeight: 530,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
-            ),
-            body: Container(
-              height: 180,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                  ),
-                  color: Colors.white
-              ),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                      bottomLeft: Radius.circular(0),
-                      bottomRight: Radius.circular(0)),
-                  child: Stack(
-                    children: <Widget>[
-                      Image.network(
-                        getImage(restaurantDataItems.meta.images[0]),
-                        fit: BoxFit.cover,
-                        height: 180.0,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                      Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10, right: 15),
-                            child: GestureDetector(
-                              child: SvgPicture.asset(
-                                  'assets/svg_images/bottom_close.svg'),
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ))
-                    ],
-                  )),
-            ),
-            panel: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 530,
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: ListView.builder(
-                    itemCount: 1,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context ,int index){
-                      return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
-                    },
-                  ),
-                )
-            ),
-          ),
-        );
+
         }
         });
   }

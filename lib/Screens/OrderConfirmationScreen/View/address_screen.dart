@@ -428,7 +428,7 @@ class AddressScreenState extends State<AddressScreen>
   Widget buildAddressesList(){
     if(myAddressesModelList != null){
       return Container(
-        height: (myAddressesModelList.length > 0) ? initHeight + 30 : 200,
+        height: initHeight + 15 * myAddressesModelList.length,
           child: Column(
             children: [
               Align(
@@ -447,42 +447,57 @@ class AddressScreenState extends State<AddressScreen>
           )
       );
     }else{
-      return Container(
-        height: 160,
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(top: 20, left: 15, bottom: 15),
-                child: Text('Ваш адрес',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF424242))),
-              ),
-            ),
-            FutureBuilder<List<MyFavouriteAddressesModel>>(
-              future: MyFavouriteAddressesModel.getAddresses(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<MyFavouriteAddressesModel>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  myAddressesModelList = snapshot.data;
-                  myAddressesModelList
-                      .add(new MyFavouriteAddressesModel(type: null));
-                  return buildAddressesListSelector();
-                } else {
-                  return Center(
-                    child: SpinKitThreeBounce(
-                      color: Colors.green,
-                      size: 20.0,
+      return FutureBuilder<List<MyFavouriteAddressesModel>>(
+        future: MyFavouriteAddressesModel.getAddresses(),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<MyFavouriteAddressesModel>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            myAddressesModelList = snapshot.data;
+            myAddressesModelList
+                .add(new MyFavouriteAddressesModel(type: null));
+            return Container(
+              height: initHeight + 15 * myAddressesModelList.length,
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20, left: 15, bottom: 15),
+                      child: Text('Ваш адрес',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF424242))),
                     ),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
+                  ),
+                  buildAddressesListSelector()
+                ],
+              ),
+            );
+          } else {
+            return Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 20, left: 15, bottom: 15),
+                    child: Text('Ваш адрес',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF424242))),
+                  ),
+                ),
+                Center(
+                  child: SpinKitThreeBounce(
+                    color: Colors.green,
+                    size: 20.0,
+                  ),
+                ),
+              ],
+            );
+          }
+        },
       );
     }
   }
@@ -519,23 +534,7 @@ class AddressScreenState extends State<AddressScreen>
                           child: Padding(
                             padding: EdgeInsets.only(left: 0),
                             child: InkWell(
-                              onTap: () => Navigator.of(context).push(
-                                  PageRouteBuilder(
-                                      pageBuilder: (context, animation, anotherAnimation) {
-                                        return CartPageScreen(restaurant: restaurant);
-                                      },
-                                      transitionDuration: Duration(milliseconds: 300),
-                                      transitionsBuilder:
-                                          (context, animation, anotherAnimation, child) {
-                                        return SlideTransition(
-                                          position: Tween(
-                                              begin: Offset(1.0, 0.0),
-                                              end: Offset(0.0, 0.0))
-                                              .animate(animation),
-                                          child: child,
-                                        );
-                                      }
-                                  )),
+                              onTap: () => Navigator.pop(context),
                               child: Padding(
                                   padding: EdgeInsets.only(right: 0),
                                   child: Container(

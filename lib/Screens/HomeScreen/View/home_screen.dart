@@ -337,7 +337,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           ),
         ),
         body: FutureBuilder<FilteredStoresData>(
-            future: getFilteredStores(selectedCity.uuid, false),
+            future: getFilteredStores(selectedCity.uuid, true),
             initialData: null,
             builder: (BuildContext context,
                 AsyncSnapshot<FilteredStoresData> snapshot) {

@@ -577,7 +577,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     Image.network(
                       getImage((restaurant.meta.images != null
                             && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
-                      fit: BoxFit.fitHeight,
+                      fit: BoxFit.fitWidth,
                       height: 230.0,
                       width: MediaQuery.of(context).size.width,
                     ),
@@ -664,7 +664,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     centerTitle: true,
                     title: SliverText(title: Text('', style: TextStyle(fontSize: 18),),key: sliverTextKey,),
                     background: AnnotatedRegion<SystemUiOverlayStyle>(
-                      value: _isAppBarExpanded ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light,
+                      value: SystemUiOverlayStyle.dark,
                       child: ClipRRect(
                           child: Stack(
                             children: <Widget>[
