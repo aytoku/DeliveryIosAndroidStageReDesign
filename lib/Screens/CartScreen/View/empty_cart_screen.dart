@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../data/data.dart';
@@ -7,19 +9,21 @@ import '../../HomeScreen/View/home_screen.dart';
 
 class EmptyCartScreen extends StatefulWidget {
   final FilteredStores restaurant;
+  CartSources source;
 
-  EmptyCartScreen({Key key, this.restaurant}) : super(key: key);
+  EmptyCartScreen({Key key, this.restaurant, this.source}) : super(key: key);
 
   @override
   EmptyCartScreenState createState() {
-    return new EmptyCartScreenState(restaurant);
+    return new EmptyCartScreenState(restaurant, source);
   }
 }
 
 class EmptyCartScreenState extends State<EmptyCartScreen> {
   final FilteredStores restaurant;
+  CartSources source;
 
-  EmptyCartScreenState(this.restaurant);
+  EmptyCartScreenState(this.restaurant, this.source);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,20 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                         padding: EdgeInsets.only(left: 5),
                         child: InkWell(
                           onTap: () {
-                            Navigator.pop(context);
+                            if(source == CartSources.Home){
+                              homeScreenKey = new GlobalKey<HomeScreenState>();
+                              Navigator.pushReplacement(context,
+                                  new MaterialPageRoute(builder:
+                                      (context)=>HomeScreen()
+                                  )
+                              );
+                            }else if(source == CartSources.Restaurant){
+                              Navigator.pushReplacement(context,
+                                  new MaterialPageRoute(builder:
+                                      (context)=>RestaurantScreen(restaurant: restaurant)
+                                  )
+                              );
+                            }
                           },
                           child: Padding(
                               padding: EdgeInsets.only(right: 0),

@@ -7,6 +7,7 @@ import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:io' show Platform;
@@ -19,13 +20,15 @@ import 'empty_cart_screen.dart';
 
 class CartPageScreen extends StatefulWidget {
   final FilteredStores restaurant;
+  CartSources source;
   CartPageScreen({
     Key key,
     this.restaurant,
+    this.source
   }) : super(key: key);
 
   @override
-  CartPageState createState() => CartPageState(restaurant);
+  CartPageState createState() => CartPageState(restaurant, source);
 }
 
 class CartPageState extends State<CartPageScreen> {
@@ -35,10 +38,12 @@ class CartPageState extends State<CartPageScreen> {
   GlobalKey<CartScreenState> cartTakeAwayScreenKey;
   GlobalKey<CartScreenState> cartScreenKey;
   TotalPrice totalPriceWidget;
+  CartSources source;
+
 
   int selectedPaymentId = 0;
 
-  CartPageState(this.restaurant);
+  CartPageState(this.restaurant, this.source);
 
   PageController _controller;
 
@@ -104,7 +109,22 @@ class CartPageState extends State<CartPageScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                      InkWell(
-                         onTap: () => Navigator.pop(context),
+                         onTap: (){
+                           if(source == CartSources.Home){
+                             homeScreenKey = new GlobalKey<HomeScreenState>();
+                             Navigator.pushReplacement(context,
+                              new MaterialPageRoute(builder:
+                                (context)=>HomeScreen()
+                              )
+                             );
+                           }else if(source == CartSources.Restaurant){
+                             Navigator.pushReplacement(context,
+                                 new MaterialPageRoute(builder:
+                                     (context)=>RestaurantScreen(restaurant: restaurant)
+                                 )
+                             );
+                           }
+                         },
                          child: Container(
                              height: 40,
                              width: 60,
@@ -487,4 +507,9 @@ class CartPageState extends State<CartPageScreen> {
       ),
     );
   }
+}
+
+enum CartSources{
+  Home,
+  Restaurant
 }

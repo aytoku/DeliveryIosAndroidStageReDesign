@@ -18,12 +18,11 @@ class PriceFieldState extends State<PriceField> {
   int count = 1;
   Item order;
   PriceFieldState(this.order);
-  double totalPrice = 0;
 
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 20),
-      child: Text('${order.price} \₽',
+      child: Text('${order.totalItemPrice.toStringAsFixed(0)} \₽',
           style: TextStyle(
               decoration: TextDecoration.none,
               fontSize: 18.0,

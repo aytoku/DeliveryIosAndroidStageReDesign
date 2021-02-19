@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CartScreen/API/change_item_count_in_cart.dart';
+import 'package:flutter_app/Screens/CartScreen/View/cart_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -12,7 +13,7 @@ import '../Model/CartModel.dart';
 import 'TotalPrice.dart';
 
 class Counter extends StatefulWidget {
-  State parent;
+  CartScreenState parent;
   GlobalKey<PriceFieldState> priceFieldKey;
   Item order;
   List<TotalPrice> totalPriceList;
@@ -25,7 +26,7 @@ class Counter extends StatefulWidget {
 }
 
 class CounterState extends State<Counter> {
-  State parent;
+  CartScreenState parent;
   GlobalKey<PriceFieldState> priceFieldKey;
   List<TotalPrice> totalPriceList;
   Item order;
@@ -37,9 +38,15 @@ class CounterState extends State<Counter> {
   Future<void> _incrementCounter_plus() async {
 
     currentUser.cartModel = await changeItemCountInCart(necessaryDataForAuth.device_id, order.id, 1);
+    if(parent.parent.totalPriceWidget.key.currentState!= null){
+      parent.parent.totalPriceWidget.key.currentState.setState(() {
+
+      });
+    }
     parent.setState(() {
 
     });
+
     // setState(() {
     //   counter++;
     //   //updateCartItemQuantity();
@@ -49,6 +56,11 @@ class CounterState extends State<Counter> {
   // ignore: non_constant_identifier_names
   Future<void> _incrementCounter_minus() async {
     currentUser.cartModel = await changeItemCountInCart(necessaryDataForAuth.device_id, order.id, -1);
+    if(parent.parent.totalPriceWidget.key.currentState!= null){
+      parent.parent.totalPriceWidget.key.currentState.setState(() {
+
+      });
+    }
     parent.setState(() {
 
     });

@@ -223,6 +223,8 @@ class Item {
     this.variantGroups,
     this.price,
     this.count,
+    this.singleItemPrice,
+    this.totalItemPrice
   });
 
   final int id;
@@ -230,6 +232,8 @@ class Item {
   final List<VariantGroup> variantGroups;
   final int price;
   final int count;
+  final double singleItemPrice;
+  final double totalItemPrice;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
     id: json["id"] == null ? null : json["id"],
@@ -237,6 +241,8 @@ class Item {
     variantGroups: json["variant_groups"] == null ? null : List<VariantGroup>.from(json["variant_groups"].map((x) => VariantGroup.fromJson(x))),
     price: json["price"] == null ? null : json["price"],
     count: json["count"] == null ? null : json["count"],
+    singleItemPrice: json["single_item_price"] == null ? null : json["single_item_price"] * 1.0,
+    totalItemPrice: json["total_item_price"] == null ? null : json["total_item_price"] * 1.0,
   );
 
   Map<String, dynamic> toJson() => {

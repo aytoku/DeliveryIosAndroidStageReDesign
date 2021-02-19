@@ -5,6 +5,7 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Preloader/device_id_screen.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
+import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/HomeScreen/API/getFilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
@@ -420,6 +421,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
 
                   // Если нам пришло с серва хоть что-то
                   if(snapshot.data.filteredStoresList != null){
+                    recordsItems.clear();
                     recordsItems.addAll(snapshot.data.filteredStoresList);
                   }
                 }
@@ -599,6 +601,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             child: CartButton(
                               key: basketButtonStateKey,
                               restaurant: FilteredStores.fromStoreData(currentUser.cartModel.storeData),
+                              source: CartSources.Home,
                             ),
                           );
                         }

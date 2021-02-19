@@ -75,12 +75,13 @@ class CartScreenState extends State<CartScreen> {
                 });
                 await deleteItemFromCart(necessaryDataForAuth.device_id, currentUser.cartModel.items[index].id);
                 currentUser.cartModel.items.removeAt(index);
-                setState(() {
-                  if(parent.totalPriceWidget.key.currentState != null){
-                    parent.totalPriceWidget.key.currentState.setState(() {
+                if(parent.totalPriceWidget.key.currentState!= null){
+                  parent.totalPriceWidget.key.currentState.setState(() {
 
-                    });
-                  }
+                  });
+                }
+                setState(() {
+
                 });
                 if (currentUser.cartModel.items.length == 0) {
                   Navigator.pushReplacement(
@@ -304,6 +305,11 @@ class CartScreenState extends State<CartScreen> {
                                               onTap: () async {
                                                 currentUser.cartModel = await deleteItemFromCart(necessaryDataForAuth.device_id, order.id);
                                                 Navigator.pop(context);
+                                                if(parent.totalPriceWidget.key.currentState!= null){
+                                                  parent.totalPriceWidget.key.currentState.setState(() {
+
+                                                  });
+                                                }
                                                 setState(() {
                                                   // if(parent.totalPriceWidget.key.currentState != null){
                                                   //   parent.totalPriceWidget.key.currentState.setState(() {
@@ -381,6 +387,11 @@ class CartScreenState extends State<CartScreen> {
                                                   onTap: () async {
                                                     currentUser.cartModel = await deleteItemFromCart(necessaryDataForAuth.device_id, order.id);
                                                     Navigator.pop(context);
+                                                    if(parent.totalPriceWidget.key.currentState!= null){
+                                                      parent.totalPriceWidget.key.currentState.setState(() {
+
+                                                      });
+                                                    }
                                                     setState(() {
                                                       // if(parent.totalPriceWidget.key.currentState != null){
                                                       //   parent.totalPriceWidget.key.currentState.setState(() {

@@ -10,20 +10,22 @@ import 'CartButtonCounter.dart';
 
 class CartButton extends StatefulWidget {
   final FilteredStores restaurant;
+  CartSources source;
 
-  CartButton({Key key, this.restaurant}) : super(key: key);
+  CartButton({Key key, this.restaurant, this.source}) : super(key: key);
 
   @override
   CartButtonState createState() {
-    return new CartButtonState(restaurant);
+    return new CartButtonState(restaurant, source);
   }
 }
 
 class CartButtonState extends State<CartButton> {
   GlobalKey<CartButtonCounterState> buttonCounterKey;
   final FilteredStores restaurant;
+  CartSources source;
 
-  CartButtonState(this.restaurant);
+  CartButtonState(this.restaurant, this.source);
 
   @override
   void initState() {
@@ -156,7 +158,7 @@ class CartButtonState extends State<CartButton> {
                       Navigator.of(context).push(
                           PageRouteBuilder(
                               pageBuilder: (context, animation, anotherAnimation) {
-                                return CartPageScreen(restaurant: restaurant);
+                                return CartPageScreen(restaurant: restaurant, source: source);
                               },
                               transitionDuration: Duration(milliseconds: 300),
                               transitionsBuilder:

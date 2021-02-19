@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/getProductsByStoreUuid.dart';
@@ -868,7 +869,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
              child: Padding(
                padding:  EdgeInsets.only(bottom: 0),
                child: CartButton(
-                   key: basketButtonStateKey, restaurant: restaurant),
+                   key: basketButtonStateKey, restaurant: restaurant, source: CartSources.Restaurant,),
              ),
            )
           ],

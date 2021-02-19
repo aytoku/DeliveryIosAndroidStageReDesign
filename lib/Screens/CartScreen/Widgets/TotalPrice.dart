@@ -17,22 +17,6 @@ class TotalPriceState extends State<TotalPrice> {
 
   Widget build(BuildContext context) {
     double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
-    // currentUser.cartModel.cart.forEach(
-    //         (Order order) {
-    //       if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){
-    //         totalPrice += order.quantity * (order.food.price + order.food.variants[0].price);
-    //       }else{
-    //         totalPrice += order.quantity * order.food.price;
-    //       }
-    //       double toppingsCost = 0;
-    //       if(order.food.toppings != null){
-    //         order.food.toppings.forEach((element) {
-    //           toppingsCost += order.quantity * element.price;
-    //         });
-    //         totalPrice += toppingsCost;
-    //       }
-    //     }
-    // );
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Text(
