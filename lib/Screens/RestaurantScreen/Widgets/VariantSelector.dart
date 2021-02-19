@@ -70,7 +70,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
     if(!required){
       variantsList.forEach((element) {
         widgetsList.add( InkWell(
-          child: Padding(
+          child: Container(
             padding:  EdgeInsets.only(left: 15, top: 12, bottom: 17),
             child: Row(
               children: [
@@ -109,7 +109,11 @@ class VariantsSelectorState extends State<VariantsSelector> {
         print(element.uuid);
         widgetsList.add(
             GestureDetector(
-              child: Padding(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white
+                ),
                 padding:  EdgeInsets.only(top: 13, bottom: 22 , left: 15),
                 child: Row(
                   children: [
