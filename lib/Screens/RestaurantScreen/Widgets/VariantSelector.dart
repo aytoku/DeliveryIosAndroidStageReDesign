@@ -5,12 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class VariantsSelector extends StatefulWidget {
   VariantGroup variantGroup;
   GlobalKey<VariantsSelectorState> key;
+  bool error;
 
 
-  VariantsSelector({this.key, this.variantGroup}) : super(key: key);
+  VariantsSelector({this.key, this.variantGroup, this.error}) : super(key: key);
 
   @override
-  VariantsSelectorState createState() => VariantsSelectorState(variantGroup);
+  VariantsSelectorState createState() => VariantsSelectorState(variantGroup, (error == null) ? false : error);
 }
 
 class VariantsSelectorState extends State<VariantsSelector> {
@@ -19,6 +20,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
   List<Variant> variantsList;
   bool required;
   String groupName;
+  bool error;
 
   @override
   void initState() {
@@ -30,7 +32,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
     super.initState();
   }
 
-  VariantsSelectorState(this.variantGroup){
+  VariantsSelectorState(this.variantGroup, this.error){
     groupName = variantGroup.name;
     variantsList = variantGroup.variants;
     required = variantGroup.required;
@@ -60,9 +62,23 @@ class VariantsSelectorState extends State<VariantsSelector> {
               ),
             ),
           ),
-          Padding(
+          (error) ? Padding(
             padding: EdgeInsets.only(right: 15, top: 10),
-            child: Text((required) ? 'Обязательно' : 'Опционально'),
+            child: Text((required) ? 'Обязательно' : 'Опционально',
+              style: TextStyle(color: Colors.red),
+            ),
+          ) : Row(
+            children: [
+              (selectedVariants.isNotEmpty && required) ? Padding(
+                padding: const EdgeInsets.only(right: 8.0, top: 10),
+                child: SvgPicture.asset('assets/svg_images/accepted_variant.svg'),
+              ) : Container(),
+              Padding(
+                padding: EdgeInsets.only(right: 15, top: 10),
+                child: Text((required) ? 'Обязательно' : 'Опционально',
+                ),
+              ),
+            ],
           )
         ],
       ),
@@ -135,6 +151,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
                 setState(() {
                   selectedVariants.clear();
                   selectedVariants.add(element);
+                  error = false;
                 });
               },
             )

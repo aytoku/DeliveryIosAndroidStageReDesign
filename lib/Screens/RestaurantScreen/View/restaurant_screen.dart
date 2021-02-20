@@ -510,7 +510,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
 
 
     // генерим список еды и названий категория
+    foodMenuItems.clear();
     foodMenuItems.addAll(MenuItem.fromFoodRecordsList(restaurantDataItems.productsByStoreUuidList, this));
+    foodMenuTitles.clear();
     foodMenuTitles.addAll(MenuItemTitle.fromCategoryList(restaurant.productCategoriesUuid));
     menuWithTitles = generateMenu();
 

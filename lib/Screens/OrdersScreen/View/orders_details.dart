@@ -425,7 +425,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           child: Padding(
                             padding: EdgeInsets.only(right: 15),
                             child: Text(
-                              '${(item.price.toStringAsFixed(0))} \₽',
+                              '${(item.totalItemPrice.toStringAsFixed(0))} \₽',
                               style: TextStyle(
                                   color: Colors.black, fontSize: 18),
                             ),

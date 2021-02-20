@@ -19,6 +19,7 @@ class KitchenListScreenState extends State<KitchenListScreen>{
   KitchenListScreenState(this.categories, this.parent);
   FilterState parent;
   List<AllStoreCategories> categories;
+  bool hasChanges;
 
   // получаем категории с сервака
   Widget getCategories(){
@@ -53,6 +54,7 @@ class KitchenListScreenState extends State<KitchenListScreen>{
             ),
             onTap: (){
               setState(() {
+                hasChanges = true;
                 parent.selectedKitchens[index] = !parent.selectedKitchens[index];
               });
             },
@@ -66,6 +68,7 @@ class KitchenListScreenState extends State<KitchenListScreen>{
   void initState() {
     super.initState();
     parent.selectedKitchens = List.generate(categories.length, (index) => parent.categoryUuid.contains(categories[index].uuid));
+    hasChanges = false;
   }
 
   @override
@@ -82,7 +85,7 @@ class KitchenListScreenState extends State<KitchenListScreen>{
                   style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.white)),
-              color: (haveSelectedItems()) ? Color(0xFF09B44D) : Color(0xF3F3F3F3),
+              color: (hasSelectedItems()) ? Color(0xFF09B44D) : Color(0xF3F3F3F3),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -105,10 +108,10 @@ class KitchenListScreenState extends State<KitchenListScreen>{
     );
   }
 
-  bool haveSelectedItems(){
+  bool hasSelectedItems(){
     try{
-      var selectedItem = parent.selectedKitchens.firstWhere((element) => element);
-      return true;
+      // var selectedItem = parent.selectedKitchens.firstWhere((element) => element);
+      return hasChanges;
     }catch(e){
       return false;
     }

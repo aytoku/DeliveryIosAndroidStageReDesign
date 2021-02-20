@@ -3,12 +3,12 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/add_variant_to_cart.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/getProductData.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
-import 'package:flutter_app/Screens/RestaurantScreen/Widgets/PriceField.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
@@ -17,7 +17,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../../data/data.dart';
-import '../CartButton/CartButton.dart';
 import 'ItemCounter.dart';
 
 class MenuItem extends StatefulWidget {
@@ -187,6 +186,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
               ))),
     );
   }
+
 
   void onPressedButton(ProductsByStoreUuid food, GlobalKey<MenuItemCounterState> menuItemCounterKey) {
 
@@ -688,14 +688,23 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                             onTap: () async {
                                               if (await Internet.checkConnection()) {
                                                 ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
-
+                                                bool hasErrors = false;
                                                 cartProduct.variantGroups = new List<VariantGroup>();
                                                 variantsSelectors.forEach((variantGroupSelector) {
                                                   if(variantGroupSelector.key.currentState.hasSelectedVariants()){
                                                     cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
                                                     cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
+                                                  } else if(variantGroupSelector.key.currentState.required) {
+                                                    hasErrors = true;
+                                                    variantGroupSelector.key.currentState.setState(() {
+                                                      variantGroupSelector.key.currentState.error = true;
+                                                    });
                                                   }
                                                 });
+
+                                                if(hasErrors){
+                                                  return;
+                                                }
 
                                                 if(currentUser.cartModel != null && currentUser.cartModel.items != null
                                                     && currentUser.cartModel.items.length > 0
@@ -706,69 +715,13 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                   currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
                                                   menuItemCounterKey.currentState.refresh();
                                                   Navigator.pop(context);
-                                                  parent.basketButtonStateKey.currentState.refresh();
-                                                  parent.counterKey.currentState.refresh();
+                                                  parent.setState(() {
+
+                                                  });
+
+                                                  // parent.basketButtonStateKey.currentState.refresh();
+                                                  // parent.counterKey.currentState.refresh();
                                                 }
-
-
-                                                // FoodRecords foodOrder =
-                                                // FoodRecords.fromFoodRecords(
-                                                //     restaurantDataItems);
-                                                // if (variantsSelectorStateKey.currentState !=
-                                                //     null) {
-                                                //   if (variantsSelectorStateKey
-                                                //       .currentState.selectedVariant !=
-                                                //       null) {
-                                                //     foodOrder.variants = [
-                                                //       variantsSelectorStateKey
-                                                //           .currentState.selectedVariant
-                                                //     ];
-                                                //   } else {
-                                                //     foodOrder.variants = null;
-                                                //   }
-                                                //   print(foodOrder.variants);
-                                                // }
-                                                // if (toppingsSelectorStateKey.currentState !=
-                                                //     null) {
-                                                //   List<Toppings> toppingsList =
-                                                //   toppingsSelectorStateKey.currentState
-                                                //       .getSelectedToppings();
-                                                //   if (toppingsList.length != null) {
-                                                //     foodOrder.toppings = toppingsList;
-                                                //   } else {
-                                                //     foodOrder.toppings = null;
-                                                //   }
-                                                //   foodOrder.toppings.forEach((element) {
-                                                //     print(element.name);
-                                                //   });
-                                                // }
-                                                // if (currentUser.cartDataModel.cart.length > 0 &&
-                                                //     parent.restaurant.uuid !=
-                                                //         currentUser.cartDataModel.cart[0]
-                                                //             .restaurant.uuid) {
-                                                //   parent.showCartClearDialog(
-                                                //       context,
-                                                //       new Order(
-                                                //           food: foodOrder,
-                                                //           quantity:
-                                                //           parent.counterKey.currentState.counter,
-                                                //           restaurant: parent.restaurant,
-                                                //           date: DateTime.now().toString()),
-                                                //       menuItemCounterKey);
-                                                // } else {
-                                                //   currentUser.cartDataModel.addItem(new Order(
-                                                //       food: foodOrder,
-                                                //       quantity: parent.counterKey.currentState.counter,
-                                                //       restaurant: parent.restaurant,
-                                                //       date: DateTime.now().toString()));
-                                                //   currentUser.cartDataModel.saveData();
-                                                //
-                                                //   Padding(
-                                                //     padding: EdgeInsets.only(bottom: 0),
-                                                //     child: parent.showAlertDialog(context),
-                                                //   );
-                                                //
-                                                // }
                                               } else {
                                                 noConnection(context);
                                               }

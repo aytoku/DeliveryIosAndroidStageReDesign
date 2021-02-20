@@ -379,13 +379,14 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
             )),
         onTap: () async {
           if (await Internet.checkConnection()) {
-            selectedCategoryFromHomeScreen = true;
             if(categoryUuid.contains(element.uuid)){
-              categoryUuid.clear();
+              if(selectedCategoryFromHomeScreen){
+                categoryUuid.remove(element.uuid);
+              }
             } else {
-              categoryUuid.clear();
               categoryUuid.add(element.uuid);
             }
+            selectedCategoryFromHomeScreen = true;
             applyFilters();
             setState(() {});
           } else {

@@ -73,7 +73,7 @@ class CartScreenState extends State<CartScreen> {
                 AmplitudeAnalytics.analytics.logEvent('remove_from_cart ', eventProperties: {
                   'uuid': currentUser.cartModel.items[index].product.uuid
                 });
-                await deleteItemFromCart(necessaryDataForAuth.device_id, currentUser.cartModel.items[index].id);
+                currentUser.cartModel = await deleteItemFromCart(necessaryDataForAuth.device_id, order.id);
                 currentUser.cartModel.items.removeAt(index);
                 if(parent.totalPriceWidget.key.currentState!= null){
                   parent.totalPriceWidget.key.currentState.setState(() {
@@ -88,7 +88,7 @@ class CartScreenState extends State<CartScreen> {
                     context,
                     new MaterialPageRoute(
                       builder: (context) =>
-                      new EmptyCartScreen(restaurant: restaurant),
+                      new EmptyCartScreen(restaurant: restaurant, source: parent.source),
                     ),
                   );
                 }
@@ -322,7 +322,7 @@ class CartScreenState extends State<CartScreen> {
                                                     context,
                                                     new MaterialPageRoute(
                                                       builder: (context) =>
-                                                      new EmptyCartScreen(restaurant: restaurant),
+                                                      new EmptyCartScreen(restaurant: restaurant, source: parent.source),
                                                     ),
                                                   );
                                                 }
@@ -404,7 +404,7 @@ class CartScreenState extends State<CartScreen> {
                                                         context,
                                                         new MaterialPageRoute(
                                                           builder: (context) =>
-                                                          new EmptyCartScreen(restaurant: restaurant),
+                                                          new EmptyCartScreen(restaurant: restaurant, source: parent.source,),
                                                         ),
                                                       );
                                                     }
