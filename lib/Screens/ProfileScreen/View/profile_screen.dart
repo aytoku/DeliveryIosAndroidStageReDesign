@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -167,7 +169,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   new MaterialPageRoute(
-                                    builder: (context) => new AuthScreen(),
+                                    builder: (context) => BlocProvider(
+                                      create: (context)=> AuthGetBloc(),
+                                      child: AuthScreen(),
+                                    ),
                                   ),
                                 );
                               },

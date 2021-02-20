@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CityScreen/View/add_city_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CityScreen extends StatefulWidget {
@@ -95,9 +97,15 @@ class CityScreenState extends State<CityScreen>{
                       ),
                     ),
                     onTap: (){
-                      Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => AuthScreen()));
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context)=> AuthGetBloc(),
+                            child: AuthScreen(),
+                          ),
+                        ),
+                      );
                     },
                   ),
                 ),

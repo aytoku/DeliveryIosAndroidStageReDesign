@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Preloader/device_id_screen.dart';
+import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -290,7 +292,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                       Navigator.push(
                         context,
                         new MaterialPageRoute(
-                          builder: (context) => new AuthScreen(),
+                          builder: (context) => BlocProvider(
+                            create: (context)=> AuthGetBloc(),
+                            child: AuthScreen(),
+                          ),
                         ),
                       );
                     } else {
