@@ -35,7 +35,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   void initState() {
     super.initState();
-    authGetBloc = BlocProvider.of<AuthGetBloc>(context);
+    authGetBloc = BlocProvider.of<AuthGetBloc>(context); // инициализация bloc
     controller = new MaskedTextController(mask: '+7 000 000-00-00');
     buttonStateKey = new GlobalKey<ButtonState>();
     controller.afterChange = (String previous, String next){
@@ -61,7 +61,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: BlocListener<AuthGetBloc, AuthState>(
+        body: BlocListener<AuthGetBloc, AuthState>( // листенер для переходов на другие скрины
           bloc: authGetBloc,
           listener: (BuildContext context, AuthState state){
             if(state is AuthStateSuccess){
@@ -80,7 +80,7 @@ class _AuthScreenState extends State<AuthScreen> {
               }
             }
           },
-          child: BlocBuilder<AuthGetBloc, AuthState>(
+          child: BlocBuilder<AuthGetBloc, AuthState>( // билдинг скрина в зависимости от состояния
             bloc: authGetBloc,
             builder: (BuildContext context, AuthState state){
               return Stack(
@@ -333,9 +333,9 @@ class ButtonState extends State<Button> {
             if (currentUser.phone[0] != '+') {
               currentUser.phone = '+' + currentUser.phone;
             }
-            authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone));
+            authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone)); // отправка события в bloc
           } else {
-            authGetBloc.add(SetError('Указан неверный номер'));
+            authGetBloc.add(SetError('Указан неверный номер')); // отправка события в bloc
           }
         } else {
           noConnection(context);
