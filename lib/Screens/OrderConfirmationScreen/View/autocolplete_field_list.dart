@@ -45,8 +45,6 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
   @override
   void dispose(){
     super.dispose();
-    controller.dispose();
-    node.dispose();
   }
 
   Widget build(BuildContext context) {

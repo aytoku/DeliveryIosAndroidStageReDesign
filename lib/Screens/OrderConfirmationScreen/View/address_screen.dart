@@ -428,7 +428,7 @@ class AddressScreenState extends State<AddressScreen>
   Widget buildAddressesList(){
     if(myAddressesModelList != null){
       return Container(
-        height: initHeight + 15 * myAddressesModelList.length,
+        height: 120,
           child: Column(
             children: [
               Align(
@@ -456,7 +456,8 @@ class AddressScreenState extends State<AddressScreen>
             myAddressesModelList
                 .add(new MyFavouriteAddressesModel(type: null));
             return Container(
-              height: initHeight + 15 * myAddressesModelList.length,
+              height: 120,
+              // height: initHeight + 15 * myAddressesModelList.length,
               child: Column(
                 children: [
                   Align(
@@ -1160,25 +1161,31 @@ class AddressScreenState extends State<AddressScreen>
                                       //     border: Border.all(width: 1.0, color: Colors.grey[200])),
                                       child: Padding(
                                         padding: EdgeInsets.only(
-                                            top: 10, left: 15, right: 20, bottom: 10),
+                                            top: 0, left: 0, right: 20, bottom: 10),
                                         child: Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Column(
                                               children: [
-                                                Text(
-                                                  "Способ оплаты",
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Color(0xFFB8B8B8)),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 8.0, left: 15),
+                                                  child: Text(
+                                                    "Способ оплаты",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Color(0xFFB8B8B8)),
+                                                  ),
                                                 ),
-                                                Text(
-                                                  'Наличными',
-                                                  // (selectedPaymentId == 1) ? card : cash,
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.black),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 17),
+                                                  child: Text(
+                                                    'Наличными',
+                                                    // (selectedPaymentId == 1) ? card : cash,
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.black),
+                                                  ),
                                                 ),
                                               ],
                                             ),

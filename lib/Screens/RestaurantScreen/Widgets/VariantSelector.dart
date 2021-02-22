@@ -56,7 +56,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 15),
+              padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
               child: Text(
                 groupName,
               ),
@@ -87,7 +87,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
       variantsList.forEach((element) {
         widgetsList.add( InkWell(
           child: Container(
-            padding:  EdgeInsets.only(left: 15, top: 12, bottom: 17),
+            padding:  EdgeInsets.only(left: 15, top: 0, bottom: 22),
             child: Row(
               children: [
                 (selectedVariants.contains(element)) ? SvgPicture.asset('assets/svg_images/kitchen_selected.svg') :
@@ -130,20 +130,26 @@ class VariantsSelectorState extends State<VariantsSelector> {
                 decoration: BoxDecoration(
                   color: Colors.white
                 ),
-                padding:  EdgeInsets.only(top: 13, bottom: 22 , left: 15),
+                padding:  EdgeInsets.only(top: 0, bottom: 22 , left: 15),
                 child: Row(
                   children: [
-                    (selectedVariants.contains(element)) ? SvgPicture.asset('assets/svg_images/checked_rest_circle.svg')
+                    (selectedVariants.contains(element) || element.variantDefault == true) ? SvgPicture.asset('assets/svg_images/checked_rest_circle.svg')
                         : SvgPicture.asset('assets/svg_images/rest_circle.svg'),
                     Padding(
                       padding: EdgeInsets.only(left: 18),
                       child: Text(element.name,
                         style: TextStyle(
-                            color: Colors.grey,
                             fontSize: 14
                         ),
                       ),
-                    )
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 12.0),
+                      child: Text(
+                        '${element.price} \₽',
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      ),
+                    ),
                   ],
                 ),
               ),

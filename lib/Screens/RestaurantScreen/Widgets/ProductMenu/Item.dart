@@ -10,6 +10,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemDesc.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -52,7 +53,6 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    int itemQuantity = 0;
     GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();
     return Padding(
       padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
@@ -67,7 +67,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                 }
               },
               child: Container(
-                height: 150,
+                height: 153,
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -114,49 +114,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                             ),
                                           ),
                                         ),
-                                        (itemQuantity == 0) ? Padding(
-                                          padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
-                                          child: Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              '${restaurantDataItems.weight.toStringAsFixed(0)}' + '' + restaurantDataItems.weightMeasurement,
-                                              style: TextStyle(
-                                                  fontSize: 10.0,
-                                                  color: Colors.grey),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ) : Row(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                 '${restaurantDataItems.weight.toStringAsFixed(0)}' + '' + restaurantDataItems.weightMeasurement,
-                                                  style: TextStyle(
-                                                      fontSize: 10.0,
-                                                      color: Colors.grey),
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 5.0, top: 5, right: 8),
-                                              child: SvgPicture.asset('assets/svg_images/ellipse.svg'),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 5),
-                                              child: Text(
-                                                   '${restaurantDataItems.price} \₽',
-                                                style: TextStyle(
-                                                    fontSize: 10.0,
-                                                    color: Colors.grey),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                        MenuItemDesc(foodRecords: restaurantDataItems, parent: this)
                                       ],
                                     ),
                                   ),
@@ -175,7 +133,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                             topRight: Radius.circular(15),
                             bottomRight: Radius.circular(15)),
                         child: Image.network(
-                          getImage(restaurantDataItems.meta.images[0]),
+                          getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
                           fit: BoxFit.cover,
                           height: 150,
                           width: 168,
@@ -321,10 +279,10 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
           );
         }else{
           return Container(
-            height: 530,
+            height: 500,
             child: SlidingUpPanel(
               minHeight: 400,
-              maxHeight: 530,
+              maxHeight: 500,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
@@ -655,35 +613,37 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                 Padding(
                                   padding: EdgeInsets.only(top: 10, bottom: 5),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.bottomLeft,
+                                      Flexible(
+                                        flex: 1,
                                         child: Padding(
-                                          padding: EdgeInsets.only(right: 5, left: 15),
+                                          padding: EdgeInsets.only(right: 5, left: 8),
                                           child: ProductDescCounter(
                                               key: parent.counterKey,
                                               priceFieldKey: priceFieldKey
                                           ),
                                         ),
                                       ),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
+                                      Flexible(
+                                        flex: 2,
                                         child: Padding(
-                                          padding: EdgeInsets.only(left: 6, right: 15, bottom: 0),
+                                          padding: EdgeInsets.only(left: 6, right: 8, bottom: 0),
                                           child: GestureDetector(
                                             child: Container(
+                                              width: 212,
+                                              height: 52,
                                               decoration: BoxDecoration(
                                                 color: Color(0xFF09B44D),
                                                 borderRadius: BorderRadius.circular(10),
                                               ),
-                                              child: Text(
-                                                "Добавить",
-                                                style:
-                                                TextStyle(color: Colors.white, fontSize: 18),
+                                              child: Center(
+                                                child: Text(
+                                                  "Добавить",
+                                                  style:
+                                                  TextStyle(color: Colors.white, fontSize: 18),
+                                                ),
                                               ),
-                                              padding: EdgeInsets.only(
-                                                  left: 55, top: 20, right: 55, bottom: 20),
                                             ),
                                             onTap: () async {
                                               if (await Internet.checkConnection()) {

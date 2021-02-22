@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
@@ -667,7 +669,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     centerTitle: true,
                     title: SliverText(title: Text('', style: TextStyle(fontSize: 18),),key: sliverTextKey,),
                     background: AnnotatedRegion<SystemUiOverlayStyle>(
-                      value: SystemUiOverlayStyle.dark,
+                      value: (Platform.isIOS) ? _isAppBarExpanded ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
                       child: ClipRRect(
                           child: Stack(
                             children: <Widget>[

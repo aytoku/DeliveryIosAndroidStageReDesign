@@ -216,7 +216,7 @@ class CartScreenState extends State<CartScreen> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: const EdgeInsets.only(bottom: 8.0, right: 60),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -225,7 +225,7 @@ class CartScreenState extends State<CartScreen> {
                           decoration: TextDecoration.none,
                           fontSize: 14.0,
                           color: Color(0xFF000000)),
-                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
                     ),
                   ),
                 ),

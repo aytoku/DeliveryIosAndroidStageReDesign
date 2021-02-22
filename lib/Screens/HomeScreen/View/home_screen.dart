@@ -196,52 +196,52 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: ListTile(
-            leading: SvgPicture.asset('assets/svg_images/my_addresses.svg'),
-            title: Text(
-              'Мои адреса',
-              style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-            ),
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => new MyAddressesScreen(),
-                  ),
-                );
-              } else {
-                noConnection(context);
-              }
-            },
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: ListTile(
-            leading: SvgPicture.asset('assets/svg_images/service.svg'),
-            title: Text(
-              'Служба поддержки',
-              style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-            ),
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => new ServiceScreen(),
-                  ),
-                );
-              } else {
-                noConnection(context);
-              }
-            },
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
+        //   child: ListTile(
+        //     leading: SvgPicture.asset('assets/svg_images/my_addresses.svg'),
+        //     title: Text(
+        //       'Мои адреса',
+        //       style: TextStyle(
+        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+        //     ),
+        //     onTap: () async {
+        //       if (await Internet.checkConnection()) {
+        //         Navigator.push(
+        //           context,
+        //           new MaterialPageRoute(
+        //             builder: (context) => new MyAddressesScreen(),
+        //           ),
+        //         );
+        //       } else {
+        //         noConnection(context);
+        //       }
+        //     },
+        //   ),
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
+        //   child: ListTile(
+        //     leading: SvgPicture.asset('assets/svg_images/service.svg'),
+        //     title: Text(
+        //       'Служба поддержки',
+        //       style: TextStyle(
+        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+        //     ),
+        //     onTap: () async {
+        //       if (await Internet.checkConnection()) {
+        //         Navigator.push(
+        //           context,
+        //           new MaterialPageRoute(
+        //             builder: (context) => new ServiceScreen(),
+        //           ),
+        //         );
+        //       } else {
+        //         noConnection(context);
+        //       }
+        //     },
+        //   ),
+        // ),
       ]);
       allSideBarItems.add(
         Padding(
@@ -319,7 +319,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       child: Scaffold(
         key: _scaffoldKey,
         drawer: ClipRRect(
-          borderRadius: BorderRadius.only(topRight: Radius.circular(15)),
+          borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
           child: Drawer(
               child: Column(
                 children: [

@@ -45,8 +45,8 @@ class ProductDescCounterState extends State<ProductDescCounter> {
     return Padding(
       padding: EdgeInsets.only(left: 0, right: 0),
       child: Container(
-        width: 122,
-        height: 58,
+        width: 130,
+        height: 52,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             border: Border.all(color: Colors.black)),
@@ -75,7 +75,7 @@ class ProductDescCounterState extends State<ProductDescCounter> {
               ),
             ),
           ),
-          SizedBox(width: 19.0),
+          SizedBox(width: 15.0),
           Padding(
             padding: EdgeInsets.only(right: 20),
             child: Text(

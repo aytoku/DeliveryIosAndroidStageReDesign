@@ -47,10 +47,6 @@ class AddAddressScreenState extends State<AddAddressScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    autoCompleteFieldKey.currentState.dispose();
-    nameField.dispose();
-    commentField.dispose();
-    cartPageKey.currentState.dispose();
   }
 
   @override

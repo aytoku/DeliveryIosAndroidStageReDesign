@@ -44,7 +44,6 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
   @override
   void dispose(){
     super.dispose();
-    notFavouriteAddressController.dispose();
   }
 
 
@@ -174,7 +173,7 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
                         controller: notFavouriteAddressController,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(left: 15),
-                          hintText: 'Указать другой адрес',
+                          hintText: 'Указать адрес',
                           hintStyle: TextStyle(
                               color: Color(0xFFE6E6E6)
                           ),

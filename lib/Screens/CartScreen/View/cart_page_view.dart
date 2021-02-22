@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/clear_cart.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:io' show Platform;
 import '../../../Amplitude/amplitude.dart';
@@ -488,7 +490,11 @@ class CartPageState extends State<CartPageScreen> {
                                 Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                      builder: (context) => new AuthScreen(source: AuthSources.Cart,)),
+                                    builder: (context) => BlocProvider(
+                                      create: (context)=> AuthGetBloc(),
+                                      child: AuthScreen(),
+                                    ),
+                                  ),
                                 );
                               }
                             } else {

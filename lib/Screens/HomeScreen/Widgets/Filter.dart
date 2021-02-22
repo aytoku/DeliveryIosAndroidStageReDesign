@@ -131,25 +131,30 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
   _buildKitchensFilterNavigationMenu(List<AllStoreCategories> categories) {
     return Container(
       height: 610,
+      padding: EdgeInsets.only(top: 25),
+      child: kitchenListScreen,
+    );
+    return Container(
+      height: 610,
       child: Column(
         children: [
-          Expanded(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 15.0, left: 15),
-                child: Text(
-                  'Кухни',
-                  style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
-                  ),
-                ),
-              ),
-            ),
-          ),
-          kitchenListScreen,
+          // Expanded(
+          //   child: Align(
+          //     alignment: Alignment.topLeft,
+          //     child: Padding(
+          //       padding: const EdgeInsets.only(top: 15.0, left: 15),
+          //       child: Text(
+          //         'Кухни',
+          //         style: TextStyle(
+          //             color: Color(0xFF000000),
+          //             fontSize: 20,
+          //             fontWeight: FontWeight.bold
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
 
         ],
       ),

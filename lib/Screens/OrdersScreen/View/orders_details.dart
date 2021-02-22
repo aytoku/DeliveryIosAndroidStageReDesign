@@ -370,7 +370,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       ),),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 100),
+                    padding: EdgeInsets.only(left: 100, right: 60),
                     child: Column(
                       children: [
                         Align(
@@ -381,7 +381,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                 decoration: TextDecoration.none,
                                 fontSize: 14.0,
                                 color: Color(0xFF000000)),
-                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
                           ),
                         ),
                         (item.variantGroups != null)
