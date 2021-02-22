@@ -42,18 +42,10 @@ class MenuItemDescState extends State<MenuItemDesc> {
 
   int counter = 1;
 
-  Item findCartItem(ProductsByStoreUuid product){
-    var item;
-    try {
-      item = currentUser.cartModel.items.firstWhere((element) => element.product.uuid == product.uuid);
-    }catch(e){
-      item = null;
-    }
-    return item;
-  }
+
 
   Widget build(BuildContext context) {
-    item = findCartItem(foodRecords);
+    item = currentUser.cartModel.findCartItem(foodRecords);
     if(item == null){
       return Padding(
         padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),

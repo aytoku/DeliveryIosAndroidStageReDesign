@@ -386,7 +386,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
       _deleteCartItem();
     }else{
       currentUser.cartModel = await changeItemCountInCart(necessaryDataForAuth.device_id, item.id, -1);
-      item = findCartItem(foodRecords);
+      item = currentUser.cartModel.findCartItem(foodRecords);
       if(item.count == 0 || item == null){
         currentUser.cartModel = await deleteItemFromCart(necessaryDataForAuth.device_id, item.id);
         parent.setState(() {
@@ -415,18 +415,10 @@ class MenuItemCounterState extends State<MenuItemCounter> {
     return items;
   }
 
-  Item findCartItem(ProductsByStoreUuid product){
-    var item;
-    try {
-      item = currentUser.cartModel.items.firstWhere((element) => element.product.uuid == product.uuid);
-    }catch(e){
-      item = null;
-    }
-    return item;
-  }
+
 
   Widget build(BuildContext context) {
-    item = findCartItem(foodRecords);
+    item = currentUser.cartModel.findCartItem(foodRecords);
     if(item == null){
       return Align(
         alignment: Alignment.centerLeft,

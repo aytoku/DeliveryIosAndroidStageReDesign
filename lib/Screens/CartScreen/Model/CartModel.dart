@@ -5,6 +5,8 @@
 import 'dart:convert';
 
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
+import 'package:flutter_app/data/data.dart';
 
 List<CartModel> cartModelFromJson(String str) => List<CartModel>.from(json.decode(str).map((x) => CartModel.fromJson(x)));
 
@@ -132,6 +134,16 @@ class CartModel {
     "cooking_time": cookingTime == null ? null : cookingTime,
     "created_at": createdAt == null ? null : createdAt.toIso8601String(),
   };
+
+  Item findCartItem(ProductsByStoreUuid product){
+    var item;
+    try {
+      item = currentUser.cartModel.items.firstWhere((element) => element.product.uuid == product.uuid);
+    }catch(e){
+      item = null;
+    }
+    return item;
+  }
 }
 
 class Cancel {
