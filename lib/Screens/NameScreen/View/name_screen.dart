@@ -33,8 +33,6 @@ class NameScreenState extends State<NameScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    buttonStateKey.currentState.dispose();
-    nameFieldController.dispose();
   }
 
   @override

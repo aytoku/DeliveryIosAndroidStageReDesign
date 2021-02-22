@@ -303,55 +303,22 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
           );
         }else{
           return Container(
-            height: 500,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(12),
+                  topRight: const Radius.circular(12),
+                )),
+            height: 570,
             child: SlidingUpPanel(
-              minHeight: 400,
-              maxHeight: 500,
+              minHeight: 500,
+              maxHeight: 570,
+              isDraggable: true,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               ),
-              body: Container(
-                height: 180,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    color: Colors.white
-                ),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                        bottomLeft: Radius.circular(0),
-                        bottomRight: Radius.circular(0)),
-                    child: Stack(
-                      children: <Widget>[
-                        Image.network(
-                          getImage(restaurantDataItems.meta.images[0]),
-                          fit: BoxFit.cover,
-                          height: 180.0,
-                          width: MediaQuery.of(context).size.width,
-                        ),
-                        Align(
-                            alignment: Alignment.topRight,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 10, right: 15),
-                              child: GestureDetector(
-                                child: SvgPicture.asset(
-                                    'assets/svg_images/bottom_close.svg'),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ))
-                      ],
-                    )),
-              ),
               panelBuilder: (ScrollController sc) => Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(12),
                       topRight: const Radius.circular(12),
@@ -360,7 +327,58 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   itemCount: 1,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (BuildContext context ,int index){
-                    return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
+                    return Stack(
+                      children: [
+                        Container(
+                          height: 200,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                              ),
+                              color: Colors.white
+                          ),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                  bottomLeft: Radius.circular(0),
+                                  bottomRight: Radius.circular(0)),
+                              child: Stack(
+                                children: <Widget>[
+                                  Image.network(
+                                    getImage(restaurantDataItems.meta.images[0]),
+                                    fit: BoxFit.fill,
+                                    height: 200,
+                                    width: MediaQuery.of(context).size.width,
+                                  ),
+                                  Align(
+                                      alignment: Alignment.topRight,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(top: 10, right: 15),
+                                        child: GestureDetector(
+                                          child: SvgPicture.asset(
+                                              'assets/svg_images/bottom_close.svg'),
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ))
+                                ],
+                              )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 180),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: const Radius.circular(12),
+                                    topRight: const Radius.circular(12),
+                                  )),
+                              child: _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey)),
+                        ),
+                      ],
+                    );
                   },
                 ),
               ),
@@ -371,10 +389,6 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   }
 
   Widget _buildBottomNavigationMenu(ProductsByStoreUuid restaurantDataItems, GlobalKey<MenuItemCounterState> menuItemCounterKey) {
-    GlobalKey<VariantsSelectorState> variantsSelectorStateKey =
-    GlobalKey<VariantsSelectorState>();
-    // GlobalKey<ToppingsSelectorState> toppingsSelectorStateKey =
-    // new GlobalKey<ToppingsSelectorState>();
     GlobalKey<PriceFieldState> priceFieldKey =
     new GlobalKey<PriceFieldState>();
 

@@ -57,7 +57,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
             height: 300,
             child: _buildDeleteCartItemNavigationMenu(),
             decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(20),
                   topRight: const Radius.circular(20),
@@ -69,55 +69,72 @@ class MenuItemCounterState extends State<MenuItemCounter> {
   _buildDeleteCartItemNavigationMenu() {
     List<Item> filteredCartItems = findCartItems(foodRecords);
     print(filteredCartItems.length);
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      itemCount: filteredCartItems.length,
-      itemBuilder: (BuildContext context, int index) {
-        Item order = filteredCartItems[index];
-        return Dismissible(
-          key: Key(order.product.uuid),
-          background: Container(
-              alignment: AlignmentDirectional.centerEnd,
-              color: Colors.red,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: SvgPicture.asset('assets/svg_images/del_basket.svg'),
+    return Container(
+      padding: const EdgeInsets.only(top: 20),
+      child: ListView.separated(
+        padding: EdgeInsets.zero,
+        itemCount: filteredCartItems.length,
+        itemBuilder: (BuildContext context, int index) {
+          Item order = filteredCartItems[index];
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 0, bottom: 20),
+                child: Center(
+                  child: Text('Какое блюдо хотите удалить?',
+                    style: TextStyle(
+                        fontSize: 18
+                    ),
+                  ),
+                ),
+              ),
+              Dismissible(
+                key: Key(order.product.uuid),
+                background: Container(
+                    alignment: AlignmentDirectional.centerEnd,
+                    color: Colors.red,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: SvgPicture.asset('assets/svg_images/del_basket.svg'),
+                    )
+                ),
+                onDismissed: (direction) async {
+                  AmplitudeAnalytics.analytics.logEvent('remove_from_cart ', eventProperties: {
+                    'uuid': order.product.uuid
+                  });
+                  currentUser.cartModel = await deleteItemFromCart(necessaryDataForAuth.device_id, order.id);
+                  currentUser.cartModel.items.remove(order);
+                  Navigator.pop(context);
+                  parent.setState(() {
+
+                  });
+                  if(parent.parent.basketButtonStateKey.currentState != null &&
+                      currentUser.cartModel.items.length == 0){
+                    parent.parent.basketButtonStateKey.currentState.setState(() {
+
+                    });
+                  }
+                },
+                direction: DismissDirection.endToStart,
+                child: Container(
+                  color: Colors.white,
+                  width: MediaQuery.of(context).size.width,
+                  child: _buildCartItem(order, index),
+                ),
+              ),
+            ],
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Divider(
+                height: 1,
+                color: Color(0xFFE6E6E6),
               )
-          ),
-          onDismissed: (direction) async {
-            AmplitudeAnalytics.analytics.logEvent('remove_from_cart ', eventProperties: {
-              'uuid': order.product.uuid
-            });
-            currentUser.cartModel = await deleteItemFromCart(necessaryDataForAuth.device_id, order.id);
-            currentUser.cartModel.items.remove(order);
-            Navigator.pop(context);
-            parent.setState(() {
-
-            });
-            if(parent.parent.basketButtonStateKey.currentState != null &&
-                currentUser.cartModel.items.length == 0){
-              parent.parent.basketButtonStateKey.currentState.setState(() {
-
-              });
-            }
-          },
-          direction: DismissDirection.endToStart,
-          child: Container(
-            color: Colors.white,
-            width: MediaQuery.of(context).size.width,
-            child: _buildCartItem(order, index),
-          ),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Divider(
-              height: 1,
-              color: Color(0xFFE6E6E6),
-            )
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
