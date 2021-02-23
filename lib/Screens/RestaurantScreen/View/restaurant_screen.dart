@@ -913,6 +913,11 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           return Column(
             children: [
               Container( height: 600,
+                  decoration: BoxDecoration(
+                   borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),),
                   child: PanelContent(key: panelContentKey, parent: this)),
             ],
           );

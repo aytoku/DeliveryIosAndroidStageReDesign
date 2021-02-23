@@ -265,8 +265,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 
       if(parent.panelContentKey.currentState != null)
         parent.panelContentKey.currentState.setState(() {
+          parent.panelContentKey.currentState.reset();
           parent.panelContentKey.currentState.menuItem = this;
-          parent.panelContentKey.currentState.productsDescription = null;
         });
       parent.panelController.open();
     }
@@ -284,7 +284,6 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
           ProductsDataModel productsDescription = snapshot.data;
 
           List<VariantsSelector> variantsSelectors = getVariantGroups(productsDescription);
-
 
           return Container(
             decoration: BoxDecoration(
@@ -539,8 +538,9 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 
                                                   });
 
-                                                  // parent.basketButtonStateKey.currentState.refresh();
-                                                  // parent.counterKey.currentState.refresh();
+                                                  if(parent.basketButtonStateKey.currentState != null){
+                                                    parent.basketButtonStateKey.currentState.refresh();
+                                                  }
                                                 }
                                               } else {
                                                 noConnection(context);

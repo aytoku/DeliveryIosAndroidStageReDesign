@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,12 +8,13 @@ class VariantsSelector extends StatefulWidget {
   VariantGroup variantGroup;
   GlobalKey<VariantsSelectorState> key;
   bool error;
+  VoidCallback onTap;
 
 
-  VariantsSelector({this.key, this.variantGroup, this.error}) : super(key: key);
+  VariantsSelector({this.key, this.variantGroup, this.error, this.onTap}) : super(key: key);
 
   @override
-  VariantsSelectorState createState() => VariantsSelectorState(variantGroup, (error == null) ? false : error);
+  VariantsSelectorState createState() => VariantsSelectorState(variantGroup, (error == null) ? false : error, onTap);
 }
 
 class VariantsSelectorState extends State<VariantsSelector> {
@@ -21,6 +24,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
   bool required;
   String groupName;
   bool error;
+  VoidCallback onTap;
 
   @override
   void initState() {
@@ -32,15 +36,23 @@ class VariantsSelectorState extends State<VariantsSelector> {
     super.initState();
   }
 
-  VariantsSelectorState(this.variantGroup, this.error){
+  VariantsSelectorState(this.variantGroup, this.error, this.onTap){
     groupName = variantGroup.name;
     variantsList = variantGroup.variants;
     required = variantGroup.required;
   }
 
-  List<Variant> getSelectedToppings() {
+  List<Variant> getSelectedVariants() {
 
     return selectedVariants;
+  }
+
+  double getSelectedVariantsCost(){
+    double cost = 0;
+    selectedVariants.forEach((element) {
+      cost+=element.price;
+    });
+    return cost;
   }
 
   bool hasSelectedVariants(){
@@ -117,6 +129,8 @@ class VariantsSelectorState extends State<VariantsSelector> {
                 selectedVariants.add(element);
               }
             });
+            if(onTap != null)
+              onTap();
           },
         ));
       });
@@ -158,6 +172,8 @@ class VariantsSelectorState extends State<VariantsSelector> {
                   selectedVariants.clear();
                   selectedVariants.add(element);
                   error = false;
+                  if(onTap != null)
+                    onTap();
                 });
               },
             )

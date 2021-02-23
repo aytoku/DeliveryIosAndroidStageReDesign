@@ -54,7 +54,7 @@ class PanelContentState extends State<PanelContent>{
       future: getProductDescription(restaurantDataItems.uuid),
       builder: (BuildContext context,
           AsyncSnapshot<ProductsDataModel> snapshot){
-        if(snapshot.connectionState == ConnectionState.done){
+        if(snapshot.connectionState == ConnectionState.done && variantsSelectors == null){
           productsDescription = snapshot.data;
           variantsSelectors = getVariantGroups(productsDescription);
         }
@@ -316,7 +316,7 @@ class PanelContentState extends State<PanelContent>{
                             )),
                             Padding(
                               padding: EdgeInsets.only(right: 20, top: 8),
-                              child: PriceField(key: priceFieldKey, restaurantDataItems: restaurantDataItems),
+                              child: PriceField(key: priceFieldKey, restaurantDataItems: restaurantDataItems, variantsSelectors: variantsSelectors,),
                             )
                           ],
                         ),
@@ -390,9 +390,9 @@ class PanelContentState extends State<PanelContent>{
                                           menuItem.setState(() {
 
                                           });
-
-                                          // parent.basketButtonStateKey.currentState.refresh();
-                                          // parent.counterKey.currentState.refresh();
+                                          if(parent.basketButtonStateKey.currentState != null){
+                                            parent.basketButtonStateKey.currentState.refresh();
+                                          }
                                         }
                                       } else {
                                         noConnection(context);
@@ -437,8 +437,21 @@ class PanelContentState extends State<PanelContent>{
   List<VariantsSelector> getVariantGroups(ProductsDataModel productsDescription){
     List<VariantsSelector> result = new List<VariantsSelector>();
     productsDescription.variantGroups.forEach((element) {
-      result.add(VariantsSelector(key: new GlobalKey<VariantsSelectorState>(), variantGroup: element,));
+      result.add(VariantsSelector(key: new GlobalKey<VariantsSelectorState>(), variantGroup: element,
+      onTap: () {
+        if(priceFieldKey.currentState != null)
+          priceFieldKey.currentState.setState(() {
+
+          });
+      },
+      ));
     });
     return result;
+  }
+
+  void reset(){
+    menuItem = null;
+    productsDescription = null;
+    variantsSelectors = null;
   }
 }
