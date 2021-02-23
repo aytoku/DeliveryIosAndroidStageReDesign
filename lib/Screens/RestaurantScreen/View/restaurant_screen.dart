@@ -57,6 +57,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   ScrollController sliverScrollController;
   PanelController panelController;
   GlobalKey<PanelContentState> panelContentKey;
+  ScrollController sc;
 
   RestaurantScreenState(this.restaurant);
 
@@ -908,7 +909,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           topRight: Radius.circular(12),
         ),
         panelBuilder: (sc) {
-          return PanelContent(key: panelContentKey, parent: this);
+          this.sc = sc;
+          return Column(
+            children: [
+              Container( height: 600,
+                  child: PanelContent(key: panelContentKey, parent: this)),
+            ],
+          );
         },
         body: (restaurantDataItems != null) ?
           _buildScreen()

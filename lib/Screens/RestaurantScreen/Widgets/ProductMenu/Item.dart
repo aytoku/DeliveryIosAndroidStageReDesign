@@ -266,9 +266,9 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
       if(parent.panelContentKey.currentState != null)
         parent.panelContentKey.currentState.setState(() {
           parent.panelContentKey.currentState.menuItem = this;
+          parent.panelContentKey.currentState.productsDescription = null;
         });
-      parent.panelController.show();
-      parent.panelController.animatePanelToPosition(1);
+      parent.panelController.open();
     }
   }
 
