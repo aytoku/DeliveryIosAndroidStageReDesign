@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
@@ -10,267 +7,184 @@ import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.dart';
-import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemDesc.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/Item.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemCounter.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../../../data/data.dart';
-import 'ItemCounter.dart';
+class PanelContent extends StatefulWidget {
+  RestaurantScreenState parent;
+  MenuItemState menuItem;
 
-class MenuItem extends StatefulWidget {
-  MenuItem({this.key, this.restaurantDataItems, this.parent}) : super(key: key);
-  final GlobalKey<MenuItemState> key;
-  final RestaurantScreenState parent;
-  final ProductsByStoreUuid restaurantDataItems;
+  PanelContent({key, this.parent, this.menuItem
+  }) : super(key: key);
 
   @override
-  MenuItemState createState() {
-    return new MenuItemState(restaurantDataItems, parent);
-  }
-  static List<MenuItem> fromFoodRecordsList(List<ProductsByStoreUuid> foodRecordsList, RestaurantScreenState parent) {
-    List<MenuItem> result = new List<MenuItem>();
-    foodRecordsList.forEach((element) {
-      result.add(new MenuItem(parent: parent, restaurantDataItems: element, key: new GlobalKey<MenuItemState>()));
-    });
-    return result;
+  PanelContentState createState() {
+    return new PanelContentState(parent, menuItem);
   }
 }
 
-class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
-  final ProductsByStoreUuid restaurantDataItems;
-  final RestaurantScreenState parent;
+class PanelContentState extends State<PanelContent>{
 
 
-  MenuItemState(this.restaurantDataItems, this.parent);
+  PanelContentState(this.parent, this.menuItem);
 
-
-  @override
-  bool get wantKeepAlive => true;
+  RestaurantScreenState parent;
+  ProductsByStoreUuid restaurantDataItems;
+  MenuItemState menuItem;
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+
+
+
+    if(menuItem == null)
+      return Container(height: 200);
+
+    restaurantDataItems = menuItem.restaurantDataItems;
+
     GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();
-    return Padding(
-      padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
-      child: Center(
-          child: GestureDetector(
-              onTap: () async {
-                if (await Internet.checkConnection()) {
-                  onPressedButton(restaurantDataItems, menuItemCounterKey);
-                  // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
-                } else {
-                  noConnection(context);
-                }
-              },
-              child: Container(
-                height: 153,
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 143,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4.0, // soften the shadow
-                            spreadRadius: 1.0, //extend the shadow
-                          )
-                        ],
-                        color: Colors.white,
-                        border: Border.all(width: 1.0, color: Colors.grey[200]),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Flexible(
-                            child: Container(
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 10.0),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFFFFFFF),
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(15),
-                                          bottomLeft: Radius.circular(15),
-                                          bottomRight: Radius.circular(15)),
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Container(
-                                          height: 100,
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(top: 10.0, left: 15),
-                                                child: Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: Text(
-                                                    restaurantDataItems.name,
-                                                    style: TextStyle(
-                                                        fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ),
-                                              ),
-                                              MenuItemDesc(foodRecords: restaurantDataItems, parent: this)
-                                            ],
-                                          ),
-                                        ),
-                                        MenuItemCounter(foodRecords: restaurantDataItems, menuItemCounterKey: menuItemCounterKey, parent: this)
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(15),
-                                  bottomRight: Radius.circular(15)),
-                              child: Image.network(
-                                getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
-                                fit: BoxFit.cover,
-                                height: 150,
-                                width: 168,
-                              ),),
-                          )
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0, right: 2),
-                        child: Container(
-                          decoration: (currentUser.cartModel.findCartItem(restaurantDataItems) != null) ? BoxDecoration(
-                              color: Color(0xFF09B44D),
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(15),
-                                bottomRight: Radius.circular(15),
-                              )
-                          ) : BoxDecoration(),
-                          height: 8,
+
+    if(restaurantDataItems.type == 'single'){
+      return Container(
+        height: 300,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    height: 180,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
                         ),
-                      ),
-                    )
-                  ],
+                        color: Colors.white
+                    ),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(0)),
+                        child: Stack(
+                          children: <Widget>[
+                            Image.network(
+                              getImage(restaurantDataItems.meta.images[0]),
+                              fit: BoxFit.cover,
+                              height: 180.0,
+                              width: MediaQuery.of(context).size.width,
+                            ),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 10, right: 15),
+                                  child: GestureDetector(
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/bottom_close.svg'),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ))
+                          ],
+                        )),
+                  ),
+                ],
+              ),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 250,
+                    child: ListView.builder(
+                      itemCount: 1,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (BuildContext context ,int index){
+                        return _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey);
+                      },
+                    ),
+                  )
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(12),
+            topRight: const Radius.circular(12),
+          )),
+      child: ListView.builder(
+        itemCount: 1,
+        padding: EdgeInsets.zero,
+        scrollDirection: Axis.vertical,
+        itemBuilder: (BuildContext context ,int index){
+          return Stack(
+            children: [
+              Container(
+                height: 220,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                    color: Colors.white
                 ),
-              ))),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(0)),
+                    child: Stack(
+                      children: <Widget>[
+                        Image.network(
+                          getImage(restaurantDataItems.meta.images[0]),
+                          fit: BoxFit.fill,
+                          height: 220,
+                          width: MediaQuery.of(context).size.width,
+                        ),
+                        Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 10, right: 15),
+                              child: GestureDetector(
+                                child: SvgPicture.asset(
+                                    'assets/svg_images/bottom_close.svg'),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ))
+                      ],
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 180),
+                child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(12),
+                          topRight: const Radius.circular(12),
+                        )),
+                    child: _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey)),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
-
-  void onPressedButton(ProductsByStoreUuid food, GlobalKey<MenuItemCounterState> menuItemCounterKey) {
-
-    DateTime now = DateTime.now();
-    int currentTime = now.hour*60+now.minute;
-    int dayNumber  = now.weekday-1;
-
-//    int work_beginning = parent.restaurant.work_schedule[dayNumber].work_beginning;
-//    int work_ending = parent.restaurant.work_schedule[dayNumber].work_ending;
-//    bool day_off = parent.restaurant.work_schedule[dayNumber].day_off;
-//    bool available = parent.restaurant.available != null ? parent.restaurant.available : true;
-
-
-    if(restaurantDataItems.type == 'single'){
-      if(parent.panelContentKey.currentState != null)
-        parent.panelContentKey.currentState.setState(() {
-          parent.panelContentKey.currentState.menuItem = null;
-        });
-      showModalBottomSheet(
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(12),
-                topRight: const Radius.circular(12),
-              )),
-          context: context,
-          builder: (context) {
-            return Container(
-              height: 400,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Stack(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          height: 180,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
-                              color: Colors.white
-                          ),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
-                                  bottomLeft: Radius.circular(0),
-                                  bottomRight: Radius.circular(0)),
-                              child: Stack(
-                                children: <Widget>[
-                                  Image.network(
-                                    getImage(restaurantDataItems.meta.images[0]),
-                                    fit: BoxFit.cover,
-                                    height: 180.0,
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                                  Align(
-                                      alignment: Alignment.topRight,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(top: 10, right: 15),
-                                        child: GestureDetector(
-                                          child: SvgPicture.asset(
-                                              'assets/svg_images/bottom_close.svg'),
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ))
-                                ],
-                              )),
-                        ),
-                        Container(
-                          height: 220,
-                          decoration: BoxDecoration(color: Colors.white),
-                        )
-                      ],
-                    ),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          height: 250,
-                          child: _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey)
-                        )
-                    ),
-                  ],
-                ),
-              ),
-            );
-          });
-    }else{
-
-      if(parent.panelContentKey.currentState != null)
-        parent.panelContentKey.currentState.setState(() {
-          parent.panelContentKey.currentState.menuItem = this;
-        });
-      parent.panelController.show();
-      parent.panelController.animatePanelToPosition(1);
-    }
-  }
 
   Widget _buildBottomNavigationMenu(ProductsByStoreUuid restaurantDataItems, GlobalKey<MenuItemCounterState> menuItemCounterKey) {
     GlobalKey<PriceFieldState> priceFieldKey =
@@ -284,7 +198,6 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
           ProductsDataModel productsDescription = snapshot.data;
 
           List<VariantsSelector> variantsSelectors = getVariantGroups(productsDescription);
-
 
           return Container(
             decoration: BoxDecoration(
@@ -533,9 +446,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                   parent.showCartClearDialog(context, cartProduct, menuItemCounterKey);
                                                 } else {
                                                   currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
-                                                  menuItemCounterKey.currentState.refresh();
-                                                  Navigator.pop(context);
-                                                  setState(() {
+                                                  parent.panelController.close();
+                                                  menuItem.setState(() {
 
                                                   });
 
@@ -585,13 +497,5 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
       result.add(VariantsSelector(key: new GlobalKey<VariantsSelectorState>(), variantGroup: element,));
     });
     return result;
-  }
-
-  double getBottomSheetContainerHeight(ProductsByStoreUuid food){
-    if(food.variantGroups == null){
-      return 400;
-    }else{
-      return 600;
-    }
   }
 }

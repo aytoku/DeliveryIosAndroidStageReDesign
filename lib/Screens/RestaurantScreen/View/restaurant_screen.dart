@@ -9,6 +9,7 @@ import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/getProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/CartButton/CartButton.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/PanelContent.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductCategories/CategoryList.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/Item.dart';
@@ -21,6 +22,7 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/API/clear_cart.dart';
 import '../API/add_variant_to_cart.dart';
@@ -53,6 +55,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   GlobalKey<ScaffoldState> _scaffoldStateKey;
 
   ScrollController sliverScrollController;
+  PanelController panelController;
+  GlobalKey<PanelContentState> panelContentKey;
 
   RestaurantScreenState(this.restaurant);
 
@@ -60,6 +64,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   @override
   void initState() {
     super.initState();
+    panelController = new PanelController();
     foodMenuItems = new List<MenuItem>();
     foodMenuTitles = new List<MenuItemTitle>();
     menuWithTitles = new List<Widget>();
@@ -76,6 +81,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   void dispose(){
     super.dispose();
   }
+
+
 
   bool get _isAppBarExpanded {
     return sliverScrollController.hasClients && sliverScrollController.offset > 90;
@@ -886,29 +893,45 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    if(restaurantDataItems != null){
-      return _buildScreen();
-    }
+    panelContentKey = new GlobalKey<PanelContentState>();
+
     return Scaffold(
       key: _scaffoldStateKey,
-      body: FutureBuilder<ProductsByStoreUuidData>(
-          future: getSortedProductsByStoreUuid(restaurant),
-          initialData: null,
-          builder: (BuildContext context,
-              AsyncSnapshot<ProductsByStoreUuidData> snapshot) {
-            print(snapshot.connectionState);
-            if (snapshot.connectionState == ConnectionState.done) {
-              restaurantDataItems = snapshot.data;
-              return _buildScreen();
-            } else {
-              return Center(
-                child: SpinKitFadingCircle(
-                  color: Colors.green,
-                  size: 50.0,
-                ),
-              );
-            }
-          }),
+      body: SlidingUpPanel(
+        backdropEnabled: true,
+        controller: panelController,
+        minHeight: 0,
+        maxHeight: 600,
+        isDraggable: true,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+        panelBuilder: (sc) {
+          return PanelContent(key: panelContentKey, parent: this);
+        },
+        body: (restaurantDataItems != null) ?
+          _buildScreen()
+            :
+          FutureBuilder<ProductsByStoreUuidData>(
+            future: getSortedProductsByStoreUuid(restaurant),
+            initialData: null,
+            builder: (BuildContext context,
+                AsyncSnapshot<ProductsByStoreUuidData> snapshot) {
+              print(snapshot.connectionState);
+              if (snapshot.connectionState == ConnectionState.done) {
+                restaurantDataItems = snapshot.data;
+                return _buildScreen();
+              } else {
+                return Center(
+                  child: SpinKitFadingCircle(
+                    color: Colors.green,
+                    size: 50.0,
+                  ),
+                );
+              }
+            }),
+      ),
     );
   }
   // Подгрузка итемов с категорией
