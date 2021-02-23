@@ -71,22 +71,6 @@ class ProductsDataModel {
   };
 
   Map<String, dynamic> toServerJson(int count){
-
-    // Map<String, dynamic> request = {
-    //   "source": "mod",
-    //   "item":{
-    //     "product": {
-    //       "uuid": uuid,
-    //       "name": name,
-    //       "type": type,
-    //       "price": price,
-    //       "store_uuid": storeUuid,
-    //       "meta": meta.toJson(),
-    //       "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),
-    //     },
-    //     "count": count
-    //   }
-    // };
     List<dynamic> variantGroupsList = new List<dynamic>();
     variantGroups.forEach((element) {
       variantGroupsList.add(element.toServerJson());
@@ -99,9 +83,6 @@ class ProductsDataModel {
         "count": count
       }
     };
-    // if(type.toLowerCase() != "single")
-    //  request["item"]["variant_groups"] = List<dynamic>.from(variantGroups.map((x) => x.toJson()));
-
     return request;
   }
 }

@@ -267,8 +267,8 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         child: Align(
                           alignment: Alignment.topRight,
                           child: Text(
-                            (true)
-                                ?  'тут будет адрес'
+                            (ordersDetailsModelItem.deliveryAddress != null)
+                                ?  ordersDetailsModelItem.deliveryAddress.unrestrictedValue
                                 : 'Пусто',
                             style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0),),
                             textAlign: TextAlign.start,

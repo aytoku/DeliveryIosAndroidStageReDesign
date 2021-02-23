@@ -108,11 +108,14 @@ class MyFavouriteAddressesModel{
 class DestinationPoints extends InitialAddressModel {
   // Поля класса
   String type;
+  String pointType;
   int frontDoor;
+
 
   DestinationPoints({
     String uuid,
     String unrestrictedValue,
+    this.pointType,
     String value,
     String country,
     String region,
@@ -124,6 +127,7 @@ class DestinationPoints extends InitialAddressModel {
     String streetType,
     String streetWithType,
     String house,
+    String comment,
     this.frontDoor,
     bool outOfTown,
     String houseType,
@@ -150,7 +154,7 @@ class DestinationPoints extends InitialAddressModel {
       radius: radius,
       lat: lat,
       lon: lon,
-      comment: ""
+      comment: comment,
   );
 
   factory DestinationPoints.fromJson(Map<String, dynamic> json) => DestinationPoints(
@@ -158,6 +162,8 @@ class DestinationPoints extends InitialAddressModel {
     uuid: json["uuid"],
     value: json["value"],
     country: json["country"],
+    comment: json["comment"],
+    pointType: json["point_type"],
     region: json["region"],
     regionType: json["region_type"],
     type: json["type"],
@@ -180,6 +186,8 @@ class DestinationPoints extends InitialAddressModel {
     "unrestricted_value": unrestrictedValue,
     "uuid": uuid,
     "value": value,
+    "comment": comment,
+    "point_type": pointType,
     "country": country,
     "region": region,
     "region_type": regionType,
@@ -199,36 +207,6 @@ class DestinationPoints extends InitialAddressModel {
     "lon": lon,
   };
   factory DestinationPoints.fromInitialAddressModelChild(var address){
-    // Из InitialAddressModel наследуются только DestinationPoints и FavouriteAddress
-    // (InitialAddressModel нигде не используется в чистом виде)
-
-    // Таким образом,
-    // Если мы имеем дело с DestinationPoints, то на ее основе строим FavouriteAddress
-    if (address is DestinationPoints) {
-      return DestinationPoints(
-          uuid: address.uuid,
-          unrestrictedValue: address.unrestrictedValue,
-          value: address.value,
-          country: address.country,
-          region: address.region,
-          regionType: address.regionType,
-          type: address.type,
-          city: address.city,
-          cityType: address.cityType,
-          street: address.street,
-          streetType: address.streetType,
-          streetWithType: address.streetWithType,
-          house: address.house,
-          frontDoor: address.frontDoor,
-          outOfTown: address.outOfTown,
-          houseType: address.houseType,
-          accuracyLevel: address.accuracyLevel,
-          radius: address.radius,
-          lat: address.lat,
-          lon: address.lon
-      );
-    }
-    // Иначе нам прислали FavouriteAddress
     return address;
   }
 }

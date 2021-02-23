@@ -390,6 +390,7 @@ class PanelContentState extends State<PanelContent>{
                                           menuItem.setState(() {
 
                                           });
+                                          parent.showAlertDialog(context);
                                           if(parent.basketButtonStateKey.currentState != null){
                                             parent.basketButtonStateKey.currentState.refresh();
                                           }

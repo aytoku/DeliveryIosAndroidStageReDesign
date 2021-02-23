@@ -15,6 +15,7 @@ import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PromoText.da
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../data/data.dart';
@@ -53,8 +54,7 @@ class AddressScreenState extends State<AddressScreen>
   int selectedPaymentId = 0;
 
 
-  bool status1 = false;
-  bool status2 = false;
+  bool eatInStore = false;
   GlobalKey<ScaffoldState> _scaffoldStateKey;
   TextEditingController commentField;
   TextEditingController officeField;
@@ -106,38 +106,25 @@ class AddressScreenState extends State<AddressScreen>
     super.dispose();
   }
 
-  showPaymentErrorAlertDialog(BuildContext context) {
+  emptyAddress(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
         return Padding(
-          padding: EdgeInsets.only(bottom: 0),
+          padding: EdgeInsets.only(bottom: 500),
           child: Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Container(
-                height: 100,
-                width: 320,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
-                      child: Text(
-                        'Ошибка при оплате',
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF424242)),
-                      ),
-                    ),
-                    Center(
-                      child: SpinKitFadingCircle(
-                        color: Colors.green,
-                        size: 50.0,
-                      ),
-                    )
-                  ],
-                )),
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Введите адрес"),
+              ),
+            ),
           ),
         );
       },
@@ -287,57 +274,6 @@ class AddressScreenState extends State<AddressScreen>
       else
         selectedPaymentId = 1;
     });
-  }
-
-  _cardPayment(double totalPrice){
-    Navigator.of(context).push(
-        MaterialPageRoute(
-            builder: (context) => WebView(
-              initialUrl: "https://delivery-stage.faem.ru/payment-widget.html?amount=$totalPrice",
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController webController){
-                Timer _timer;
-
-                // Врубаем таймер
-                const oneSec = const Duration(seconds: 1);
-                _timer = new Timer.periodic(
-                  oneSec, (Timer timer) async {
-                  try{
-                    // Получем текущий урл
-                    String url = await webController.currentUrl();
-                    print(url);
-
-                    if(url == 'https://delivery-stage.faem.ru/payment-widget.html?status=success'){
-                      _timer.cancel();
-                      //await createOrder.sendData();
-                      // currentUser.cartModel.cart.clear();
-                      // currentUser.cartModel.saveData();
-                      homeScreenKey = new GlobalKey<HomeScreenState>();
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => HomeScreen()),
-                              (Route<dynamic> route) => false);
-                      _timer.cancel();
-                    }else if(url == 'https://delivery-stage.faem.ru/payment-widget.html?status=fail'){
-                      Navigator.pop(context);
-                      // Выводим ошибку
-                      showPaymentErrorAlertDialog(context);
-                      // Задержка окна
-                      await Future.delayed(Duration(seconds: 2), () {
-                        Navigator.of(context).pop(true);
-                      });
-                      _timer.cancel();
-                    }
-
-                  }
-                  catch(e){
-                    _timer.cancel();
-                  }
-                },
-                );
-              },
-            ))
-    );
   }
 
   void _dispatchAddress() {
@@ -1037,55 +973,55 @@ class AddressScreenState extends State<AddressScreen>
                         //   height: 10,
                         //   color: Color(0xFAFAFAFA),
                         // ),
-                        // Padding(
-                        //   padding: EdgeInsets.only(
-                        //       top: 10, left: 15, right: 15, bottom: 10),
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //         boxShadow: [
-                        //           BoxShadow(
-                        //             color: Colors.black12,
-                        //             blurRadius: 4.0, // soften the shadow
-                        //             spreadRadius: 1.0, //extend the shadow
-                        //           )
-                        //         ],
-                        //         color: Colors.white,
-                        //         borderRadius: BorderRadius.circular(10.0),
-                        //         border: Border.all(width: 1.0, color: Colors.grey[200])),
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.all(10.0),
-                        //       child: Row(
-                        //         mainAxisAlignment:
-                        //         MainAxisAlignment.spaceBetween,
-                        //         children: <Widget>[
-                        //           Text(
-                        //             'До двери',
-                        //             style: TextStyle(
-                        //                 color: Color(0xFF3F3F3F),
-                        //                 fontSize: 15),
-                        //           ),
-                        //           Padding(
-                        //             padding: EdgeInsets.only(right: 0),
-                        //             child: FlutterSwitch(
-                        //               width: 55.0,
-                        //               height: 25.0,
-                        //               inactiveColor: Color(0xD6D6D6D6),
-                        //               activeColor: Colors.green,
-                        //               valueFontSize: 12.0,
-                        //               toggleSize: 18.0,
-                        //               value: status1,
-                        //               onToggle: (value) {
-                        //                 setState(() {
-                        //                   status1 = value;
-                        //                 });
-                        //               },
-                        //             ),
-                        //           )
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+                        (isTakeAwayOrderConfirmation) ? Padding(
+                          padding: EdgeInsets.only(
+                              top: 10, left: 15, right: 15, bottom: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 4.0, // soften the shadow
+                                    spreadRadius: 1.0, //extend the shadow
+                                  )
+                                ],
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                                border: Border.all(width: 1.0, color: Colors.grey[200])),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Поем в заведении',
+                                    style: TextStyle(
+                                        color: Color(0xFF3F3F3F),
+                                        fontSize: 15),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 0),
+                                    child: FlutterSwitch(
+                                      width: 55.0,
+                                      height: 25.0,
+                                      inactiveColor: Color(0xD6D6D6D6),
+                                      activeColor: Colors.green,
+                                      valueFontSize: 12.0,
+                                      toggleSize: 18.0,
+                                      value: eatInStore,
+                                      onToggle: (value) {
+                                        setState(() {
+                                          eatInStore = value;
+                                        });
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ) : Container(),
                         // (isTakeAwayOrderConfirmation) ? Container() : Padding(
                         //   padding: EdgeInsets.only(
                         //       top: 10, left: 15, right: 15, bottom: 10),
@@ -1262,32 +1198,26 @@ class AddressScreenState extends State<AddressScreen>
                               ),
                               onTap: () async {
                                 if (await Internet.checkConnection()) {
-                                  // if(selectedPaymentId != 1){
-                                  //   showAlertDialog(context);
-                                  // }
-                                  // print(addressSelectorKey.currentState.myFavouriteAddressesModel.address.unrestrictedValue);
-                                  // createOrder = new CreateOrder(
-                                  //   address: addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-                                  //   restaurantAddress: selectedAddress,
-                                  //   office: officeField.text,
-                                  //   floor: floorField.text,
-                                  //   entrance: entranceField.text,
-                                  //   intercom: intercomField.text,
-                                  //   comment: commentField.text,
-                                  //   // cartDataModel: currentUser.cartModel,
-                                  //   //restaurant: restaurant,
-                                  //   payment_type: (selectedPaymentId == 1) ? 'card' : 'cash',
-                                  //   door_to_door: status1,
-                                  // );
-                                  // if(selectedPaymentId == 1){
-                                  //   _cardPayment(totalPrice);
-                                  //   return;
-                                  // }
-                                  // await createOrder.sendData();
-                                  // // currentUser.cartModel.cart.clear();
-                                  // // currentUser.cartModel.saveData();
+                                  if( addressSelectorKey.currentState.myFavouriteAddressesModel.address == null){
+                                    emptyAddress(context);
+                                    return;
+                                  }
                                   showAlertDialog(context);
-                                  await createOrder(currentUser.cartModel.uuid);
+                                  if(isTakeAwayOrderConfirmation){
+                                    await createOrder(
+                                        currentUser.cartModel.uuid,
+                                        isTakeAwayOrderConfirmation,
+                                        false,
+                                        eatInStore,
+                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address);
+                                  }else{
+                                    await createOrder(
+                                        currentUser.cartModel.uuid,
+                                        false,
+                                        false,
+                                        false,
+                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address);
+                                  }
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
                                           builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),

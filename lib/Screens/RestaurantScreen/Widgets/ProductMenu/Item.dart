@@ -45,7 +45,30 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 
 
   MenuItemState(this.restaurantDataItems, this.parent);
-
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Padding(
+          padding: EdgeInsets.only(bottom: 500),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Товар добавлен в коризну"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -537,7 +560,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                   setState(() {
 
                                                   });
-
+                                                  parent.showAlertDialog(context);
                                                   if(parent.basketButtonStateKey.currentState != null){
                                                     parent.basketButtonStateKey.currentState.refresh();
                                                   }
