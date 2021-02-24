@@ -178,7 +178,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   }
 
   showCartClearDialog(BuildContext context, ProductsDataModel productDataModel,
-      GlobalKey<MenuItemCounterState> menuItemCounterKey) {
+      GlobalKey<MenuItemCounterState> menuItemCounterKey, MenuItemState menuItem) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -225,11 +225,20 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                           currentUser.cartModel = await clearCart(necessaryDataForAuth.device_id);
                           currentUser.cartModel = await addVariantToCart(productDataModel, necessaryDataForAuth.device_id, counterKey.currentState.counter);
                           basketButtonStateKey.currentState.refresh();
-                          menuItemCounterKey.currentState.refresh();
                           counterKey.currentState.refresh();
+                          menuItem.setState(() {
 
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          });
+
+                          if(productDataModel.product.type == "variable"){
+                            Navigator.pop(context);
+                            panelController.close();
+                          }else{
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          }
+
+
                           Padding(
                             padding: EdgeInsets.only(bottom: 0),
                             child: showAlertDialog(context),
@@ -305,12 +314,12 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           Padding(
             padding: EdgeInsets.only(left: 20, top: 30),
             child: Align(
-              alignment: Alignment.topLeft,
+                alignment: Alignment.topLeft,
                 child: Text(restaurant.name,
                   style: TextStyle(
-                    color: Color(0xFF424242),
-                    fontSize: 21,
-                    fontWeight: FontWeight.bold
+                      color: Color(0xFF424242),
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold
                   ),
                 )
             ),
@@ -333,7 +342,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 alignment: Alignment.topLeft,
                 child: Text(restaurant.address.unrestrictedValue,
                   style: TextStyle(
-                    fontSize: 14
+                      fontSize: 14
                   ),
                 )
             ),
@@ -350,17 +359,17 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 )
             ),
           ),
-         Padding(
-           padding: EdgeInsets.only(left: 20, top: 10),
-           child: Align(
-               alignment: Alignment.topLeft,
-               child: Text('${restaurant.meta.avgDeliveryTime} мин',
-                 style: TextStyle(
-                     fontSize: 14
-                 ),
-               )
-           ),
-         ),
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 10),
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Text('${restaurant.meta.avgDeliveryTime} мин',
+                  style: TextStyle(
+                      fontSize: 14
+                  ),
+                )
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 20),
             child: Align(
@@ -490,7 +499,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                         child: Text(
                           this.restaurant.name,
                           style: TextStyle(
-                              fontSize: 18,),
+                            fontSize: 18,),
                         ),
                       ),
                     ),
@@ -547,7 +556,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         sliverImageKey.currentState.setState(() {
           sliverImageKey.currentState.image =
           new SvgPicture.asset('assets/svg_images/arrow_left.svg');
-          });
+        });
       }else{
         if(sliverImageKey.currentState != null){
           sliverImageKey.currentState.setState(() {
@@ -589,7 +598,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   children: <Widget>[
                     Image.network(
                       getImage((restaurant.meta.images != null
-                            && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
+                          && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
                       fit: BoxFit.fitWidth,
                       height: 230.0,
                       width: MediaQuery.of(context).size.width,
@@ -851,7 +860,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   sticky: true,
                   header: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white
+                        color: Colors.white
                     ),
                     child: _buildFoodCategoryList(),
                   ),
@@ -863,7 +872,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                           EdgeInsets.only(bottom: 15)
                               : EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.2),
                           decoration: BoxDecoration(
-                            color: Colors.white
+                              color: Colors.white
                           ),
                           child: Column(
                               children: sliverChildren
@@ -877,13 +886,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
               ],
             ),
             Align(
-             alignment: Alignment.bottomCenter,
-             child: Padding(
-               padding:  EdgeInsets.only(bottom: 0),
-               child: CartButton(
-                   key: basketButtonStateKey, restaurant: restaurant, source: CartSources.Restaurant,),
-             ),
-           )
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding:  EdgeInsets.only(bottom: 0),
+                child: CartButton(
+                  key: basketButtonStateKey, restaurant: restaurant, source: CartSources.Restaurant,),
+              ),
+            )
           ],
         ),
       ),
@@ -914,18 +923,18 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             children: [
               Container( height: 600,
                   decoration: BoxDecoration(
-                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                  ),),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),),
                   child: PanelContent(key: panelContentKey, parent: this)),
             ],
           );
         },
         body: (restaurantDataItems != null) ?
-          _buildScreen()
+        _buildScreen()
             :
-          FutureBuilder<ProductsByStoreUuidData>(
+        FutureBuilder<ProductsByStoreUuidData>(
             future: getSortedProductsByStoreUuid(restaurant),
             initialData: null,
             builder: (BuildContext context,

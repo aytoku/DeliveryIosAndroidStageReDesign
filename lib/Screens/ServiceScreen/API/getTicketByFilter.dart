@@ -1,5 +1,5 @@
 import 'package:flutter_app/Screens/ServiceScreen/Model/TicketModel.dart';
-import 'package:flutter_app/data/RefreshToken.dart';
+import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -7,7 +7,7 @@ import 'dart:convert' as convert;
 Future<TicketsList> getTicketsByFilter(int page, int limit, String clientPhone, {String status}) async {
 
   TicketsList serviceModel = null;
-  await RefreshToken.sendRefreshToken();
+  await SendRefreshToken.sendRefreshToken();
   var url = (status == null) ? 'https://crm.apis.stage.faem.pro/api/v2/tickets/filter?page=$page&limit=$limit&clientphone=$clientPhone'
   : 'https://crm.apis.stage.faem.pro/api/v2/tickets/filter?page=$page&limit=$limit&clientphone=$clientPhone&status=$status';
   var response = await http.get(url, headers: <String, String>{

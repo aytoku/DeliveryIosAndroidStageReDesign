@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import '../Amplitude/amplitude.dart';
 import '../Config/config.dart';
-import '../Screens/OrderConfirmationScreen/API/necessary_address_data_pass.dart';
 import 'data.dart';
 import '../Screens/CodeScreen/Model/AuthCode.dart';
 
-class RefreshToken {
+class SendRefreshToken {
 
   static Future<bool> sendRefreshToken({String refreshToken, String token, String device_id}) async {
     bool isSuccess = false;

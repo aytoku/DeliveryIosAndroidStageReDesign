@@ -1,19 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_event.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_state.dart';
+import 'package:flutter_app/Screens/CodeScreen/Bloc/code_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
-import 'package:flutter_app/data/RefreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../Amplitude/amplitude.dart';
 import '../../../data/data.dart';
 import '../../CodeScreen/View/code_screen.dart';
 
@@ -74,7 +71,10 @@ class _AuthScreenState extends State<AuthScreen> {
                 Navigator.push(
                   context,
                   new MaterialPageRoute(
-                    builder: (context) => new CodeScreen(state.authData, source: source),
+                    builder: (context) => BlocProvider(
+                        create: (context) => CodeGetBloc(),
+                        child: new CodeScreen(state.authData, source: source),
+                    ),
                   ),
                 );
               }

@@ -1,6 +1,6 @@
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
-import 'package:flutter_app/data/RefreshToken.dart';
+import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +9,7 @@ import 'dart:convert' as convert;
 
 
 Future<CartModel> cancelOrder(String order_uuid) async {
-  await RefreshToken.sendRefreshToken();
+  await SendRefreshToken.sendRefreshToken();
   CartModel cartModel = null;
   var url = '${apiUrl}orders/$order_uuid/cancel';
   var response = await http.put(url, headers: <String, String>{

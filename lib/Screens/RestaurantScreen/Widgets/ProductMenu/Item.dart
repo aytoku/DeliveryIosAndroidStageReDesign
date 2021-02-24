@@ -290,6 +290,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
         parent.panelContentKey.currentState.setState(() {
           parent.panelContentKey.currentState.reset();
           parent.panelContentKey.currentState.menuItem = this;
+          parent.panelContentKey.currentState.menuItemCounterKey = menuItemCounterKey;
         });
       parent.panelController.open();
     }
@@ -342,15 +343,15 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                   ),
                                 ),
                               ),
-                              (productsDescription.meta.description != "" &&
-                                  productsDescription.meta.description != null)
+                              (productsDescription.product.meta.description != "" &&
+                                  productsDescription.product.meta.description != null)
                                   ? Padding(
                                 padding:
                                 EdgeInsets.only(left: 15, top: 20, bottom: 10),
                                 child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    productsDescription.meta.description,
+                                    productsDescription.product.meta.description,
                                     style: TextStyle(
                                         color: Color(0xFFB0B0B0), fontSize: 13),
                                   ),
@@ -550,9 +551,9 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 
                                                 if(currentUser.cartModel != null && currentUser.cartModel.items != null
                                                     && currentUser.cartModel.items.length > 0
-                                                    && productsDescription.storeUuid != currentUser.cartModel.storeUuid){
-                                                  print(productsDescription.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
-                                                  parent.showCartClearDialog(context, cartProduct, menuItemCounterKey);
+                                                    && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
+                                                  print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
+                                                  parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, this);
                                                 } else {
                                                   currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
                                                   menuItemCounterKey.currentState.refresh();

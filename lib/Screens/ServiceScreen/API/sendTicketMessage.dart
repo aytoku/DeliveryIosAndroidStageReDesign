@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'package:flutter_app/data/RefreshToken.dart';
+import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 Future<bool> sendTicketMessage(String uuid, String message) async {
-  await RefreshToken.sendRefreshToken();
+  await SendRefreshToken.sendRefreshToken();
   var json_request = jsonEncode({
     "message": message,
   });

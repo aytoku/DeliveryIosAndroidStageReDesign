@@ -19,14 +19,13 @@ import 'Item.dart';
 
 class MenuItemDesc extends StatefulWidget {
   GlobalKey<PriceFieldState> priceFieldKey;
-  GlobalKey<MenuItemDescState> menuItemCounterKey;
   ProductsByStoreUuid foodRecords;
   MenuItemState parent;
-  MenuItemDesc({this.menuItemCounterKey, this.priceFieldKey, this.foodRecords, this.parent}) : super(key: menuItemCounterKey);
+  MenuItemDesc({Key key, this.priceFieldKey, this.foodRecords, this.parent}) : super(key: key);
 
   @override
   MenuItemDescState createState() {
-    return new MenuItemDescState(priceFieldKey, this.foodRecords, this.parent, this.menuItemCounterKey);
+    return new MenuItemDescState(priceFieldKey, this.foodRecords, this.parent);
   }
 }
 
@@ -34,15 +33,10 @@ class MenuItemDescState extends State<MenuItemDesc> {
   GlobalKey<PriceFieldState> priceFieldKey;
   ProductsByStoreUuid foodRecords;
   Item item;
-  GlobalKey<MenuItemDescState> menuItemCounterKey;
-
   MenuItemState parent;
 
-  MenuItemDescState(this.priceFieldKey, this.foodRecords, this.parent, this.menuItemCounterKey);
-
+  MenuItemDescState(this.priceFieldKey, this.foodRecords, this.parent);
   int counter = 1;
-
-
 
   Widget build(BuildContext context) {
     item = currentUser.cartModel.findCartItem(foodRecords);

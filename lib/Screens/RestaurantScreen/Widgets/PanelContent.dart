@@ -17,24 +17,26 @@ import 'package:flutter_svg/flutter_svg.dart';
 class PanelContent extends StatefulWidget {
   RestaurantScreenState parent;
   MenuItemState menuItem;
+  GlobalKey<MenuItemCounterState> menuItemCounterKey;
 
-  PanelContent({key, this.parent, this.menuItem
+  PanelContent({key, this.parent, this.menuItem, this.menuItemCounterKey
   }) : super(key: key);
 
   @override
   PanelContentState createState() {
-    return new PanelContentState(parent, menuItem);
+    return new PanelContentState(parent, menuItem, menuItemCounterKey);
   }
 }
 
 class PanelContentState extends State<PanelContent>{
 
 
-  PanelContentState(this.parent, this.menuItem);
+  PanelContentState(this.parent, this.menuItem, this.menuItemCounterKey);
 
   RestaurantScreenState parent;
   ProductsByStoreUuid restaurantDataItems;
   MenuItemState menuItem;
+  GlobalKey<MenuItemCounterState> menuItemCounterKey;
   GlobalKey<PriceFieldState> priceFieldKey =
   new GlobalKey<PriceFieldState>();
   ProductsDataModel productsDescription;
@@ -49,7 +51,6 @@ class PanelContentState extends State<PanelContent>{
 
     restaurantDataItems = menuItem.restaurantDataItems;
 
-    GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();
     return FutureBuilder<ProductsDataModel>(
       future: getProductDescription(restaurantDataItems.uuid),
       builder: (BuildContext context,
@@ -160,15 +161,15 @@ class PanelContentState extends State<PanelContent>{
                                                         ),
                                                       ),
                                                     ),
-                                                    (productsDescription.meta.description != "" &&
-                                                        productsDescription.meta.description != null)
+                                                    (productsDescription.product.meta.description != "" &&
+                                                        productsDescription.product.meta.description != null)
                                                         ? Padding(
                                                       padding:
                                                       EdgeInsets.only(left: 15, top: 20, bottom: 10),
                                                       child: Align(
                                                         alignment: Alignment.topLeft,
                                                         child: Text(
-                                                          productsDescription.meta.description,
+                                                          productsDescription.product.meta.description,
                                                           style: TextStyle(
                                                               color: Color(0xFFB0B0B0), fontSize: 13),
                                                         ),
@@ -381,9 +382,9 @@ class PanelContentState extends State<PanelContent>{
 
                                         if(currentUser.cartModel != null && currentUser.cartModel.items != null
                                             && currentUser.cartModel.items.length > 0
-                                            && productsDescription.storeUuid != currentUser.cartModel.storeUuid){
-                                          print(productsDescription.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
-                                          parent.showCartClearDialog(context, cartProduct, menuItemCounterKey);
+                                            && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
+                                          print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
+                                          parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, menuItem);
                                         } else {
                                           currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
                                           parent.panelController.close();
@@ -439,12 +440,12 @@ class PanelContentState extends State<PanelContent>{
     List<VariantsSelector> result = new List<VariantsSelector>();
     productsDescription.variantGroups.forEach((element) {
       result.add(VariantsSelector(key: new GlobalKey<VariantsSelectorState>(), variantGroup: element,
-      onTap: () {
-        if(priceFieldKey.currentState != null)
-          priceFieldKey.currentState.setState(() {
+        onTap: () {
+          if(priceFieldKey.currentState != null)
+            priceFieldKey.currentState.setState(() {
 
-          });
-      },
+            });
+        },
       ));
     });
     return result;

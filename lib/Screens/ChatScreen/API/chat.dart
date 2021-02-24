@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_app/Screens/ChatScreen/Model/ChatHistoryModel.dart';
 import 'package:flutter_app/Screens/ChatScreen/Model/QuickMessagesModel.dart';
-import 'package:flutter_app/data/RefreshToken.dart';
+import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -15,7 +15,7 @@ class Chat{
       "order_uuid": order_uuid,
       "receiver": receiver
     });
-    await RefreshToken.sendRefreshToken();
+    await SendRefreshToken.sendRefreshToken();
     var url = 'https://chat.apis.stage.faem.pro/api/v2/chat/history';
     var response = await http.post(url, body: json_request, headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
@@ -44,7 +44,7 @@ class Chat{
       "message": message,
       "receiver": receiver
     });
-    await RefreshToken.sendRefreshToken();
+    await SendRefreshToken.sendRefreshToken();
     var url = 'https://chat.apis.stage.faem.pro/api/v2/messages/new';
     var response = await http.post(url, body: json_request, headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
@@ -69,7 +69,7 @@ class Chat{
     var json_request = jsonEncode({
       "messages_uuid": messages_uuid
     });
-    await RefreshToken.sendRefreshToken();
+    await SendRefreshToken.sendRefreshToken();
     var url = 'https://chat.apis.stage.faem.pro/api/v2/messages/mark/read';
     var response = await http.post(url, body: json_request, headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
@@ -89,7 +89,7 @@ class Chat{
 
   static Future<QuickMessages> getMessages() async {
     QuickMessages quickMessage = null;
-    await RefreshToken.sendRefreshToken();
+    await SendRefreshToken.sendRefreshToken();
     var url = 'https://crm.apis.stage.faem.pro/api/v2/quickmessages';
     var response = await http.get(url, headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',

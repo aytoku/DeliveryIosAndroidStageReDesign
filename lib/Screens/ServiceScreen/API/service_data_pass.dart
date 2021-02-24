@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_app/Screens/ServiceScreen/Model/ServiceModel.dart';
 import 'package:flutter_app/Screens/ServiceScreen/Model/TicketModel.dart';
-import 'package:flutter_app/data/RefreshToken.dart';
+import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -9,7 +9,7 @@ import 'dart:convert' as convert;
 Future<ServiceModel> loadServiceData(TicketModel ticketModel) async {
 
   ServiceModel serviceModel = null;
-  await RefreshToken.sendRefreshToken();
+  await SendRefreshToken.sendRefreshToken();
   var json_request = jsonEncode({
     "title": ticketModel.title,
     "description": ticketModel.description,

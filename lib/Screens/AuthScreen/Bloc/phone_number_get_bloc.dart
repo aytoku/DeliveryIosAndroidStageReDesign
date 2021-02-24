@@ -4,7 +4,7 @@ import 'package:flutter_app/Screens/AuthScreen/API/auth_data_pass.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_event.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_state.dart';
 import 'package:flutter_app/Screens/AuthScreen/Model/Auth.dart';
-import 'package:flutter_app/data/RefreshToken.dart';
+import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc/bloc.dart';
@@ -61,7 +61,7 @@ class AuthGetBloc extends Bloc<PhoneNumberEvent, AuthState> {
         currentUser.isLoggedIn = false;
       } else { // если введен старый номер
         print(necessaryDataForAuth.refresh_token);
-        bool isRefreshSuccess = await RefreshToken.sendRefreshToken();
+        bool isRefreshSuccess = await SendRefreshToken.sendRefreshToken();
         if (!isRefreshSuccess) { // проверка валидности рефреш токена
           currentUser.isLoggedIn = false;
           sendDataOnServer = true;

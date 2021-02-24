@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
-import 'package:flutter_app/data/RefreshToken.dart';
+import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +10,7 @@ import '../Model/my_addresses_model.dart';
 
 
 Future<AddressesModelData> addAddress(String type, bool favorite, DestinationPoints point) async {
-  await RefreshToken.sendRefreshToken();
+  await SendRefreshToken.sendRefreshToken();
   AddressesModelData cityByCoordinates = null;
   var json_request = jsonEncode({
     "type": type,

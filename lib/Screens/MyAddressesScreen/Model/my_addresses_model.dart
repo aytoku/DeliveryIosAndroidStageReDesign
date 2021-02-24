@@ -3,7 +3,7 @@ import 'package:flutter_app/Screens/MyAddressesScreen/API/delete_address_by_uuid
 import 'package:flutter_app/Screens/MyAddressesScreen/API/get_client_addresses.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.dart';
-import '../../../data/RefreshToken.dart';
+import '../../../data/refreshToken.dart';
 
 class MyFavouriteAddressesModel{
   // Список возможных тегов
@@ -43,7 +43,7 @@ class MyFavouriteAddressesModel{
 
   Future<MyFavouriteAddressesModel> save() async{
     // Обновляем токен
-    await RefreshToken.sendRefreshToken();
+    await SendRefreshToken.sendRefreshToken();
     // Отправляем данные на сервер
 
     await addAddress(type, favorite, address);

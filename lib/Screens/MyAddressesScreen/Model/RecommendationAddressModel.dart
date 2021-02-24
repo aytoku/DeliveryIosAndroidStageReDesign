@@ -1,7 +1,7 @@
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/data/data.dart';
 
-import '../../../data/RefreshToken.dart';
+import '../../../data/refreshToken.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -9,7 +9,7 @@ class RecommendationAddress {
   static Future<List<RecommendationAddressModel>> getRecommendations(String destination) async{
     List<RecommendationAddressModel> addressesList;
     // Обновляем токен
-    await RefreshToken.sendRefreshToken();
+    await SendRefreshToken.sendRefreshToken();
     // Получаем данные с сервера
     var url = 'https://client.apis.stage.faem.pro/api/v2/addresses/recommended/$destination';
     var response = await http.get(url, headers: <String, String>{

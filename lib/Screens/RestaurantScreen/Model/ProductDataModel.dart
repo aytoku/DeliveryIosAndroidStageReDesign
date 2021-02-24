@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final productsDataModel = productsDataModelFromJson(jsonString);
+
 import 'dart:convert';
 
 ProductsDataModel productsDataModelFromJson(String str) => ProductsDataModel.fromJson(json.decode(str));
@@ -6,67 +10,20 @@ String productsDataModelToJson(ProductsDataModel data) => json.encode(data.toJso
 
 class ProductsDataModel {
   ProductsDataModel({
-    this.uuid,
-    this.name,
-    this.storeUuid,
-    this.comment,
-    this.url,
-    this.weight_measurement,
-    this.weight,
-    this.type,
-    this.price,
-    this.defaultSet,
-    this.meta,
-    this.productCategories,
+    this.product,
     this.variantGroups,
   });
 
-  String uuid;
-  String name;
-  String storeUuid;
-  String comment;
-  String url;
-  int price;
-  bool defaultSet;
-  int priority;
-  String type;
-  double weight;
-  String weight_measurement;
-  bool openable;
-  ProductsDataModelMeta meta;
-  List<ProductCategory> productCategories;
+  Product product;
   List<VariantGroup> variantGroups;
 
-
   factory ProductsDataModel.fromJson(Map<String, dynamic> json) => ProductsDataModel(
-    uuid: json["uuid"],
-    name: json["name"],
-    storeUuid: json["store_uuid"],
-    type: json["type"],
-    weight: json["weight"] * 1.0,
-    weight_measurement: json["weight_measurement"],
-    comment: json["comment"],
-    url: json["url"],
-    price: json["price"],
-    defaultSet: json["default_set"],
-    meta: ProductsDataModelMeta.fromJson(json["meta"]),
-    productCategories: List<ProductCategory>.from(json["product_categories"].map((x) => ProductCategory.fromJson(x))),
+    product: Product.fromJson(json["product"]),
     variantGroups: List<VariantGroup>.from(json["variant_groups"].map((x) => VariantGroup.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "uuid": uuid,
-    "name": name,
-    "store_uuid": storeUuid,
-    "comment": comment,
-    "type": type,
-    "url": url,
-    "weight": weight,
-    "weight_measurement": weight_measurement,
-    "price": price,
-    "default_set": defaultSet,
-    "meta": meta.toJson(),
-    "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),
+    "product": product.toJson(),
     "variant_groups": List<dynamic>.from(variantGroups.map((x) => x.toJson())),
   };
 
@@ -78,7 +35,7 @@ class ProductsDataModel {
     Map<String, dynamic> request = {
       "source": "mod",
       "item": {
-        "product_uuid": uuid,
+        "product_uuid": product.uuid,
         "variant_groups": variantGroupsList,
         "count": count
       }
@@ -87,26 +44,110 @@ class ProductsDataModel {
   }
 }
 
-class ProductsDataModelMeta {
-  ProductsDataModelMeta({
+class Product {
+  Product({
+    this.uuid,
+    this.externalId,
+    this.name,
+    this.storeUuid,
+    this.productCategories,
+    this.comment,
+    this.url,
+    this.available,
+    this.stopList,
+    this.defaultSet,
+    this.priority,
+    this.type,
+    this.leftover,
+    this.price,
+    this.meta,
+  });
+
+  String uuid;
+  String externalId;
+  String name;
+  String storeUuid;
+  List<ProductCategory> productCategories;
+  String comment;
+  String url;
+  bool available;
+  bool stopList;
+  bool defaultSet;
+  int priority;
+  String type;
+  int leftover;
+  int price;
+  ProductMeta meta;
+
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+    uuid: json["uuid"],
+    externalId: json["external_id"],
+    name: json["name"],
+    storeUuid: json["store_uuid"],
+    productCategories: List<ProductCategory>.from(json["product_categories"].map((x) => ProductCategory.fromJson(x))),
+    comment: json["comment"],
+    url: json["url"],
+    available: json["available"],
+    stopList: json["stop_list"],
+    defaultSet: json["default_set"],
+    priority: json["priority"],
+    type: json["type"],
+    leftover: json["leftover"],
+    price: json["price"],
+    meta: ProductMeta.fromJson(json["meta"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "uuid": uuid,
+    "external_id": externalId,
+    "name": name,
+    "store_uuid": storeUuid,
+    "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),
+    "comment": comment,
+    "url": url,
+    "available": available,
+    "stop_list": stopList,
+    "default_set": defaultSet,
+    "priority": priority,
+    "type": type,
+    "leftover": leftover,
+    "price": price,
+    "meta": meta.toJson(),
+  };
+}
+
+class ProductMeta {
+  ProductMeta({
     this.description,
+    this.composition,
+    this.weight,
+    this.weightMeasurement,
     this.images,
     this.energyValue,
   });
 
   String description;
+  String composition;
+  int weight;
+  String weightMeasurement;
   List<String> images;
   EnergyValue energyValue;
 
-  factory ProductsDataModelMeta.fromJson(Map<String, dynamic> json) => ProductsDataModelMeta(
+  factory ProductMeta.fromJson(Map<String, dynamic> json) => ProductMeta(
     description: json["description"],
-    images: json["images"] == null ? null : List<String>.from(json["images"].map((x) => x)),
+    composition: json["composition"],
+    weight: json["weight"],
+    weightMeasurement: json["weight_measurement"],
+    images: List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
   );
 
   Map<String, dynamic> toJson() => {
     "description": description,
-    "images": images == null ? null : List<dynamic>.from(images.map((x) => x)),
+    "composition": composition,
+    "weight": weight,
+    "weight_measurement": weightMeasurement,
+    "images": List<dynamic>.from(images.map((x) => x)),
     "energy_value": energyValue.toJson(),
   };
 }
@@ -124,22 +165,12 @@ class EnergyValue {
   int carbohydrates;
   int calories;
 
-  factory EnergyValue.fromJson(Map<String, dynamic> json){
-    if(json == null){
-      return EnergyValue(
-        protein: 0,
-        fat: 0,
-        carbohydrates: 0,
-        calories: 0,
-      );
-    }
-    return EnergyValue(
-      protein: json["protein"],
-      fat: json["fat"],
-      carbohydrates: json["carbohydrates"],
-      calories: json["calories"],
-    );
-  }
+  factory EnergyValue.fromJson(Map<String, dynamic> json) => EnergyValue(
+    protein: json["protein"],
+    fat: json["fat"],
+    carbohydrates: json["carbohydrates"],
+    calories: json["calories"],
+  );
 
   Map<String, dynamic> toJson() => {
     "protein": protein,
@@ -201,8 +232,6 @@ class VariantGroup {
     this.name,
     this.productUuid,
     this.required,
-    this.multiselect,
-    this.description,
     this.meta,
     this.variants,
   });
@@ -211,8 +240,6 @@ class VariantGroup {
   String name;
   String productUuid;
   bool required;
-  bool multiselect;
-  String description;
   ProductCategoryMeta meta;
   List<Variant> variants;
 
@@ -221,8 +248,6 @@ class VariantGroup {
     name: json["name"],
     productUuid: json["product_uuid"],
     required: json["required"],
-    multiselect: json["multiselect"],
-    description: json["description"],
     meta: ProductCategoryMeta.fromJson(json["meta"]),
     variants: List<Variant>.from(json["variants"].map((x) => Variant.fromJson(x))),
   );
@@ -232,8 +257,6 @@ class VariantGroup {
     "name": name,
     "product_uuid": productUuid,
     "required": required,
-    "multiselect": multiselect,
-    "description": description,
     "meta": meta.toJson(),
     "variants": List<dynamic>.from(variants.map((x) => x.toJson())),
   };
@@ -259,8 +282,9 @@ class Variant {
     this.productUuid,
     this.variantGroupUuid,
     this.price,
-    this.description,
     this.variantDefault,
+    this.available,
+    this.stopList,
     this.meta,
   });
 
@@ -269,9 +293,10 @@ class Variant {
   String productUuid;
   String variantGroupUuid;
   int price;
-  String description;
   bool variantDefault;
-  ProductsDataModelMeta meta;
+  bool available;
+  bool stopList;
+  VariantMeta meta;
 
   factory Variant.fromJson(Map<String, dynamic> json) => Variant(
     uuid: json["uuid"],
@@ -279,9 +304,10 @@ class Variant {
     productUuid: json["product_uuid"],
     variantGroupUuid: json["variant_group_uuid"],
     price: json["price"],
-    description: json["description"],
     variantDefault: json["default"],
-    meta: ProductsDataModelMeta.fromJson(json["meta"]),
+    available: json["available"],
+    stopList: json["stop_list"],
+    meta: VariantMeta.fromJson(json["meta"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -290,8 +316,25 @@ class Variant {
     "product_uuid": productUuid,
     "variant_group_uuid": variantGroupUuid,
     "price": price,
-    "description": description,
     "default": variantDefault,
+    "available": available,
+    "stop_list": stopList,
     "meta": meta.toJson(),
+  };
+}
+
+class VariantMeta {
+  VariantMeta({
+    this.description,
+  });
+
+  String description;
+
+  factory VariantMeta.fromJson(Map<String, dynamic> json) => VariantMeta(
+    description: json["description"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "description": description,
   };
 }

@@ -7,11 +7,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import '../../../data/data.dart';
-import '../../../data/RefreshToken.dart';
+import '../../../data/refreshToken.dart';
 
 
 Future<CartModel> createOrder(String order_uuid, bool withoutDelivery, bool ownDelivery, bool eatInStore, DestinationPoints deliveryAddress) async {
-  await RefreshToken.sendRefreshToken();
+  await SendRefreshToken.sendRefreshToken();
   CartModel cartModel = null;
   var json_request = jsonEncode(
       {

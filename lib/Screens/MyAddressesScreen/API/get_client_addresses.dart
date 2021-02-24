@@ -1,6 +1,6 @@
 
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
-import 'package:flutter_app/data/RefreshToken.dart';
+import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
@@ -8,7 +8,7 @@ import 'dart:convert' as convert;
 
 
 Future<AddressesModelData> getClientAddress() async {
-  await RefreshToken.sendRefreshToken();
+  await SendRefreshToken.sendRefreshToken();
   AddressesModelData addressModel = null;
   var url = '${apiUrl}clients/addresses';
   var response = await http.get(url, headers: <String, String>{
