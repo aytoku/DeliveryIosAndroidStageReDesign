@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_screen.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/cancel_order.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -782,7 +784,10 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           homeScreenKey = new GlobalKey();
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => HomeScreen()),
+                                  builder: (context) => BlocProvider(
+                                    create: (context) => RestaurantGetBloc(),
+                                    child: new HomeScreen(),
+                                  )),
                                   (Route<dynamic> route) => false);
                         } else {
                           noConnection(context);
@@ -1087,7 +1092,10 @@ class OrderRejectScreenState extends State<OrderRejectScreen> {
                         homeScreenKey = new GlobalKey();
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (context) => HomeScreen()),
+                                builder: (context) => BlocProvider(
+                                  create: (context) => RestaurantGetBloc(),
+                                  child: new HomeScreen(),
+                                )),
                                 (Route<dynamic> route) => false);
                       } else {
                         noConnection(context);

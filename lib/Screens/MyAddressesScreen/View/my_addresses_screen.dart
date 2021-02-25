@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'add_my_address_screen.dart';
@@ -51,7 +53,10 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                         homeScreenKey = new GlobalKey<HomeScreenState>();
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (context) => HomeScreen()),
+                                builder: (context) => BlocProvider(
+                                  create: (context) => RestaurantGetBloc(),
+                                  child: new HomeScreen(),
+                                )),
                                 (Route<dynamic> route) => false);
                       },
                     ),

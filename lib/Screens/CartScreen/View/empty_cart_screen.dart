@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../data/data.dart';
@@ -46,8 +48,11 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                             if(source == CartSources.Home){
                               homeScreenKey = new GlobalKey<HomeScreenState>();
                               Navigator.pushReplacement(context,
-                                  new MaterialPageRoute(builder:
-                                      (context)=>HomeScreen()
+                                  new MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                        create: (context) => RestaurantGetBloc(),
+                                        child: new HomeScreen(),
+                                      )
                                   )
                               );
                             }else if(source == CartSources.Restaurant){
@@ -150,7 +155,11 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                       onPressed: () {
                         homeScreenKey = new GlobalKey<HomeScreenState>();
                         Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => HomeScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => BlocProvider(
+                                  create: (context) => RestaurantGetBloc(),
+                                  child: new HomeScreen(),
+                                )),
                                 (Route<dynamic> route) => false);
                       },
                     ),

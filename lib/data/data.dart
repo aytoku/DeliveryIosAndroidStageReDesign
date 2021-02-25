@@ -7,10 +7,12 @@ import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_screen.dart';
 import 'package:flutter_app/Screens/CityScreen/Model/FilteredCities.dart';
 import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/tickets_chat_screen.dart';
 import 'package:flutter_app/data/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:convert' as convert;
 
@@ -18,9 +20,6 @@ Map<String,GlobalKey<OrderCheckingState>> orderCheckingStates = new Map<String,G
 Map<String,GlobalKey<ChatMessageScreenState>> chatMessagesStates = new Map<String,GlobalKey<ChatMessageScreenState>>();
 Map<String,GlobalKey<TicketsChatMessageScreenState>> ticketsChatMessagesStates = new Map<String,GlobalKey<TicketsChatMessageScreenState>>();
 GlobalKey<HomeScreenState>homeScreenKey = new GlobalKey<HomeScreenState>(debugLabel: 'homeScreenKey');
-var home  = new MaterialPageRoute(
-  builder: (context) => new HomeScreen(),
-);
 GlobalKey<ChatScreenState>chatKey = new GlobalKey<ChatScreenState>();
 AuthCodeData authCodeData = null;
 AuthData authData = null;
@@ -135,10 +134,14 @@ class ScreenTitlePopState extends State<ScreenTitlePop> {
                             img),
                       )),
                   onTap: (){
+                    homeScreenKey = new GlobalKey<HomeScreenState>();
                     Navigator.of(context).push(
                         PageRouteBuilder(
                             pageBuilder: (context, animation, anotherAnimation) {
-                              return HomeScreen();
+                              return BlocProvider(
+                              create: (context) => RestaurantGetBloc(),
+                              child: new HomeScreen(),
+                              );
                             },
                             transitionDuration: Duration(milliseconds: 300),
                             transitionsBuilder:
@@ -219,7 +222,10 @@ class ScreenTitlePushAndRemoveUntilState extends State<ScreenTitlePushAndRemoveU
                   Navigator.of(context).pushAndRemoveUntil(
                       PageRouteBuilder(
                           pageBuilder: (context, animation, anotherAnimation) {
-                            return HomeScreen();
+                            return BlocProvider(
+                            create: (context) => RestaurantGetBloc(),
+                            child: new HomeScreen(),
+                            );
                           },
                           transitionDuration: Duration(milliseconds: 300),
                           transitionsBuilder:

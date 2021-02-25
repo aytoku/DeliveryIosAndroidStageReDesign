@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/AboutAppScreen/View/about_app_screen.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class InformationScreen extends StatefulWidget {
@@ -42,8 +44,11 @@ class InformationScreenState extends State<InformationScreen>{
                 onTap: () async {
                   if(await Internet.checkConnection()){
                     homeScreenKey = new GlobalKey<HomeScreenState>();
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                        HomeScreen()), (Route<dynamic> route) => false);
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                          create: (context) => RestaurantGetBloc(),
+                          child: new HomeScreen(),
+                        )), (Route<dynamic> route) => false);
                   }else{
                     noConnection(context);
                   }

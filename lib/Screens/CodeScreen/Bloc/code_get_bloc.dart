@@ -42,18 +42,22 @@ class CodeGetBloc extends Bloc<CodeEvent, CodeState> {
   Stream<CodeState> mapEventToState(CodeEvent event ) async* {
     if (event is InitialLoad) {
       yield CodeStateEmpty();
-    }else if(event is SendCode){
+    }else if(event is SendCode){ // Отправка кода на сервер
+      // Состояние загруки
       yield CodeStateLoading();
-      if(event.code == ''){
+      // Если передан кривой код
+      if(event.code == null || event.code.toString() == ''){
         yield SearchStateError('Вы ввели неверный смс код');
+        return;
       }
+      // Отправляем код на серв
+      authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, event.code, 'eda');
+      if(authCodeData != null){ // Если модель не крашнула
 
-
-      bool sendDataOnServer = false;
-      if (authCodeData != null) {
-        sendDataOnServer = true;
+        //Активация амплитуды
         await AmplitudeAnalytics.analytics.setUserId(currentUser.phone);
         AmplitudeAnalytics.analytics.logEvent('login');
+        // Сохранение данных в память
         necessaryDataForAuth.phone_number =
             currentUser.phone;
         necessaryDataForAuth.refresh_token =
@@ -61,33 +65,20 @@ class CodeGetBloc extends Bloc<CodeEvent, CodeState> {
         necessaryDataForAuth.token =
             authCodeData.token;
         await NecessaryDataForAuth.saveData();
+
         //await Centrifugo.connectToServer();
 
+        // Изменение флажка и переход на скрин
+        currentUser.isLoggedIn = true;
         if(necessaryDataForAuth.name == null){
           yield CodeStateSuccess(null, goToHomeScreen: false, goToNameScreen: true);
         }else{
-          currentUser.isLoggedIn = true;
-          homeScreenKey =
-          new GlobalKey<HomeScreenState>();
-          currentUser.isLoggedIn = true;
           yield CodeStateSuccess(null, goToHomeScreen: true, goToNameScreen: false);
         }
-      } else {
-        SearchStateError('Вы ввели неверный смс код');
+      }else{
+        yield SearchStateError('Вы ввели неверный смс код');
       }
 
-
-      if(sendDataOnServer){
-        AuthCodeData authorization = await loadAuthCodeData(necessaryDataForAuth.device_id, event.code, 'eda');
-        if(authorization != null){
-          // if(authorization. != 200){
-          //   yield SearchStateError(authorization.message);
-          // }
-          yield CodeStateSuccess(authorization);
-        }else{
-          yield SearchStateError('Вы ввели неверный смс код');
-        }
-      }
     }else if(event is SetError){
       yield SearchStateError(event.error);
     }

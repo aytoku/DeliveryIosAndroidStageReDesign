@@ -5,6 +5,7 @@ import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_event.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_state.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_get_bloc.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,10 +64,14 @@ class _AuthScreenState extends State<AuthScreen> {
           listener: (BuildContext context, AuthState state){
             if(state is AuthStateSuccess){
               if(state.goToHomeScreen){
+                homeScreenKey = new GlobalKey<HomeScreenState>();
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (context) => HomeScreen()),
-                        (Route<dynamic> route) => false);
+                    new MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                        create: (context) => RestaurantGetBloc(),
+                        child: new HomeScreen(),
+                      ),
+                    ), (Route<dynamic> route) => false);
               } else{
                 Navigator.push(
                   context,

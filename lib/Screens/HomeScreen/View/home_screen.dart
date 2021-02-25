@@ -8,6 +8,9 @@ import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/HomeScreen/API/getFilteredStores.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
@@ -45,6 +48,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   Filter filter;
   RestaurantsList restaurantsList;
   GlobalKey<CityScreenState> cityScreenKey;
+  RestaurantGetBloc restaurantGetBloc;
 
 
   @override
@@ -60,6 +64,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     _scaffoldKey = new GlobalKey<ScaffoldState>();
     basketButtonStateKey = new GlobalKey<CartButtonState>();
     cityScreenKey = new GlobalKey<CityScreenState>();
+    restaurantGetBloc = BlocProvider.of<RestaurantGetBloc>(context);
+    restaurantGetBloc.add(InitialLoad());
   }
 
   @override
@@ -342,94 +348,19 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
               )
           ),
         ),
-        body: FutureBuilder<FilteredStoresData>(
-            future: getFilteredStores(selectedCity.uuid, true),
-            initialData: null,
+        body: BlocBuilder<RestaurantGetBloc, RestaurantGetState>(
+            bloc: BlocProvider.of<RestaurantGetBloc>(context),
             builder: (BuildContext context,
-                AsyncSnapshot<FilteredStoresData> snapshot) {
-              if (snapshot.hasData) {
-               if (snapshot.data.filteredStoresList == null || snapshot.data.filteredStoresList.length == 0) {
-                 return Column(
-                   children: [
-                     Padding(
-                       padding: const EdgeInsets.only(top: 50, left: 16, right: 15, bottom: 10),
-                       child: Row(
-                         children: [
-                           Padding(
-                             padding: EdgeInsets.only(left: 0, top: 0),
-                             child: InkWell(
-                               child: Container(
-                                 height: 40,
-                                 width: 40,
-                                 padding: EdgeInsets.all(5),
-                                 child: SvgPicture.asset(
-                                   'assets/svg_images/home_menu.svg',
-                                   color: Colors.black,
-                                 ),
-                               ),
-                               onTap: () {
-                                 _scaffoldKey.currentState.openDrawer();
-                               },
-                             ),
-                           ),
-                           Padding(
-                             padding: const EdgeInsets.only(left: 20),
-                             child: GestureDetector(
-                               child: Container(
-                                 width: 250,
-                                 height: 38,
-                                 decoration: BoxDecoration(
-                                     borderRadius: BorderRadius.circular(15),
-                                     color: Color(0xFF09B44D)
-                                 ),
-                                 child: Center(
-                                   child: Text(selectedCity.name,
-                                     style: TextStyle(
-                                         color: Colors.white,
-                                         fontSize: 13
-                                     ),
-                                   ),
-                                 ),
-                               ),
-                               onTap: (){
-                                 Navigator.push(
-                                   context,
-                                   new MaterialPageRoute(
-                                     builder: (context) =>
-                                     new CityScreen(),
-                                   ),
-                                 );
-                               },
-                             ),
-                           ),
-                           // Padding(
-                           //   padding: EdgeInsets.only(bottom: 0, top: 0),
-                           //   child: InkWell(
-                           //     child: SvgPicture.asset(
-                           //       'assets/svg_images/search.svg',
-                           //       color: Colors.black,),
-                           //   ),
-                           // ),
-                         ],
-                       ),
-                     ),
-                     Padding(
-                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
-                       child: Center(
-                         child: Text('Нет заведений по этому городу'),
-                       ),
-                     ),
-                   ],
-                 );
-               }
-                if (snapshot.connectionState == ConnectionState.done) {
-
-                  // Если нам пришло с серва хоть что-то
-                  if(snapshot.data.filteredStoresList != null){
-                    recordsItems.clear();
-                    recordsItems.addAll(snapshot.data.filteredStoresList);
-                  }
-                }
+                RestaurantGetState state) {
+              if(state is RestaurantGetStateLoading)
+                return Center(
+                  child: SpinKitFadingCircle(
+                    color: Colors.green,
+                    size: 50.0,
+                  ),
+                );
+              else if(state is RestaurantGetStateSuccess){
+                recordsItems.addAll(state.items);
                 return Column(
                   children: <Widget>[
                     Padding(
@@ -591,38 +522,105 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                       ),
                     ),
                     FutureBuilder<CartModel>(
-                      future: getCartByDeviceId(necessaryDataForAuth.device_id),
-                      builder: (BuildContext context, AsyncSnapshot<CartModel> snapshot){
-                        if(snapshot.connectionState == ConnectionState.done){
-                          currentUser.cartModel = snapshot.data;
-                          if(currentUser.cartModel == null
-                              || currentUser.cartModel.items == null
+                        future: getCartByDeviceId(necessaryDataForAuth.device_id),
+                        builder: (BuildContext context, AsyncSnapshot<CartModel> snapshot){
+                          if(snapshot.connectionState == ConnectionState.done){
+                            currentUser.cartModel = snapshot.data;
+                            if(currentUser.cartModel == null
+                                || currentUser.cartModel.items == null
                                 || currentUser.cartModel.items.length < 1){
-                            currentUser.cartModel = new CartModel();
-                            return Container();
+                              currentUser.cartModel = new CartModel();
+                              return Container();
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 0),
+                              child: CartButton(
+                                key: basketButtonStateKey,
+                                restaurant: FilteredStores.fromStoreData(currentUser.cartModel.storeData),
+                                source: CartSources.Home,
+                              ),
+                            );
                           }
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 0),
-                            child: CartButton(
-                              key: basketButtonStateKey,
-                              restaurant: FilteredStores.fromStoreData(currentUser.cartModel.storeData),
-                              source: CartSources.Home,
-                            ),
-                          );
+                          return Container();
                         }
-                        return Container();
-                      }
                     ),
                   ],
                 );
-              } else {
-                return Center(
-                  child: SpinKitFadingCircle(
-                    color: Colors.green,
-                    size: 50.0,
-                  ),
+              }else if(state is RestaurantGetStateEmpty){
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50, left: 16, right: 15, bottom: 10),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 0, top: 0),
+                            child: InkWell(
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                padding: EdgeInsets.all(5),
+                                child: SvgPicture.asset(
+                                  'assets/svg_images/home_menu.svg',
+                                  color: Colors.black,
+                                ),
+                              ),
+                              onTap: () {
+                                _scaffoldKey.currentState.openDrawer();
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: GestureDetector(
+                              child: Container(
+                                width: 250,
+                                height: 38,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Color(0xFF09B44D)
+                                ),
+                                child: Center(
+                                  child: Text(selectedCity.name,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 13
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                    builder: (context) =>
+                                    new CityScreen(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          // Padding(
+                          //   padding: EdgeInsets.only(bottom: 0, top: 0),
+                          //   child: InkWell(
+                          //     child: SvgPicture.asset(
+                          //       'assets/svg_images/search.svg',
+                          //       color: Colors.black,),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+                      child: Center(
+                        child: Text('Нет заведений по этому городу'),
+                      ),
+                    ),
+                  ],
                 );
               }
+              return Container();
             }),
       ),
     );

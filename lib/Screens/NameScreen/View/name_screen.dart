@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:async';
 
@@ -154,7 +156,10 @@ class NameScreenState extends State<NameScreen> {
                                       new GlobalKey<HomeScreenState>();
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
-                                          builder: (context) => HomeScreen()),
+                                        builder: (context) => BlocProvider(
+                                          create: (context) => RestaurantGetBloc(),
+                                          child: new HomeScreen(),
+                                        ),),
                                       (Route<dynamic> route) => false);
                                 } else {
                                   noConnection(context);

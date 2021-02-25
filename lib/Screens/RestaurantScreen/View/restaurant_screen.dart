@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/getProductsByStoreUuid.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/Sl
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverText.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
@@ -141,7 +143,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     homeScreenKey = new GlobalKey<HomeScreenState>();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (context) => HomeScreen()),
+                            builder: (context) => BlocProvider(
+                              create: (context) => RestaurantGetBloc(),
+                              child: new HomeScreen(),
+                            )),
                             (Route<dynamic> route) => false);
                   },
                 )
@@ -461,7 +466,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                               Navigator.of(context).pushAndRemoveUntil(
                                   PageRouteBuilder(
                                       pageBuilder: (context, animation, anotherAnimation) {
-                                        return HomeScreen();
+                                        return BlocProvider(
+                                        create: (context) => RestaurantGetBloc(),
+                                        child: new HomeScreen(),
+                                        );
                                       },
                                       transitionDuration: Duration(milliseconds: 300),
                                       transitionsBuilder:
@@ -615,7 +623,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 Navigator.of(context).pushAndRemoveUntil(
                                     PageRouteBuilder(
                                         pageBuilder: (context, animation, anotherAnimation) {
-                                          return HomeScreen();
+                                          return BlocProvider(
+                                          create: (context) => RestaurantGetBloc(),
+                                          child: new HomeScreen(),
+                                          );
                                         },
                                         transitionDuration: Duration(milliseconds: 300),
                                         transitionsBuilder:
@@ -662,7 +673,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                             Navigator.of(context).pushAndRemoveUntil(
                                 PageRouteBuilder(
                                     pageBuilder: (context, animation, anotherAnimation) {
-                                      return HomeScreen();
+                                      return BlocProvider(
+                                      create: (context) => RestaurantGetBloc(),
+                                      child: new HomeScreen(),
+                                      );
                                     },
                                     transitionDuration: Duration(milliseconds: 300),
                                     transitionsBuilder:
@@ -705,10 +719,14 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                           'assets/svg_images/rest_arrow_left.svg'),
                                       onTap: () async {
                                         if(await Internet.checkConnection()){
+                                          homeScreenKey = new GlobalKey<HomeScreenState>();
                                           Navigator.of(context).pushAndRemoveUntil(
                                               PageRouteBuilder(
                                                   pageBuilder: (context, animation, anotherAnimation) {
-                                                    return HomeScreen();
+                                                    return BlocProvider(
+                                                    create: (context) => RestaurantGetBloc(),
+                                                    child: new HomeScreen(),
+                                                    );
                                                   },
                                                   transitionDuration: Duration(milliseconds: 300),
                                                   transitionsBuilder:

@@ -3,6 +3,7 @@ import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,7 +64,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                             Navigator.of(context).pushAndRemoveUntil(
                                 PageRouteBuilder(
                                     pageBuilder: (context, animation, anotherAnimation) {
-                                      return HomeScreen();
+                                      return BlocProvider(
+                                      create: (context) => RestaurantGetBloc(),
+                                      child: new HomeScreen(),
+                                      );
                                     },
                                     transitionDuration: Duration(milliseconds: 300),
                                     transitionsBuilder:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CityScreen/View/add_city_screen.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -190,7 +191,10 @@ class CityScreenState extends State<CityScreen>{
                                 homeScreenKey = new GlobalKey<HomeScreenState>();
                                 Navigator.of(context).push(
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreen()));
+                                        builder: (context) => BlocProvider(
+                                          create: (context) => RestaurantGetBloc(),
+                                          child: new HomeScreen(),
+                                        )));
                               },
                             ),
                           ),

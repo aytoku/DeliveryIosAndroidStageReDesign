@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import '../../../data/data.dart';
 import '../API/getFilteredStores.dart';
 import '../Model/FilteredStores.dart';
-import 'category_selection_event.dart';
+import 'restaurant_get_event.dart';
 import 'restaurant_get_state.dart';
 
 class RestaurantGetBloc extends Bloc<CategorySelectionEvent, RestaurantGetState> {
@@ -30,7 +30,7 @@ class RestaurantGetBloc extends Bloc<CategorySelectionEvent, RestaurantGetState>
   }
 
   @override
-  RestaurantGetState get initialState => RestaurantGetStateEmpty();
+  RestaurantGetState get initialState => RestaurantGetStateLoading();
 
   @override
   Stream<RestaurantGetState> mapEventToState(CategorySelectionEvent event ) async* {

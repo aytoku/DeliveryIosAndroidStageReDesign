@@ -5,6 +5,7 @@ import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/clear_cart.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
@@ -116,8 +117,11 @@ class CartPageState extends State<CartPageScreen> {
                              if(source == CartSources.Home){
                                homeScreenKey = new GlobalKey<HomeScreenState>();
                                Navigator.pushReplacement(context,
-                                new MaterialPageRoute(builder:
-                                  (context)=>HomeScreen()
+                                new MaterialPageRoute(
+                                    builder: (context) => BlocProvider(
+                                      create: (context) => RestaurantGetBloc(),
+                                      child: new HomeScreen(),
+                                    )
                                 )
                                );
                              }else if(source == CartSources.Restaurant){
@@ -516,8 +520,11 @@ class CartPageState extends State<CartPageScreen> {
           if(source == CartSources.Home){
             homeScreenKey = new GlobalKey<HomeScreenState>();
             Navigator.pushReplacement(context,
-                new MaterialPageRoute(builder:
-                    (context)=>HomeScreen()
+                new MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (context) => RestaurantGetBloc(),
+                      child: new HomeScreen(),
+                    )
                 )
             );
           }else if(source == CartSources.Restaurant){

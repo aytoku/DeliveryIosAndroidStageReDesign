@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CompletedOrderScreen/Widget/estimate.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CompletedOrderScreen extends StatefulWidget {
@@ -113,7 +115,10 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                         Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
-                            builder: (context) => new HomeScreen(),
+                            builder: (context) => BlocProvider(
+                              create: (context) => RestaurantGetBloc(),
+                              child: new HomeScreen(),
+                            ),
                           ),
                         );
                       } else {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Amplitude/amplitude.dart';
 import '../Screens/HomeScreen/View/home_screen.dart';
@@ -41,7 +43,12 @@ class DeviceIdScreen extends StatelessWidget {
                 return CityScreen();
               }else{
                 selectedCity = necessaryDataForAuth.city;
-                return HomeScreen();
+                homeScreenKey =
+                new GlobalKey<HomeScreenState>();
+                return BlocProvider(
+                  create: (context)=> RestaurantGetBloc(),
+                  child: HomeScreen(),
+                );
               }
             }
             print(necessaryDataForAuth.refresh_token);
@@ -52,7 +59,12 @@ class DeviceIdScreen extends StatelessWidget {
               return CityScreen();
             }else{
               selectedCity = necessaryDataForAuth.city;
-              return HomeScreen();
+              homeScreenKey =
+              new GlobalKey<HomeScreenState>();
+              return BlocProvider(
+                create: (context)=> RestaurantGetBloc(),
+                child: HomeScreen(),
+              );
             }
           } else {
             return Center(

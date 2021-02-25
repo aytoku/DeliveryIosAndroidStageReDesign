@@ -9,6 +9,7 @@ import 'package:flutter_app/Screens/CodeScreen/API/auth_code_data_pass.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_event.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_get_bloc.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_state.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/NameScreen/View/name_screen.dart';
 import 'package:flutter_app/data/data.dart';
@@ -151,9 +152,14 @@ class _CodeScreenState extends State<CodeScreen> {
 
                 return;
               }
+              homeScreenKey =
+              new GlobalKey<HomeScreenState>();
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                      builder: (context) => HomeScreen()),
+                    builder: (context) => BlocProvider(
+                      create: (context) => RestaurantGetBloc(),
+                      child: new HomeScreen(),
+                    ),),
                       (Route<dynamic> route) => false);
             }
           }
@@ -399,16 +405,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                 code2.controller.text +
                                 code3.controller.text +
                                 code4.controller.text;
-                            authCodeData = await loadAuthCodeData(
-                                necessaryDataForAuth.device_id,
-                                int.parse(temp), 'eda');
-                            if (authCodeData != null) {
-                              codeGetBloc.add(SendCode(code: authData.code));
-                            } else {
-                              setState(() {
-                                codeGetBloc.add(SetError('Вы ввели неверный смс код'));
-                              });
-                            }
+                            codeGetBloc.add(SendCode(code: int.parse(temp)));
                           } else {
                             noConnection(context);
                           }
