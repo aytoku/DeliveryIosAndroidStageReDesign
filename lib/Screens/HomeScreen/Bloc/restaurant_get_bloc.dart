@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_app/Screens/HomeScreen/Model/AllStoreCategories.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc/bloc.dart';
 import '../../../data/data.dart';
@@ -7,13 +8,13 @@ import '../Model/FilteredStores.dart';
 import 'restaurant_get_event.dart';
 import 'restaurant_get_state.dart';
 
-class RestaurantGetBloc extends Bloc<CategorySelectionEvent, RestaurantGetState> {
+class RestaurantGetBloc extends Bloc<RestaurantEvent, RestaurantGetState> {
 
   @override
-  Stream<Transition<CategorySelectionEvent, RestaurantGetState>> transformEvents(
-      Stream<CategorySelectionEvent> events,
-      Stream<Transition<CategorySelectionEvent, RestaurantGetState>> Function(
-          CategorySelectionEvent event,
+  Stream<Transition<RestaurantEvent, RestaurantGetState>> transformEvents(
+      Stream<RestaurantEvent> events,
+      Stream<Transition<RestaurantEvent, RestaurantGetState>> Function(
+          RestaurantEvent event,
           )
       transitionFn,
       ) {
@@ -24,7 +25,7 @@ class RestaurantGetBloc extends Bloc<CategorySelectionEvent, RestaurantGetState>
 
   @override
   void onTransition(
-      Transition<CategorySelectionEvent, RestaurantGetState> transition) {
+      Transition<RestaurantEvent, RestaurantGetState> transition) {
     print(transition);
     super.onTransition(transition);
   }
@@ -33,21 +34,39 @@ class RestaurantGetBloc extends Bloc<CategorySelectionEvent, RestaurantGetState>
   RestaurantGetState get initialState => RestaurantGetStateLoading();
 
   @override
-  Stream<RestaurantGetState> mapEventToState(CategorySelectionEvent event ) async* {
+  Stream<RestaurantGetState> mapEventToState(RestaurantEvent event ) async* {
 
     if (event is InitialLoad) {
       yield RestaurantGetStateLoading();
       FilteredStoresData stores = await getFilteredStores(selectedCity.uuid, true);
       if(stores != null && stores.filteredStoresList != null && stores.filteredStoresList.length > 0){
-        yield RestaurantGetStateSuccess(stores.filteredStoresList);
+        FilteredStoresData.filteredStoresCache = stores.filteredStoresList;
+        yield RestaurantGetStateSuccess(FilteredStoresData.filteredStoresCache);
       }
       else
         yield RestaurantGetStateEmpty();
-    }
-    else if(event is CityChanged){
+    } else if(event is CategoryFilterApplied){
+      if(AllStoreCategoriesData.selectedStoreCategories  == null){
+        AllStoreCategoriesData.selectedStoreCategories = new List<AllStoreCategories>();
+      }
+
+      if(event.categories != null){
+        AllStoreCategoriesData.selectedStoreCategories.clear();
+        AllStoreCategoriesData.selectedStoreCategories.addAll(event.categories);
+        yield RestaurantGetStateSuccess(FilteredStoresData.applyCategoryFilters(AllStoreCategoriesData.selectedStoreCategories));
+        return;
+      }
+
+      if(AllStoreCategoriesData.selectedStoreCategories.contains(event.category)){
+        if(event.selectedCategoryFromHomeScreen){
+          AllStoreCategoriesData.selectedStoreCategories.remove(event.category);
+        }
+      } else {
+        AllStoreCategoriesData.selectedStoreCategories.add(event.category);
+      }
+      yield RestaurantGetStateSuccess(FilteredStoresData.applyCategoryFilters(AllStoreCategoriesData.selectedStoreCategories));
 
     }
-
   }
 
 }

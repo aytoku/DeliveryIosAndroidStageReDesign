@@ -153,13 +153,13 @@ class EnergyValue {
   int protein;
   int fat;
   int carbohydrates;
-  int calories;
+  double calories;
 
   factory EnergyValue.fromJson(Map<String, dynamic> json) => EnergyValue(
     protein: json["protein"],
     fat: json["fat"],
     carbohydrates: json["carbohydrates"],
-    calories: json["calories"],
+    calories: json["calories"]*1.0,
   );
 
   Map<String, dynamic> toJson() => {

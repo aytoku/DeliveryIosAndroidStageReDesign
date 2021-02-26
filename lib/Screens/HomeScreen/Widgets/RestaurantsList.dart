@@ -252,7 +252,6 @@ class RestaurantsListState extends State<RestaurantsList>{
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: _buildRestaurantsList(),
     );

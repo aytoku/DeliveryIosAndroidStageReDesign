@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/HomeScreen/API/getAllStoreCategories.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/AllStoreCategories.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/DistancePriority.dart';
@@ -28,10 +29,9 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
 
   HomeScreenState parent;
   KitchenListScreen kitchenListScreen;
-  bool selectedCategoryFromHomeScreen = false;
-  List<String> categoryUuid;
-  List<bool> selectedKitchens;
-  List<AllStoreCategories> restaurantCategories;
+  bool selectedCategoryFromHomeScreen;// Выбранные категории
+  List<bool> selectedKitchens; // Квадратики с галочками
+  List<AllStoreCategories> restaurantCategories; // Фулл список категорий
   ScrollController catScrollController;
   GlobalKey<KitchenListScreenState> kitchenListKey;
 
@@ -42,7 +42,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
   @override
   void initState() {
     super.initState();
-    categoryUuid = new List<String>();
+    selectedCategoryFromHomeScreen = false;
     kitchenListKey = new GlobalKey();
   }
 
@@ -290,7 +290,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
                         height: 45,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: (!selectedCategoryFromHomeScreen && categoryUuid.length > 0) ? Color(0xFF09B44D) : Color(0xFFF6F6F6)),
+                            color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0) ? Color(0xFF09B44D) : Color(0xFFF6F6F6)),
                         child: Padding(
                             padding: EdgeInsets.only(left: 15, right: 15),
                             child: Center(
@@ -300,13 +300,13 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
                                   Text(
                                     "Кухни",
                                     style: TextStyle(
-                                        color: (!selectedCategoryFromHomeScreen && categoryUuid.length > 0) ? Colors.white: Color(0xFF424242),
+                                        color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0) ? Colors.white: Color(0xFF424242),
                                         fontSize: 15),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: SvgPicture.asset('assets/svg_images/arrow_down',
-                                      color: (!selectedCategoryFromHomeScreen && categoryUuid.length > 0) ? Colors.white: Colors.black,
+                                      color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0) ? Colors.white: Colors.black,
                                     ),
                                   )
                                 ],
@@ -324,7 +324,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
                   }
                 },
               ),
-              (categoryUuid.length != 0 && !selectedCategoryFromHomeScreen) ? Padding(
+              (AllStoreCategoriesData.selectedStoreCategories.length != 0 && !selectedCategoryFromHomeScreen) ? Padding(
                 padding: const EdgeInsets.only(left: 95, bottom: 25),
                 child: Container(
                     width: 23,
@@ -342,7 +342,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
                         ],
                     ),
                     child: Center(
-                      child: Text('${categoryUuid.length}',
+                      child: Text('${AllStoreCategoriesData.selectedStoreCategories.length}',
                         style: TextStyle(
                             fontSize: 14
                         ),
@@ -360,13 +360,13 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
         child: Padding(
             padding:
             EdgeInsets.only(left: 5, right: 5,
-                top: (categoryUuid.length != 0 && !selectedCategoryFromHomeScreen || selectedCategoryFromHomeScreen) ? 7: 0,
-                bottom: (categoryUuid.length != 0 && !selectedCategoryFromHomeScreen || selectedCategoryFromHomeScreen) ? 7: 0,),
+                top: (AllStoreCategoriesData.selectedStoreCategories.length != 0 && !selectedCategoryFromHomeScreen || selectedCategoryFromHomeScreen) ? 7: 0,
+                bottom: (AllStoreCategoriesData.selectedStoreCategories.length != 0 && !selectedCategoryFromHomeScreen || selectedCategoryFromHomeScreen) ? 7: 0,),
             child: Container(
               height: 45,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: (!categoryUuid.contains(element.uuid) || !selectedCategoryFromHomeScreen)
+                  color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element) || !selectedCategoryFromHomeScreen)
                       ? Color(0xFFF6F6F6)
                       : Color(0xFF09B44D)),
               child: Padding(
@@ -375,7 +375,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
                     child: Text(
                       element.name[0].toUpperCase() + element.name.substring(1),
                       style: TextStyle(
-                          color: (!categoryUuid.contains(element.uuid)|| !selectedCategoryFromHomeScreen)
+                          color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)|| !selectedCategoryFromHomeScreen)
                               ? Color(0xFF424242)
                               : Colors.white,
                           fontSize: 15),
@@ -384,16 +384,8 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
             )),
         onTap: () async {
           if (await Internet.checkConnection()) {
-            if(categoryUuid.contains(element.uuid)){
-              if(selectedCategoryFromHomeScreen){
-                categoryUuid.remove(element.uuid);
-              }
-            } else {
-              categoryUuid.add(element.uuid);
-            }
             selectedCategoryFromHomeScreen = true;
-            applyFilters();
-            setState(() {});
+            parent.restaurantGetBloc.add(CategoryFilterApplied(category: element, selectedCategoryFromHomeScreen: selectedCategoryFromHomeScreen));
           } else {
             noConnection(context);
           }
@@ -403,28 +395,6 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
     return result;
   }
 
-
-  // функция для применения фильтров
-  void applyFilters(){
-    // если выведен список ресторанов, то
-    if(parent.restaurantsList != null && parent.restaurantsList.key.currentState != null)
-      parent.restaurantsList.key.currentState.setState(() {
-        // если выбран хотя бы один из фильтров, то
-        if(categoryUuid.length > 0){
-          // получаем отфильтрованные рестораны
-          var stores = parent.recordsItems.where((element) =>
-          element.storeCategoriesUuid != null && element.storeCategoriesUuid.length > 0 &&
-              categoryUuid.contains(element.storeCategoriesUuid[0].uuid));
-          parent.restaurantsList.records_items.clear();
-          parent.restaurantsList.records_items.addAll(stores);
-        } else {
-          // весь список
-          parent.restaurantsList.records_items.clear();
-          parent.restaurantsList.records_items.addAll(parent.recordsItems);
-        }
-        print(parent.recordsItems.length.toString());
-      });
-  }
 
 
   // список категорий
@@ -446,6 +416,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
 
   @override
   Widget build(BuildContext context) {
+
     if(restaurantCategories != null)
       return Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/AllStoreCategories.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -86,7 +87,7 @@ class KitchenListScreenState extends State<KitchenListScreen>{
   @override
   void initState() {
     super.initState();
-    parent.selectedKitchens = List.generate(categories.length, (index) => parent.categoryUuid.contains(categories[index].uuid));
+    parent.selectedKitchens = List.generate(categories.length, (index) => AllStoreCategoriesData.selectedStoreCategories.contains(categories[index]));
     hasChanges = false;
   }
 
@@ -111,15 +112,15 @@ class KitchenListScreenState extends State<KitchenListScreen>{
                 ),
                 padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
                 onPressed: () async {
-                  parent.categoryUuid.clear();
+                  parent.selectedCategoryFromHomeScreen = false;
+                  List<AllStoreCategories> selectedCats = List<AllStoreCategories>();
                   for(int i = 0; i<parent.selectedKitchens.length; i++){
                     if(parent.selectedKitchens[i])
-                      parent.categoryUuid.add(categories[i].uuid);
+                      selectedCats.add(categories[i]);
                   }
-                  parent.selectedCategoryFromHomeScreen = false;
-                  parent.applyFilters();
+                  parent.parent.restaurantGetBloc.add(CategoryFilterApplied(selectedCategoryFromHomeScreen: parent.selectedCategoryFromHomeScreen, categories: selectedCats));
                   Navigator.pop(context);
-                  parent.setState(() {});
+                  //parent.setState(() {});
                 },
               ),
             ),

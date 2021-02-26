@@ -1,37 +1,25 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/AllStoreCategories.dart';
 
-import '../../CityScreen/Model/FilteredCities.dart';
-import '../Model/FilteredStores.dart';
 
-abstract class CategorySelectionEvent extends Equatable {
-  const CategorySelectionEvent();
+
+abstract class RestaurantEvent extends Equatable {
+  const RestaurantEvent();
 }
 
-class CategoryChanged extends CategorySelectionEvent {
-  final CategoriesUuid category;
+class CategoryFilterApplied extends RestaurantEvent {
+  final AllStoreCategories category;
+  final List<AllStoreCategories> categories;
+  final bool selectedCategoryFromHomeScreen;
 
-  const CategoryChanged({this.category});
+  const CategoryFilterApplied({this.category, this.selectedCategoryFromHomeScreen, this.categories});
 
   @override
-  List<Object> get props => [category.uuid];
+  List<Object> get props => [category.uuid, category];
 
-  @override
-  String toString() => 'CategoryChanged { text: ${category.uuid} }';
 }
 
-class CityChanged extends CategorySelectionEvent {
-  final FilteredCities city;
-
-  const CityChanged({this.city});
-
-  @override
-  List<Object> get props => [city.uuid];
-
-  @override
-  String toString() => 'CategoryChanged { text: ${city.uuid} }';
-}
-
-class InitialLoad extends CategorySelectionEvent {
+class InitialLoad extends RestaurantEvent {
   @override
   List<Object> get props => [];
 

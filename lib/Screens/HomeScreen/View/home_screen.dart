@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Config/config.dart';
@@ -49,6 +50,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   RestaurantsList restaurantsList;
   GlobalKey<CityScreenState> cityScreenKey;
   RestaurantGetBloc restaurantGetBloc;
+  CartButton cartButton;
 
 
   @override
@@ -59,7 +61,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    filter = Filter(this, key: new GlobalKey<FilterState>());
     recordsItems = new List<FilteredStores>();
     _scaffoldKey = new GlobalKey<ScaffoldState>();
     basketButtonStateKey = new GlobalKey<CartButtonState>();
@@ -360,6 +361,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                   ),
                 );
               else if(state is RestaurantGetStateSuccess){
+                recordsItems.clear();
                 recordsItems.addAll(state.items);
                 return Column(
                   children: <Widget>[
@@ -514,13 +516,14 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                   letterSpacing: 1.2,
                                 )),
                           ),
-                          filter,
+                          filter = Filter(this),
                           (recordsItems.isEmpty) ?  Center(
                             child: Container(),
                           ) : restaurantsList = RestaurantsList(List.from(recordsItems), key: GlobalKey(),)
                         ],
                       ),
                     ),
+                    cartButton != null ? cartButton :
                     FutureBuilder<CartModel>(
                         future: getCartByDeviceId(necessaryDataForAuth.device_id),
                         builder: (BuildContext context, AsyncSnapshot<CartModel> snapshot){
@@ -534,7 +537,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             }
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 0),
-                              child: CartButton(
+                              child: cartButton = CartButton(
                                 key: basketButtonStateKey,
                                 restaurant: FilteredStores.fromStoreData(currentUser.cartModel.storeData),
                                 source: CartSources.Home,
@@ -543,7 +546,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           }
                           return Container();
                         }
-                    ),
+                    )
                   ],
                 );
               }else if(state is RestaurantGetStateEmpty){

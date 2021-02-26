@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/AllStoreCategories.dart';
 
 class FilteredStoresData{
+  static List<FilteredStores> filteredStoresCache;
+
   List<FilteredStores> filteredStoresList;
 
   FilteredStoresData( {
@@ -18,6 +21,22 @@ class FilteredStoresData{
     return FilteredStoresData(
         filteredStoresList:storesList,
     );
+  }
+  
+  static List<FilteredStores> applyCategoryFilters(List<AllStoreCategories> filters){
+    // если выбран хотя бы один из фильтров, то
+    if(filters.length > 0){
+      // получаем отфильтрованные рестораны
+      var stores =filteredStoresCache.where((element) =>
+      element.storeCategoriesUuid != null && element.storeCategoriesUuid.length > 0 &&
+          filters.indexWhere((filter) => element.storeCategoriesUuid[0].uuid == filter.uuid) != -1);
+      List<FilteredStores> filteredStores = new List<FilteredStores>();
+      filteredStores.addAll(stores);
+      return filteredStores;
+    } else {
+      // весь список
+      return filteredStoresCache;
+    }
   }
 }
 

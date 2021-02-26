@@ -1,4 +1,6 @@
 class AllStoreCategoriesData{
+  static List<AllStoreCategories> selectedStoreCategories = new List<AllStoreCategories>();
+
   List<AllStoreCategories> allStoreCategoriesList;
 
   AllStoreCategoriesData( {
