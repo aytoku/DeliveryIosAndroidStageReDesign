@@ -54,7 +54,7 @@ class ProductsByStoreUuid {
   int priority;
   bool openable;
   String type;
-  int price;
+  double price;
   int weight;
   String weightMeasurement;
   ProductsByStoreUuidMeta meta;
@@ -75,7 +75,7 @@ class ProductsByStoreUuid {
     priority: json["priority"],
     openable: json["openable"],
     type: json["type"],
-    price: json["price"],
+    price: json["price"] * 1.0,
     weight: json["weight"],
     weightMeasurement: json["weight_measurement"],
     meta: ProductsByStoreUuidMeta.fromJson(json["meta"]),
@@ -128,7 +128,7 @@ class ProductsByStoreUuidMeta {
     composition: json["composition"],
     weight: json["weight"],
     weightMeasurement: json["weight_measurement"],
-    images: List<String>.from(json["images"].map((x) => x)),
+    images: (json["images"] == null) ? null : List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
   );
 

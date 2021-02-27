@@ -467,8 +467,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                   PageRouteBuilder(
                                       pageBuilder: (context, animation, anotherAnimation) {
                                         return BlocProvider(
-                                        create: (context) => RestaurantGetBloc(),
-                                        child: new HomeScreen(),
+                                          create: (context) => RestaurantGetBloc(),
+                                          child: new HomeScreen(),
                                         );
                                       },
                                       transitionDuration: Duration(milliseconds: 300),
@@ -601,53 +601,12 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-            ClipRRect(
-                child: Stack(
-                  children: <Widget>[
-                    Image.network(
-                      getImage((restaurant.meta.images != null
-                          && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
-                      fit: BoxFit.fitWidth,
-                      height: 230.0,
-                      width: MediaQuery.of(context).size.width,
-                    ),
-                    Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 40, left: 15, right: 0),
-                          child: GestureDetector(
-                            child: SvgPicture.asset(
-                                'assets/svg_images/rest_arrow_left.svg'),
-                            onTap: () async {
-                              if(await Internet.checkConnection()){
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    PageRouteBuilder(
-                                        pageBuilder: (context, animation, anotherAnimation) {
-                                          return BlocProvider(
-                                          create: (context) => RestaurantGetBloc(),
-                                          child: new HomeScreen(),
-                                          );
-                                        },
-                                        transitionDuration: Duration(milliseconds: 300),
-                                        transitionsBuilder:
-                                            (context, animation, anotherAnimation, child) {
-                                          return SlideTransition(
-                                            position: Tween(
-                                                begin: Offset(1.0, 0.0),
-                                                end: Offset(0.0, 0.0))
-                                                .animate(animation),
-                                            child: child,
-                                          );
-                                        }
-                                    ), (Route<dynamic> route) => false);
-                              }else{
-                                noConnection(context);
-                              }
-                            },
-                          ),
-                        ))
-                  ],
-                )),
+            Container(
+              height: 230,
+              decoration: BoxDecoration(
+                  color: Colors.black
+              ),
+            ),
             CustomScrollView(
               anchor: 0.01,
               controller: sliverScrollController,
@@ -674,8 +633,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 PageRouteBuilder(
                                     pageBuilder: (context, animation, anotherAnimation) {
                                       return BlocProvider(
-                                      create: (context) => RestaurantGetBloc(),
-                                      child: new HomeScreen(),
+                                        create: (context) => RestaurantGetBloc(),
+                                        child: new HomeScreen(),
                                       );
                                     },
                                     transitionDuration: Duration(milliseconds: 300),
@@ -724,8 +683,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                               PageRouteBuilder(
                                                   pageBuilder: (context, animation, anotherAnimation) {
                                                     return BlocProvider(
-                                                    create: (context) => RestaurantGetBloc(),
-                                                    child: new HomeScreen(),
+                                                      create: (context) => RestaurantGetBloc(),
+                                                      child: new HomeScreen(),
                                                     );
                                                   },
                                                   transitionDuration: Duration(milliseconds: 300),
@@ -924,6 +883,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     panelContentKey = new GlobalKey<PanelContentState>();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       key: _scaffoldStateKey,
       body: SlidingUpPanel(
         backdropEnabled: true,

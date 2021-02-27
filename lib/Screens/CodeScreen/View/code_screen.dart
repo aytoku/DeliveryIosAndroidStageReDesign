@@ -132,7 +132,7 @@ class _CodeScreenState extends State<CodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      backgroundColor: Colors.white,
       body: BlocListener<CodeGetBloc, CodeState>(
         bloc: codeGetBloc,
         listener: (BuildContext context, CodeState state){
@@ -173,8 +173,12 @@ class _CodeScreenState extends State<CodeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
+                      hoverColor: Colors.white,
+                      focusColor: Colors.white,
+                      splashColor: Colors.white,
+                      highlightColor: Colors.white,
                       child: Padding(
-                          padding: EdgeInsets.only(left: 0, top: 30),
+                          padding: EdgeInsets.only(left: 30, top: 40),
                           child: Container(
                             width: 40,
                             height: 60,
@@ -186,8 +190,12 @@ class _CodeScreenState extends State<CodeScreen> {
                       onTap: () => Navigator.pop(context),
                     ),
                     InkWell(
+                      hoverColor: Colors.white,
+                      focusColor: Colors.white,
+                      splashColor: Colors.white,
+                      highlightColor: Colors.white,
                       child:  Padding(
-                          padding: EdgeInsets.only(right: 15, top: 30),
+                          padding: EdgeInsets.only(right: 30, top: 40),
                           child: Container(
                             width: 40,
                             height: 60,
@@ -206,7 +214,7 @@ class _CodeScreenState extends State<CodeScreen> {
                     alignment: Alignment.topCenter,
                     child: Container(
                       height: 130,
-                      width: 300,
+                      width: 313,
                       decoration: BoxDecoration(
                         color: Color(0xFF09B44D),
                         border: Border.all(
@@ -517,15 +525,18 @@ class ButtonState extends State<Button> {
     // TODO: implement build
     return GestureDetector(
       child: Container(
+        width: 313,
+        height: 52,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Text('Далее',
-            style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white)),
-        padding: EdgeInsets.only(left: 130, top: 20, right: 130, bottom: 20),
+        child: Center(
+          child: Text('Далее',
+              style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.white)),
+        ),
       ),
       onTap: () async {
         if (await Internet.checkConnection()) {

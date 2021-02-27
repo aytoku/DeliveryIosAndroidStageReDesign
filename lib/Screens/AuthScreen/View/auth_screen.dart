@@ -58,7 +58,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        backgroundColor: Colors.white,
         body: BlocListener<AuthGetBloc, AuthState>( // листенер для переходов на другие скрины
           bloc: authGetBloc,
           listener: (BuildContext context, AuthState state){
@@ -77,8 +77,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   context,
                   new MaterialPageRoute(
                     builder: (context) => BlocProvider(
-                        create: (context) => CodeGetBloc(),
-                        child: new CodeScreen(state.authData, source: source),
+                      create: (context) => CodeGetBloc(),
+                      child: new CodeScreen(state.authData, source: source),
                     ),
                   ),
                 );
@@ -95,11 +95,15 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: Row(
                       children: <Widget>[
                         InkWell(
+                          hoverColor: Colors.white,
+                          focusColor: Colors.white,
+                          splashColor: Colors.white,
+                          highlightColor: Colors.white,
                           onTap: () {
                             Navigator.pop(context);
                           },
                           child: Padding(
-                              padding: EdgeInsets.only(left: 0, top: 30),
+                              padding: EdgeInsets.only(left: 25, top: 40),
                               child: Container(
                                   height: 40,
                                   width: 60,
@@ -121,7 +125,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           alignment: Alignment.topCenter,
                           child: Container(
                             height: 91,
-                            width: 300,
+                            width: 313,
                             decoration: BoxDecoration(
                               color: Color(0xFF09B44D),
                               border: Border.all(
@@ -163,7 +167,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         filled: true,
                                         fillColor: Colors.white,
                                         counterText: '',
-                                        contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.18),
+                                        contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2),
                                         hintStyle: TextStyle(
                                           color: Color(0xFFC0BFC6),
                                         ),
@@ -319,15 +323,19 @@ class ButtonState extends State<Button> {
     // TODO: implement build
     return GestureDetector(
       child: Container(
+        width: 313,
+        height: 52,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Text('Далее',
-            style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white)),
-        padding: EdgeInsets.only(left: 130, top: 20, right: 130, bottom: 20),
+        child: Center(
+          child: Text('Далее',
+              style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.white)),
+        ),
+
       ),
       onTap: () async {
         if (await Internet.checkConnection()) {

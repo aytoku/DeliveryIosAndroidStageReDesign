@@ -40,21 +40,25 @@ class NameScreenState extends State<NameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             InkWell(
+              hoverColor: Colors.white,
+              focusColor: Colors.white,
+              splashColor: Colors.white,
+              highlightColor: Colors.white,
               child: Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                      padding: EdgeInsets.only(left: 15, top: 40),
+                      padding: EdgeInsets.only(left: 30, top: 40),
                       child: Container(
                           height: 40,
                           width: 60,
                           child: Padding(
                             padding:
-                                EdgeInsets.only(top: 12, bottom: 12, right: 30),
+                            EdgeInsets.only(top: 12, bottom: 12, right: 30),
                             child: SvgPicture.asset(
                                 'assets/svg_images/arrow_left.svg'),
                           )))),
@@ -71,50 +75,45 @@ class NameScreenState extends State<NameScreen> {
                         padding: EdgeInsets.only(top: 0, bottom: 15),
                         child: Text('Как вас зовут?',
                             style: TextStyle(
-                                fontSize: 24,
-                                )),
+                              fontSize: 24,
+                            )),
                       ),
                     ),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding:
-                          EdgeInsets.only(right: 30, left: 30, bottom: 100),
-                      child: Row(
-                        children: <Widget>[
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                                padding: EdgeInsets.only(left: 15, right: 15),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Color(0xF5F5F5F5),
-                                      borderRadius: BorderRadius.circular(7.0),
-                                      border: Border.all(
-                                          width: 1.0,
-                                          color: Color(0xF5F5F5F5))),
-                                  child: TextField(
-                                    controller: nameFieldController,
-                                    textAlign: TextAlign.start,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    style: TextStyle(
-                                        fontSize: 18,),
-                                    keyboardType: TextInputType.text,
-                                    decoration: new InputDecoration(
-                                      hintText: 'Ваше имя',
-                                      contentPadding: EdgeInsets.only(left: 15),
-                                      hintStyle: TextStyle(
-                                          color: Color(0xFFB5B5B5),
-                                          fontSize: 18),
-                                      border: InputBorder.none,
-                                      counterText: '',
-                                    ),
-                                  ),
-                                )),
-                          ),
-                        ],
+                    child: Center(
+                      child: Padding(
+                          padding:
+                          EdgeInsets.only(bottom: 100),
+                          child: Container(
+                            width: 313,
+                            height: 45,
+                            decoration: BoxDecoration(
+                                color: Color(0xF5F5F5F5),
+                                borderRadius: BorderRadius.circular(7.0),
+                                border: Border.all(
+                                    width: 1.0,
+                                    color: Color(0xF5F5F5F5))),
+                            child: TextField(
+                              controller: nameFieldController,
+                              textAlign: TextAlign.start,
+                              textCapitalization:
+                              TextCapitalization.sentences,
+                              style: TextStyle(
+                                fontSize: 18,),
+                              keyboardType: TextInputType.text,
+                              decoration: new InputDecoration(
+                                hintText: 'Ваше имя',
+                                contentPadding: EdgeInsets.only(left: 15, bottom: 5),
+                                hintStyle: TextStyle(
+                                    color: Color(0xFFB5B5B5),
+                                    fontSize: 18),
+                                border: InputBorder.none,
+                                counterText: '',
+                              ),
+                            ),
+                          )
                       ),
                     ),
                   ),
@@ -153,14 +152,14 @@ class NameScreenState extends State<NameScreen> {
                                   }
 
                                   homeScreenKey =
-                                      new GlobalKey<HomeScreenState>();
+                                  new GlobalKey<HomeScreenState>();
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
                                         builder: (context) => BlocProvider(
                                           create: (context) => RestaurantGetBloc(),
                                           child: new HomeScreen(),
                                         ),),
-                                      (Route<dynamic> route) => false);
+                                          (Route<dynamic> route) => false);
                                 } else {
                                   noConnection(context);
                                 }
@@ -202,15 +201,18 @@ class ButtonState extends State<Button> {
     // TODO: implement build
     return GestureDetector(
       child: Container(
+        width: 313,
+        height: 52,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Text('Далее',
-            style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white)),
-        padding: EdgeInsets.only(left: 130, top: 20, right: 130, bottom: 20),
+        child: Center(
+          child: Text('Далее',
+              style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.white)),
+        ),
       ),
       onTap: () async {
         await onTap();

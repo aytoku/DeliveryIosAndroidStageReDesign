@@ -23,6 +23,7 @@ import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_pay/flutter_pay.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -387,7 +388,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 20),
+                            padding: const EdgeInsets.only(left: 25),
                             child: GestureDetector(
                               child: Container(
                                 width: 250,
@@ -501,8 +502,25 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     height: 40,width: 40,
                           //     child: Text('sdf'),
                           //   ),
-                          //   onTap: (){
-                          //     cancelOrder('4129be99-5dce-4956-a062-1065076827af"');
+                          //   onTap: () async {
+                          //     FlutterPay flutterPay = FlutterPay();
+                          //
+                          //     PaymentItem item = PaymentItem(name: "T-Shirt", price: 10.98);
+                          //
+                          //     String token = await flutterPay.makePayment(
+                          //       merchantIdentifier: "T1513081007-api",
+                          //       currencyCode: "RUB",
+                          //       countryCode: "RU",
+                          //       allowedPaymentNetworks: [
+                          //         PaymentNetwork.visa,
+                          //         PaymentNetwork.masterCard,
+                          //       ],
+                          //       paymentItems: [item],
+                          //       merchantName: "Faem",
+                          //       gatewayName: "sberbank",
+                          //     );
+                          //
+                          //     print(token);
                           //   },
                           // ),
                           Padding(

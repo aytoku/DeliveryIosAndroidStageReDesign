@@ -402,9 +402,18 @@ class MenuItemCounterState extends State<MenuItemCounter> {
   }
 
   // ignore: non_constant_identifier_names
-  Future<void> _incrementCounter_minus() async{
-    if(item.product.type == 'variable'){
-      _deleteCartItem();
+  Future<void> _incrementCounter_minus({bool ignoreVariable = false}) async{
+    if(item.product.type == 'variable' && !ignoreVariable){
+      int count = 0;
+      currentUser.cartModel.items.forEach((element) {
+        if(element.product.uuid == item.product.uuid)
+          count++;
+      });
+
+      if(count > 1)
+        _deleteCartItem();
+      else
+        _incrementCounter_minus(ignoreVariable: true);
     }else{
       currentUser.cartModel = await changeItemCountInCart(necessaryDataForAuth.device_id, item.id, -1);
       item = currentUser.cartModel.findCartItem(foodRecords);
@@ -452,7 +461,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8, bottom: 5, top: 5, right: 5),
                     child: Text(
-                       '${foodRecords.price} \₽',
+                      '${foodRecords.price.toStringAsFixed(0)} \₽',
                       style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.w400,

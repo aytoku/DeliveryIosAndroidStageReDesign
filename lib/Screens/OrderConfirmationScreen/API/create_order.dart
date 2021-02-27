@@ -10,7 +10,7 @@ import '../../../data/data.dart';
 import '../../../data/refreshToken.dart';
 
 
-Future<CartModel> createOrder(String order_uuid, bool withoutDelivery, bool ownDelivery, bool eatInStore, DestinationPoints deliveryAddress) async {
+Future<CartModel> createOrder(String order_uuid, bool withoutDelivery, bool ownDelivery, bool eatInStore, DestinationPoints deliveryAddress, String comment) async {
   await SendRefreshToken.sendRefreshToken();
   CartModel cartModel = null;
   var json_request = jsonEncode(
@@ -18,7 +18,8 @@ Future<CartModel> createOrder(String order_uuid, bool withoutDelivery, bool ownD
         "without_delivery": withoutDelivery,
         "own_delivery": ownDelivery,
         "eat_in_store": eatInStore,
-        "delivery_address": deliveryAddress.toJson()
+        "delivery_address": deliveryAddress.toJson(),
+        "comment": comment
       }
   );
   var url = '${apiUrl}orders/${order_uuid}';

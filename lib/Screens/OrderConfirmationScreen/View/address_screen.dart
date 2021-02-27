@@ -364,7 +364,7 @@ class AddressScreenState extends State<AddressScreen>
   Widget buildAddressesList(){
     if(myAddressesModelList != null){
       return Container(
-        height: 120,
+          height: 120,
           child: Column(
             children: [
               Align(
@@ -778,6 +778,7 @@ class AddressScreenState extends State<AddressScreen>
                                         controller: officeField,
                                         maxLength: 6,
                                         focusNode: focusNode,
+                                        keyboardType: TextInputType.number,
                                         decoration: new InputDecoration(
                                           hintText: 'Кв./офис',
                                           hintStyle: TextStyle(
@@ -923,27 +924,27 @@ class AddressScreenState extends State<AddressScreen>
                             ],
                           ),
                         ),
-                       // (promoTextKey.currentState!= null && promoTextKey.currentState.title.length != null) ? Padding(
-                       //   padding: EdgeInsets.only(
-                       //       top: 15, left: 17, bottom: 5, right: 17),
-                       //   child: Row(
-                       //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       //     children: <Widget>[
-                       //       Text(
-                       //         'Скидка',
-                       //         style: TextStyle(
-                       //             color: Colors.red,
-                       //             fontSize: 14),
-                       //       ),
-                       //       Text(
-                       //         '-150 \₽',
-                       //         style: TextStyle(
-                       //             color: Colors.red,
-                       //             fontSize: 14),
-                       //       )
-                       //     ],
-                       //   ),
-                       // ) : Container(),
+                        // (promoTextKey.currentState!= null && promoTextKey.currentState.title.length != null) ? Padding(
+                        //   padding: EdgeInsets.only(
+                        //       top: 15, left: 17, bottom: 5, right: 17),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: <Widget>[
+                        //       Text(
+                        //         'Скидка',
+                        //         style: TextStyle(
+                        //             color: Colors.red,
+                        //             fontSize: 14),
+                        //       ),
+                        //       Text(
+                        //         '-150 \₽',
+                        //         style: TextStyle(
+                        //             color: Colors.red,
+                        //             fontSize: 14),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ) : Container(),
                         Padding(
                           padding: EdgeInsets.only(
                               top: 15, left: 17, bottom: 5, right: 17),
@@ -1154,14 +1155,14 @@ class AddressScreenState extends State<AddressScreen>
                     alignment: Alignment.bottomCenter,
                     child: Container(
                       decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 5.0,
-                                offset: Offset(0.0, 1)
-                            )
-                          ],
-                          color: Colors.white,),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 5.0,
+                              offset: Offset(0.0, 1)
+                          )
+                        ],
+                        color: Colors.white,),
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
                         child: Row(
@@ -1209,14 +1210,18 @@ class AddressScreenState extends State<AddressScreen>
                                         isTakeAwayOrderConfirmation,
                                         false,
                                         eatInStore,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address);
+                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                        commentField.text
+                                    );
                                   }else{
                                     await createOrder(
                                         currentUser.cartModel.uuid,
                                         false,
                                         false,
                                         false,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address);
+                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                        commentField.text
+                                    );
                                   }
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(

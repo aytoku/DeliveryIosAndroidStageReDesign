@@ -69,145 +69,137 @@ class CityScreenState extends State<CityScreen>{
       cityController.text = selectedCity.name;
     }
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage("assets/images/city_image.png"), fit: BoxFit.cover),
-        ),
-        child: Column(
+        body:  Stack(
           children: [
-            Expanded(
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 50, right: 20),
-                  child: GestureDetector(
-                    child: Container(
-                      width: 125,
-                      height: 41,
-                      decoration: BoxDecoration(
+            SvgPicture.asset('assets/svg_images/city.svg', width: MediaQuery.of(context).size.width,),
+            (!currentUser.isLoggedIn) ? Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50, right: 20),
+                child: GestureDetector(
+                  child: Container(
+                    width: 125,
+                    height: 41,
+                    decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Color(0xFF09B44D)
-                      ),
-                      child: Center(
-                        child: Text('Войти',
-                          style: TextStyle(
+                    ),
+                    child: Center(
+                      child: Text('Войти',
+                        style: TextStyle(
                             fontSize: 18,
                             color: Colors.white
-                          ),
                         ),
                       ),
                     ),
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (context)=> AuthGetBloc(),
-                            child: AuthScreen(),
-                          ),
-                        ),
-                      );
-                    },
                   ),
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                          create: (context)=> AuthGetBloc(),
+                          child: AuthScreen(),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 190,
-                  decoration: BoxDecoration(
+            ) : Container(),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 190,
+                decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
                     )
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20, left: 20),
-                          child: Text('Укажите город доставки',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                            textAlign: TextAlign.start,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20, left: 20),
+                        child: Text('Укажите город доставки',
+                          style: TextStyle(
+                            fontSize: 18,
                           ),
+                          textAlign: TextAlign.start,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                        child: GestureDetector(
-                          child: TextField(
-                            controller: cityController,
-                            decoration: InputDecoration(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                      child: GestureDetector(
+                        child: TextField(
+                          controller: cityController,
+                          decoration: InputDecoration(
                               enabled: false,
                               contentPadding: EdgeInsets.only(left: 2),
                               hintText: 'Введите город',
                               hintStyle: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey
+                                  fontSize: 14,
+                                  color: Colors.grey
                               )
-                            ),
                           ),
-                          onTap: (){
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => AddCityScreen()),
-                                    (Route<dynamic> route) => false);
-                          },
                         ),
+                        onTap: (){
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => AddCityScreen()),
+                                  (Route<dynamic> route) => false);
+                        },
                       ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom:  20, right: 20, left: 20),
-                            child: GestureDetector(
-                              child: Container(
-                                height: 40,
-                                width: 335,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom:  20, right: 20, left: 20),
+                          child: GestureDetector(
+                            child: Container(
+                              height: 40,
+                              width: 335,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
                                   color: (cityController.text.length == 0) ? Color(0xFFF6F6F6) : Color(0xFF09B44D)
-                                ),
-                                child: Center(
-                                  child: Text('Далее',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18
-                                    ),
+                              ),
+                              child: Center(
+                                child: Text('Далее',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18
                                   ),
                                 ),
                               ),
-                              onTap: (){
-                                if(cityController.text.length == 0){
-                                  showAlertDialog(context);
-                                }
-                                homeScreenKey = new GlobalKey<HomeScreenState>();
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) => BlocProvider(
-                                          create: (context) => RestaurantGetBloc(),
-                                          child: new HomeScreen(),
-                                        )));
-                              },
                             ),
+                            onTap: (){
+                              if(cityController.text.length == 0){
+                                showAlertDialog(context);
+                              }
+                              homeScreenKey = new GlobalKey<HomeScreenState>();
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                        create: (context) => RestaurantGetBloc(),
+                                        child: new HomeScreen(),
+                                      )));
+                            },
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             )
           ],
-        ),
-      ),
+        )
     );
   }
 }
