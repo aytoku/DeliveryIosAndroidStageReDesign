@@ -76,7 +76,7 @@ class Product {
   int priority;
   String type;
   int leftover;
-  int price;
+  double price;
   ProductMeta meta;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -93,7 +93,7 @@ class Product {
     priority: json["priority"],
     type: json["type"],
     leftover: json["leftover"],
-    price: json["price"],
+    price: json["price"] * 1.0,
     meta: ProductMeta.fromJson(json["meta"]),
   );
 
@@ -138,7 +138,7 @@ class ProductMeta {
     composition: json["composition"],
     weight: json["weight"],
     weightMeasurement: json["weight_measurement"],
-    images: List<String>.from(json["images"].map((x) => x)),
+    images: (json["images"] == null) ? null :  List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
   );
 

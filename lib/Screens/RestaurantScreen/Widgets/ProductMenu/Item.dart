@@ -246,7 +246,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                               child: Stack(
                                 children: <Widget>[
                                   Image.network(
-                                    getImage(restaurantDataItems.meta.images[0]),
+                                    getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
                                     fit: BoxFit.cover,
                                     height: 180.0,
                                     width: MediaQuery.of(context).size.width,
