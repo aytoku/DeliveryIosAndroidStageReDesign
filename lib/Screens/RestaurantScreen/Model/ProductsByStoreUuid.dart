@@ -61,27 +61,44 @@ class ProductsByStoreUuid {
   String externalId;
   dynamic variantGroups;
 
-  factory ProductsByStoreUuid.fromJson(Map<String, dynamic> json) => ProductsByStoreUuid(
-    uuid: json["uuid"],
-    name: json["name"],
-    storeUuid: json["store_uuid"],
-    productCategories: List<ProductCategory>.from(json["product_categories"].map((x) => ProductCategory.fromJson(x))),
-    comment: json["comment"],
-    url: json["url"],
-    deleted: json["deleted"],
-    available: json["available"],
-    stopList: json["stop_list"],
-    defaultSet: json["default_set"],
-    priority: json["priority"],
-    openable: json["openable"],
-    type: json["type"],
-    price: json["price"] * 1.0,
-    weight: json["weight"],
-    weightMeasurement: json["weight_measurement"],
-    meta: ProductsByStoreUuidMeta.fromJson(json["meta"]),
-    externalId: json["external_id"],
-    variantGroups: json["variant_groups"],
-  );
+  factory ProductsByStoreUuid.fromJson(Map<String, dynamic> json) {
+    List<ProductCategory> cats = new List<ProductCategory>();
+    if(json["product_categories"] != null)
+      cats = List<ProductCategory>.from(
+          json["product_categories"].map((x) => ProductCategory.fromJson(x)));
+    if(cats.isEmpty){
+      cats.add(new ProductCategory(
+          uuid: ' ',
+          name: 'Помогите',
+          comment: ' ',
+          priority: -1,
+          url: ' '
+      ));
+    }
+
+
+    return ProductsByStoreUuid(
+      uuid: json["uuid"],
+      name: json["name"],
+      storeUuid: json["store_uuid"],
+      productCategories: cats,
+      comment: json["comment"],
+      url: json["url"],
+      deleted: json["deleted"],
+      available: json["available"],
+      stopList: json["stop_list"],
+      defaultSet: json["default_set"],
+      priority: json["priority"],
+      openable: json["openable"],
+      type: json["type"],
+      price: json["price"] * 1.0,
+      weight: json["weight"],
+      weightMeasurement: json["weight_measurement"],
+      meta: ProductsByStoreUuidMeta.fromJson(json["meta"]),
+      externalId: json["external_id"],
+      variantGroups: json["variant_groups"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "uuid": uuid,

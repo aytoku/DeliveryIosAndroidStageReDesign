@@ -549,6 +549,52 @@ class RestaurantScreenState extends State<RestaurantScreen> {
 
     // замена кастомной кнопки на кнопку и текст аппбара
     sliverScrollController.addListener(() async {
+
+      try{
+        if(!isLoading){
+          // Используя силу математики, находим индекс хавки, на которую сейчас
+          // смотрим
+          double offset = sliverScrollController.offset;
+          int i = 0;
+          double defaultTitleHeight = 50;
+          double defaultFoodItemHeight = 165;
+          var item;
+          while(offset > 0 && i < menuWithTitles.length){
+            item = menuWithTitles[i];
+            if(item is MenuItem){
+              offset -= (item.key.currentContext != null) ? item.key.currentContext.size.height : defaultFoodItemHeight;
+            } else if(item is MenuItemTitle){
+              offset -= (item.key.currentContext != null) ? item.key.currentContext.size.height : defaultTitleHeight;
+            }
+            i++;
+          }
+
+          if(item!=null){
+            String catName = '';
+            if(item is MenuItem)
+              catName = item.restaurantDataItems.productCategories[0].name;
+            else if(item is MenuItemTitle)
+              catName = item.title;
+
+            CategoriesUuid cat;
+            restaurant.productCategoriesUuid.forEach((element) {
+              if(element.name == catName){
+                cat = element;
+                return;
+              }
+            });
+
+            if(cat != null &&  cat.name != categoryList.key.currentState.currentCategory.name){
+              // Выбираем категорию и скроллим сам список категорий к ней
+              categoryList.key.currentState.SelectCategory(cat);
+              categoryList.key.currentState.ScrollToSelectedCategory();
+            }
+          }
+        }
+      }catch(e){
+      }
+
+      print(isLoading);
       if(sliverTextKey.currentState != null && sliverScrollController.offset > 89){
         sliverTextKey.currentState.setState(() {
           sliverTextKey.currentState.title =  new Text(this.restaurant.name, style: TextStyle(color: Colors.black),);
@@ -573,27 +619,6 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         }
       }
 
-      try{
-        if(!isLoading){
-          // Используя силу математики, находим индекс хавки, на которую сейчас
-          // смотрим
-          double offset = sliverScrollController.offset;
-          int i = 0;
-          double defaultTitleHeight = 50;
-          double defaultFoodItemHeight = 165;
-          var item;
-          while(offset > 0 && i < menuWithTitles.length){
-            item = menuWithTitles[i];
-            if(item is MenuItem){
-              offset -= (item.key.currentContext != null) ? item.key.currentContext.size.height : defaultFoodItemHeight;
-            } else if(item is MenuItemTitle){
-              offset -= (item.key.currentContext != null) ? item.key.currentContext.size.height : defaultTitleHeight;
-            }
-            i++;
-          }
-        }
-      }catch(e){
-      }
 
     });
     return DefaultTabController(
@@ -940,6 +965,28 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       return false;
     isLoading = true;
     try{
+
+      // Вычисляем оффсет тайтла необходимой категории
+      double offset = 0;
+      int i = 0;
+      double defaultTitleHeight = 50;
+      double defaultFoodItemHeight = 165;
+      for(int i = 0; i<menuWithTitles.length; i++){
+        var item = menuWithTitles[i];
+        if(item is MenuItemTitle){
+          offset += (item.key.currentContext != null) ? item.key.currentContext.size.height : 0;
+          if(item.title.toLowerCase() == restaurant.productCategoriesUuid[categoryIndex].name.toLowerCase()) {
+            break;
+          }
+        } else if(item is MenuItem){
+          offset += (item.key.currentContext != null) ? item.key.currentContext.size.height : 0;
+        }
+      }
+      await sliverScrollController.position.animateTo(offset,curve: Curves.ease, duration: Duration(milliseconds: 600));
+
+      // Скроллим к нему
+
+      return true;
       // находим итем с данной категорией
       MenuItemTitle targetCategory = menuWithTitles.firstWhere((element) => element is MenuItemTitle && element.title == restaurant.productCategoriesUuid[categoryIndex].name);
       if(targetCategory != null){
@@ -949,9 +996,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         }
         // джампаем к нему
 
-        await Scrollable.ensureVisible(targetCategory.key.currentContext, duration: new Duration(milliseconds: 100),
+        await Scrollable.ensureVisible(targetCategory.key.currentContext, duration: new Duration(milliseconds: 90),
             curve: Curves.ease);
-        sliverScrollController.position.jumpTo(sliverScrollController.position.pixels-60);
+        await sliverScrollController.position.animateTo(sliverScrollController.position.pixels-60,curve: Curves.ease, duration: Duration(milliseconds: 50));
       }
     }finally{
       isLoading = false;

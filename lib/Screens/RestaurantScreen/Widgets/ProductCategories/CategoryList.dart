@@ -74,11 +74,19 @@ class CategoryListState extends State<CategoryList> {
   }
 
   _buildCategoryBottomNavigationMenu() {
+
     return Container(
       height: 400,
       child: ListView(
           scrollDirection: Axis.vertical,
           children: List.generate(categoryItems.length, (index) {
+            int itemCount = 0;
+            parent.foodMenuItems.forEach((element) {
+              if(categoryItems[index].value.uuid == element.restaurantDataItems.productCategories[0].uuid)
+                itemCount++;
+            });
+
+
             return Padding(
               padding: const EdgeInsets.only(left: 20, top: 20, bottom: 15, right: 0),
               child: GestureDetector(
@@ -86,13 +94,13 @@ class CategoryListState extends State<CategoryList> {
                   padding: const EdgeInsets.only(top: 5, bottom: 5),
                   child: Row(
                     children: [
-                      Text(categoryItems[index].value.name[0].toUpperCase() + categoryItems[index].value.name.substring(1),
+                     Text(categoryItems[index].value.name[0].toUpperCase() + categoryItems[index].value.name.substring(1),
                         style: (categoryItems[index].value != currentCategory) ? TextStyle(fontSize: 18) : TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                         textAlign: TextAlign.start,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10, top: 2),
-                        child: Text(categoryItems[index].value.name.length.toString(),
+                        child: Text(itemCount.toString(),
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.grey,
@@ -214,7 +222,7 @@ class CategoryListState extends State<CategoryList> {
         break;
     }
     print(categoryItems[i]);
-    await itemScrollController.jumpTo(index: i);
+    await itemScrollController.scrollTo(index: i, curve: Curves.ease, duration: new Duration(seconds: 1));
   }
 
   void refresh(){

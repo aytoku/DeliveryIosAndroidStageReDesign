@@ -37,6 +37,13 @@ class MenuItem extends StatefulWidget {
     });
     return result;
   }
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    if(restaurantDataItems.productCategories != null && restaurantDataItems.productCategories.isNotEmpty)
+      return "cat: " + restaurantDataItems.productCategories[0].name;
+    else
+      return "В итеме каты нал";
+  }
 }
 
 class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
@@ -70,8 +77,18 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
     );
   }
 
+
+
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    if(restaurantDataItems.productCategories != null && restaurantDataItems.productCategories.isNotEmpty)
+      return "cat: " + restaurantDataItems.productCategories[0].name;
+    else
+      return "В итеме каты нал";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +100,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
           child: GestureDetector(
               onTap: () async {
                 if (await Internet.checkConnection()) {
+                  print(toString());
                   onPressedButton(restaurantDataItems, menuItemCounterKey);
                   // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
                 } else {

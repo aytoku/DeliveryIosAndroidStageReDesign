@@ -21,6 +21,10 @@ class MenuItemTitle extends StatefulWidget {
     });
     return result;
   }
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return title;
+  }
 }
 
 class MenuItemTitleState extends State<MenuItemTitle>{
