@@ -110,7 +110,7 @@ class PanelContentState extends State<PanelContent>{
                                             child: SvgPicture.asset(
                                                 'assets/svg_images/bottom_close.svg'),
                                             onTap: () {
-                                              Navigator.pop(context);
+                                              parent.panelController.close();
                                             },
                                           ),
                                         ))

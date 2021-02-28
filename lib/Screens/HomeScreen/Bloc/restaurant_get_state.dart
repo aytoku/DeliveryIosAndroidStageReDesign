@@ -16,6 +16,7 @@ class RestaurantGetStateLoading extends RestaurantGetState {}
 class RestaurantGetStateSuccess extends RestaurantGetState {
   final List<FilteredStores> items;
 
+
   const RestaurantGetStateSuccess(this.items);
 
   @override

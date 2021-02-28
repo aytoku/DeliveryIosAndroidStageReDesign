@@ -147,7 +147,7 @@ class ProductMeta {
     "composition": composition,
     "weight": weight,
     "weight_measurement": weightMeasurement,
-    "images": List<dynamic>.from(images.map((x) => x)),
+    "images": (images != null) ? List<dynamic>.from(images.map((x) => x)) : null,
     "energy_value": energyValue.toJson(),
   };
 }

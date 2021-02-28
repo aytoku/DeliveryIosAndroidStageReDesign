@@ -69,7 +69,7 @@ class ProductsByStoreUuid {
     if(cats.isEmpty){
       cats.add(new ProductCategory(
           uuid: ' ',
-          name: 'Помогите',
+          name: 'Олег',
           comment: ' ',
           priority: -1,
           url: ' '

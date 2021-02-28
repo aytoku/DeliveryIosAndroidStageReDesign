@@ -35,7 +35,7 @@ class FilteredStoresData{
       return filteredStores;
     } else {
       // весь список
-      return filteredStoresCache;
+      return List.from(filteredStoresCache);
     }
   }
 }

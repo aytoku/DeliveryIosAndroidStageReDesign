@@ -49,7 +49,7 @@ class RestaurantGetBloc extends Bloc<RestaurantEvent, RestaurantGetState> {
       if(AllStoreCategoriesData.selectedStoreCategories  == null){
         AllStoreCategoriesData.selectedStoreCategories = new List<AllStoreCategories>();
       }
-
+      yield RestaurantGetStateLoading();
       if(event.categories != null){
         AllStoreCategoriesData.selectedStoreCategories.clear();
         AllStoreCategoriesData.selectedStoreCategories.addAll(event.categories);
