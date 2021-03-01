@@ -633,7 +633,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             Image.network(
               getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
               fit: BoxFit.cover,
-              height: 500.0,
+              height: 230.0,
               width: MediaQuery.of(context).size.width,
             ),
             CustomScrollView(
