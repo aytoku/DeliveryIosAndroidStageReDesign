@@ -5,12 +5,12 @@ import '../Config/config.dart';
 import 'data.dart';
 import '../Screens/CodeScreen/Model/AuthCode.dart';
 
-class SendRefreshToken {
+class   SendRefreshToken {
 
   static Future<bool> sendRefreshToken({String refreshToken, String token, String device_id}) async {
     bool isSuccess = false;
     try{
-      var url = 'http://78.110.156.74:3005/api/v3/auth/clients/refresh';
+      var url = 'https://auth.apis.stage.faem.pro/api/v3/auth/clients/refresh';
       var response = await http.post(
           url, body: jsonEncode({
         "refresh": (refreshToken != null)? refreshToken : authCodeData.refreshToken.value,

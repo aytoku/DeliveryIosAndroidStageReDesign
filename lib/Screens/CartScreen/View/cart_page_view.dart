@@ -113,6 +113,10 @@ class CartPageState extends State<CartPageScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                        InkWell(
+                           hoverColor: Colors.white,
+                           focusColor: Colors.white,
+                           splashColor: Colors.white,
+                           highlightColor: Colors.white,
                            onTap: (){
                              if(source == CartSources.Home){
                                homeScreenKey = new GlobalKey<HomeScreenState>();

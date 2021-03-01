@@ -325,6 +325,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           statusBarBrightness: Brightness.light
       ),
       child: Scaffold(
+        backgroundColor: Colors.white,
         key: _scaffoldKey,
         drawer: ClipRRect(
           borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
@@ -373,6 +374,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           Padding(
                             padding: EdgeInsets.only(left: 0, top: 0),
                             child: InkWell(
+                              hoverColor: Colors.white,
+                              focusColor: Colors.white,
+                              splashColor: Colors.white,
+                              highlightColor: Colors.white,
                               child: Container(
                                 height: 40,
                                 width: 40,
@@ -577,6 +582,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           Padding(
                             padding: EdgeInsets.only(left: 0, top: 0),
                             child: InkWell(
+                              hoverColor: Colors.white,
+                              focusColor: Colors.white,
+                              splashColor: Colors.white,
+                              highlightColor: Colors.white,
                               child: Container(
                                 height: 40,
                                 width: 40,

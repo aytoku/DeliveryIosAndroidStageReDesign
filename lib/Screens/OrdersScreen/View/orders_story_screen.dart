@@ -59,7 +59,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                           textAlign: TextAlign.start,
                           style: TextStyle(fontSize: 18, color: Color(0xFF000000))),
                       Text(
-                        '${ordersStoryModelItem.totalPrice} \₽',
+                        '${ordersStoryModelItem.totalPrice.toStringAsFixed(0)} \₽',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,

@@ -124,6 +124,10 @@ class ScreenTitlePopState extends State<ScreenTitlePop> {
             Align(
               alignment: Alignment.topLeft,
               child: InkWell(
+                  hoverColor: Colors.white,
+                  focusColor: Colors.white,
+                  splashColor: Colors.white,
+                  highlightColor: Colors.white,
                   child: Container(
                       height: 50,
                       width: 55,
@@ -207,6 +211,10 @@ class ScreenTitlePushAndRemoveUntilState extends State<ScreenTitlePushAndRemoveU
           Align(
             alignment: Alignment.topLeft,
             child: InkWell(
+              hoverColor: Colors.white,
+              focusColor: Colors.white,
+              splashColor: Colors.white,
+              highlightColor: Colors.white,
               child: Container(
                   height: 50,
                   width: 60,

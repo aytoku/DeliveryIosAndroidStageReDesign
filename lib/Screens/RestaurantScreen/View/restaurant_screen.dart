@@ -459,6 +459,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     child: Padding(
                       padding: EdgeInsets.only(left: 0),
                       child: InkWell(
+                          hoverColor: Colors.white,
+                          focusColor: Colors.white,
+                          splashColor: Colors.white,
+                          highlightColor: Colors.white,
                           onTap: () async {
                             homeScreenKey =
                             new GlobalKey<HomeScreenState>();
@@ -626,12 +630,12 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-            // Container(
-            //   height: 230,
-            //   decoration: BoxDecoration(
-            //       color: Colors.black
-            //   ),
-            // ),
+            Container(
+              height: 230,
+              decoration: BoxDecoration(
+                  color: Colors.black
+              ),
+            ),
             CustomScrollView(
               anchor: 0.01,
               controller: sliverScrollController,

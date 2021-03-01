@@ -471,6 +471,10 @@ class AddressScreenState extends State<AddressScreen>
                           child: Padding(
                             padding: EdgeInsets.only(left: 0),
                             child: InkWell(
+                              hoverColor: Colors.white,
+                              focusColor: Colors.white,
+                              splashColor: Colors.white,
+                              highlightColor: Colors.white,
                               onTap: () => Navigator.pop(context),
                               child: Padding(
                                   padding: EdgeInsets.only(right: 0),

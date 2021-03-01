@@ -161,7 +161,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     style: TextStyle(fontSize: 18, color: Color(0xFF000000)),
                   ),
                   Text(
-                    '${ordersDetailsModelItem.totalPrice} \₽',
+                    '${ordersDetailsModelItem.totalPrice.toStringAsFixed(0)} \₽',
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -516,7 +516,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 Padding(
                   padding: EdgeInsets.only(),
                   child: Text(
-                    (ordersDetailsModelItem.totalPrice).toString() + ' \₽',
+                    (ordersDetailsModelItem.totalPrice.toStringAsFixed(0)).toString() + ' \₽',
                     style: TextStyle(
                         color: Colors.black, fontSize: 18),
                   ),

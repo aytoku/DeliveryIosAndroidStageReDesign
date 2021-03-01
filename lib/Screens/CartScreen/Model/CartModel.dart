@@ -73,7 +73,7 @@ class CartModel {
   final Cancel cancel;
   final List<Item> items;
   final String paymentType;
-  final int totalPrice;
+  final double totalPrice;
   final bool ownDelivery;
   final bool withoutDelivery;
   final bool eatInStore;
@@ -98,7 +98,7 @@ class CartModel {
     cancel: json["cancel"] == null ? null : Cancel.fromJson(json["cancel"]),
     items: json["items"] == null ? null : List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
     paymentType: json["payment_type"] == null ? null : json["payment_type"],
-    totalPrice: json["total_price"] == null ? null : json["total_price"],
+    totalPrice: json["total_price"] == null ? null : json["total_price"] * 1.0,
     ownDelivery: json["own_delivery"] == null ? null : json["own_delivery"],
     withoutDelivery: json["without_delivery"] == null ? null : json["without_delivery"],
     eatInStore: json["eat_in_store"] == null ? null : json["eat_in_store"],
@@ -283,7 +283,7 @@ class Product {
   final String name;
   final String storeUuid;
   final String type;
-  final int price;
+  final double price;
   final int weight;
   final String weightMeasurement;
   final ProductMeta meta;
@@ -294,7 +294,7 @@ class Product {
     name: json["name"] == null ? null : json["name"],
     storeUuid: json["store_uuid"] == null ? null : json["store_uuid"],
     type: json["type"] == null ? null : json["type"],
-    price: json["price"] == null ? null : json["price"],
+    price: json["price"] == null ? null : json["price"] * 1.0,
     weight: json["weight"] == null ? null : json["weight"],
     weightMeasurement: json["weight_measurement"] == null ? null : json["weight_measurement"],
     meta: json["meta"] == null ? null : ProductMeta.fromJson(json["meta"]),

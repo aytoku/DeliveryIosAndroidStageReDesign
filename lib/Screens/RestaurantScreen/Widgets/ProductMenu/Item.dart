@@ -53,6 +53,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 
 
   MenuItemState(this.restaurantDataItems, this.parent);
+
   showAlertDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -77,7 +78,6 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
       },
     );
   }
-
 
 
   @override
@@ -230,80 +230,162 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
         parent.panelContentKey.currentState.setState(() {
           parent.panelContentKey.currentState.menuItem = null;
         });
-      showModalBottomSheet(
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(12),
-                topRight: const Radius.circular(12),
-              )),
-          context: context,
-          builder: (context) {
-            return Container(
-              height: 400,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Stack(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          height: 180,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
-                              color: Colors.white
-                          ),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.only(
+      if(restaurantDataItems.comment == '' || restaurantDataItems.comment == null){
+        showModalBottomSheet(
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(12),
+                  topRight: const Radius.circular(12),
+                )),
+            context: context,
+            builder: (context) {
+              return Container(
+                height: 330,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Stack(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            height: 180,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(12),
                                   topRight: Radius.circular(12),
-                                  bottomLeft: Radius.circular(0),
-                                  bottomRight: Radius.circular(0)),
-                              child: Stack(
-                                children: <Widget>[
-                                  Image.network(
-                                    getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
-                                    fit: BoxFit.cover,
-                                    height: 180.0,
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                                  Align(
-                                      alignment: Alignment.topRight,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(top: 10, right: 15),
-                                        child: GestureDetector(
-                                          child: SvgPicture.asset(
-                                              'assets/svg_images/bottom_close.svg'),
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ))
+                                ),
+                                color: Colors.white
+                            ),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(12),
+                                    topRight: Radius.circular(12),
+                                    bottomLeft: Radius.circular(0),
+                                    bottomRight: Radius.circular(0)),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Image.network(
+                                      getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                                      fit: BoxFit.cover,
+                                      height: 220.0,
+                                      width: MediaQuery.of(context).size.width,
+                                    ),
+                                    Align(
+                                        alignment: Alignment.topRight,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 10, right: 15),
+                                          child: GestureDetector(
+                                            child: SvgPicture.asset(
+                                                'assets/svg_images/bottom_close.svg'),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ))
+                                  ],
+                                )),
+                          ),
+                          Container(
+                            height: 150,
+                            decoration: BoxDecoration(color: Colors.white),
+                          )
+                        ],
+                      ),
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                              height: 210,
+                              child: ListView(
+                                children: [
+                                  _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey),
                                 ],
-                              )),
-                        ),
-                        Container(
-                          height: 220,
-                          decoration: BoxDecoration(color: Colors.white),
-                        )
-                      ],
-                    ),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          height: 250,
-                          child: _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey)
-                        )
-                    ),
-                  ],
+                              )
+                          )
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          });
+              );
+            });
+      }else{
+        showModalBottomSheet(
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(12),
+                  topRight: const Radius.circular(12),
+                )),
+            context: context,
+            builder: (context) {
+              return Container(
+                height: 400,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Stack(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            height: 180,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                ),
+                                color: Colors.white
+                            ),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(12),
+                                    topRight: Radius.circular(12),
+                                    bottomLeft: Radius.circular(0),
+                                    bottomRight: Radius.circular(0)),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Image.network(
+                                      getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                                      fit: BoxFit.cover,
+                                      height: 180.0,
+                                      width: MediaQuery.of(context).size.width,
+                                    ),
+                                    Align(
+                                        alignment: Alignment.topRight,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 10, right: 15),
+                                          child: GestureDetector(
+                                            child: SvgPicture.asset(
+                                                'assets/svg_images/bottom_close.svg'),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ))
+                                  ],
+                                )),
+                          ),
+                          Container(
+                            height: 220,
+                            decoration: BoxDecoration(color: Colors.white),
+                          )
+                        ],
+                      ),
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                              height: 250,
+                              child: _buildBottomNavigationMenu(restaurantDataItems, menuItemCounterKey)
+                          )
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            });
+      }
+
     }else{
 
       if(parent.panelContentKey.currentState != null)
@@ -629,13 +711,5 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
       result.add(VariantsSelector(key: new GlobalKey<VariantsSelectorState>(), variantGroup: element,));
     });
     return result;
-  }
-
-  double getBottomSheetContainerHeight(ProductsByStoreUuid food){
-    if(food.variantGroups == null){
-      return 400;
-    }else{
-      return 600;
-    }
   }
 }

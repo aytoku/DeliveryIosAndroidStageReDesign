@@ -75,7 +75,7 @@ class OrderDetailsModelItem {
   String cancellationComment;
   List<Item> items;
   String paymentType;
-  int totalPrice;
+  double totalPrice;
   bool ownDelivery;
   bool withoutDelivery;
   bool eatInStore;
@@ -101,7 +101,7 @@ class OrderDetailsModelItem {
     cancellationComment: json["cancellation_comment"],
     items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
     paymentType: json["payment_type"],
-    totalPrice: json["total_price"],
+    totalPrice: json["total_price"] * 1.0,
     ownDelivery: json["own_delivery"],
     withoutDelivery: json["without_delivery"],
     eatInStore: json["eat_in_store"],
@@ -637,7 +637,7 @@ class StoreDataMeta {
   int avgDeliveryPrice;
 
   factory StoreDataMeta.fromJson(Map<String, dynamic> json) => StoreDataMeta(
-    images: List<String>.from(json["images"].map((x) => x)),
+    images: (json["images"] == null) ? null : List<String>.from(json["images"].map((x) => x)),
     rating: json["rating"].toDouble(),
     avgDeliveryTime: json["avg_delivery_time"],
     avgDeliveryPrice: json["avg_delivery_price"],

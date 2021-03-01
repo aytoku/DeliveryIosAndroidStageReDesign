@@ -159,7 +159,7 @@ class CartScreenState extends State<CartScreen> {
                               fontSize: 18.0,
                               color: Color(0xFF000000)),
                         ),
-                        Text((currentUser.cartModel.totalPrice != null)? '~' + '${currentUser.cartModel.totalPrice} \₽' : '')
+                        Text((currentUser.cartModel.totalPrice != null)? '~' + '${currentUser.cartModel.totalPrice.toStringAsFixed(0)} \₽' : '')
                       ],
                     ),
                   ),
