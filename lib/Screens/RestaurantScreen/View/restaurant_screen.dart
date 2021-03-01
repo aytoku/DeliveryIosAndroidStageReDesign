@@ -630,11 +630,11 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-            Container(
-              height: 230,
-              decoration: BoxDecoration(
-                  color: Colors.black
-              ),
+            Image.network(
+              getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
+              fit: BoxFit.cover,
+              height: 500.0,
+              width: MediaQuery.of(context).size.width,
             ),
             CustomScrollView(
               anchor: 0.01,
