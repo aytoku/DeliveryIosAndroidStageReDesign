@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/add_variant_to_cart.dart';
@@ -108,11 +109,11 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                 }
               },
               child: Container(
-                height: 153,
+                height: 163,
                 child: Stack(
                   children: [
                     Container(
-                      height: 143,
+                      height: 153,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -149,11 +150,12 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                           child: Column(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.only(top: 10.0, left: 15),
+                                                padding: const EdgeInsets.only(top: 10.0, left: 15, bottom: 5),
                                                 child: Align(
                                                   alignment: Alignment.topLeft,
                                                   child: Text(
                                                     restaurantDataItems.name,
+                                                    maxLines: 3,
                                                     style: TextStyle(
                                                         fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
                                                     textAlign: TextAlign.start,

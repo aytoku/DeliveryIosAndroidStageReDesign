@@ -137,7 +137,7 @@ class CartPageState extends State<CartPageScreen> {
                                width: 60,
                                child: Padding(
                                  padding: EdgeInsets.only(
-                                     top: 12, bottom: 12, right: 25),
+                                     top: 12, bottom: 12, right: 15, left: 0),
                                  child: SvgPicture.asset(
                                      'assets/svg_images/arrow_left.svg'),
                                ))),
@@ -152,7 +152,7 @@ class CartPageState extends State<CartPageScreen> {
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(right: 13),
+                            padding: EdgeInsets.only(right: 16),
                             child: GestureDetector(
                               child: SvgPicture.asset(
                                   'assets/svg_images/del_basket.svg'),
@@ -299,91 +299,90 @@ class CartPageState extends State<CartPageScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                   child: Container(
-                    width: 350,
-                    height: 40,
                     decoration: BoxDecoration(
+                      color: Color(0xFF09B44D),
                       borderRadius: BorderRadius.circular(4),
                       border: Border.all(
                         color: Color(0xFF09B44D),
+                        width: 0.5
                       ),
                     ),
+                    height: 40,
                     child: Row(
                       children: <Widget>[
-                        GestureDetector(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 0,
-                                right: 0),
+                        Expanded(
+                          flex: 5,
+                          child: GestureDetector(
                             child: Container(
-                              height: 40,
-                              width: 176,
                               decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.only(topLeft: Radius.circular(4), bottomLeft: Radius.circular(4)),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(4),
+                                  bottomLeft: Radius.circular(4),
+                                ),
+                                border: Border.all(
+                                    color: Color(0xFF09B44D),
+                                    width: 0.5
+                                ),
                                 color: (selectedPageId == 0) ? Color(0xFF09B44D) : Colors.white,
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: 0, right: 0, top: 0),
-                                child: Center(
-                                  child: Text(
-                                    'Доставка',
-                                    style: TextStyle(
-                                        color: (selectedPageId == 0) ? Colors.white : Color(0xFF09B44D), fontSize: 15),
-                                  ),
+                              child: Center(
+                                child: Text(
+                                  'Доставка',
+                                  style: TextStyle(
+                                      color: (selectedPageId == 0) ? Colors.white : Color(0xFF09B44D), fontSize: 15),
                                 ),
                               ),
                             ),
+                            onTap: () async {
+                              if (await Internet.checkConnection()) {
+                                _controller.animateToPage(
+                                  0,
+                                  duration: const Duration(milliseconds: 400),
+                                  curve: Curves.easeInOut,
+                                );
+                              } else {
+                                noConnection(context);
+                              }
+                            },
                           ),
-                          onTap: () async {
-                            if (await Internet.checkConnection()) {
-                              _controller.animateToPage(
-                                0,
-                                duration: const Duration(milliseconds: 400),
-                                curve: Curves.easeInOut,
-                              );
-                            } else {
-                              noConnection(context);
-                            }
-                          },
                         ),
-                        GestureDetector(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 0,
-                                right: 0),
+                        Expanded(
+                          flex: 5,
+                          child: GestureDetector(
                             child: Container(
-                              height: 40,
-                              width: 172,
                               decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(4),
+                                  bottomRight: Radius.circular(4),
+                                ),
+                                border: Border.all(
+                                    color: Color(0xFF09B44D),
+                                    width: 0.5
+                                ),
                                 color: (selectedPageId == 1) ? Color(0xFF09B44D) : Colors.white,
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: 0, right: 0, top: 0),
-                                child: Center(
-                                  child: Text(
-                                    'Самовывоз',
-                                    style: TextStyle(
-                                        color: (selectedPageId == 1) ? Colors.white : Color(0xFF09B44D), fontSize: 15),
-                                  ),
+                              child: Center(
+                                child: Text(
+                                  'Самовывоз',
+                                  style: TextStyle(
+                                      color: (selectedPageId == 1) ? Colors.white : Color(0xFF09B44D), fontSize: 15),
                                 ),
                               ),
                             ),
+                            onTap: () async {
+                              if (await Internet.checkConnection()) {
+                                _controller.animateToPage(
+                                  1,
+                                  duration: const Duration(milliseconds: 400),
+                                  curve: Curves.easeIn,
+                                );
+                              } else {
+                                noConnection(context);
+                              }
+                            },
                           ),
-                          onTap: () async {
-                            if (await Internet.checkConnection()) {
-                              _controller.animateToPage(
-                                1,
-                                duration: const Duration(milliseconds: 400),
-                                curve: Curves.easeIn,
-                              );
-                            } else {
-                              noConnection(context);
-                            }
-                          },
                         ),
                       ],
                     ),

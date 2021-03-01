@@ -626,12 +626,12 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-            Container(
-              height: 230,
-              decoration: BoxDecoration(
-                  color: Colors.black
-              ),
-            ),
+            // Container(
+            //   height: 230,
+            //   decoration: BoxDecoration(
+            //       color: Colors.black
+            //   ),
+            // ),
             CustomScrollView(
               anchor: 0.01,
               controller: sliverScrollController,
