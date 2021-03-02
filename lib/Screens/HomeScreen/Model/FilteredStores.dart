@@ -255,21 +255,21 @@ class FilteredStoreMeta {
 
   List<String> images;
   double rating;
-  int avgDeliveryTime;
-  int avgDeliveryPrice;
+  String avgDeliveryTime;
+  String avgDeliveryPrice;
 
   factory FilteredStoreMeta.fromJson(Map<String, dynamic> json) => FilteredStoreMeta(
     images: (json["images"] == null) ? null : List<String>.from(json["images"].map((x) => x)),
     rating: json["rating"].toDouble(),
-    avgDeliveryTime: json["avg_delivery_time"],
-    avgDeliveryPrice: json["avg_delivery_price"],
+    avgDeliveryTime: json["delivery_time"],
+    avgDeliveryPrice: json["delivery_price"],
   );
 
   Map<String, dynamic> toJson() => {
     "images":(images == null) ? null : List<dynamic>.from(images.map((x) => x)),
     "rating": rating,
-    "avg_delivery_time": avgDeliveryTime,
-    "avg_delivery_price": avgDeliveryPrice,
+    "delivery_time": avgDeliveryTime,
+    "delivery_price": avgDeliveryPrice,
   };
 }
 

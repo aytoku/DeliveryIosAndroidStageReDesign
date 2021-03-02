@@ -12,7 +12,7 @@ Future<FilteredStoresData> getFilteredStores(String city_uuid, bool only_parents
     'Accept': 'application/json',
     'Source':'ios_client_app_1',
     "ServiceName": 'faem_food',
-    "ApplicationUUID": '50165f15-c189-4714-b58b-14cb5f0ae785',
+    "Application": 'eda/faem',
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);

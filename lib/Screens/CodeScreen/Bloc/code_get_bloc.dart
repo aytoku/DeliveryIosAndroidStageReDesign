@@ -51,7 +51,7 @@ class CodeGetBloc extends Bloc<CodeEvent, CodeState> {
         return;
       }
       // Отправляем код на серв
-      authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, event.code, 'eda');
+      authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, event.code, 'eda/faem');
       if(authCodeData != null){ // Если модель не крашнула
 
         //Активация амплитуды
