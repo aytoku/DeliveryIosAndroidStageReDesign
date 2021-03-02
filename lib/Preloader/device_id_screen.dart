@@ -6,23 +6,37 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Amplitude/amplitude.dart';
+import '../Config/config.dart';
 import '../Screens/HomeScreen/View/home_screen.dart';
 import '../data/data.dart';
-import '../data/data.dart';
-import '../data/data.dart';
-import '../data/data.dart';
 
-class DeviceIdScreen extends StatelessWidget {
+
+class DeviceIdScreen extends StatefulWidget{
+  @override
+  DeviceIdScreenState createState() =>
+      DeviceIdScreenState();
+}
+
+class DeviceIdScreenState extends State<DeviceIdScreen> {
 
   GlobalKey<CityScreenState> cityScreenKey = new GlobalKey();
 
+
+  Future<NecessaryDataForAuth> devId;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    devId = NecessaryDataForAuth.getData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       child: FutureBuilder<NecessaryDataForAuth>(
-        future: NecessaryDataForAuth.getData(),
+        future: devId,
         builder:
             (BuildContext context, AsyncSnapshot<NecessaryDataForAuth> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {

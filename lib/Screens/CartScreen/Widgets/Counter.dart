@@ -30,14 +30,22 @@ class CounterState extends State<Counter> {
   GlobalKey<PriceFieldState> priceFieldKey;
   List<TotalPrice> totalPriceList;
   Item order;
+  bool isLoading = false;
   CounterState(this.priceFieldKey, this.order, this.totalPriceList, this.parent);
 
   int counter;
 
   // ignore: non_constant_identifier_names
   Future<void> _incrementCounter_plus() async {
-
+    if(isLoading){
+      return;
+    }
+    setState(() {
+      order.count++;
+    });
+    isLoading = true;
     currentUser.cartModel = await changeItemCountInCart(necessaryDataForAuth.device_id, order.id, 1);
+    isLoading = false;
     if(parent is CartScreenState){
       if((parent as CartScreenState).parent.totalPriceWidget.key.currentState!= null){
         (parent as CartScreenState).parent.totalPriceWidget.key.currentState.setState(() {
@@ -49,16 +57,19 @@ class CounterState extends State<Counter> {
     parent.setState(() {
 
     });
-
-    // setState(() {
-    //   counter++;
-    //   //updateCartItemQuantity();
-    // });
   }
 
   // ignore: non_constant_identifier_names
   Future<void> _incrementCounter_minus() async {
+    if(isLoading){
+      return;
+    }
+    setState(() {
+      order.count--;
+    });
+    isLoading = true;
     currentUser.cartModel = await changeItemCountInCart(necessaryDataForAuth.device_id, order.id, -1);
+    isLoading = false;
     if(parent is CartScreenState) {
       if ((parent as CartScreenState).parent.totalPriceWidget.key.currentState != null) {
         (parent as CartScreenState).parent.totalPriceWidget.key.currentState.setState(() {
@@ -69,25 +80,7 @@ class CounterState extends State<Counter> {
     parent.setState(() {
 
     });
-    // setState(() {
-    //   counter--;
-    //   //updateCartItemQuantity();
-    // });
   }
-
-
-  // void updateCartItemQuantity(){
-  //   order.count = counter;
-  //   priceFieldKey.currentState.setState(() {
-  //
-  //   });
-  //   totalPriceList.forEach((totalPrice) {
-  //     if(totalPrice.key.currentState != null)
-  //       totalPrice.key.currentState.setState(() {
-  //
-  //       });
-  //   });
-  // }
 
   Widget build(BuildContext context) {
     counter = order.count;

@@ -243,7 +243,7 @@ class Item {
   final Product product;
   final List<VariantGroup> variantGroups;
   final int price;
-  final int count;
+  int count;
   final double singleItemPrice;
   final double totalItemPrice;
 

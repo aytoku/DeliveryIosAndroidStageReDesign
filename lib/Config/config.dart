@@ -8,6 +8,7 @@ import 'dart:convert' as convert;
 
 import '../Centrifugo/centrifugo.dart';
 import '../Screens/CityScreen/Model/FilteredCities.dart';
+import '../data/api.dart';
 import '../data/data.dart';
 
 class NecessaryDataForAuth{
@@ -29,7 +30,6 @@ class NecessaryDataForAuth{
   });
 
   static Future<NecessaryDataForAuth> getData() async{
-  //    await Future.delayed(Duration(seconds: 4), () {});
     if(_necessaryDataForAuth != null)
       return _necessaryDataForAuth;
     String device_id = await DeviceId.getID;
@@ -62,7 +62,7 @@ class NecessaryDataForAuth{
     _necessaryDataForAuth = result;
     if(refresh_token != null){
       result.token = authCodeData.token;
-      await Centrifugo.connectToServer();
+     // await Centrifugo.connectToServer();
       await saveData();
     }
 
@@ -85,7 +85,7 @@ class NecessaryDataForAuth{
 
   static Future<String> refreshToken(String refresh_token, String token, String device_id) async {
     String result = null;
-    var url = 'http://78.110.156.74:3005/api/v3/auth/clients/refresh';
+    var url = 'https://auth.apis.stage.faem.pro/api/v3/auth/clients/refresh';
     print(refresh_token);
     print('--------');
     print(token);
@@ -107,7 +107,7 @@ class NecessaryDataForAuth{
       authCodeData = AuthCodeData.fromJson(jsonResponse);
       result = authCodeData.refreshToken.value;
     } else {
-      print('Request failed with status: ${response.statusCode}.');
+      print('Request failed with status SERV: ${response.statusCode}.');
     }
     return result;
   }

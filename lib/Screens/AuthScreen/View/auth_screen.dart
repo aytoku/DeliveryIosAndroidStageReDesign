@@ -103,7 +103,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             Navigator.pop(context);
                           },
                           child: Padding(
-                              padding: EdgeInsets.only(left: 25, top: 40),
+                              padding: EdgeInsets.only(left: 15, top: 40),
                               child: Container(
                                   height: 40,
                                   width: 60,

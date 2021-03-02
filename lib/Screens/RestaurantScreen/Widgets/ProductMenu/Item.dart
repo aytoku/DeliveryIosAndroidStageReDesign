@@ -712,4 +712,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
     });
     return result;
   }
+
+  double getBottomSheetHeight(ProductsByStoreUuid restaurantDataItems){
+    return restaurantDataItems.name.length ~/ 18 + 230 * 1.0;
+  }
 }

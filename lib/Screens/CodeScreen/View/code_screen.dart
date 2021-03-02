@@ -178,7 +178,7 @@ class _CodeScreenState extends State<CodeScreen> {
                       splashColor: Colors.white,
                       highlightColor: Colors.white,
                       child: Padding(
-                          padding: EdgeInsets.only(left: 30, top: 40),
+                          padding: EdgeInsets.only(left: 20, top: 40),
                           child: Container(
                             width: 40,
                             height: 60,
@@ -195,7 +195,7 @@ class _CodeScreenState extends State<CodeScreen> {
                       splashColor: Colors.white,
                       highlightColor: Colors.white,
                       child:  Padding(
-                          padding: EdgeInsets.only(right: 30, top: 40),
+                          padding: EdgeInsets.only(right: 22, top: 40),
                           child: Container(
                             width: 40,
                             height: 60,

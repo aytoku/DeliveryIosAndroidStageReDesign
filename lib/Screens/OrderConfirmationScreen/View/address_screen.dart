@@ -1203,7 +1203,8 @@ class AddressScreenState extends State<AddressScreen>
                               ),
                               onTap: () async {
                                 if (await Internet.checkConnection()) {
-                                  if( addressSelectorKey.currentState.myFavouriteAddressesModel.address == null){
+                                  if( addressSelectorKey.currentState.myFavouriteAddressesModel.address == null
+                                  && !isTakeAwayOrderConfirmation){
                                     emptyAddress(context);
                                     return;
                                   }
@@ -1214,7 +1215,7 @@ class AddressScreenState extends State<AddressScreen>
                                         isTakeAwayOrderConfirmation,
                                         false,
                                         eatInStore,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address = null,
                                         commentField.text
                                     );
                                   }else{
