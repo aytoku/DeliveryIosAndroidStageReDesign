@@ -30,7 +30,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
               Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 20),
+                  padding: EdgeInsets.only(bottom: 40),
                   child: (necessaryDataForAuth.name == '') ? Text('Ваш заказ принят!', style: TextStyle(
                       fontSize: 24
                   ),) : Text(name + ', ваш заказ принят! ',

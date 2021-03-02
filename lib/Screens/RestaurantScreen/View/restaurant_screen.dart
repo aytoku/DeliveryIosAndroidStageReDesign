@@ -368,7 +368,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             padding: EdgeInsets.only(left: 20, top: 10),
             child: Align(
                 alignment: Alignment.topLeft,
-                child: Text('${restaurant.meta.avgDeliveryTime} мин',
+                child: Text('${restaurant.meta.avgDeliveryTime}',
                   style: TextStyle(
                       fontSize: 14
                   ),
@@ -827,7 +827,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                           ),
                                         ),
                                         Text(
-                                          '~' +  '${restaurant.meta.avgDeliveryTime} мин',
+                                          '~' +  '${restaurant.meta.avgDeliveryTime}',
                                           style: TextStyle(
                                           ),
                                         ),
@@ -848,7 +848,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 child: Center(
                                   child: Padding(
                                     padding: EdgeInsets.only(left:8, right: 13, top: 5, bottom: 5),
-                                    child: Text('Доставка ${restaurant.meta.avgDeliveryPrice} ₽',
+                                    child: Text('${restaurant.meta.avgDeliveryPrice}',
                                       style: TextStyle(
                                       ),
                                     ),

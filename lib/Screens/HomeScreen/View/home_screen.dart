@@ -393,10 +393,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 25),
+                            padding: const EdgeInsets.only(left: 20),
                             child: GestureDetector(
                               child: Container(
-                                width: 250,
+                                width: 230,
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
@@ -422,6 +422,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                               },
                             ),
                           ),
+
                           // Padding(
                           //   padding: EdgeInsets.only(bottom: 0, top: 0),
                           //   child: InkWell(

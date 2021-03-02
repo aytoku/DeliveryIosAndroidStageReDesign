@@ -163,7 +163,7 @@ class CityScreenState extends State<CityScreen>{
                           padding: const EdgeInsets.only(bottom:  20, right: 20, left: 20),
                           child: GestureDetector(
                             child: Container(
-                              height: 40,
+                              height: 52,
                               width: 335,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),

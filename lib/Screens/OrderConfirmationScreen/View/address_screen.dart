@@ -797,7 +797,7 @@ class AddressScreenState extends State<AddressScreen>
                               Container(
                                 width: 80,
                                 child: Padding(
-                                    padding: EdgeInsets.only( bottom: 5, top: 5),
+                                    padding: EdgeInsets.only( bottom: 0, top: 5),
                                     child: Container(
                                       height: 20,
                                       child: TextField(
