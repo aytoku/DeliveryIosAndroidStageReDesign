@@ -4,17 +4,16 @@ import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-Future<AuthData> loadAuthData(String device_id, String phone, String service) async {
+Future<AuthData> loadAuthData(String device_id, String phone) async {
   AuthData authData = null;
   var json_request = jsonEncode({
     "device_id": device_id,
     "phone": phone,
-    "service": service
   });
-  print(device_id+ " " + phone + " " + service);
   var url = '${authApiUrl}clients/new';
   var response = await http.post(url, body: json_request, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
+    "Source": "eda/faem"
   });
   print(response.body);
   if (response.statusCode == 200) {

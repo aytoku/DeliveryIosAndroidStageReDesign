@@ -37,9 +37,6 @@ class CounterState extends State<Counter> {
 
   // ignore: non_constant_identifier_names
   Future<void> _incrementCounter_plus() async {
-    if(isLoading){
-      return;
-    }
     setState(() {
       order.count++;
     });
@@ -61,9 +58,6 @@ class CounterState extends State<Counter> {
 
   // ignore: non_constant_identifier_names
   Future<void> _incrementCounter_minus() async {
-    if(isLoading){
-      return;
-    }
     setState(() {
       order.count--;
     });

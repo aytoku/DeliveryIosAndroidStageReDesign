@@ -80,7 +80,7 @@ class PanelContentState extends State<PanelContent>{
                       return Stack(
                         children: [
                           Container(
-                            height: 220,
+                            height: 300,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(12),
@@ -99,26 +99,26 @@ class PanelContentState extends State<PanelContent>{
                                     Image.network(
                                       getImage(restaurantDataItems.meta.images[0]),
                                       fit: BoxFit.fill,
-                                      height: 220,
+                                      height: 300,
                                       width: MediaQuery.of(context).size.width,
                                     ),
-                                    Align(
-                                        alignment: Alignment.topRight,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(top: 10, right: 15),
-                                          child: GestureDetector(
-                                            child: SvgPicture.asset(
-                                                'assets/svg_images/bottom_close.svg'),
-                                            onTap: () {
-                                              parent.panelController.close();
-                                            },
-                                          ),
-                                        ))
+                                    // Align(
+                                    //     alignment: Alignment.topRight,
+                                    //     child: Padding(
+                                    //       padding: EdgeInsets.only(top: 10, right: 15),
+                                    //       child: GestureDetector(
+                                    //         child: SvgPicture.asset(
+                                    //             'assets/svg_images/bottom_close.svg'),
+                                    //         onTap: () {
+                                    //           parent.panelController.close();
+                                    //         },
+                                    //       ),
+                                    //     ))
                                   ],
                                 )),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 180),
+                            padding: const EdgeInsets.only(top: 260),
                             child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
@@ -153,7 +153,7 @@ class PanelContentState extends State<PanelContent>{
                                                     Align(
                                                       alignment: Alignment.topLeft,
                                                       child: Padding(
-                                                        padding: EdgeInsets.only(top: 20, bottom: 20, left: 16),
+                                                        padding: EdgeInsets.only(top: 20, bottom: 0, left: 16),
                                                         child: Text(restaurantDataItems.name,
                                                           style: TextStyle(
                                                               fontSize: 24
@@ -165,7 +165,7 @@ class PanelContentState extends State<PanelContent>{
                                                         productsDescription.product.meta.description != null)
                                                         ? Padding(
                                                       padding:
-                                                      EdgeInsets.only(left: 15, top: 20, bottom: 10),
+                                                      EdgeInsets.only(left: 15, top: 17, bottom: 17),
                                                       child: Align(
                                                         alignment: Alignment.topLeft,
                                                         child: Text(
@@ -280,7 +280,7 @@ class PanelContentState extends State<PanelContent>{
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 14),
+                  padding: EdgeInsets.only(top: 0),
                   child: Container(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     decoration: (productsDescription.variantGroups != null) ? BoxDecoration(
@@ -301,7 +301,7 @@ class PanelContentState extends State<PanelContent>{
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Expanded(child: Padding(
-                              padding: const EdgeInsets.only(left: 20, right: 10, top: 10),
+                              padding: const EdgeInsets.only(left: 18, right: 10, top: 10),
                               child: Container(
                                 child: RichText(text:
                                 TextSpan(
@@ -316,7 +316,7 @@ class PanelContentState extends State<PanelContent>{
                               ),
                             )),
                             Padding(
-                              padding: EdgeInsets.only(right: 20, top: 8),
+                              padding: EdgeInsets.only(right: 18, top: 8),
                               child: PriceField(key: priceFieldKey, restaurantDataItems: restaurantDataItems, variantsSelectors: variantsSelectors,),
                             )
                           ],
@@ -332,7 +332,7 @@ class PanelContentState extends State<PanelContent>{
                               Flexible(
                                 flex: 1,
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: 5, left: 8),
+                                  padding: EdgeInsets.only(left: 16),
                                   child: ProductDescCounter(
                                       key: parent.counterKey,
                                       priceFieldKey: priceFieldKey
@@ -342,20 +342,22 @@ class PanelContentState extends State<PanelContent>{
                               Flexible(
                                 flex: 2,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 6, right: 8, bottom: 0),
+                                  padding: EdgeInsets.only(left: 8, right: 16),
                                   child: GestureDetector(
                                     child: Container(
-                                      width: 212,
                                       height: 52,
                                       decoration: BoxDecoration(
                                         color: Color(0xFF09B44D),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
-                                      child: Center(
-                                        child: Text(
-                                          "Добавить",
-                                          style:
-                                          TextStyle(color: Colors.white, fontSize: 18),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 64, right: 64),
+                                        child: Center(
+                                          child: Text(
+                                            "Добавить",
+                                            style:
+                                            TextStyle(color: Colors.white, fontSize: 18),
+                                          ),
                                         ),
                                       ),
                                     ),

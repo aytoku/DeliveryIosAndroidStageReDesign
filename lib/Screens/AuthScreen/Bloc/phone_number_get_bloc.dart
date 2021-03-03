@@ -75,7 +75,7 @@ class AuthGetBloc extends Bloc<PhoneNumberEvent, AuthState> {
 
 
       if(sendDataOnServer){ // отправка данных на серв и обработка результата
-        AuthData authorization = await loadAuthData(necessaryDataForAuth.device_id, event.phoneNumber, 'eda/faem');
+        AuthData authorization = await loadAuthData(necessaryDataForAuth.device_id, event.phoneNumber);
         if(authorization != null){
           if(authorization.code != 200){
             yield SearchStateError(authorization.message);

@@ -22,6 +22,16 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
   bool isLoading = true;
   List<OrderDetailsModelItem> records_items;
 
+  Map<String,String> statusIcons = {
+    'cancelled':'assets/svg_images/order_cancel.svg',
+    'finish':'assets/svg_images/delivered.svg',
+  };
+
+  Map<String,String> statusTitles = {
+    'cancelled' : "Отменен",
+    'finish' : "Доставлен"
+  };
+
   @override
   void initState(){
     super.initState();

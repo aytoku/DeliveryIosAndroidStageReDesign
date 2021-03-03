@@ -112,7 +112,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         top: 12, bottom: 12, right: 10),
                                     child: SvgPicture.asset(
                                         'assets/svg_images/arrow_left.svg'),
-                                  ))),
+                                  )),),
                         ),
                       ],
                     ),

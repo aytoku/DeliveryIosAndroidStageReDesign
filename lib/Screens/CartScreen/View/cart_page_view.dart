@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
@@ -156,36 +157,34 @@ class CartPageState extends State<CartPageScreen> {
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(right: 16),
-                            child: GestureDetector(
-                              child: SvgPicture.asset(
-                                  'assets/svg_images/del_basket.svg'),
+                            padding: EdgeInsets.only(left: 0),
+                            child: InkWell(
+                              child: Container(
+                                height: 40,
+                                width: 50,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                  child: SvgPicture.asset(
+                                      'assets/svg_images/del_basket.svg'),
+                                ),
+                              ),
                               onTap: () {
                                 if(Platform.isIOS){
                                   return showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Container(
-                                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.65),
-                                        child: Stack(
-                                          children: [
-                                            Dialog(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                                              child: InkWell(
-                                                child: Container(
-                                                  height: 50,
-                                                  width: 100,
-                                                  child: Center(
-                                                    child: Text("Очистить корзину",
-                                                      style: TextStyle(
-                                                          color: Color(0xFFFF3B30),
-                                                          fontSize: 20
-                                                      ),
-                                                    ),
+                                      context: context,
+                                      builder: (BuildContext context){
+                                        return Padding(
+                                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.75),
+                                          child: CupertinoActionSheet(
+                                            actions: [
+                                              CupertinoActionSheetAction(
+                                                child: Text("Очистить корзину",
+                                                  style: TextStyle(
+                                                      color: Color(0xFFFF3B30),
+                                                      fontSize: 20
                                                   ),
                                                 ),
-                                                onTap: () async {
+                                                onPressed: () async {
                                                   currentUser.cartModel = await clearCart(necessaryDataForAuth.device_id);
                                                   setState(() {
                                                     AmplitudeAnalytics.analytics.logEvent('remove_from_cart_all');
@@ -199,35 +198,21 @@ class CartPageState extends State<CartPageScreen> {
                                                   );
                                                 },
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 120),
-                                              child: Dialog(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                                                child: InkWell(
-                                                  child: Container(
-                                                    height: 50,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text("Отмена",
-                                                        style: TextStyle(
-                                                            color: Color(0xFF007AFF),
-                                                            fontSize: 20
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  onTap: (){
-                                                    Navigator.pop(context);
-                                                  },
+                                            ],
+                                            cancelButton: CupertinoActionSheetAction(
+                                              child: Text("Отмена",
+                                                style: TextStyle(
+                                                    color: Color(0xFF007AFF),
+                                                    fontSize: 20
                                                 ),
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    },
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      }
                                   );
                                 }else{
                                   return showDialog(

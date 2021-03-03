@@ -68,28 +68,28 @@ class VariantsSelectorState extends State<VariantsSelector> {
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
+              padding: EdgeInsets.only(left: 15, top: 10, bottom: 15),
               child: Text(
                 groupName,
               ),
             ),
           ),
           (error) ? Padding(
-            padding: EdgeInsets.only(right: 15, top: 10),
+            padding: EdgeInsets.only(right: 15, top: 10, bottom: 15),
             child: Text((required) ? 'Обязательно' : 'Опционально',
               style: TextStyle(color: Colors.red),
             ),
           ) : Row(
             children: [
               (selectedVariants.isNotEmpty && required) ? Padding(
-                padding: const EdgeInsets.only(right: 8.0, top: 10),
+                padding: const EdgeInsets.only(right: 8.0, top: 10, bottom: 15),
                 child: SvgPicture.asset('assets/svg_images/accepted_variant.svg'),
               ) : Container(),
               Padding(
-                padding: EdgeInsets.only(right: 15, top: 10),
+                padding: EdgeInsets.only(right: 15, top: 10, bottom: 15),
                 child: Text((required) ? 'Обязательно' : 'Опционально',
                 ),
-              ),
+              )
             ],
           )
         ],
@@ -147,7 +147,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
                 padding:  EdgeInsets.only(top: 0, bottom: 22 , left: 15),
                 child: Row(
                   children: [
-                    (selectedVariants.contains(element) || element.variantDefault == true) ? SvgPicture.asset('assets/svg_images/checked_rest_circle.svg')
+                    (selectedVariants.contains(element)) ? SvgPicture.asset('assets/svg_images/checked_rest_circle.svg')
                         : SvgPicture.asset('assets/svg_images/rest_circle.svg'),
                     Padding(
                       padding: EdgeInsets.only(left: 18),

@@ -1,6 +1,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/Counter.dart';
@@ -274,89 +275,72 @@ class CartScreenState extends State<CartScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 5, right: 2),
-                          child: GestureDetector(
-                            child: SvgPicture.asset(
-                                'assets/svg_images/del_basket.svg'),
+                          child: InkWell(
+                            child: Container(
+                              width: 20,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                child: SvgPicture.asset(
+                                    'assets/svg_images/del_basket.svg'),
+                              ),
+                            ),
                             onTap: () {
                               if(Platform.isIOS){
                                 return showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.65),
-                                      child: Stack(
-                                        children: [
-                                          Dialog(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                                            child: InkWell(
-                                              child: Container(
-                                                height: 50,
-                                                width: 700,
-                                                child: Center(
-                                                  child: Text("Удалить",
-                                                    style: TextStyle(
-                                                        color: Color(0xFFFF3B30),
-                                                        fontSize: 20
-                                                    ),
-                                                  ),
-                                                ),
+                                    context: context,
+                                  builder: (BuildContext context){
+                                    return Padding(
+                                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.75),
+                                      child: CupertinoActionSheet(
+                                        actions: [
+                                          CupertinoActionSheetAction(
+                                            child: Text("Удалить",
+                                              style: TextStyle(
+                                                  color: Color(0xFFFF3B30),
+                                                  fontSize: 20
                                               ),
-                                              onTap: () async {
-                                                currentUser.cartModel = await deleteItemFromCart(necessaryDataForAuth.device_id, order.id);
-                                                Navigator.pop(context);
-                                                if(parent.totalPriceWidget.key.currentState!= null){
-                                                  parent.totalPriceWidget.key.currentState.setState(() {
+                                            ),
+                                            onPressed: () async {
+                                              currentUser.cartModel = await deleteItemFromCart(necessaryDataForAuth.device_id, order.id);
+                                              Navigator.pop(context);
+                                              if(parent.totalPriceWidget.key.currentState!= null){
+                                                parent.totalPriceWidget.key.currentState.setState(() {
 
-                                                  });
-                                                }
-                                                setState(() {
-                                                  // if(parent.totalPriceWidget.key.currentState != null){
-                                                  //   parent.totalPriceWidget.key.currentState.setState(() {
-                                                  //
-                                                  //   });
-                                                  // }
                                                 });
-                                                if (currentUser.cartModel.items.length == 0) {
-                                                  Navigator.pushReplacement(
-                                                    context,
-                                                    new MaterialPageRoute(
-                                                      builder: (context) =>
-                                                      new EmptyCartScreen(restaurant: restaurant, source: parent.source),
-                                                    ),
-                                                  );
-                                                }
-                                              },
+                                              }
+                                              setState(() {
+                                                // if(parent.totalPriceWidget.key.currentState != null){
+                                                //   parent.totalPriceWidget.key.currentState.setState(() {
+                                                //
+                                                //   });
+                                                // }
+                                              });
+                                              if (currentUser.cartModel.items.length == 0) {
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                    new EmptyCartScreen(restaurant: restaurant, source: parent.source),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                        cancelButton: CupertinoActionSheetAction(
+                                          child: Text("Отмена",
+                                            style: TextStyle(
+                                                color: Color(0xFF007AFF),
+                                                fontSize: 20
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 120),
-                                            child: Dialog(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                                              child: InkWell(
-                                                child: Container(
-                                                  height: 50,
-                                                  width: 700,
-                                                  child: Center(
-                                                    child: Text("Отмена",
-                                                      style: TextStyle(
-                                                          color: Color(0xFF007AFF),
-                                                          fontSize: 20
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                onTap: (){
-                                                  Navigator.pop(context);
-                                                },
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          },
+                                        ),
                                       ),
                                     );
-                                  },
+                                  }
                                 );
                               }else{
                                 showDialog(

@@ -628,6 +628,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     return DefaultTabController(
       length: 1,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Stack(
           children: [
             Image.network(
@@ -648,41 +649,47 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   snap: false,
                   stretch: true,
                   backgroundColor: Colors.white,
-                  leading: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: InkWell(child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
+                  leading: InkWell(
+                    hoverColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    child: Container(
+                      height: 40,
+                      width: 60,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20, bottom: 20, right: 10),
                         child: SliverBackButton(key: sliverImageKey, image: null,),
                       ),
-                        onTap: () async {
-                          homeScreenKey =
-                          new GlobalKey<HomeScreenState>();
-                          if(await Internet.checkConnection()){
-                            Navigator.of(context).pushAndRemoveUntil(
-                                PageRouteBuilder(
-                                    pageBuilder: (context, animation, anotherAnimation) {
-                                      return BlocProvider(
-                                        create: (context) => RestaurantGetBloc(),
-                                        child: new HomeScreen(),
-                                      );
-                                    },
-                                    transitionDuration: Duration(milliseconds: 300),
-                                    transitionsBuilder:
-                                        (context, animation, anotherAnimation, child) {
-                                      return SlideTransition(
-                                        position: Tween(
-                                            begin: Offset(1.0, 0.0),
-                                            end: Offset(0.0, 0.0))
-                                            .animate(animation),
-                                        child: child,
-                                      );
-                                    }
-                                ), (Route<dynamic> route) => false);
-                          }else{
-                            noConnection(context);
-                          }
-                        },
-                      )
+                    ),
+                    onTap: () async {
+                      homeScreenKey =
+                      new GlobalKey<HomeScreenState>();
+                      if(await Internet.checkConnection()){
+                        Navigator.of(context).pushAndRemoveUntil(
+                            PageRouteBuilder(
+                                pageBuilder: (context, animation, anotherAnimation) {
+                                  return BlocProvider(
+                                    create: (context) => RestaurantGetBloc(),
+                                    child: new HomeScreen(),
+                                  );
+                                },
+                                transitionDuration: Duration(milliseconds: 300),
+                                transitionsBuilder:
+                                    (context, animation, anotherAnimation, child) {
+                                  return SlideTransition(
+                                    position: Tween(
+                                        begin: Offset(1.0, 0.0),
+                                        end: Offset(0.0, 0.0))
+                                        .animate(animation),
+                                    child: child,
+                                  );
+                                }
+                            ), (Route<dynamic> route) => false);
+                      }else{
+                        noConnection(context);
+                      }
+                    },
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
@@ -765,7 +772,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                               ),
                               InkWell(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 5.0),
+                                  padding: const EdgeInsets.only(left: 8.0),
                                   child: SvgPicture.asset(
                                       'assets/svg_images/rest_info.svg'),
                                 ),
@@ -783,14 +790,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                               padding: const EdgeInsets.only(left: 15),
                               child: Container(
                                 height: 26,
-                                width: 51,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Color(0xFFEFEFEF)
                                 ),
                                 child: Center(
                                   child: Padding(
-                                    padding: EdgeInsets.all(5),
+                                    padding: EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
                                     child: Row(
                                       children: [
                                         SvgPicture.asset('assets/svg_images/star.svg',
@@ -818,7 +824,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 ),
                                 child: Center(
                                   child: Padding(
-                                    padding: EdgeInsets.only(left:8, right: 8, top: 5, bottom: 5),
+                                    padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
                                     child: Row(
                                       children: [
                                         Padding(
@@ -847,7 +853,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 ),
                                 child: Center(
                                   child: Padding(
-                                    padding: EdgeInsets.only(left:8, right: 13, top: 5, bottom: 5),
+                                    padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
                                     child: Text('${restaurant.meta.avgDeliveryPrice}',
                                       style: TextStyle(
                                       ),
@@ -917,8 +923,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       body: SlidingUpPanel(
         backdropEnabled: true,
         controller: panelController,
+        color: Colors.transparent,
         minHeight: 0,
-        maxHeight: 600,
+        maxHeight: 625,
         isDraggable: true,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12),
@@ -926,16 +933,26 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         ),
         panelBuilder: (sc) {
           this.sc = sc;
-          return Column(
-            children: [
-              Container( height: 600,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),),
-                  child: PanelContent(key: panelContentKey, parent: this)),
-            ],
+          return Container(
+            height: 625,
+            child: Stack(
+              children: [
+                Align(
+                    alignment: Alignment.topCenter,
+                    child: SvgPicture.asset('assets/svg_images/close_button.svg')),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Container( height: 625,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),),
+                      child: PanelContent(key: panelContentKey, parent: this)),
+                ),
+              ],
+            ),
           );
         },
         body: (restaurantDataItems != null) ?

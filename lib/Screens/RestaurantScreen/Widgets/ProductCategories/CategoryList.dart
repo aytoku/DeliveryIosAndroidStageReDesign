@@ -222,7 +222,7 @@ class CategoryListState extends State<CategoryList> {
         break;
     }
     print(categoryItems[i]);
-    await itemScrollController.scrollTo(index: i, curve: Curves.ease, duration: new Duration(seconds: 1));
+    await itemScrollController.scrollTo(index: i, curve: Curves.ease, duration: new Duration(milliseconds: 500));
   }
 
   void refresh(){

@@ -63,6 +63,10 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
       return Container();
     }
     return InkWell(
+      hoverColor: Colors.white,
+      focusColor: Colors.white,
+      splashColor: Colors.white,
+      highlightColor: Colors.white,
       child: Container(
           width: 350,
           margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),

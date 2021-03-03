@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_screen.dart';
@@ -40,6 +41,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     'delivery':'assets/svg_images/car.svg',
     'created':'assets/svg_images/state_clock.svg',
     'cancelled':'assets/svg_images/order_cancel.svg',
+    'finish':'assets/svg_images/delivered.svg',
   };
 
   Map<String,String> statusTitles = {
@@ -47,7 +49,8 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     'ready':'Готовится',
     'delivery':'В пути',
     'created':'Обработка',
-    'cancelled' : "Отменен"
+    'cancelled' : "Отменен",
+    'finish' : "Доставлен"
   };
 
 
@@ -132,7 +135,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       return List<Container>();
     }
     result.add(Padding(
-      padding: const EdgeInsets.only(left: 15.0, right: 14, bottom: 10, top: 10),
+      padding: const EdgeInsets.only(left: 15.0, right: 14, bottom: 10, top: 15),
       child: Container(
         height: (in_the_way.contains(ordersDetailsModelItem.state)) ? 270 : 190,
         padding: EdgeInsets.only(right: 10, left: 15),
@@ -206,19 +209,33 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       )
                     ],
                   ) : Row(
-                    children: [
-                      Text(statusTitles[ordersDetailsModelItem.state],
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14
+                      children: [
+                        Text(statusTitles[ordersDetailsModelItem.state],
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0, right: 5),
-                        child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state]),
-                      ),
-                    ],
-                  )
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 5),
+                          child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state]),
+                        ),
+                      ],
+                    )
+                  // Row(
+                  //   children: [
+                  //     Text(statusTitles[ordersDetailsModelItem.state],
+                  //       style: TextStyle(
+                  //           color: Colors.black,
+                  //           fontSize: 14
+                  //       ),
+                  //     ),
+                  //     Padding(
+                  //       padding: const EdgeInsets.only(left: 8.0, right: 5),
+                  //       child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state]),
+                  //     ),
+                  //   ],
+                  // )
                 ],
               ),
             ),
@@ -701,7 +718,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: 0),
               child: Divider(height: 1.0, color: Colors.grey),
             ),
             Expanded(
@@ -712,7 +729,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             ),
             Center(
               child: Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 5, right: 10, left: 10),
+                  padding: EdgeInsets.only(top: 20, bottom: 15, right: 10, left: 10),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: (!state_array.contains(ordersDetailsModelItem.state)) ?
@@ -779,16 +796,125 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           )),
                       onTap: () async {
                         if (await Internet.checkConnection()) {
-                          showAlertDialog(context);
-                          await cancelOrder(ordersDetailsModelItem.uuid);
-                          homeScreenKey = new GlobalKey();
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => BlocProvider(
-                                    create: (context) => RestaurantGetBloc(),
-                                    child: new HomeScreen(),
-                                  )),
-                                  (Route<dynamic> route) => false);
+                          if(Platform.isIOS){
+                            return showDialog(
+                                context: context,
+                                builder: (BuildContext context){
+                                  return Padding(
+                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.6),
+                                    child: CupertinoActionSheet(
+                                      title: Padding(
+                                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                                        child: Text('Вы действительно хотите отменить заказ?',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black
+                                          ),
+                                        ),
+                                      ),
+                                      actions: [
+                                        CupertinoActionSheetAction(
+                                          child: Text("Отменить заказ",
+                                            style: TextStyle(
+                                                color: Color(0xFFFF3B30),
+                                                fontSize: 20
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            showAlertDialog(context);
+                                            await cancelOrder(ordersDetailsModelItem.uuid);
+                                            homeScreenKey = new GlobalKey();
+                                            Navigator.of(context).pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                    builder: (context) => BlocProvider(
+                                                      create: (context) => RestaurantGetBloc(),
+                                                      child: new HomeScreen(),
+                                                    )),
+                                                    (Route<dynamic> route) => false);
+                                          },
+                                        ),
+                                      ],
+                                      cancelButton: CupertinoActionSheetAction(
+                                        child: Text("Вернуться назад",
+                                          style: TextStyle(
+                                              color: Color(0xFF007AFF),
+                                              fontSize: 20
+                                          ),
+                                        ),
+                                        onPressed: (){
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                            );
+                          }else{
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 0),
+                                  child: Dialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                                    child: Container(
+                                        height: 130,
+                                        width: 300,
+                                        child: Column(
+                                          children: <Widget>[
+                                            InkWell(
+                                              child: Container(
+                                                padding: EdgeInsets.only(top: 20, bottom: 20),
+                                                child: Center(
+                                                  child: Text("Да",
+                                                    style: TextStyle(
+                                                        color: Color(0xFFFF3B30),
+                                                        fontSize: 20
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () async {
+                                                showAlertDialog(context);
+                                                await cancelOrder(ordersDetailsModelItem.uuid);
+                                                homeScreenKey = new GlobalKey();
+                                                Navigator.of(context).pushAndRemoveUntil(
+                                                    MaterialPageRoute(
+                                                        builder: (context) => BlocProvider(
+                                                          create: (context) => RestaurantGetBloc(),
+                                                          child: new HomeScreen(),
+                                                        )),
+                                                        (Route<dynamic> route) => false);
+                                              },
+                                            ),
+                                            Divider(
+                                              height: 1,
+                                              color: Colors.grey,
+                                            ),
+                                            InkWell(
+                                              child: Container(
+                                                padding: EdgeInsets.only(top: 20, bottom: 20),
+                                                child: Center(
+                                                  child: Text("Нет",
+                                                    style: TextStyle(
+                                                        color: Color(0xFF007AFF),
+                                                        fontSize: 20
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: (){
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+                                        )),
+                                  ),
+                                );
+                              },
+                            );
+                          }
                         } else {
                           noConnection(context);
                         }
@@ -798,10 +924,10 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         child: GestureDetector(
                           child: Padding(
                             padding: EdgeInsets.only(
-                                top: 10, bottom: 10, right: 5, left: 5),
+                                top: 10, bottom: 0, right: 5, left: 5),
                             child: (in_the_way.contains(ordersDetailsModelItem.state))
                                 ? Container(
-                              height: 40,
+                              height: 52,
                               decoration: BoxDecoration(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(11)),
@@ -827,93 +953,53 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                               return showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return Container(
-                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.48),
-                                    child: Column(
-                                      children: [
-                                        Dialog(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                                            child: Container(
-                                              height: 180,
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 15, bottom: 15),
-                                                    child: Text('Кому вы хотите позвонить?',
-                                                      style: TextStyle(
-                                                          fontSize: 20
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Divider(color: Colors.grey,),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 5, bottom: 5),
-                                                    child: InkWell(
-                                                      child: Container(
-                                                        height: 30,
-                                                        width: 140,
-                                                        child: Center(
-                                                          child: Text("В заведение",
-                                                            style: TextStyle(
-                                                                color: Color(0xFF007AFF),
-                                                                fontSize: 20
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      onTap: () {
-                                                        // launch("tel://" + ordersDetailsModelItem.productsData.store.phone);
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Divider(color: Colors.grey,),
-                                                  InkWell(
-                                                    child: Container(
-                                                      padding: EdgeInsets.only(top: 8),
-                                                      height: 30,
-                                                      width: 100,
-                                                      child: Center(
-                                                        child: Text("Водителю",
-                                                          style: TextStyle(
-                                                              color: Color(0xFF007AFF),
-                                                              fontSize: 20
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    onTap: () {
-                                                      // launch("tel://" + ordersDetailsModelItem.driver.phone);
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            )
+                                  return Padding(
+                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.55),
+                                    child: CupertinoActionSheet(
+                                      title: Padding(
+                                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                        child: Text('Кому вы хотите позвонить?',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                            color: Colors.black
+                                          ),
                                         ),
-                                        Container(
-                                          child: Dialog(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                                            child: InkWell(
-                                              child: Container(
-                                                height: 40,
-                                                width: 100,
-                                                child: Center(
-                                                  child: Text("Отмена",
-                                                    style: TextStyle(
-                                                        color: Color(0xFFDC634A),
-                                                        fontSize: 20
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              onTap: (){
-                                                Navigator.pop(context);
-                                              },
+                                      ),
+                                      actions: [
+                                        CupertinoActionSheetAction(
+                                          child: Text("В заведение",
+                                            style: TextStyle(
+                                                color: Color(0xFF007AFF),
+                                                fontSize: 20
                                             ),
                                           ),
-                                        )
+                                          onPressed: () async {
+                                            // launch("tel://" + ordersDetailsModelItem.productsData.store.phone);
+                                          },
+                                        ),
+                                        CupertinoActionSheetAction(
+                                          child: Text("Водителю",
+                                            style: TextStyle(
+                                                color: Color(0xFF007AFF),
+                                                fontSize: 20
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            // launch("tel://" + ordersDetailsModelItem.driver.phone);
+                                          },
+                                        ),
                                       ],
+                                      cancelButton: CupertinoActionSheetAction(
+                                        child: Text("Отмена",
+                                          style: TextStyle(
+                                              color: Color(0xFFDC634A),
+                                              fontSize: 20
+                                          ),
+                                        ),
+                                        onPressed: (){
+                                          Navigator.pop(context);
+                                        },
+                                      ),
                                     ),
                                   );
                                 },
@@ -1068,7 +1154,7 @@ class OrderRejectScreenState extends State<OrderRejectScreen> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.only(bottom: 25),
                   child: GestureDetector(
                     child: Container(
                         height: 50,

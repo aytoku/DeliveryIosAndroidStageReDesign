@@ -72,6 +72,19 @@ class CityScreenState extends State<CityScreen>{
         body:  Stack(
           children: [
             SvgPicture.asset('assets/svg_images/city.svg', width: MediaQuery.of(context).size.width,),
+            (currentUser.isLoggedIn) ? Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 50, left: 20),
+                child: GestureDetector(
+                  child: SvgPicture.asset(
+                      'assets/svg_images/rest_arrow_left.svg'),
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ) : Container(),
             (!currentUser.isLoggedIn) ? Align(
               alignment: Alignment.topRight,
               child: Padding(

@@ -38,6 +38,10 @@ class RestaurantsListState extends State<RestaurantsList>{
 //      bool day_off = restaurant.work_schedule[dayNumber].day_off;
 //      bool available = restaurant.available != null ? restaurant.available : true;
       restaurantList.add(InkWell(
+          hoverColor: Colors.white,
+          focusColor: Colors.white,
+          splashColor: Colors.white,
+          highlightColor: Colors.white,
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             decoration: BoxDecoration(
@@ -253,6 +257,7 @@ class RestaurantsListState extends State<RestaurantsList>{
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       child: _buildRestaurantsList(),
     );
   }

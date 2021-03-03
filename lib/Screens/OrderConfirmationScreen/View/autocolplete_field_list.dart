@@ -63,6 +63,7 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
                         child: TextField(
                           controller: controller,
                           focusNode: node,
+                          autofocus: true,
                           decoration: new InputDecoration(
                             suffix: Padding(
                               padding: const EdgeInsets.only(right:8.0, top: 3),
