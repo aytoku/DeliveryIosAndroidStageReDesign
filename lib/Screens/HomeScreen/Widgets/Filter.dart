@@ -360,13 +360,16 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
         child: Padding(
             padding:
             EdgeInsets.only(left: 5, right: 5,
-                top: (AllStoreCategoriesData.selectedStoreCategories.length != 0 && !selectedCategoryFromHomeScreen || selectedCategoryFromHomeScreen) ? 7: 0,
+                top: (AllStoreCategoriesData.selectedStoreCategories.length != 0
+                    && !selectedCategoryFromHomeScreen
+                      || selectedCategoryFromHomeScreen) ? 7: 0,
                 bottom: (AllStoreCategoriesData.selectedStoreCategories.length != 0 && !selectedCategoryFromHomeScreen || selectedCategoryFromHomeScreen) ? 7: 0,),
             child: Container(
               height: 45,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element) || !selectedCategoryFromHomeScreen)
+                  color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)
+                      || !selectedCategoryFromHomeScreen)
                       ? Color(0xFFF6F6F6)
                       : Color(0xFF09B44D)),
               child: Padding(
@@ -421,7 +424,9 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
       return Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Container(
-          height:  60,
+          height:  (AllStoreCategoriesData.selectedStoreCategories.length != 0
+              && !selectedCategoryFromHomeScreen
+              || selectedCategoryFromHomeScreen) ? 60 : 45,
           child: ListView(
               controller: catScrollController,
               scrollDirection: Axis.horizontal,

@@ -774,7 +774,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                 context: context,
                                 builder: (BuildContext context){
                                   return Padding(
-                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.6),
+                                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.62),
                                     child: CupertinoActionSheet(
                                       title: Padding(
                                         padding: EdgeInsets.only(top: 10, bottom: 10),

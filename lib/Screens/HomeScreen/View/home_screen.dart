@@ -396,7 +396,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             padding: const EdgeInsets.only(left: 20),
                             child: GestureDetector(
                               child: Container(
-                                width: 230,
+                                width: MediaQuery.of(context).size.width * 0.63,
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
@@ -456,8 +456,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                     child: (snapshot.data.length > 1) ? ListView(
                                       children: snapshot.data,
                                       scrollDirection: Axis.horizontal,
-                                    ) : Row(
-                                      children: snapshot.data,
+                                    ) : Center(
+                                      child: Row(
+                                        children: snapshot.data,
+                                      ),
                                     ),
                                   ),
                                 ) : Container(
