@@ -247,6 +247,7 @@ class Item {
   final double singleItemPrice;
   final double totalItemPrice;
 
+
   factory Item.fromJson(Map<String, dynamic> json) => Item(
     id: json["id"] == null ? null : json["id"],
     product: json["product"] == null ? null : Product.fromJson(json["product"]),
@@ -264,6 +265,20 @@ class Item {
     "price": price == null ? null : price,
     "count": count == null ? null : count,
   };
+
+  String getUniqueUuid(){
+    String result = product.uuid;
+    if(variantGroups != null)
+      variantGroups.forEach((element) {
+        result+=element.uuid;
+        if(element.variants != null)
+          element.variants.forEach((element) {
+            result+=element.uuid;
+          });
+      });
+    return result;
+  }
+
 }
 
 class Product {

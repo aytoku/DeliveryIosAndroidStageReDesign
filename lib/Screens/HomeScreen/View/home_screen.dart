@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,7 @@ import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/RestaurantsList.dart';
+import 'package:flutter_app/Screens/HomeScreen/Widgets/TemporaryOrderChecking.dart';
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
@@ -46,12 +49,15 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   List<OrderChecking> orderList;
   List<FilteredStores> recordsItems;
   GlobalKey<ScaffoldState> _scaffoldKey;
+  GlobalKey<TemporaryOrderCheckingState> temporaryOrderCheckingKey;
   GlobalKey<CartButtonState> basketButtonStateKey;
   Filter filter;
   RestaurantsList restaurantsList;
   GlobalKey<CityScreenState> cityScreenKey;
   RestaurantGetBloc restaurantGetBloc;
   CartButton cartButton;
+  Timer timer;
+
 
 
   @override
@@ -62,12 +68,22 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    orderList = new List<OrderChecking>();
     recordsItems = new List<FilteredStores>();
     _scaffoldKey = new GlobalKey<ScaffoldState>();
     basketButtonStateKey = new GlobalKey<CartButtonState>();
     cityScreenKey = new GlobalKey<CityScreenState>();
     restaurantGetBloc = BlocProvider.of<RestaurantGetBloc>(context);
     restaurantGetBloc.add(InitialLoad());
+    temporaryOrderCheckingKey = new GlobalKey();
+    // временное решение(убрать когда будет центрифуга)
+    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      if(temporaryOrderCheckingKey.currentState != null){
+        temporaryOrderCheckingKey.currentState.setState(() {
+
+        });
+      }
+    });
   }
 
   @override
@@ -77,6 +93,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitDown,
     ]);
     WidgetsBinding.instance.removeObserver(this);
+    timer.cancel();
     super.dispose();
   }
 
@@ -438,41 +455,45 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                       child: ListView(
                         padding: EdgeInsets.zero,
                         children: <Widget>[
-                          (!currentUser.isLoggedIn) ? Container() :
-                          FutureBuilder<List<OrderChecking>>(
-                            future: OrderChecking.getActiveOrder(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<List<OrderChecking>> snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done &&
-                                  snapshot.data != null &&
-                                  snapshot.data.length > 0) {
-                                orderList = snapshot.data;
-                                return (currentUser.isLoggedIn)
-                                    ? Padding(
-                                  padding: const EdgeInsets.only(top: 15),
-                                  child: Container(
-                                    height: 230,
-                                    child: (snapshot.data.length > 1) ? ListView(
-                                      children: snapshot.data,
-                                      scrollDirection: Axis.horizontal,
-                                    ) : Center(
-                                      child: Row(
-                                        children: snapshot.data,
-                                      ),
-                                    ),
-                                  ),
-                                ) : Container(
-                                  height: 0,
-                                );
-                              } else {
-                                orderList = null;
-                                return Container(
-                                  height: 0,
-                                );
-                              }
-                            },
+                          TemporaryOrderChecking(
+                              orderList: orderList,
+                              key: temporaryOrderCheckingKey
                           ),
+                          // (!currentUser.isLoggedIn) ? Container() :
+                          // FutureBuilder<List<OrderChecking>>(
+                          //   future: OrderChecking.getActiveOrder(),
+                          //   builder: (BuildContext context,
+                          //       AsyncSnapshot<List<OrderChecking>> snapshot) {
+                          //     if (snapshot.connectionState ==
+                          //         ConnectionState.done &&
+                          //         snapshot.data != null &&
+                          //         snapshot.data.length > 0) {
+                          //       orderList = snapshot.data;
+                          //       return (currentUser.isLoggedIn)
+                          //           ? Padding(
+                          //         padding: const EdgeInsets.only(top: 15),
+                          //         child: Container(
+                          //           height: 230,
+                          //           child: (snapshot.data.length > 1) ? ListView(
+                          //             children: snapshot.data,
+                          //             scrollDirection: Axis.horizontal,
+                          //           ) : Center(
+                          //             child: Row(
+                          //               children: snapshot.data,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ) : Container(
+                          //         height: 0,
+                          //       );
+                          //     } else {
+                          //       orderList = null;
+                          //       return Container(
+                          //         height: 0,
+                          //       );
+                          //     }
+                          //   },
+                          // ),
                           // Padding(
                           //   padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
                           //   child: Row(

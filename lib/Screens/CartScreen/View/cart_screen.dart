@@ -60,8 +60,9 @@ class CartScreenState extends State<CartScreen> {
         itemBuilder: (BuildContext context, int index) {
           if (index < currentUser.cartModel.items.length) {
             Item order = currentUser.cartModel.items[index];
+            print(currentUser.cartModel.items[index].getUniqueUuid());
             return Dismissible(
-              key: Key(currentUser.cartModel.items[index].product.uuid),
+              key: Key(currentUser.cartModel.items[index].getUniqueUuid()),
               background: Container(
                   alignment: AlignmentDirectional.centerEnd,
                   color: Colors.red,
@@ -74,8 +75,8 @@ class CartScreenState extends State<CartScreen> {
                 AmplitudeAnalytics.analytics.logEvent('remove_from_cart ', eventProperties: {
                   'uuid': currentUser.cartModel.items[index].product.uuid
                 });
-                currentUser.cartModel = await deleteItemFromCart(necessaryDataForAuth.device_id, order.id);
                 currentUser.cartModel.items.removeAt(index);
+                currentUser.cartModel = await deleteItemFromCart(necessaryDataForAuth.device_id, order.id);
                 if(parent.totalPriceWidget.key.currentState!= null){
                   parent.totalPriceWidget.key.currentState.setState(() {
 

@@ -18,7 +18,7 @@ Future<CartModel> createOrder(String order_uuid, bool withoutDelivery, bool ownD
         "without_delivery": withoutDelivery,
         "own_delivery": ownDelivery,
         "eat_in_store": eatInStore,
-        "delivery_address": deliveryAddress.toJson(),
+        "delivery_address": (deliveryAddress != null) ? deliveryAddress.toJson() : null,
         "comment": comment
       }
   );

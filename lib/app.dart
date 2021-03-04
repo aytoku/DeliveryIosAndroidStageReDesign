@@ -7,8 +7,6 @@ import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'Preloader/device_id_screen.dart';
-import 'Preloader/device_id_screen.dart';
-import 'Preloader/device_id_screen.dart';
 
 class App extends StatelessWidget {
   FirebaseAnalytics analytics = FirebaseAnalytics();
@@ -46,28 +44,6 @@ class App extends StatelessWidget {
         const Locale('ru', 'RU'),
         const Locale('en', 'US'),
       ],
-    );
-  }
-}
-
-class ara extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    WidgetsBinding.instance
-        .addPostFrameCallback((_){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>DeviceIdScreen()));
-    });
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top:60),
-        child: GestureDetector(
-          child: Text('dfs'),
-          onTap: (){
-
-          },
-        ),
-      ),
     );
   }
 }

@@ -1203,31 +1203,36 @@ class AddressScreenState extends State<AddressScreen>
                               ),
                               onTap: () async {
                                 if (await Internet.checkConnection()) {
+                                  if(isTakeAwayOrderConfirmation){
+                                    showAlertDialog(context);
+                                    await createOrder(
+                                        currentUser.cartModel.uuid,
+                                        isTakeAwayOrderConfirmation,
+                                        false,
+                                        eatInStore,
+                                        null,
+                                        commentField.text
+                                    );
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                                            (Route<dynamic> route) => false);
+                                    return;
+                                  }
                                   if( addressSelectorKey.currentState.myFavouriteAddressesModel.address == null
                                   && !isTakeAwayOrderConfirmation){
                                     emptyAddress(context);
                                     return;
                                   }
                                   showAlertDialog(context);
-                                  if(isTakeAwayOrderConfirmation){
-                                    await createOrder(
-                                        currentUser.cartModel.uuid,
-                                        isTakeAwayOrderConfirmation,
-                                        false,
-                                        eatInStore,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address = null,
-                                        commentField.text
-                                    );
-                                  }else{
-                                    await createOrder(
-                                        currentUser.cartModel.uuid,
-                                        false,
-                                        false,
-                                        false,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-                                        commentField.text
-                                    );
-                                  }
+                                  await createOrder(
+                                      currentUser.cartModel.uuid,
+                                      false,
+                                      false,
+                                      false,
+                                      addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                      commentField.text
+                                  );
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
                                           builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
