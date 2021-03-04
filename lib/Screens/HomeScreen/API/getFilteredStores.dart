@@ -10,9 +10,8 @@ Future<FilteredStoresData> getFilteredStores(String city_uuid, bool only_parents
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',
-    'Source':'ios_client_app_1',
     "ServiceName": 'faem_food',
-    "Application": 'eda/faem',
+    "Source": 'eda/faem',
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);

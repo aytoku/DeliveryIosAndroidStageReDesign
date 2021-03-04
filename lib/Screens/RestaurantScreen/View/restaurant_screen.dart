@@ -925,7 +925,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         controller: panelController,
         color: Colors.transparent,
         minHeight: 0,
-        maxHeight: 625,
+        maxHeight: MediaQuery.of(context).size.height * 0.9,
         isDraggable: true,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12),
@@ -934,7 +934,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         panelBuilder: (sc) {
           this.sc = sc;
           return Container(
-            height: 625,
+            height: MediaQuery.of(context).size.height * 0.9,
             child: Stack(
               children: [
                 Align(
@@ -942,7 +942,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     child: SvgPicture.asset('assets/svg_images/close_button.svg')),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: Container( height: 625,
+                  child: Container( height: MediaQuery.of(context).size.height * 0.9,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(

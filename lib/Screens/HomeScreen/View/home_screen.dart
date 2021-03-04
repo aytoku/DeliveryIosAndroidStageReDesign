@@ -343,7 +343,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                     ),
                   ),
                   Expanded(
-                    child: ListView(
+                    child: Column(
                       children: getSideBarItems(currentUser.isLoggedIn),
                     ),
                   ),
@@ -453,9 +453,11 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                   padding: const EdgeInsets.only(top: 15),
                                   child: Container(
                                     height: 230,
-                                    child: ListView(
+                                    child: (snapshot.data.length > 1) ? ListView(
                                       children: snapshot.data,
                                       scrollDirection: Axis.horizontal,
+                                    ) : Row(
+                                      children: snapshot.data,
                                     ),
                                   ),
                                 ) : Container(

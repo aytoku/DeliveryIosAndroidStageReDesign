@@ -41,7 +41,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     'delivery':'assets/svg_images/car.svg',
     'created':'assets/svg_images/state_clock.svg',
     'cancelled':'assets/svg_images/order_cancel.svg',
-    'finish':'assets/svg_images/delivered.svg',
+    'finished':'assets/svg_images/delivered.svg',
   };
 
   Map<String,String> statusTitles = {
@@ -50,7 +50,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     'delivery':'В пути',
     'created':'Обработка',
     'cancelled' : "Отменен",
-    'finish' : "Доставлен"
+    'finished' : "Доставлен"
   };
 
 
@@ -195,47 +195,20 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       ],
                     ),
                   ),
-                  (ordersDetailsModelItem.state == "finish") ? Row(
+                  Row(
                     children: [
-                      Text('Доставлен',
+                      Text(statusTitles[ordersDetailsModelItem.state],
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: SvgPicture.asset('assets/svg_images/delivered.svg'),
-                      )
+                        padding: const EdgeInsets.only(left: 8.0, right: 5),
+                        child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state]),
+                      ),
                     ],
-                  ) : Row(
-                      children: [
-                        Text(statusTitles[ordersDetailsModelItem.state],
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 5),
-                          child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state]),
-                        ),
-                      ],
-                    )
-                  // Row(
-                  //   children: [
-                  //     Text(statusTitles[ordersDetailsModelItem.state],
-                  //       style: TextStyle(
-                  //           color: Colors.black,
-                  //           fontSize: 14
-                  //       ),
-                  //     ),
-                  //     Padding(
-                  //       padding: const EdgeInsets.only(left: 8.0, right: 5),
-                  //       child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state]),
-                  //     ),
-                  //   ],
-                  // )
+                  )
                 ],
               ),
             ),

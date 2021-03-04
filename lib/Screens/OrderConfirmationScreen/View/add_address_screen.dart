@@ -64,6 +64,10 @@ class AddAddressScreenState extends State<AddAddressScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 InkWell(
+                  hoverColor: Colors.white,
+                  focusColor: Colors.white,
+                  splashColor: Colors.white,
+                  highlightColor: Colors.white,
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: Padding(

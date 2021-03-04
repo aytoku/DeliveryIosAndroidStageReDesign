@@ -97,7 +97,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                           ],
                         ),
                       ),
-                      (ordersStoryModelItem.state == "finish") ? Row(
+                      (ordersStoryModelItem.state == "finished") ? Row(
                         children: [
                           Text('Доставлен',
                             style: TextStyle(
