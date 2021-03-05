@@ -55,6 +55,7 @@ class CartScreenState extends State<CartScreen> {
     }
     return Expanded(
       child: ListView.separated(
+        physics: BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
         itemCount: currentUser.cartModel.items.length + 1,
         itemBuilder: (BuildContext context, int index) {
@@ -161,7 +162,12 @@ class CartScreenState extends State<CartScreen> {
                               fontSize: 18.0,
                               color: Color(0xFF000000)),
                         ),
-                        Text((currentUser.cartModel.totalPrice != null)? '~' + '${currentUser.cartModel.totalPrice.toStringAsFixed(0)} \₽' : '')
+                        Text(
+                            (currentUser.cartModel.totalPrice != null)? '~' + '${currentUser.cartModel.totalPrice.toStringAsFixed(0)} \₽' : '',
+                          style: TextStyle(
+                            fontSize: 18
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -261,7 +267,9 @@ class CartScreenState extends State<CartScreen> {
                 ),
                     ) : Container(height: 0,),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                  padding: EdgeInsets.only(
+                      top: (order.product.type == "single") ? 13 : 10.0
+                  ),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: Row(
@@ -275,7 +283,7 @@ class CartScreenState extends State<CartScreen> {
                           parent: this,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 5, right: 2),
+                          padding: const EdgeInsets.only(bottom: 3, right: 2),
                           child: InkWell(
                             child: Container(
                               width: 20,

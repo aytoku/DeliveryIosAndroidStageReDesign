@@ -87,7 +87,13 @@ class VariantsSelectorState extends State<VariantsSelector> {
               ) : Container(),
               Padding(
                 padding: EdgeInsets.only(right: 15, top: 10, bottom: 15),
-                child: Text((required) ? 'Обязательно' : 'Опционально',
+                child: Text(
+                  (required) ? 'Обязательно' : 'Опционально',
+                  style: TextStyle(
+                    color: (selectedVariants.isNotEmpty && required) ?
+                    Colors.black :
+                    Color(0xFF7D7D7D)
+                  ),
                 ),
               )
             ],

@@ -404,21 +404,23 @@ class CartPageState extends State<CartPageScreen> {
                     ),
                     child: Padding(
                       padding:
-                      EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 15),
+                      EdgeInsets.only(top: 15, right: 15, left: 50, bottom: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 15),
+                            padding: const EdgeInsets.only(bottom: 3),
                             child: Column(
                               children: [
                                 totalPriceWidget,
                                 Padding(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.only(right: 3),
                                   child: Text(
-                                    (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
+                                    (currentUser.cartModel.cookingTime != null)
+                                        ? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин'
+                                        : '',
                                     style: TextStyle(
-                                      fontSize: 18.0,
+                                      fontSize: 12.0,
                                       color: Colors.black,
                                     ),
                                   ),

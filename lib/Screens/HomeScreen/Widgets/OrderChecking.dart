@@ -68,7 +68,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
       splashColor: Colors.white,
       highlightColor: Colors.white,
       child: Container(
-          width: 335,
+          width: MediaQuery.of(context).size.width * 0.89,
           margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           decoration: BoxDecoration(
               boxShadow: [

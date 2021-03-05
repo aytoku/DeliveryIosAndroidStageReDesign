@@ -110,102 +110,80 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   }
                 },
                 child: Container(
-                  height: 163,
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: 153,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4.0, // soften the shadow
-                              spreadRadius: 1.0, //extend the shadow
-                            )
-                          ],
-                          color: Colors.white,
-                          border: Border.all(width: 1.0, color: Colors.grey[200]),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Flexible(
+                  height: 153,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4.0, // soften the shadow
+                        spreadRadius: 1.0, //extend the shadow
+                      )
+                    ],
+                    color: Colors.white,
+                    border: Border.all(width: 1.0, color: Colors.grey[200]),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Flexible(
+                        child: Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: Align(
+                              alignment: Alignment.topLeft,
                               child: Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 10.0),
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFFFFFFF),
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(15),
-                                            bottomLeft: Radius.circular(15),
-                                            bottomRight: Radius.circular(15)),
-                                      ),
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFFFFFF),
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      bottomLeft: Radius.circular(15),
+                                      bottomRight: Radius.circular(15)),
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      height: 100,
                                       child: Column(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 100,
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top: 10.0, left: 15, bottom: 5),
-                                                  child: Align(
-                                                    alignment: Alignment.topLeft,
-                                                    child: Text(
-                                                      restaurantDataItems.name,
-                                                      maxLines: 3,
-                                                      style: TextStyle(
-                                                          fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
-                                                      textAlign: TextAlign.start,
-                                                    ),
-                                                  ),
-                                                ),
-                                                MenuItemDesc(foodRecords: restaurantDataItems, parent: this)
-                                              ],
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 10.0, left: 15, bottom: 5),
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                restaurantDataItems.name,
+                                                maxLines: 3,
+                                                style: TextStyle(
+                                                    fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
+                                                textAlign: TextAlign.start,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
                                             ),
                                           ),
-                                          MenuItemCounter(foodRecords: restaurantDataItems, menuItemCounterKey: menuItemCounterKey, parent: this)
+                                          MenuItemDesc(foodRecords: restaurantDataItems, parent: this)
                                         ],
                                       ),
                                     ),
-                                  ),
+                                    MenuItemCounter(foodRecords: restaurantDataItems, menuItemCounterKey: menuItemCounterKey, parent: this)
+                                  ],
                                 ),
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(15),
-                                    bottomRight: Radius.circular(15)),
-                                child: Image.network(
-                                  getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
-                                  fit: BoxFit.cover,
-                                  height: 150,
-                                  width: 168,
-                                ),),
-                            )
-                          ],
+                          ),
                         ),
                       ),
                       Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0, right: 2),
-                          child: Container(
-                            decoration: (currentUser.cartModel.findCartItem(restaurantDataItems) != null) ? BoxDecoration(
-                                color: Color(0xFF09B44D),
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(15),
-                                  bottomRight: Radius.circular(15),
-                                )
-                            ) : BoxDecoration(),
-                            height: 8,
-                          ),
-                        ),
+                        alignment: Alignment.topRight,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(15),
+                              bottomRight: Radius.circular(15)),
+                          child: Image.network(
+                            getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                            fit: BoxFit.cover,
+                            height: 150,
+                            width: 168,
+                          ),),
                       )
                     ],
                   ),
@@ -291,7 +269,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                         Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
-                            padding: EdgeInsets.only(top: 20, bottom: 20, left: 16),
+                            padding: EdgeInsets.only(top: 20, bottom: 10, left: 16),
                             child: Text(restaurantDataItems.name,
                               style: TextStyle(
                                   fontSize: 24
@@ -303,7 +281,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                             restaurantDataItems.meta.description != null)
                             ? Padding(
                           padding:
-                          EdgeInsets.only(left: 15, top: 20, bottom: 10),
+                          EdgeInsets.only(left: 15, top: 10, bottom: 10),
                           child: Align(
                             alignment: Alignment.topLeft,
                             child: Text(

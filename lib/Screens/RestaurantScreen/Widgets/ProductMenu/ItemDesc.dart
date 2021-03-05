@@ -73,22 +73,25 @@ class MenuItemDescState extends State<MenuItemDesc> {
             child: Text(
               '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
               style: TextStyle(
-                  fontSize: 10.0,
+                  fontSize: 12.0,
                   color: Colors.grey),
               overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 5.0, top: 5, right: 5),
-          child: SvgPicture.asset('assets/svg_images/ellipse.svg'),
+          padding: const EdgeInsets.only(left: 5.0, top: 6, right: 5),
+          child: SvgPicture.asset('assets/svg_images/ellipse.svg',
+            color: Colors.grey,
+            width: 2,
+            height: 2,),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 5),
           child: Text(
-            '${foodRecords.price} \₽',
+            '${foodRecords.price.toStringAsFixed(0)} \₽',
             style: TextStyle(
-                fontSize: 10.0,
+                fontSize: 12.0,
                 color: Colors.grey),
             overflow: TextOverflow.ellipsis,
           ),

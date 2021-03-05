@@ -184,6 +184,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                       records_items = snapshot.data.orderDetailsModelItem;
                       return Expanded(
                         child: ListView(
+                          physics: BouncingScrollPhysics(),
                           children: <Widget>[
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

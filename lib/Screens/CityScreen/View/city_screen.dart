@@ -71,7 +71,9 @@ class CityScreenState extends State<CityScreen>{
     return Scaffold(
         body:  Stack(
           children: [
-            SvgPicture.asset('assets/svg_images/city.svg', width: MediaQuery.of(context).size.width,),
+            SvgPicture.asset('assets/svg_images/city.svg',
+              fit: BoxFit.contain,
+            ),
             (currentUser.isLoggedIn) ? Align(
               alignment: Alignment.topLeft,
               child: Padding(

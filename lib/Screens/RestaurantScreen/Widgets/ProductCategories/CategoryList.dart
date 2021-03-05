@@ -165,16 +165,23 @@ class CategoryListState extends State<CategoryList> {
           child: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 15, right: 5),
+                padding: const EdgeInsets.only(left: 7, right: 5),
                 child: InkWell(
-                  child: SvgPicture.asset('assets/svg_images/menu.svg'),
+                  hoverColor: Colors.white,
+                  focusColor: Colors.white,
+                  splashColor: Colors.white,
+                  highlightColor: Colors.white,
+                  child: SvgPicture.asset(
+                    'assets/svg_images/rest_menu.svg',
+                    color: Colors.black,
+                  ),
                   onTap: (){
                     _category();
                   },
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.87,
+                width: MediaQuery.of(context).size.width * 0.84,
                 child: ScrollablePositionedList.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: categoryItems.length,

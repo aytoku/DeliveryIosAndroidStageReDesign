@@ -508,6 +508,7 @@ class AddressScreenState extends State<AddressScreen>
                   ),
                   Expanded(
                     child: ListView(
+                      physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.zero,
                       children: <Widget>[
                         // Padding(
@@ -1168,7 +1169,7 @@ class AddressScreenState extends State<AddressScreen>
                         ],
                         color: Colors.white,),
                       child: Padding(
-                        padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
+                        padding: EdgeInsets.only(bottom: 15, left: 50, right: 15, top: 15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1179,11 +1180,16 @@ class AddressScreenState extends State<AddressScreen>
                                     style: TextStyle(
                                         fontSize: 18.0,
                                         color: Colors.black)),
-                                Text(
-                                  '~30-50 мин.',
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    color: Colors.black,
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 3),
+                                  child: Text(
+                                    (currentUser.cartModel.cookingTime != null)
+                                        ? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин'
+                                        : '',
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ],

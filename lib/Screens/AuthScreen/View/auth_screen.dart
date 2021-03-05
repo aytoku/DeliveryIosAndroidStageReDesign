@@ -167,7 +167,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         filled: true,
                                         fillColor: Colors.white,
                                         counterText: '',
-                                        contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2),
+                                        contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.21),
                                         hintStyle: TextStyle(
                                           color: Color(0xFFC0BFC6),
                                         ),

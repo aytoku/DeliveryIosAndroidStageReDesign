@@ -453,6 +453,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                     ),
                     Expanded(
                       child: ListView(
+                        physics: BouncingScrollPhysics(),
                         padding: EdgeInsets.zero,
                         children: <Widget>[
                           TemporaryOrderChecking(
