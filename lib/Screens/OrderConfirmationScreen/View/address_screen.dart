@@ -885,7 +885,7 @@ class AddressScreenState extends State<AddressScreen>
                                     fontSize: 14),
                               ),
                               Text(
-                                '${currentUser.cartModel.totalPrice} \₽',
+                                '${currentUser.cartModel.totalPrice.toStringAsFixed(0)} \₽',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14),

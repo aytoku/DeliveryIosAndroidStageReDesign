@@ -52,7 +52,7 @@ class NameScreenState extends State<NameScreen> {
               child: Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                      padding: EdgeInsets.only(left: 30, top: 40),
+                      padding: EdgeInsets.only(left: 25, top: 40),
                       child: Container(
                           height: 40,
                           width: 60,

@@ -784,7 +784,6 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                           ),
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 15),
@@ -815,7 +814,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 10),
+                              padding: const EdgeInsets.only(left: 16),
                               child: Container(
                                 height: 26,
                                 decoration: BoxDecoration(
@@ -844,7 +843,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 10, right: 15),
+                              padding: const EdgeInsets.only(left: 16, right: 15),
                               child: Container(
                                 height: 26,
                                 decoration: BoxDecoration(

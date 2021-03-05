@@ -228,24 +228,18 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 ),
               ),
             ),
-            Flexible(
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 10, right: 0),
-                  child: Flexible(
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          (ordersDetailsModelItem.deliveryAddress != null)
-                              ?  ordersDetailsModelItem.deliveryAddress.unrestrictedValue
-                              : 'Пусто',
-                          style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0),),
-                          textAlign: TextAlign.start,
-                        )
-                    ),
-                  ),
-                ),
-              ),
+            Padding(
+                padding: const EdgeInsets.only(top: 10.0, bottom: 10, right: 0),
+                child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      (ordersDetailsModelItem.deliveryAddress != null)
+                          ?  ordersDetailsModelItem.deliveryAddress.unrestrictedValue
+                          : 'Пусто',
+                      style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0),),
+                      textAlign: TextAlign.start,
+                    )
+                )
             ),
             // Align(
             //   alignment: Alignment.centerLeft,
