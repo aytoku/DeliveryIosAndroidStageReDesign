@@ -47,11 +47,17 @@ class FilteredCities {
 }
 
 class Meta {
-  Meta();
+  Meta({
+    this.description,
+  });
+
+  String description;
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
+    description: json["description"],
   );
 
   Map<String, dynamic> toJson() => {
+    "description": description,
   };
 }

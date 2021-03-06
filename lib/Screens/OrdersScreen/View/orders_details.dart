@@ -791,18 +791,25 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(15.0))),
                                     child: Container(
-                                        height: 150,
+                                        height: 210,
                                         width: 300,
                                         child: Column(
                                           children: <Widget>[
                                             Padding(
-                                              padding: EdgeInsets.only(top: 10, bottom: 10),
-                                              child: Text('Вы действительно хотите отменить заказ?',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.black
+                                              padding: EdgeInsets.only(top: 15, bottom: 15),
+                                              child: Center(
+                                                child: Text('Вы действительно хотите отменить заказ?',
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.black
+                                                  ),
+                                                  textAlign: TextAlign.center,
                                                 ),
                                               ),
+                                            ),
+                                            Divider(
+                                              height: 1,
+                                              color: Colors.grey,
                                             ),
                                             InkWell(
                                               child: Container(

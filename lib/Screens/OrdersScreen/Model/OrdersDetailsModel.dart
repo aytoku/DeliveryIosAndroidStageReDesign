@@ -45,8 +45,6 @@ class OrderDetailsModelItem {
     this.state,
     this.callbackPhone,
     this.comment,
-    this.cancellationReason,
-    this.cancellationComment,
     this.items,
     this.paymentType,
     this.totalPrice,
@@ -57,6 +55,11 @@ class OrderDetailsModelItem {
     this.deliveryPrice,
     this.deliveryAddress,
     this.cookingTime,
+    this.cookingTimeFinish,
+    this.lastUpdateUuid,
+    this.lastUpdateRole,
+    this.cancelReason,
+    this.cancelComment,
     this.createdAt,
   });
 
@@ -71,8 +74,6 @@ class OrderDetailsModelItem {
   String state;
   String callbackPhone;
   String comment;
-  String cancellationReason;
-  String cancellationComment;
   List<Item> items;
   String paymentType;
   double totalPrice;
@@ -83,6 +84,11 @@ class OrderDetailsModelItem {
   int deliveryPrice;
   Address deliveryAddress;
   int cookingTime;
+  DateTime cookingTimeFinish;
+  String lastUpdateUuid;
+  String lastUpdateRole;
+  String cancelReason;
+  String cancelComment;
   DateTime createdAt;
 
   factory OrderDetailsModelItem.fromJson(Map<String, dynamic> json) => OrderDetailsModelItem(
@@ -97,8 +103,6 @@ class OrderDetailsModelItem {
     state: json["state"],
     callbackPhone: json["callback_phone"],
     comment: json["comment"],
-    cancellationReason: json["cancellation_reason"],
-    cancellationComment: json["cancellation_comment"],
     items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
     paymentType: json["payment_type"],
     totalPrice: json["total_price"] * 1.0,
@@ -109,6 +113,11 @@ class OrderDetailsModelItem {
     deliveryPrice: json["delivery_price"],
     deliveryAddress: Address.fromJson(json["delivery_address"]),
     cookingTime: json["cooking_time"],
+    cookingTimeFinish: DateTime.parse(json["cooking_time_finish"]),
+    lastUpdateUuid: json["last_update_uuid"],
+    lastUpdateRole: json["last_update_role"],
+    cancelReason: json["cancel_reason"],
+    cancelComment: json["cancel_comment"],
     createdAt: DateTime.parse(json["created_at"]),
   );
 
@@ -124,8 +133,6 @@ class OrderDetailsModelItem {
     "state": state,
     "callback_phone": callbackPhone,
     "comment": comment,
-    "cancellation_reason": cancellationReason,
-    "cancellation_comment": cancellationComment,
     "items": List<dynamic>.from(items.map((x) => x.toJson())),
     "payment_type": paymentType,
     "total_price": totalPrice,
@@ -136,21 +143,13 @@ class OrderDetailsModelItem {
     "delivery_price": deliveryPrice,
     "delivery_address": deliveryAddress.toJson(),
     "cooking_time": cookingTime,
+    "cooking_time_finish": cookingTimeFinish.toIso8601String(),
+    "last_update_uuid": lastUpdateUuid,
+    "last_update_role": lastUpdateRole,
+    "cancel_reason": cancelReason,
+    "cancel_comment": cancelComment,
     "created_at": createdAt.toIso8601String(),
   };
-
-  Future<bool> hasNewMessage() async{
-    return false;
-    bool result = false;
-    ChatHistoryModel chatHistory = await Chat.loadChatHistory(uuid, 'driver');
-    chatHistory.chatMessageList.forEach((message) {
-      if(message.to == 'client' && !message.ack){
-        result = true;
-        return;
-      }
-    });
-    return result;
-  }
 }
 
 class ClientData {
@@ -169,7 +168,7 @@ class ClientData {
   String name;
   String comment;
   String mainPhone;
-  List<String> devices;
+  dynamic devices;
   bool blocked;
   dynamic addresses;
   ClientDataMeta meta;
@@ -179,7 +178,7 @@ class ClientData {
     name: json["name"],
     comment: json["comment"],
     mainPhone: json["main_phone"],
-    devices: List<String>.from(json["devices"].map((x) => x)),
+    devices: json["devices"],
     blocked: json["blocked"],
     addresses: json["addresses"],
     meta: ClientDataMeta.fromJson(json["meta"]),
@@ -190,7 +189,7 @@ class ClientData {
     "name": name,
     "comment": comment,
     "main_phone": mainPhone,
-    "devices": List<dynamic>.from(devices.map((x) => x)),
+    "devices": devices,
     "blocked": blocked,
     "addresses": addresses,
     "meta": meta.toJson(),
@@ -277,8 +276,8 @@ class Address {
     houseType: json["house_type"],
     accuracyLevel: json["accuracy_level"],
     radius: json["radius"],
-    lat: json["lat"] * 1.0,
-    lon: json["lon"] * 1.0,
+    lat: json["lat"].toDouble(),
+    lon: json["lon"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -312,52 +311,76 @@ class Product {
     this.uuid,
     this.name,
     this.storeUuid,
+    this.type,
+    this.price,
+    this.weight,
+    this.weightMeasurement,
     this.meta,
-    this.productCategories,
   });
 
   String uuid;
   String name;
   String storeUuid;
+  String type;
+  int price;
+  int weight;
+  String weightMeasurement;
   ProductMeta meta;
-  List<ProductCategory> productCategories;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     uuid: json["uuid"],
     name: json["name"],
     storeUuid: json["store_uuid"],
+    type: json["type"],
+    price: json["price"],
+    weight: json["weight"],
+    weightMeasurement: json["weight_measurement"],
     meta: ProductMeta.fromJson(json["meta"]),
-    productCategories: List<ProductCategory>.from(json["product_categories"].map((x) => ProductCategory.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "uuid": uuid,
     "name": name,
     "store_uuid": storeUuid,
+    "type": type,
+    "price": price,
+    "weight": weight,
+    "weight_measurement": weightMeasurement,
     "meta": meta.toJson(),
-    "product_categories": List<dynamic>.from(productCategories.map((x) => x.toJson())),
   };
 }
 
 class ProductMeta {
   ProductMeta({
     this.description,
+    this.composition,
+    this.weight,
+    this.weightMeasurement,
     this.images,
     this.energyValue,
   });
 
   String description;
+  String composition;
+  int weight;
+  String weightMeasurement;
   List<String> images;
   EnergyValue energyValue;
 
   factory ProductMeta.fromJson(Map<String, dynamic> json) => ProductMeta(
     description: json["description"],
+    composition: json["composition"],
+    weight: json["weight"],
+    weightMeasurement: json["weight_measurement"],
     images: List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
   );
 
   Map<String, dynamic> toJson() => {
     "description": description,
+    "composition": composition,
+    "weight": weight,
+    "weight_measurement": weightMeasurement,
     "images": List<dynamic>.from(images.map((x) => x)),
     "energy_value": energyValue.toJson(),
   };
@@ -391,162 +414,18 @@ class EnergyValue {
   };
 }
 
-class ProductCategory {
-  ProductCategory({
-    this.uuid,
-    this.name,
-    this.priority,
-    this.comment,
-    this.url,
-    this.meta,
-  });
-
-  String uuid;
-  String name;
-  int priority;
-  String comment;
-  String url;
-  ClientDataMeta meta;
-
-  factory ProductCategory.fromJson(Map<String, dynamic> json) => ProductCategory(
-    uuid: json["uuid"],
-    name: json["name"],
-    priority: json["priority"],
-    comment: json["comment"],
-    url: json["url"],
-    meta: ClientDataMeta.fromJson(json["meta"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "uuid": uuid,
-    "name": name,
-    "priority": priority,
-    "comment": comment,
-    "url": url,
-    "meta": meta.toJson(),
-  };
-}
-
-class VariantGroup {
-  VariantGroup({
-    this.uuid,
-    this.name,
-    this.productUuid,
-    this.required,
-    this.multiselect,
-    this.description,
-    this.meta,
-    this.variants,
-  });
-
-  String uuid;
-  String name;
-  String productUuid;
-  bool required;
-  bool multiselect;
-  String description;
-  ClientDataMeta meta;
-  List<Variant> variants;
-
-  factory VariantGroup.fromJson(Map<String, dynamic> json) => VariantGroup(
-    uuid: json["uuid"],
-    name: json["name"],
-    productUuid: json["product_uuid"],
-    required: json["required"],
-    multiselect: json["multiselect"],
-    description: json["description"],
-    meta: ClientDataMeta.fromJson(json["meta"]),
-    variants: List<Variant>.from(json["variants"].map((x) => Variant.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "uuid": uuid,
-    "name": name,
-    "product_uuid": productUuid,
-    "required": required,
-    "multiselect": multiselect,
-    "description": description,
-    "meta": meta.toJson(),
-    "variants": List<dynamic>.from(variants.map((x) => x.toJson())),
-  };
-}
-
-class Variant {
-  Variant({
-    this.uuid,
-    this.name,
-    this.productUuid,
-    this.variantGroupUuid,
-    this.price,
-    this.description,
-    this.variantDefault,
-    this.meta,
-  });
-
-  String uuid;
-  String name;
-  String productUuid;
-  String variantGroupUuid;
-  int price;
-  String description;
-  bool variantDefault;
-  VariantMeta meta;
-
-  factory Variant.fromJson(Map<String, dynamic> json) => Variant(
-    uuid: json["uuid"],
-    name: json["name"],
-    productUuid: json["product_uuid"],
-    variantGroupUuid: json["variant_group_uuid"],
-    price: json["price"],
-    description: json["description"],
-    variantDefault: json["default"],
-    meta: VariantMeta.fromJson(json["meta"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "uuid": uuid,
-    "name": name,
-    "product_uuid": productUuid,
-    "variant_group_uuid": variantGroupUuid,
-    "price": price,
-    "description": description,
-    "default": variantDefault,
-    "meta": meta.toJson(),
-  };
-}
-
-class VariantMeta {
-  VariantMeta({
-    this.description,
-    this.images,
-  });
-
-  String description;
-  dynamic images;
-
-  factory VariantMeta.fromJson(Map<String, dynamic> json) => VariantMeta(
-    description: json["description"],
-    images: json["images"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "description": description,
-    "images": images,
-  };
-}
-
 class StoreData {
   StoreData({
     this.uuid,
     this.name,
-    this.storeCategoriesUuid,
-    this.productCategoriesUuid,
     this.paymentTypes,
     this.cityUuid,
     this.legalEntityUuid,
     this.parentUuid,
+    this.available,
     this.type,
     this.workSchedule,
+    this.holidayWorkSchedule,
     this.address,
     this.contacts,
     this.priority,
@@ -560,14 +439,14 @@ class StoreData {
 
   String uuid;
   String name;
-  List<String> storeCategoriesUuid;
-  List<String> productCategoriesUuid;
-  List<PaymentType> paymentTypes;
+  List<String> paymentTypes;
   String cityUuid;
   String legalEntityUuid;
   String parentUuid;
+  Available available;
   String type;
   dynamic workSchedule;
+  dynamic holidayWorkSchedule;
   Address address;
   dynamic contacts;
   int priority;
@@ -581,14 +460,14 @@ class StoreData {
   factory StoreData.fromJson(Map<String, dynamic> json) => StoreData(
     uuid: json["uuid"],
     name: json["name"],
-    storeCategoriesUuid: List<String>.from(json["store_categories_uuid"].map((x) => x)),
-    productCategoriesUuid: List<String>.from(json["product_categories_uuid"].map((x) => x)),
-    paymentTypes: List<PaymentType>.from(json["payment_types"].map((x) => paymentTypeValues.map[x])),
+    paymentTypes: List<String>.from(json["payment_types"].map((x) => x)),
     cityUuid: json["city_uuid"],
     legalEntityUuid: json["legal_entity_uuid"],
     parentUuid: json["parent_uuid"],
+    available: Available.fromJson(json["available"]),
     type: json["type"],
     workSchedule: json["work_schedule"],
+    holidayWorkSchedule: json["holiday_work_schedule"],
     address: Address.fromJson(json["address"]),
     contacts: json["contacts"],
     priority: json["priority"],
@@ -603,14 +482,14 @@ class StoreData {
   Map<String, dynamic> toJson() => {
     "uuid": uuid,
     "name": name,
-    "store_categories_uuid": List<dynamic>.from(storeCategoriesUuid.map((x) => x)),
-    "product_categories_uuid": List<dynamic>.from(productCategoriesUuid.map((x) => x)),
-    "payment_types": List<dynamic>.from(paymentTypes.map((x) => paymentTypeValues.reverse[x])),
+    "payment_types": List<dynamic>.from(paymentTypes.map((x) => x)),
     "city_uuid": cityUuid,
     "legal_entity_uuid": legalEntityUuid,
     "parent_uuid": parentUuid,
+    "available": available.toJson(),
     "type": type,
     "work_schedule": workSchedule,
+    "holiday_work_schedule": holidayWorkSchedule,
     "address": address.toJson(),
     "contacts": contacts,
     "priority": priority,
@@ -623,40 +502,57 @@ class StoreData {
   };
 }
 
+class Available {
+  Available({
+    this.flag,
+    this.reason,
+    this.duration,
+  });
+
+  bool flag;
+  String reason;
+  int duration;
+
+  factory Available.fromJson(Map<String, dynamic> json) => Available(
+    flag: json["flag"],
+    reason: json["reason"],
+    duration: json["duration"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "flag": flag,
+    "reason": reason,
+    "duration": duration,
+  };
+}
+
 class StoreDataMeta {
   StoreDataMeta({
     this.images,
     this.rating,
-    this.avgDeliveryTime,
-    this.avgDeliveryPrice,
+    this.deliveryTime,
+    this.deliveryPrice,
   });
 
   List<String> images;
   double rating;
-  int avgDeliveryTime;
-  int avgDeliveryPrice;
+  String deliveryTime;
+  String deliveryPrice;
 
   factory StoreDataMeta.fromJson(Map<String, dynamic> json) => StoreDataMeta(
-    images: (json["images"] == null) ? null : List<String>.from(json["images"].map((x) => x)),
+    images: List<String>.from(json["images"].map((x) => x)),
     rating: json["rating"].toDouble(),
-    avgDeliveryTime: json["avg_delivery_time"],
-    avgDeliveryPrice: json["avg_delivery_price"],
+    deliveryTime: json["delivery_time"],
+    deliveryPrice: json["delivery_price"],
   );
 
   Map<String, dynamic> toJson() => {
     "images": List<dynamic>.from(images.map((x) => x)),
     "rating": rating,
-    "avg_delivery_time": avgDeliveryTime,
-    "avg_delivery_price": avgDeliveryPrice,
+    "delivery_time": deliveryTime,
+    "delivery_price": deliveryPrice,
   };
 }
-
-enum PaymentType { CASH, CARD }
-
-final paymentTypeValues = EnumValues({
-  "card": PaymentType.CARD,
-  "cash": PaymentType.CASH
-});
 
 class Settings {
   Settings({
@@ -672,18 +568,4 @@ class Settings {
   Map<String, dynamic> toJson() => {
     "confirmation_time": confirmationTime,
   };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap;
-  }
 }

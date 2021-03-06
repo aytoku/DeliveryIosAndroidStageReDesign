@@ -6,7 +6,7 @@ import 'dart:convert' as convert;
 
 Future<AllStoreCategoriesData> getAllStoreCategories(String city_uuid) async {
   AllStoreCategoriesData allStoreCategories = null;
-  var url = '${apiUrl}stores/categories/filter?city_uuid+${city_uuid}';
+  var url = '${apiUrl}stores/categories/filter?city_uuid=${city_uuid}';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',

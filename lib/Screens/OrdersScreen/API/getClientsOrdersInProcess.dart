@@ -1,19 +1,15 @@
-import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
-import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/api.dart';
+import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-
-import '../../../data/api.dart';
-
 
 
 Future<OrderDetailsModel> getClientsOrdersInProcess() async {
  await SendRefreshToken.sendRefreshToken();
  OrderDetailsModel ordersDetails = null;
-  var url = 'https://eda-clients.apis.stage.faem.pro/api/v3/orders/current';
+  var url = '${apiUrl}orders/current';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Authorization':'Bearer ' + authCodeData.token
