@@ -150,16 +150,6 @@ class CategoryListState extends State<CategoryList> {
     return  Padding(
       padding: const EdgeInsets.only(top: 0),
       child: Container(
-        // decoration: BoxDecoration(
-        //   color: Colors.white,
-        //   boxShadow: [
-        //     BoxShadow(
-        //         color: Colors.black54,
-        //         blurRadius: 2.0,
-        //         offset: Offset(0.0, 0.75)
-        //     )
-        //   ],
-        // ),
           padding: EdgeInsets.only(top: 10, bottom: 10),
           height: 70,
           child: Row(

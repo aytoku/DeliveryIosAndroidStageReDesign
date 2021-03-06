@@ -17,6 +17,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/Item.da
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemCounter.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/Title.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverBackButton.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverShadow.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverText.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
@@ -52,6 +53,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
 
   GlobalKey<ProductDescCounterState> counterKey;
   GlobalKey<CartButtonState> basketButtonStateKey;
+  GlobalKey<SliverShadowState> sliverShadowKey;
   bool isLoading = true;
 
   GlobalKey<ScaffoldState> _scaffoldStateKey;
@@ -72,6 +74,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     foodMenuTitles = new List<MenuItemTitle>();
     menuWithTitles = new List<Widget>();
     counterKey = new GlobalKey();
+    sliverShadowKey = new GlobalKey();
     basketButtonStateKey = new GlobalKey<CartButtonState>();
     _scaffoldStateKey = GlobalKey();
     sliverScrollController = new ScrollController();
@@ -621,8 +624,17 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           });
         }
       }
-
-
+      if(sliverShadowKey.currentState != null && sliverScrollController.offset > 170){
+        sliverShadowKey.currentState.setState(() {
+          sliverShadowKey.currentState.showShadow = true;
+        });
+      }else{
+        if(sliverShadowKey.currentState != null){
+          sliverShadowKey.currentState.setState(() {
+            sliverShadowKey.currentState.showShadow =  false;
+          });
+        }
+      }
     });
     return DefaultTabController(
       length: 1,
@@ -870,19 +882,11 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 ),
                 SliverStickyHeader(
                   sticky: true,
-                  header: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white
-                    ),
-                    child: _buildFoodCategoryList(),
-                  ),
+                  header: SliverShadow(categoryList: _buildFoodCategoryList(), key: sliverShadowKey),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                           (context, index){
                         return Container(
-                          padding: (currentUser.cartModel.items == null || currentUser.cartModel.items.length < 1) ?
-                          EdgeInsets.only(bottom: 15)
-                              : EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.2),
                           decoration: BoxDecoration(
                               color: Colors.white
                           ),

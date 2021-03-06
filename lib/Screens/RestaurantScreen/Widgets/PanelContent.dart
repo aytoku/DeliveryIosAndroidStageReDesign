@@ -92,9 +92,7 @@ class PanelContentState extends State<PanelContent>{
                             child: ClipRRect(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                    bottomLeft: Radius.circular(0),
-                                    bottomRight: Radius.circular(0)),
+                                    topRight: Radius.circular(12),),
                                 child: Stack(
                                   children: <Widget>[
                                     Image.network(
@@ -394,6 +392,14 @@ class PanelContentState extends State<PanelContent>{
                                           menuItem.setState(() {
 
                                           });
+                                          if(currentUser.cartModel.items == null
+                                              || currentUser.cartModel.items.length < 1
+                                                || parent.foodMenuItems.last.key.currentState != null){
+                                            parent.foodMenuItems.last.key.currentState.cartBottomPadding = true;
+                                            parent.foodMenuItems.last.key.currentState.setState(() {
+
+                                            });
+                                          }
                                           parent.showAlertDialog(context);
                                           if(parent.basketButtonStateKey.currentState != null){
                                             parent.basketButtonStateKey.currentState.refresh();

@@ -50,6 +50,7 @@ class MenuItem extends StatefulWidget {
 class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   final ProductsByStoreUuid restaurantDataItems;
   final RestaurantScreenState parent;
+  bool cartBottomPadding = false;
 
 
   MenuItemState(this.restaurantDataItems, this.parent);
@@ -98,7 +99,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
     return Container(
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
+        padding: EdgeInsets.only(top: 15.0, left: 15, right: 15,
+            bottom: (cartBottomPadding) ? MediaQuery.of(context).size.height * 0.15 : 15),
         child: Center(
             child: GestureDetector(
                 onTap: () async {
