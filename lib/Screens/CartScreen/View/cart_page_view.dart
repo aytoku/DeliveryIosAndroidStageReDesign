@@ -404,7 +404,7 @@ class CartPageState extends State<CartPageScreen> {
                     ),
                     child: Padding(
                       padding:
-                      EdgeInsets.only(top: 15, right: 15, left: 50, bottom: 15),
+                      EdgeInsets.only(top: 15, right: 20, left: 50, bottom: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -430,16 +430,18 @@ class CartPageState extends State<CartPageScreen> {
                           ),
                           GestureDetector(
                             child: Container(
+                              height: 52,
+                              width: 168,
                               decoration: BoxDecoration(
                                 color: Color(0xFF09B44D),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Text('Далее',
-                                  style: TextStyle(
-                                      fontSize: 18.0,
-                                      color: Colors.white)),
-                              padding: EdgeInsets.only(
-                                  left: 70, top: 20, right: 70, bottom: 20),
+                              child: Center(
+                                child: Text('Далее',
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: Colors.white)),
+                              ),
                             ),
                             onTap: () async {
                               if (await Internet.checkConnection()) {

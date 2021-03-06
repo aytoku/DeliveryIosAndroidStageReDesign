@@ -1169,7 +1169,7 @@ class AddressScreenState extends State<AddressScreen>
                         ],
                         color: Colors.white,),
                       child: Padding(
-                        padding: EdgeInsets.only(bottom: 15, left: 50, right: 15, top: 15),
+                        padding: EdgeInsets.only(bottom: 15, left: 50, right: 20, top: 15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1196,16 +1196,18 @@ class AddressScreenState extends State<AddressScreen>
                             ),
                             GestureDetector(
                               child: Container(
+                                height: 52,
+                                width: 168,
                                 decoration: BoxDecoration(
                                   color: Color(0xFF09B44D),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Text('Заказать',
-                                    style: TextStyle(
-                                        fontSize: 18.0,
-                                        color: Colors.white)),
-                                padding: EdgeInsets.only(
-                                    left: 60, top: 20, right: 60, bottom: 20),
+                                child: Center(
+                                  child: Text('Заказать',
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Colors.white)),
+                                ),
                               ),
                               onTap: () async {
                                 if (await Internet.checkConnection()) {
