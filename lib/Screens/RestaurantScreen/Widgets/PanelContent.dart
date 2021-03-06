@@ -72,6 +72,7 @@ class PanelContentState extends State<PanelContent>{
               children: [
                 Expanded(
                   child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     itemCount: 1,
                     controller: parent.sc,
                     padding: EdgeInsets.zero,

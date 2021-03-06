@@ -72,7 +72,7 @@ class CityScreenState extends State<CityScreen>{
         body:  Stack(
           children: [
             SvgPicture.asset('assets/svg_images/city.svg',
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             ),
             (currentUser.isLoggedIn) ? Align(
               alignment: Alignment.topLeft,

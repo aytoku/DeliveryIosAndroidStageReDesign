@@ -393,7 +393,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 alignment: Alignment.topLeft,
                 child: Row(
                   children: List.generate(restaurant.storeCategoriesUuid.length, (index){
-                    return Text(restaurant.storeCategoriesUuid[index].name);
+                    return Text(restaurant.storeCategoriesUuid[index].name + ' ');
                   }),
                 )
             ),
@@ -598,7 +598,6 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       }catch(e){
       }
 
-      print(isLoading);
       if(sliverTextKey.currentState != null && sliverScrollController.offset > 89){
         sliverTextKey.currentState.setState(() {
           sliverTextKey.currentState.title =  new Text(this.restaurant.name, style: TextStyle(color: Colors.black),);
@@ -638,6 +637,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
               width: MediaQuery.of(context).size.width,
             ),
             CustomScrollView(
+              physics: BouncingScrollPhysics(),
               anchor: 0.01,
               controller: sliverScrollController,
               slivers: [
@@ -648,6 +648,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   pinned: true,
                   snap: false,
                   stretch: true,
+                  elevation: 0,
                   backgroundColor: Colors.white,
                   leading: InkWell(
                     hoverColor: Colors.transparent,

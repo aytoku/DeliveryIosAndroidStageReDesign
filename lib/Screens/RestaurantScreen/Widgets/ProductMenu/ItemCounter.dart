@@ -453,7 +453,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
       return Align(
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding: const EdgeInsets.only(left: 10, bottom: 5),
+          padding: const EdgeInsets.only(left: 15, bottom: 5),
           child: Row(
             children: [
               SvgPicture.asset('assets/svg_images/rest_plus.svg'),

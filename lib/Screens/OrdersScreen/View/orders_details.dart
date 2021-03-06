@@ -543,21 +543,14 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     InkWell(
                       child: Container(
                         child: Padding(
-                            padding: EdgeInsets.only(top: 20, bottom: 20, left: 15),
-                            child: Row(
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                    'assets/svg_images/call_to_restaurant.svg'),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 15),
-                                  child: Text(
-                                    'В заведение',
-                                    style: TextStyle(
-                                        fontSize: 17, color: Color(0xFF424242)),
-                                  ),
-                                )
-                              ],
-                            )
+                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            child: Center(
+                              child: Text(
+                                'В заведение',
+                                style: TextStyle(
+                                    fontSize: 17, color: Color(0xFF424242)),
+                              ),
+                            ),
                         ),
                       ),
                       onTap: () {
@@ -572,20 +565,13 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       child: Container(
                         child: Padding(
                             padding: EdgeInsets.only(top: 20, bottom: 20, left: 15),
-                            child: Row(
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                    'assets/svg_images/call_to_driver.svg'),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 15),
-                                  child: Text(
-                                    'Водителю',
-                                    style: TextStyle(
-                                        fontSize: 17, color: Color(0xFF424242)),
-                                  ),
-                                )
-                              ],
-                            )
+                            child: Center(
+                              child: Text(
+                                'Водителю',
+                                style: TextStyle(
+                                    fontSize: 17, color: Color(0xFF424242)),
+                              ),
+                            ),
                         ),
                       ),
                       onTap: () {

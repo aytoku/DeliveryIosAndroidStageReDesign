@@ -57,6 +57,7 @@ class CartButtonState extends State<CartButton> {
       return Container(
         width: MediaQuery.of(context).size.width,
         height: 85,
+        padding: EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -83,56 +84,32 @@ class CartButtonState extends State<CartButton> {
               padding: EdgeInsets.all(10),
               child: GestureDetector(
                 child: Container(
+                  padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+                  height: 52,
+                  width: MediaQuery.of(context).size.width,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Flexible(
-                          flex: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xFF09B44D),
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                (currentUser.cartModel.cookingTime != null)? '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          )),
-                      Flexible(
-                          flex: 1,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              right: 15,
-                            ),
-                            child: Text('Корзина',
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.white)),
-                          )),
-                      Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xFF09B44D),
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: new CartButtonCounter(
-                              key: buttonCounterKey,
-                            ),
-                          ))
+                      Text(
+                        (currentUser.cartModel.cookingTime != null)? '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text('Корзина',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white)),
+                      CartButtonCounter(
+                        key: buttonCounterKey,
+                      ),
                     ],
                   ),
                   decoration: BoxDecoration(
                     color: Color(0xFF09B44D),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
                 ),
                 onTap: () async {
                   if (await Internet.checkConnection()) {
