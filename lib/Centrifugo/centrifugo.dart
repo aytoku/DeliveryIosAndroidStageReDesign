@@ -9,6 +9,8 @@ import 'package:flutter_app/Screens/CompletedOrderScreen/View/completed_order_sc
 import 'package:flutter_app/data/data.dart';
 import 'dart:convert' as convert;
 
+import 'dart:io' show Platform;
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Centrifugo{
@@ -160,8 +162,9 @@ class Centrifugo{
 
     String title = message['title'];
     String body = message['message'];
-    //for ios
-//    String title_ios = message['title'];
+    if(Platform.isIOS){
+      body = '';
+    }
     if(title == null || title == '')
       return;
     var androidChannelSpecifics = AndroidNotificationDetails(

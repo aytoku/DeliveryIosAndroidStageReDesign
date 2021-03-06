@@ -137,7 +137,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     result.add(Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 14, bottom: 10, top: 15),
       child: Container(
-        height: (in_the_way.contains(ordersDetailsModelItem.state)) ? 270 : 190,
+        height: 190,
         padding: EdgeInsets.only(right: 10, left: 15),
         decoration: BoxDecoration(
             boxShadow: [
@@ -522,18 +522,20 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
             child: Container(
-                height: 210,
+                height: 190,
                 width: 315,
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
-                      child: Text(
-                        'Кому вы хотите позвонить?',
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF424242)),
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: Center(
+                        child: Text(
+                          'Кому вы хотите позвонить?',
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF424242)),
+                        ),
                       ),
                     ),
                     Divider(
@@ -564,7 +566,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     InkWell(
                       child: Container(
                         child: Padding(
-                            padding: EdgeInsets.only(top: 20, bottom: 20, left: 15),
+                            padding: EdgeInsets.only(top: 20, bottom: 20),
                             child: Center(
                               child: Text(
                                 'Водителю',

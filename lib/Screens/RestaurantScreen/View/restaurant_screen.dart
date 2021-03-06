@@ -624,7 +624,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           });
         }
       }
-      if(sliverShadowKey.currentState != null && sliverScrollController.offset > 170){
+      if(sliverShadowKey.currentState != null && sliverScrollController.offset > 180){
         sliverShadowKey.currentState.setState(() {
           sliverShadowKey.currentState.showShadow = true;
         });
