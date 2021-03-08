@@ -27,6 +27,7 @@ String FCMToken = '';
 int code = 0;
 NecessaryDataForAuth necessaryDataForAuth = new NecessaryDataForAuth(phone_number: null, refresh_token: null, device_id: null, name: null);
 FilteredCities selectedCity;
+Color mainColor = Color(0xFF09B44D);
 
 
 

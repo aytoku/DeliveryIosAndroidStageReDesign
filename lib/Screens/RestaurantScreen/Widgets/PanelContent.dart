@@ -346,7 +346,7 @@ class PanelContentState extends State<PanelContent>{
                                     child: Container(
                                       height: 52,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFF09B44D),
+                                        color: mainColor,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Padding(

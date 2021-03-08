@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../data/data.dart';
+
 // Фильтр по расстоянию
 
 class DistancePriorityScreen extends StatefulWidget {
@@ -94,7 +96,7 @@ class DistancePriorityScreenState extends State<DistancePriorityScreen>{
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.white)),
-                color: (haveSelectedItems()) ? Color(0xFF09B44D) : Color(0xF3F3F3F3),
+                color: (haveSelectedItems()) ? mainColor : Color(0xF3F3F3F3),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

@@ -123,7 +123,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                             fontSize: 16.0,
                             color: Colors.white)
                     ),
-                    color: Color(0xFF09B44D),
+                    color: mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

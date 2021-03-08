@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../data/data.dart';
+
 class Estimate extends StatefulWidget {
 
   Estimate({Key key}) : super(key: key);
@@ -39,7 +41,7 @@ class EstimateState extends State<Estimate>{
               child: Padding(
                 padding: const EdgeInsets.only(top: 15, left: 20, right: 20, bottom: 15),
                 child: (!selectedStars[index]) ? SvgPicture.asset('assets/svg_images/estimate_star.svg') :
-                SvgPicture.asset('assets/svg_images/estimate_star.svg', color: Color(0xFF09B44D),),
+                SvgPicture.asset('assets/svg_images/estimate_star.svg', color: mainColor,),
               ),
               onTap: (){
                 setState(() {

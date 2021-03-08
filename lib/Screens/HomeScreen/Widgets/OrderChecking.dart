@@ -164,7 +164,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                           width: 70,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(10)),
-                              color: Color(0xFF09B44D)),
+                              color: mainColor),
                           child: Column(
                             children: <Widget>[
                               Padding(
@@ -192,15 +192,15 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: Color(0xFF09B44D),),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: Color(0xFF09B44D),),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: Color(0xFF09B44D),),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
                           ),
                         ],
                       ),
@@ -214,7 +214,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               color: (cooking_state
                                   .contains(ordersStoryModelItem.state) ||
                                   in_the_way.contains(ordersStoryModelItem.state))
-                                  ? Color(0xFF09B44D)
+                                  ? mainColor
                                   : Color(0xF6F6F6F6)),
                           child: Column(
                             children: <Widget>[
@@ -254,15 +254,15 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: Color(0xFF09B44D),),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: Color(0xFF09B44D),),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: Color(0xFF09B44D),),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
                           ),
                         ],
                       ),
@@ -275,7 +275,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               borderRadius: BorderRadius.all(Radius.circular(10)),
                               color: (in_the_way
                                   .contains(ordersStoryModelItem.state))
-                                  ? Color(0xFF09B44D)
+                                  ? mainColor
                                   : Color(0xF6F6F6F6)),
                           child: Column(
                             children: <Widget>[

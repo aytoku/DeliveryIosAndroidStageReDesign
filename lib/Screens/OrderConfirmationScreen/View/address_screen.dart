@@ -335,7 +335,7 @@ class AddressScreenState extends State<AddressScreen>
                   width: 380,
                   height: 60,
                   decoration: BoxDecoration(
-                      color: Color(0xFF09B44D),
+                      color: mainColor,
                       borderRadius: BorderRadius.circular(10)
                   ),
                   child: Center(
@@ -1199,7 +1199,7 @@ class AddressScreenState extends State<AddressScreen>
                                 height: 52,
                                 width: 168,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFF09B44D),
+                                  color: mainColor,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Center(

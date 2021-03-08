@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/data.dart';
+
 class PromoText extends StatefulWidget {
   PromoText({
     this.key,
@@ -63,9 +65,9 @@ class PromoTextState extends State<PromoText>{
         height: 40,
         width: 300,
         decoration: BoxDecoration(
-          color: Color(0xFF09B44D),
+          color: mainColor,
           border: Border.all(
-            color: Color(0xFF09B44D),
+            color: mainColor,
           ),
           borderRadius: const BorderRadius.all(
             const Radius.circular(10.0),

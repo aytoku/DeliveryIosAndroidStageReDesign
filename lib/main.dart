@@ -8,6 +8,5 @@ void main() {
       statusBarColor: Colors.white, // Color for Android
       statusBarBrightness: Brightness.light // Dark == white status bar -- for IOS.
   ));
-  print('DEVICE ID BUILD');
   runApp(App());
 }

@@ -107,7 +107,7 @@ class CartButtonState extends State<CartButton> {
                     ],
                   ),
                   decoration: BoxDecoration(
-                    color: Color(0xFF09B44D),
+                    color: mainColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),

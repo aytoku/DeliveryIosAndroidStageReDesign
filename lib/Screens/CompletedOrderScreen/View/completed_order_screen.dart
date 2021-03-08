@@ -104,7 +104,7 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                       "Оценить заказ",
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
-                    color: Color(0xFF09B44D),
+                    color: mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

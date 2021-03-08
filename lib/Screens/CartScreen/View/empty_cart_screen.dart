@@ -146,7 +146,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                         'Вернуться на главную',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
-                      color: Color(0xFF09B44D),
+                      color: mainColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

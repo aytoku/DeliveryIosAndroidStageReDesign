@@ -337,13 +337,16 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       children: [
                         Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
-                            item.product.name,
-                            style: TextStyle(
-                                decoration: TextDecoration.none,
-                                fontSize: 14.0,
-                                color: Color(0xFF000000)),
-                            textAlign: TextAlign.start,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Text(
+                              item.product.name,
+                              style: TextStyle(
+                                  decoration: TextDecoration.none,
+                                  fontSize: 14.0,
+                                  color: Color(0xFF000000)),
+                              textAlign: TextAlign.start,
+                            ),
                           ),
                         ),
                         (item.variantGroups != null)
@@ -396,7 +399,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         Align(
                           alignment: Alignment.bottomRight,
                           child: Padding(
-                            padding: EdgeInsets.only(left: 0, right: 16, top: 10),
+                            padding: EdgeInsets.only(left: 0, right: 16, top: 15),
                             child: Text(
                               '${item.count}шт',
                               style: TextStyle(
@@ -879,7 +882,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                               decoration: BoxDecoration(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(11)),
-                                  color: Color(0xFF09B44D)),
+                                  color: mainColor),
                               child: Padding(
                                   padding: EdgeInsets.only(
                                       top: 5, right: 0, bottom: 5, left: 0),

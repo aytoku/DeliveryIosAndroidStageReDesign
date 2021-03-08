@@ -139,7 +139,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           padding: EdgeInsets.only(top: 0),
           child: InkWell(
             child: Container(
-              color: Color(0xFF09B44D),
+              color: mainColor,
               child: ListTile(
                 title: Text(
                   necessaryDataForAuth.name ?? ' ',
@@ -417,7 +417,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: Color(0xFF09B44D)
+                                    color: mainColor
                                 ),
                                 child: Center(
                                   child: Text(selectedCity.name,
@@ -635,7 +635,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: Color(0xFF09B44D)
+                                    color: mainColor
                                 ),
                                 child: Center(
                                   child: Text(selectedCity.name,

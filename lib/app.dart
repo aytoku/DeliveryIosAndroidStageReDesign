@@ -7,6 +7,7 @@ import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'Preloader/device_id_screen.dart';
+import 'data/data.dart';
 
 class App extends StatelessWidget {
   FirebaseAnalytics analytics = FirebaseAnalytics();
@@ -16,11 +17,11 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Faem Eda",
       theme: ThemeData(
-        primaryColor: Color(0xFF09B44D),
-        cursorColor: Color(0xFF09B44D),
-        unselectedWidgetColor: Color(0xFF09B44D),
-        selectedRowColor: Color(0xFF09B44D),
-        toggleableActiveColor: Color(0xFF09B44D),
+        primaryColor: mainColor,
+        cursorColor: mainColor,
+        unselectedWidgetColor: mainColor,
+        selectedRowColor: mainColor,
+        toggleableActiveColor: mainColor,
       ),
       home: DeviceIdScreen(),
       navigatorObservers: [

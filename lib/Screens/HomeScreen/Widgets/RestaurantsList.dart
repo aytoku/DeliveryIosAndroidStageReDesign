@@ -160,7 +160,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                                 height: 25,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xFF09B44D)
+                                    color: mainColor
                                 ),
                                 child: Row(
                                   children: [

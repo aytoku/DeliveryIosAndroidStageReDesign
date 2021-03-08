@@ -4,6 +4,8 @@ import 'package:flutter_app/Screens/HomeScreen/Model/AllStoreCategories.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../data/data.dart';
+
 class KitchenListScreen extends StatefulWidget {
 
   List<AllStoreCategories> categories;
@@ -106,7 +108,7 @@ class KitchenListScreenState extends State<KitchenListScreen>{
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.white)),
-                color: (hasSelectedItems()) ? Color(0xFF09B44D) : Color(0xF3F3F3F3),
+                color: (hasSelectedItems()) ? mainColor : Color(0xF3F3F3F3),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

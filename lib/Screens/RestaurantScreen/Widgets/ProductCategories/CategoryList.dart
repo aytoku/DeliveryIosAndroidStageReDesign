@@ -88,28 +88,27 @@ class CategoryListState extends State<CategoryList> {
 
 
             return Padding(
-              padding: const EdgeInsets.only(left: 20, top: 20, bottom: 15, right: 0),
+              padding: EdgeInsets.only(left: 20,
+                  top: (categoryItems[0].value.name == categoryItems[index].value.name) ? 36 : 15,
+                  bottom: 15, right: 0),
               child: GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5, bottom: 5),
-                  child: Row(
-                    children: [
-                     Text(categoryItems[index].value.name[0].toUpperCase() + categoryItems[index].value.name.substring(1),
-                        style: (categoryItems[index].value != currentCategory) ? TextStyle(fontSize: 18) : TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                child: Row(
+                  children: [
+                    Text(categoryItems[index].value.name[0].toUpperCase() + categoryItems[index].value.name.substring(1),
+                      style: (categoryItems[index].value != currentCategory) ? TextStyle(fontSize: 18) : TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      textAlign: TextAlign.start,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, top: 2),
+                      child: Text(itemCount.toString(),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                        ),
                         textAlign: TextAlign.start,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 2),
-                        child: Text(itemCount.toString(),
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
                 onTap: () async {
                   CategoriesUuid value = categoryItems[index].value;

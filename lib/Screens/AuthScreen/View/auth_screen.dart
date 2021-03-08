@@ -13,6 +13,7 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../data/data.dart';
+import '../../../data/data.dart';
 import '../../CodeScreen/View/code_screen.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -127,9 +128,9 @@ class _AuthScreenState extends State<AuthScreen> {
                             height: 91,
                             width: 313,
                             decoration: BoxDecoration(
-                              color: Color(0xFF09B44D),
+                              color: mainColor,
                               border: Border.all(
-                                color: Color(0xFF09B44D),
+                                color: mainColor,
                               ),
                               borderRadius: const BorderRadius.all(
                                 const Radius.circular(10.0),
@@ -183,10 +184,10 @@ class _AuthScreenState extends State<AuthScreen> {
                                         currentUser.phone = value;
                                         if (value.length > 0 &&
                                             buttonStateKey.currentState.color !=
-                                                Color(0xFF09B44D)) {
+                                                mainColor) {
                                           buttonStateKey.currentState.setState(() {
                                             buttonStateKey.currentState.color =
-                                                Color(0xFF09B44D);
+                                                mainColor;
                                           });
                                         } else if (value.length == 0 &&
                                             buttonStateKey.currentState.color !=

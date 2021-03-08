@@ -43,7 +43,7 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 color: (value != categoryList.currentCategory)
                     ? Colors.white
-                    : Color(0xFF09B44D)),
+                    : mainColor),
             child: Padding(
                 padding: EdgeInsets.only(left: 15, right: 15),
                 child: Center(
