@@ -41,7 +41,7 @@ class RestaurantGetBloc extends Bloc<RestaurantEvent, RestaurantGetState> {
       FilteredStoresData stores = await getFilteredStores(selectedCity.uuid, true);
       if(stores != null && stores.filteredStoresList != null && stores.filteredStoresList.length > 0){
         FilteredStoresData.filteredStoresCache = stores.filteredStoresList;
-        yield RestaurantGetStateSuccess(FilteredStoresData.filteredStoresCache);
+        yield RestaurantGetStateSuccess(FilteredStoresData.filteredStoresCache, false);
       }
       else
         yield RestaurantGetStateEmpty();
@@ -53,7 +53,7 @@ class RestaurantGetBloc extends Bloc<RestaurantEvent, RestaurantGetState> {
       if(event.categories != null){
         AllStoreCategoriesData.selectedStoreCategories.clear();
         AllStoreCategoriesData.selectedStoreCategories.addAll(event.categories);
-        yield RestaurantGetStateSuccess(FilteredStoresData.applyCategoryFilters(AllStoreCategoriesData.selectedStoreCategories));
+        yield RestaurantGetStateSuccess(await FilteredStoresData.applyCategoryFilters(AllStoreCategoriesData.selectedStoreCategories), true);
         return;
       }
 
@@ -64,7 +64,7 @@ class RestaurantGetBloc extends Bloc<RestaurantEvent, RestaurantGetState> {
       } else {
         AllStoreCategoriesData.selectedStoreCategories.add(event.category);
       }
-      yield RestaurantGetStateSuccess(FilteredStoresData.applyCategoryFilters(AllStoreCategoriesData.selectedStoreCategories));
+      yield RestaurantGetStateSuccess(await FilteredStoresData.applyCategoryFilters(AllStoreCategoriesData.selectedStoreCategories), true);
 
     }
   }

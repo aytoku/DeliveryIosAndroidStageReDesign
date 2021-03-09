@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
@@ -886,12 +887,20 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                           (context, index){
-                        return Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white
-                          ),
-                          child: Column(
-                              children: sliverChildren
+                        return TranslationAnimatedWidget(
+                          enabled: true,
+                          values: [
+                            Offset(0, 200), // disabled value value
+                            Offset(0, 100), //intermediate value
+                            Offset(0, 0) //enabled value
+                          ],
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white
+                            ),
+                            child: Column(
+                                children: sliverChildren
+                            ),
                           ),
                         );
                       },
@@ -993,18 +1002,17 @@ class RestaurantScreenState extends State<RestaurantScreen> {
 
       // Вычисляем оффсет тайтла необходимой категории
       double offset = 0;
-      int i = 0;
       double defaultTitleHeight = 50;
       double defaultFoodItemHeight = 165;
       for(int i = 0; i<menuWithTitles.length; i++){
         var item = menuWithTitles[i];
         if(item is MenuItemTitle){
-          offset += (item.key.currentContext != null) ? item.key.currentContext.size.height : 0;
+          offset += (item.key.currentContext != null) ? item.key.currentContext.size.height : defaultTitleHeight;
           if(item.title.toLowerCase() == restaurant.productCategoriesUuid[categoryIndex].name.toLowerCase()) {
             break;
           }
         } else if(item is MenuItem){
-          offset += (item.key.currentContext != null) ? item.key.currentContext.size.height : 0;
+          offset += (item.key.currentContext != null) ? item.key.currentContext.size.height : defaultFoodItemHeight;
         }
       }
       await sliverScrollController.position.animateTo(offset,curve: Curves.ease, duration: Duration(milliseconds: 600));

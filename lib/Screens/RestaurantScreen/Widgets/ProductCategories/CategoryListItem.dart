@@ -38,24 +38,31 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
       child: Padding(
           padding:
           EdgeInsets.only(left: 11, top: 5, bottom: 5),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                color: (value != categoryList.currentCategory)
-                    ? Colors.white
-                    : mainColor),
-            child: Padding(
-                padding: EdgeInsets.only(left: 15, right: 15),
-                child: Center(
-                  child: Text(
-                    value.name[0].toUpperCase() + value.name.substring(1),
-                    style: TextStyle(
-                        color: (value != categoryList.currentCategory)
-                            ? Color(0xFF424242)
-                            : Colors.white,
-                        fontSize: 15),
-                  ),
-                )),
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return ScaleTransition(child: child, scale: animation);
+            },
+            child: Container(
+              key: ValueKey<bool>(value != categoryList.currentCategory),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  color: (value != categoryList.currentCategory)
+                      ? Colors.white
+                      : mainColor),
+              child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: Center(
+                    child: Text(
+                      value.name[0].toUpperCase() + value.name.substring(1),
+                      style: TextStyle(
+                          color: (value != categoryList.currentCategory)
+                              ? Color(0xFF424242)
+                              : Colors.white,
+                          fontSize: 15),
+                    ),
+                  )),
+            ),
           )),
       onTap: () async {
         if (await Internet.checkConnection()) {

@@ -24,7 +24,7 @@ class Filter extends StatefulWidget {
   }
 }
 
-class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
+class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin{
   FilterState(this.parent);
 
   HomeScreenState parent;
@@ -453,7 +453,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
           if(snapshot.connectionState == ConnectionState.done){
             return snapshot.data;
           }
-          return Container(width: 0.0, height: 0.0);
+          return Container(width: 0.0, height: 60,);
         },
       ),
     );

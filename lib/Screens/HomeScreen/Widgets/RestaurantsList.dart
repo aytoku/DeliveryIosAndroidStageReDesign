@@ -1,6 +1,9 @@
+import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
+import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,17 +13,19 @@ class RestaurantsList extends StatefulWidget {
 
   GlobalKey<RestaurantsListState> key;
   List<FilteredStores> records_items;
-  RestaurantsList(this.records_items, {this.key}) : super(key: key);
+  HomeScreenState parent;
+  RestaurantsList(this.records_items, this.parent, {this.key}) : super(key: key);
 
   @override
   RestaurantsListState createState() {
-    return new RestaurantsListState(records_items);
+    return new RestaurantsListState(records_items, parent);
   }
 }
 
 class RestaurantsListState extends State<RestaurantsList>{
-  RestaurantsListState(this.records_items);
+  RestaurantsListState(this.records_items, this.parent);
   List<FilteredStores> records_items;
+  HomeScreenState parent;
 
   @override
   void initState() {
@@ -256,9 +261,25 @@ class RestaurantsListState extends State<RestaurantsList>{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: _buildRestaurantsList(),
-    );
+    if(parent.restaurantGetBloc.state is RestaurantGetStateSuccess
+      && (parent.restaurantGetBloc.state as RestaurantGetStateSuccess).animateScreen){
+      return TranslationAnimatedWidget(
+        enabled: true,
+        values: [
+          Offset(0, 100), // disabled value value
+          Offset(0, 50), //intermediate value
+          Offset(0, 0) //enabled value
+        ],
+        child: Container(
+          color: Colors.white,
+          child: _buildRestaurantsList(),
+        ),
+      );
+    }else{
+     return Container(
+       color: Colors.white,
+       child: _buildRestaurantsList(),
+     );
+    }
   }
 }

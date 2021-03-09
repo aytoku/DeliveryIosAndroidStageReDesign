@@ -25,7 +25,7 @@ class CategoryListState extends State<CategoryList> {
   List<CategoryListItem> categoryItems;
   bool firstStart;
   ScrollController categoryListScrollController;
-  ItemScrollController itemScrollController;
+  ScrollController itemScrollController;
   ItemPositionsListener itemPositionsListener;
 
 
@@ -39,7 +39,7 @@ class CategoryListState extends State<CategoryList> {
     currentCategory = (restaurant.productCategoriesUuid.length > 0) ? restaurant.productCategoriesUuid[0] : '';
     firstStart = true;
     categoryListScrollController = new ScrollController();
-    itemScrollController = ItemScrollController();
+    itemScrollController = ScrollController();
     itemPositionsListener = ItemPositionsListener.create();
   }
 
@@ -169,25 +169,17 @@ class CategoryListState extends State<CategoryList> {
                   },
                 ),
               ),
+
               Container(
                 width: MediaQuery.of(context).size.width * 0.84,
-                child: ScrollablePositionedList.builder(
+                child: SingleChildScrollView(
+                  controller: itemScrollController,
                   scrollDirection: Axis.horizontal,
-                  itemCount: categoryItems.length,
-                  itemBuilder: (context, index) => categoryItems[index],
-                  itemScrollController: itemScrollController,
-                  itemPositionsListener: itemPositionsListener,
-                  addAutomaticKeepAlives: true,
-                ),
+                  child: Row(
+                    children: categoryItems,
+                  ),
+                )
               ),
-              // Container(
-              //   width: MediaQuery.of(context).size.width * 0.87,
-              //   child: ListView(
-              //     controller: categoryListScrollController,
-              //     scrollDirection: Axis.horizontal,
-              //     children: categoryItems
-              //   ),
-              // ),
             ],
           )
       ),
@@ -209,21 +201,17 @@ class CategoryListState extends State<CategoryList> {
   }
 
   Future<void> ScrollToSelectedCategory() async{
-    print(currentCategory);
-    CategoryListItem selectedCategory;
-    int i;
-    for(i = 0; i<categoryItems.length; i++){
-      selectedCategory = categoryItems[i];
-      if(selectedCategory.value == currentCategory)
+    // Вычисляем оффсет тайтла необходимой категории
+    double offset = 0;
+    double defaultItemWidth = 165;
+    for(int i = 0; i<categoryItems.length; i++){
+      var item = categoryItems[i];
+      if(item.value == currentCategory)
         break;
+      offset += (item.key.currentContext != null) ? item.key.currentContext.size.width : 0;
     }
-    print(categoryItems[i]);
-    await itemScrollController.scrollTo(index: i, curve: Curves.ease, duration: new Duration(milliseconds: 20));
-  }
+    await itemScrollController.position.animateTo(offset,curve: Curves.ease, duration: Duration(milliseconds: 600));
 
-  void refresh(){
-    setState(() {
 
-    });
   }
 }

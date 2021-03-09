@@ -23,7 +23,7 @@ class FilteredStoresData{
     );
   }
   
-  static List<FilteredStores> applyCategoryFilters(List<AllStoreCategories> filters){
+  static Future<List<FilteredStores>> applyCategoryFilters(List<AllStoreCategories> filters) async{
     // если выбран хотя бы один из фильтров, то
     if(filters.length > 0){
       // получаем отфильтрованные рестораны

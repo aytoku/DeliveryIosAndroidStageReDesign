@@ -569,7 +569,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           filter = Filter(this),
                           (recordsItems.isEmpty) ?  Center(
                             child: Container(),
-                          ) : restaurantsList = RestaurantsList(List.from(recordsItems), key: GlobalKey(),)
+                          ) : restaurantsList = RestaurantsList(List.from(recordsItems), this, key: GlobalKey())
                         ],
                       ),
                     ),

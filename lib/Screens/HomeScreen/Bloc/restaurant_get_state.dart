@@ -15,9 +15,10 @@ class RestaurantGetStateLoading extends RestaurantGetState {}
 
 class RestaurantGetStateSuccess extends RestaurantGetState {
   final List<FilteredStores> items;
+  final bool animateScreen;
 
 
-  const RestaurantGetStateSuccess(this.items);
+  const RestaurantGetStateSuccess(this.items, this.animateScreen);
 
   @override
   List<Object> get props => [items];
