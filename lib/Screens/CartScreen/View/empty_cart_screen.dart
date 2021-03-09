@@ -37,7 +37,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
               Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 40),
+                  padding: EdgeInsets.only(top: 30, bottom: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -79,9 +79,9 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                         child: Text(
                           'Корзина',
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF000000)),
+                              color: Color(0xFF3F3F3F)),
                         ),
                       ),
                       Padding(
@@ -136,32 +136,38 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: Padding(
-                    padding:
-                    EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
-                    child: FlatButton(
-                      child: Text(
-                        'Вернуться на главную',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Container(
+                    height: 52,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
                       color: mainColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding:
+                      EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
+                      child: GestureDetector(
+                        child: Center(
+                          child: Text(
+                            'Вернуться на главную',
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.white)
+                          ),
+                        ),
+                        onTap: () {
+                          homeScreenKey = new GlobalKey<HomeScreenState>();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => BlocProvider(
+                                    create: (context) => RestaurantGetBloc(),
+                                    child: new HomeScreen(),
+                                  )),
+                                  (Route<dynamic> route) => false);
+                        },
                       ),
-                      padding: EdgeInsets.only(
-                          left: 80, top: 20, right: 80, bottom: 20),
-                      onPressed: () {
-                        homeScreenKey = new GlobalKey<HomeScreenState>();
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => BlocProvider(
-                                  create: (context) => RestaurantGetBloc(),
-                                  child: new HomeScreen(),
-                                )),
-                                (Route<dynamic> route) => false);
-                      },
                     ),
                   ),
                 ),

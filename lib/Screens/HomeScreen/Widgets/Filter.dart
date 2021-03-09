@@ -301,13 +301,17 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
                                   Text(
                                     "Кухни",
                                     style: TextStyle(
-                                        color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0) ? Colors.white: Color(0xFF424242),
+                                        color: (!selectedCategoryFromHomeScreen
+                                            && AllStoreCategoriesData.selectedStoreCategories.length > 0)
+                                              ? Colors.white: Color(0xFF424242),
                                         fontSize: 15),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: SvgPicture.asset('assets/svg_images/arrow_down',
-                                      color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0) ? Colors.white: Colors.black,
+                                      color: (!selectedCategoryFromHomeScreen
+                                                && AllStoreCategoriesData.selectedStoreCategories.length > 0)
+                                                 ? Colors.white: Colors.black,
                                     ),
                                   )
                                 ],
@@ -327,7 +331,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
               ),
               (AllStoreCategoriesData.selectedStoreCategories.length != 0 && !selectedCategoryFromHomeScreen)
                   ? Padding(
-                padding: const EdgeInsets.only(left: 95, bottom: 25),
+                padding: const EdgeInsets.only(left: 95, bottom: 23),
                 child: Container(
                     width: 23,
                     height: 23,
@@ -360,50 +364,47 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
     categories.forEach((element) {
       result.add(Container(
         height: 60,
-        child: Stack(
-          children: [
-            GestureDetector(
-              child: Padding(
-                  padding:
-                  EdgeInsets.only(
-                      left: 5,
-                      right: 5,),
-                  child: Container(
-                    height: 45,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)
-                            || !selectedCategoryFromHomeScreen)
-                            ? Color(0xFFF6F6F6)
-                            : mainColor),
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: Center(
-                          child: Text(
-                            element.name[0].toUpperCase() + element.name.substring(1),
-                            style: TextStyle(
-                                color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)|| !selectedCategoryFromHomeScreen)
-                                    ? Color(0xFF424242)
-                                    : Colors.white,
-                                fontSize: 15),
-                          ),
-                        )),
-                  )),
-              onTap: () async {
-                if (await Internet.checkConnection()) {
-                  selectedCategoryFromHomeScreen = true;
-                  parent.restaurantGetBloc.add(CategoryFilterApplied(category: element, selectedCategoryFromHomeScreen: selectedCategoryFromHomeScreen));
-                } else {
-                  noConnection(context);
-                }
-              },
-            ),
-            (AllStoreCategoriesData.selectedStoreCategories.length != 0 && !selectedCategoryFromHomeScreen)
-                ? Padding(
-              padding: const EdgeInsets.only(left: 95, bottom: 25),
-              child: Text(''),
-            ): Container()
-          ],
+        child: Container(
+          height: 45,
+          child: GestureDetector(
+            child: Padding(
+                padding:
+                EdgeInsets.only(
+                  left: 5,
+                  right: 5,
+                top: 7,
+                  bottom:7
+                ),
+                child: Container(
+                  height: 45,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)
+                          || !selectedCategoryFromHomeScreen)
+                          ? Color(0xFFF6F6F6)
+                          : mainColor),
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Center(
+                        child: Text(
+                          element.name[0].toUpperCase() + element.name.substring(1),
+                          style: TextStyle(
+                              color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)|| !selectedCategoryFromHomeScreen)
+                                  ? Color(0xFF424242)
+                                  : Colors.white,
+                              fontSize: 15),
+                        ),
+                      )),
+                )),
+            onTap: () async {
+              if (await Internet.checkConnection()) {
+                selectedCategoryFromHomeScreen = true;
+                parent.restaurantGetBloc.add(CategoryFilterApplied(category: element, selectedCategoryFromHomeScreen: selectedCategoryFromHomeScreen));
+              } else {
+                noConnection(context);
+              }
+            },
+          ),
         ),
       ));
     });
@@ -419,7 +420,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: Container(
-        height: 45,
+        height: 60,
         child: ListView(
             controller: catScrollController,
             scrollDirection: Axis.horizontal,
@@ -436,9 +437,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin{
       return Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Container(
-          height:  (AllStoreCategoriesData.selectedStoreCategories.length != 0
-              && !selectedCategoryFromHomeScreen
-              || selectedCategoryFromHomeScreen) ? 60 : 45,
+          height: 60,
           child: ListView(
               controller: catScrollController,
               scrollDirection: Axis.horizontal,

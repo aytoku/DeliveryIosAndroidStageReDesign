@@ -63,7 +63,6 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
                         child: TextField(
                           controller: controller,
                           focusNode: node,
-                          autofocus: true,
                           decoration: new InputDecoration(
                             suffix: Padding(
                               padding: const EdgeInsets.only(right:8.0, top: 3),
@@ -181,7 +180,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                     children: [
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text(suggestions[index].unrestrictedValue,
+                        child: Text(suggestions[index].value,
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 16

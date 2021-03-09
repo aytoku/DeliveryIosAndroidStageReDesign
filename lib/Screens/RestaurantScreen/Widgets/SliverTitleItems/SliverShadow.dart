@@ -29,7 +29,7 @@ class SliverShadowState extends State<SliverShadow>{
         boxShadow: [
           BoxShadow(
             color: Colors.black45,
-            blurRadius: 30,
+            blurRadius: 15,
             offset: Offset(0, -10),
           ),
         ],

@@ -194,7 +194,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                         ),
                         Align(
                           alignment: Alignment.topLeft,
-                          child: Text('Владикавказ, Республика Северная Осетия -\nАлания, Россия',
+                          child: Text(suggestions[index].meta.description,
                             style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey

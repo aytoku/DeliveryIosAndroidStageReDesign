@@ -399,7 +399,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         Align(
                           alignment: Alignment.bottomRight,
                           child: Padding(
-                            padding: EdgeInsets.only(left: 0, right: 16, top: 15),
+                            padding: EdgeInsets.only(left: 0, right: 16, top: 30),
                             child: Text(
                               '${item.count}шт',
                               style: TextStyle(

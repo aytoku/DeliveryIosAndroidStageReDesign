@@ -409,7 +409,7 @@ class CartPageState extends State<CartPageScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 3),
+                            padding: const EdgeInsets.only(bottom: 5),
                             child: Column(
                               children: [
                                 totalPriceWidget,

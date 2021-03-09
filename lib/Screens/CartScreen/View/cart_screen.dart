@@ -12,6 +12,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../Amplitude/amplitude.dart';
 import '../../../data/data.dart';
 import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../../data/data.dart';
 import '../../HomeScreen/Model/FilteredStores.dart';
 import '../../RestaurantScreen/View/restaurant_screen.dart';
 import '../API/clear_cart.dart';
@@ -108,7 +110,22 @@ class CartScreenState extends State<CartScreen> {
               padding: EdgeInsets.all(15.0),
               child: Column(
                 children: <Widget>[
-                  (isTakeAwayScreen) ? Container() : Container(
+                  (isTakeAwayScreen) ? Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                            'Заберите заказ на ' + '' + 'через '
+                                + currentUser.cartModel.cookingTime.toStringAsFixed(0)
+                                  + ' мин',
+                          style: TextStyle(
+                            fontSize: 14
+                          ),
+                        ),
+                      ),
+                    ),
+                  ) : Container(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Row(

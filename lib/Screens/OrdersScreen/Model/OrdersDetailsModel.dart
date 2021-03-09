@@ -1,12 +1,6 @@
-// To parse this JSON data, do
-//
-//     final orderDetailsModel = orderDetailsModelFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
-import 'package:flutter_app/Screens/ChatScreen/API/chat.dart';
-import 'package:flutter_app/Screens/ChatScreen/Model/ChatHistoryModel.dart';
 
 List<OrderDetailsModelItem> orderDetailsModelFromJson(String str) => List<OrderDetailsModelItem>.from(json.decode(str).map((x) => OrderDetailsModelItem.fromJson(x)));
 
