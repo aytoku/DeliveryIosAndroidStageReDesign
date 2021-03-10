@@ -91,7 +91,7 @@ class CartButtonState extends State<CartButton> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        (currentUser.cartModel.cookingTime != null)? '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
+                        (currentUser.cartModel.cookingTime != null)? '~ ${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
                         style: TextStyle(
                           fontSize: 12.0,
                           color: Colors.white,

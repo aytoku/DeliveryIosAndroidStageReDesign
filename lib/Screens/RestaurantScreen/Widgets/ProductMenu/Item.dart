@@ -470,7 +470,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                           Flexible(
                                                             flex: 1,
                                                             child: Padding(
-                                                              padding: EdgeInsets.only(right: 5, left: 8),
+                                                              padding: EdgeInsets.only(left: 16),
                                                               child: ProductDescCounter(
                                                                   key: parent.counterKey,
                                                                   priceFieldKey: priceFieldKey
@@ -480,20 +480,22 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                           Flexible(
                                                             flex: 2,
                                                             child: Padding(
-                                                              padding: EdgeInsets.only(left: 6, right: 8, bottom: 0),
+                                                              padding: EdgeInsets.only(left: 8, right: 16),
                                                               child: GestureDetector(
                                                                 child: Container(
-                                                                  width: 212,
                                                                   height: 52,
                                                                   decoration: BoxDecoration(
-                                                                    color: Color(0xFF09B44D),
+                                                                    color: mainColor,
                                                                     borderRadius: BorderRadius.circular(10),
                                                                   ),
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      "Добавить",
-                                                                      style:
-                                                                      TextStyle(color: Colors.white, fontSize: 18),
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(left: 64, right: 64),
+                                                                    child: Center(
+                                                                      child: Text(
+                                                                        "Добавить",
+                                                                        style:
+                                                                        TextStyle(color: Colors.white, fontSize: 18),
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),

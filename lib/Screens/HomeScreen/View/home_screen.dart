@@ -350,13 +350,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 60),
+                    padding: const EdgeInsets.only(top: 60, bottom: 15),
                     child: Center(
-                      child: Image(
-                        height: 97,
-                        width: 142,
-                        image: AssetImage('assets/images/faem.png'),
-                      ),
+                      child: SvgPicture.asset('assets/svg_images/tuk_tuk_logo.svg')
                     ),
                   ),
                   Expanded(

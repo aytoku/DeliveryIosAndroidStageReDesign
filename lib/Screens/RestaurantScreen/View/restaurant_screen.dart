@@ -785,8 +785,12 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 ),
                               ),
                               InkWell(
+                                hoverColor: Colors.white,
+                                focusColor: Colors.white,
+                                splashColor: Colors.white,
+                                highlightColor: Colors.white,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
+                                  padding: const EdgeInsets.only(left: 3.0),
                                   child: SvgPicture.asset(
                                       'assets/svg_images/rest_info.svg'),
                                 ),
