@@ -26,9 +26,9 @@ import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pay/flutter_pay.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mad_pay/mad_pay.dart';
 
 import '../../../Preloader/device_id_screen.dart';
 import '../../../data/data.dart';
@@ -525,32 +525,44 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           SizedBox(
                             height: 10,
                           ),
-                          // GestureDetector(
-                          //   child: Container(
-                          //     height: 40,width: 40,
-                          //     child: Text('sdf'),
-                          //   ),
-                          //   onTap: () async {
-                          //     FlutterPay flutterPay = FlutterPay();
-                          //
-                          //     PaymentItem item = PaymentItem(name: "T-Shirt", price: 10.98);
-                          //
-                          //     String token = await flutterPay.makePayment(
-                          //       merchantIdentifier: "T1513081007-api",
-                          //       currencyCode: "RUB",
-                          //       countryCode: "RU",
-                          //       allowedPaymentNetworks: [
-                          //         PaymentNetwork.visa,
-                          //         PaymentNetwork.masterCard,
-                          //       ],
-                          //       paymentItems: [item],
-                          //       merchantName: "Faem",
-                          //       gatewayName: "sberbank",
-                          //     );
-                          //
-                          //     print(token);
-                          //   },
-                          // ),
+                          GestureDetector(
+                            child: Container(
+                              height: 40,width: 40,
+                              child: Text('sdf'),
+                            ),
+                            onTap: () async {
+
+                              final MadPay pay = MadPay();
+                              await pay.checkPayments();
+                              await pay.checkActiveCard(
+                                paymentNetworks: <PaymentNetwork>[
+                                  PaymentNetwork.visa,
+                                  PaymentNetwork.mastercard,
+                                ],
+                              );
+
+                              final Map<String, String> req =
+                              await pay.processingPayment(
+                                google: GoogleParameters(
+                                  gatewayName: 'sberbank',
+                                  gatewayMerchantId: 'T1513081007',
+                                ),
+                                apple: AppleParameters(
+                                  merchantIdentifier: 'merchant.faemEda.com',
+                                ),
+                                currencyCode: 'RUB',
+                                countryCode: 'RU',
+                                paymentItems: <PaymentItem>[
+                                  PaymentItem(name: 'Шавуха', price: 1.54),
+                                ],
+                                paymentNetworks: <PaymentNetwork>[
+                                  PaymentNetwork.visa,
+                                  PaymentNetwork.mastercard,
+                                ],
+                              );
+                              print(req);
+                            },
+                          ),
                           Padding(
                             padding:
                             EdgeInsets.symmetric(horizontal: 20.0),

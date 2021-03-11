@@ -45,6 +45,7 @@ dependencies:
   flutter_pay: ^0.9.1
   sliding_up_panel: ^1.0.2
   animated_widgets: ^1.0.6
+  mad_pay: 1.0.0
 
   bloc: ^4.0.0
   flutter_bloc: ^4.0.0

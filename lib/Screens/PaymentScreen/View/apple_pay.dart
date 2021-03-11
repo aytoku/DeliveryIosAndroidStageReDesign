@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_pay/flutter_pay.dart';
+import 'package:mad_pay/mad_pay.dart';
 
 class ApplePay extends StatefulWidget {
   @override
@@ -7,88 +9,91 @@ class ApplePay extends StatefulWidget {
 }
 
 class ApplePayState extends State<ApplePay> {
-  FlutterPay flutterPay = FlutterPay();
+  final MadPay pay = MadPay();
+  final List<PaymentItem> items = <PaymentItem>[
+    PaymentItem(name: 'T-Shirt', price: 2.98),
+    PaymentItem(name: 'Trousers', price: 15.24),
+  ];
 
-  String result = "Result will be shown here";
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void makePayment() async {
-    List<PaymentItem> items = [
-      PaymentItem(name: "Маргарита 30 см", price: 30.0)
-    ];
-    flutterPay.makePayment(
-        merchantIdentifier: "com.prod.food_delivery",
-        currencyCode: "RUB",
-        countryCode: "RU",
-        paymentItems: items,
-        merchantName: "T1513081007",
-        gatewayName: "sberbank");
-  }
+  String result = 'Result will be shown here';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Container(
-          padding: EdgeInsets.all(12.0),
+        body: Center(
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  this.result,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                FlatButton(
-                  child: Text("Can make payments?"),
-                  onPressed: () async {
-                    try {
-                      bool result = await flutterPay.canMakePayments();
-                      setState(() {
-                        this.result = "Can make payments: $result";
-                      });
-                    } catch (e) {
-                      setState(() {
-                        this.result = "$e";
-                      });
-                    }
-                  },
-                ),
-                FlatButton(
-                  child: Text("Can make payments with verified card: $result"),
-                  onPressed: () async {
-                    try {
-                      bool result =
-                      await flutterPay.canMakePaymentsWithActiveCard(
-                        allowedPaymentNetworks: [
-                          PaymentNetwork.visa,
-                          PaymentNetwork.masterCard,
-                        ],
-                      );
-                      setState(() {
-                        this.result = "$result";
-                      });
-                    } catch (e) {
-                      setState(() {
-                        this.result = "Error: $e";
-                      });
-                    }
-                  },
-                ),
-                FlatButton(
-                    child: Text("Try to pay?"),
-                    onPressed: () {
-                      makePayment();
-                    })
-              ]),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(result),
+              TextButton(
+                onPressed: () async {
+                  try {
+                    final bool req = await pay.checkPayments();
+                    setState(() {
+                      result = 'Can make payments: $req';
+                    });
+                  } catch (e) {
+                    setState(() {
+                      result = 'Error:\n$e';
+                    });
+                  }
+                },
+                child: const Text('Can make payments?'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  try {
+                    final bool req = await pay.checkActiveCard(
+                      paymentNetworks: <PaymentNetwork>[
+                        PaymentNetwork.visa,
+                        PaymentNetwork.mastercard,
+                      ],
+                    );
+                    setState(() {
+                      result = 'Can make payments with verified card: $req';
+                    });
+                  } catch (e) {
+                    setState(() {
+                      result = 'Error:\n$e';
+                    });
+                  }
+                },
+                child: const Text('Can make payments with verified card?'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  try {
+                    final Map<String, String> req =
+                    await pay.processingPayment(
+                      google: GoogleParameters(
+                        gatewayName: 'example',
+                        gatewayMerchantId: 'example_id',
+                      ),
+                      apple: AppleParameters(
+                        merchantIdentifier: 'example_id',
+                      ),
+                      currencyCode: 'USD',
+                      countryCode: 'US',
+                      paymentItems: items,
+                      paymentNetworks: <PaymentNetwork>[
+                        PaymentNetwork.visa,
+                        PaymentNetwork.mastercard,
+                      ],
+                    );
+                    setState(() {
+                      result = 'Try to pay:\n$req';
+                    });
+                  } catch (e) {
+                    setState(() {
+                      result = 'Error:\n$e';
+                    });
+                  }
+                },
+                child: const Text('Try to pay?'),
+              )
+            ],
+          ),
         ),
       ),
     );
