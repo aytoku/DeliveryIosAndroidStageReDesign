@@ -30,11 +30,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         Center(
                           child: Padding(
                               padding: EdgeInsets.only(top: 20, bottom: 10),
-                              child: Image(
-                                height: 140,
-                                width: 140,
-                                image: AssetImage('assets/images/faem.png'),
-                              )
+                              child: SvgPicture.asset('assets/svg_images/tuk_tuk_logo.svg')
                           ),
                         ),
                         Padding(
