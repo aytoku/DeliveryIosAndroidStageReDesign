@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:flutter_app/Screens/PaymentScreen/Model/GooglePay.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/OrderDeposit.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/OrderRefund.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/OrderRegistration.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/OrderReverse.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/OrderStatus.dart';
+import 'package:flutter_app/Screens/PaymentScreen/Model/SberGooglePayment.dart';
+import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -15,8 +18,8 @@ class SberAPI{
   static String language = 'ru';
   static String clientId = '11';
   static String pageView = 'MOBILE';
-  static int orderNumber = 101;
-  static int amount = 100;
+  static int orderNumber = 2287;
+  static int amount = 154;
 
   static Future<OrderRegistration> orderRegistration() async {
     OrderRegistration orderRegistration = null;
@@ -38,13 +41,13 @@ class SberAPI{
   }
 
 
-  static Future<OrderStatus> getOrderStatus(String orderNumber) async {
+  static Future<OrderStatus> getOrderStatus(String orderId) async {
     OrderStatus orderStatus = null;
-    var request = 'token=$sberToken&orderNumber=$orderNumber&language=$language';
+    var request = 'token=$sberToken&orderId=$orderId';
     var encoded = Uri.encodeFull(request);
     var url = 'https://3dsec.sberbank.ru/payment/rest/getOrderStatusExtended.do';
     var response = await http.post(url, body: encoded, headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
     });
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
@@ -52,6 +55,7 @@ class SberAPI{
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
+    print(response.body);
     return orderStatus;
   }
 
@@ -107,5 +111,31 @@ class SberAPI{
       print('Request failed with status: ${response.statusCode}.');
     }
     return orderRefund;
+  }
+
+  static Future<SberGooglePayment> googlePay(Map<String, String> googlePay) async {
+    SberGooglePayment sberGooglePayment = null;
+    var request = convert.jsonEncode({
+      'merchant': 'T1513081007',
+      'orderNumber': orderNumber,
+      'paymentToken': convert.base64Encode(utf8.encode(googlePay['token'])),
+      'amount': amount,
+      'phone': currentUser.phone,
+      'returnUrl': returnUrl,
+    });
+    var url = 'https://3dsec.sberbank.ru/payment/google/payment.do';
+    var response = await http.post(url, body: request, headers: <String, String>{
+      'Content-Type': 'application/json'
+    });
+    print(response.body);
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      sberGooglePayment = new SberGooglePayment.fromJson(jsonResponse);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+
+
+    return sberGooglePayment;
   }
 }
