@@ -604,7 +604,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 || currentUser.cartModel.items.length < 1){
                               currentUser.cartModel = new CartModel();
                               return Container();
-                            }
+                            } 
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 0),
                               child: cartButton = CartButton(
