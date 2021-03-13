@@ -24,7 +24,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          color: Colors.white,
+          color: AppColor.elementsColor,
           child: Stack(
             children: <Widget>[
               Align(
@@ -35,7 +35,8 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                       fontSize: 24
                   ),) : Text(name + ', ваш заказ принят! ',
                     style: TextStyle(
-                        fontSize: 24
+                        fontSize: 24,
+                      color: AppColor.textColor
                     ),
                   ),
                 ),
@@ -46,7 +47,8 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                   padding: EdgeInsets.only(top: 60),
                   child: Text('Вы можете отследить его статус\nна главной странице!',
                     style: TextStyle(
-                        fontSize: 18
+                        fontSize: 18,
+                      color: AppColor.textColor
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -55,7 +57,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
+                  // decoration: BoxDecoration(color: Colors.white),
                   child: Padding(
                     padding:
                     EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
@@ -64,7 +66,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                         'Продолжить',
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
-                      color: mainColor,
+                      color: AppColor.mainColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

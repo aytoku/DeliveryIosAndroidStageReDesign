@@ -50,7 +50,7 @@ class ProductDescCounterState extends State<ProductDescCounter> {
         height: 52,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            border: Border.all(color: Color(0xFFCCCCCC))),
+            border: Border.all(color: AppColor.fieldColor)),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
             padding: EdgeInsets.only(left: 0, top: 0, bottom: 0),
@@ -74,10 +74,10 @@ class ProductDescCounterState extends State<ProductDescCounter> {
                 child: Padding(
                   padding: EdgeInsets.all(7),
                   child: (counter <= 1) ? SvgPicture.asset('assets/svg_images/minus.svg',
-                    color: Color(0xFFB3B3B3),
+                    color: AppColor.textColor,
                   ) :
                   SvgPicture.asset('assets/svg_images/black_minus.svg',
-                    color: Color(0xFF4D4D4D),
+                    color: AppColor.textColor,
                   ),
                 ),
               ),
@@ -92,7 +92,7 @@ class ProductDescCounterState extends State<ProductDescCounter> {
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF4D4D4D),
+                  color: AppColor.textColor,
                 ),
               ),
             ),
@@ -121,7 +121,7 @@ class ProductDescCounterState extends State<ProductDescCounter> {
                 child: Padding(
                   padding: EdgeInsets.all(7),
                   child: SvgPicture.asset('assets/svg_images/plus_counter.svg',
-                    color: Color(0xFF4D4D4D),
+                    color: AppColor.textColor,
                   ),
                 ),
               ),

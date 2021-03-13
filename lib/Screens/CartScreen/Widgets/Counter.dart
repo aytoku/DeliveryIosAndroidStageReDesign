@@ -97,6 +97,7 @@ class CounterState extends State<Counter> {
                   '$counter',
                   style: TextStyle(
                     fontSize: 20.0,
+                    color: AppColor.textColor
                   ),
                 ),
               ),

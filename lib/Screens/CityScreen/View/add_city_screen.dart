@@ -17,8 +17,7 @@ class AddCityScreen extends StatefulWidget {
   AddCityScreen({Key key, this.parent}) : super(key: key);
 
   @override
-  AddCityScreenState createState() =>
-      AddCityScreenState(parent);
+  AddCityScreenState createState() => AddCityScreenState(parent);
 }
 
 class AddCityScreenState extends State<AddCityScreen> {
@@ -28,10 +27,9 @@ class AddCityScreenState extends State<AddCityScreen> {
   AddressScreenState parent;
   TextEditingController nameField;
   TextEditingController commentField;
-  GlobalKey<CartPageState>cartPageKey;
+  GlobalKey<CartPageState> cartPageKey;
 
   AddCityScreenState(this.parent);
-
 
   @override
   void initState() {
@@ -53,7 +51,7 @@ class AddCityScreenState extends State<AddCityScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.elementsColor,
       resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
@@ -62,22 +60,26 @@ class AddCityScreenState extends State<AddCityScreen> {
             children: <Widget>[
               InkWell(
                 child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 30, bottom: 25),
-                        child: Container(
-                            height: 40,
-                            width: 60,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: 12, bottom: 12, right: 10),
-                              child:SvgPicture.asset(
-                                  'assets/svg_images/arrow_left.svg'),
-                            )))),
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 30, bottom: 25),
+                    child: Container(
+                      height: 40,
+                      width: 60,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.only(top: 12, bottom: 12, right: 10),
+                        child: SvgPicture.asset(
+                          'assets/svg_images/arrow_left.svg',
+                          color: AppColor.textColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 onTap: () {
-                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CityScreen())
-                   );
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CityScreen()));
                 },
               ),
             ],
@@ -88,14 +90,15 @@ class AddCityScreenState extends State<AddCityScreen> {
                 padding: EdgeInsets.only(top: 80, left: 20),
                 child: Column(
                   children: <Widget>[
-                    CityAutocomplete(autoCompleteFieldKey, onSelected: (){
-                      return;
-                    },
-                   )
+                    CityAutocomplete(
+                      autoCompleteFieldKey,
+                      onSelected: () {
+                        return;
+                      },
+                    )
                   ],
                 ),
-              )
-          ),
+              )),
           // Align(
           //   alignment: Alignment.bottomCenter,
           //   child: Container(

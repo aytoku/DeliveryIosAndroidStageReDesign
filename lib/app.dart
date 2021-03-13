@@ -17,11 +17,12 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Faem Eda",
       theme: ThemeData(
-        primaryColor: mainColor,
-        cursorColor: mainColor,
-        unselectedWidgetColor: mainColor,
-        selectedRowColor: mainColor,
-        toggleableActiveColor: mainColor,
+        primaryColor: AppColor.mainColor,
+        cursorColor: AppColor.mainColor,
+        unselectedWidgetColor: AppColor.mainColor,
+        selectedRowColor: AppColor.mainColor,
+        toggleableActiveColor: AppColor.mainColor,
+        scaffoldBackgroundColor: AppColor.themeColor,
       ),
       home: DeviceIdScreen(),
       navigatorObservers: [

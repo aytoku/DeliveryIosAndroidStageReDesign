@@ -35,7 +35,7 @@ class InformationScreenState extends State<InformationScreen>{
                             padding: EdgeInsets.only(top: 12, bottom: 12, right: 15),
                             child: Center(
                                 child:SvgPicture.asset(
-                                    'assets/svg_images/arrow_left.svg'),
+                                    'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
                             ),
                           )
                       )
@@ -56,7 +56,7 @@ class InformationScreenState extends State<InformationScreen>{
               ),
               Padding(
                 padding: EdgeInsets.only(top: 30, left: 70, right: 15, bottom: 10),
-                child: Text('Информация',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF424242))),
+                child: Text('Информация',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColor.textColor)),
               ),
             ],
           ),
@@ -71,13 +71,13 @@ class InformationScreenState extends State<InformationScreen>{
                     children: <Widget>[
                       Text('О приложении',
                         style: TextStyle(
-                            color: Color(0xFF424242),
+                            color: AppColor.textColor,
                             fontSize: 17
                         ),
                       ),
                       GestureDetector(
                         child: SvgPicture.asset(
-                            'assets/svg_images/arrow_right.svg'),
+                            'assets/svg_images/arrow_right.svg', color: AppColor.textColor),
                       ),
                     ],
                   )

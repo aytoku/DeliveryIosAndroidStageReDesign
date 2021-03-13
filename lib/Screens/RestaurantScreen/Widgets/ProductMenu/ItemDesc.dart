@@ -49,7 +49,7 @@ class MenuItemDescState extends State<MenuItemDesc> {
             '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
             style: TextStyle(
                 fontSize: 10.0,
-                color: Colors.grey),
+                color: AppColor.additionalTextColor),
             overflow: TextOverflow.ellipsis,
           ),
         ),

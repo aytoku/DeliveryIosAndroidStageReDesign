@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
+import 'package:flutter_app/data/data.dart';
 
 class MenuItemTitle extends StatefulWidget {
   MenuItemTitle({
@@ -40,7 +41,7 @@ class MenuItemTitleState extends State<MenuItemTitle>{
         padding: const EdgeInsets.only(top: 15, bottom: 10, left: 15),
         child: Text(title[0].toUpperCase() + title.substring(1),
           style: TextStyle(
-            color: Color(0xFF424242),
+            color: AppColor.textColor,
             fontSize: 21,
           ),
         ),

@@ -119,7 +119,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
             height: 600,
             child: _buildKitchensFilterNavigationMenu(categories),
             decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
+                color: AppColor.fieldColor,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(20),
                   topRight: const Radius.circular(20),
@@ -131,6 +131,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
   _buildKitchensFilterNavigationMenu(List<AllStoreCategories> categories) {
     return Container(
       height: 610,
+
       padding: EdgeInsets.only(top: 25),
       child: kitchenListScreen,
     );
@@ -291,7 +292,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                ? mainColor : Color(0xFFF6F6F6)),
+                                ? AppColor.mainColor : AppColor.elementsColor),
                         child: Padding(
                             padding: EdgeInsets.only(left: 15, right: 15),
                             child: Center(
@@ -301,17 +302,13 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                                   Text(
                                     "Кухни",
                                     style: TextStyle(
-                                        color: (!selectedCategoryFromHomeScreen
-                                            && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                              ? Colors.white: Color(0xFF424242),
+                                        color: Colors.white,
                                         fontSize: 15),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: SvgPicture.asset('assets/svg_images/arrow_down',
-                                      color: (!selectedCategoryFromHomeScreen
-                                                && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                                 ? Colors.white: Colors.black,
+                                      color: Colors.white,
                                     ),
                                   )
                                 ],
@@ -381,17 +378,15 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)
                           || !selectedCategoryFromHomeScreen)
-                          ? Color(0xFFF6F6F6)
-                          : mainColor),
+                          ? AppColor.elementsColor
+                          : AppColor.mainColor),
                   child: Padding(
                       padding: EdgeInsets.only(left: 15, right: 15),
                       child: Center(
                         child: Text(
                           element.name[0].toUpperCase() + element.name.substring(1),
                           style: TextStyle(
-                              color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)|| !selectedCategoryFromHomeScreen)
-                                  ? Color(0xFF424242)
-                                  : Colors.white,
+                              color: Colors.white,
                               fontSize: 15),
                         ),
                       )),

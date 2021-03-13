@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/getClientStoryOrders.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
+import 'package:flutter_app/app.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -172,7 +173,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
       child: Scaffold(
           body: Column(
             children: [
-              ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'История зазказов',),
+              ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'История зазказов'),
               Divider(height: 1.0, color: Colors.grey),
               FutureBuilder<OrderDetailsModel>(
                   future: getClientStoryOrders(),
@@ -210,7 +211,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.4),
                         child: Center(
                           child: SpinKitFadingCircle(
-                            color: Colors.green,
+                            color: AppColor.mainColor,
                             size: 50.0,
                           ),
                         ),

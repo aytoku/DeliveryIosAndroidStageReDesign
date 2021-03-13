@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
+import 'package:flutter_app/data/data.dart';
 
 import '../Model/CartModel.dart';
 import '../Model/CartModel.dart';
@@ -42,14 +43,14 @@ class PriceFieldState extends State<PriceField> {
             style: TextStyle(
                 decoration: TextDecoration.none,
                 fontSize: 18.0,
-                color: Colors.black)),
+                color: AppColor.textColor)),
       );
     }else if(restaurantDataItems!=null) {
       return Text(
         '${((restaurantDataItems.price+variantsPrice) * count).toStringAsFixed(0)}\₽',
         style: TextStyle(
             fontSize: 15.0,
-            color: Color(0xFF000000)),
+            color: AppColor.textColor),
         overflow: TextOverflow.ellipsis,
       );
     }

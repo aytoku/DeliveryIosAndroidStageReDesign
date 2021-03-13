@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
@@ -23,18 +25,22 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
 
 
   Future<NecessaryDataForAuth> devId;
+  bool selected;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     devId = NecessaryDataForAuth.getData();
+    selected = true;
+    new Timer.periodic(Duration(milliseconds: 5), (Timer t) => selected = false);
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: AppColor.mainColor,
       child: FutureBuilder<NecessaryDataForAuth>(
         future: devId,
         builder:
@@ -81,10 +87,26 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
               );
             }
           } else {
-            return Center(
-              child: Image(
-                image: AssetImage('assets/images/faem.png'),
-              )
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                AnimatedPositioned(
+                  duration: Duration(milliseconds: 1000),
+                  left: selected ? -500.0 : 75,
+                  curve: Curves.bounceInOut,
+                  child: Image(
+                    image: AssetImage('assets/images/old.png'),
+                  ),
+                ),
+                AnimatedPositioned(
+                  duration: Duration(milliseconds: 1000),
+                  right: selected ? -500.0 : 60,
+                  curve: Curves.bounceInOut,
+                  child: Image(
+                    image: AssetImage('assets/images/school.png'),
+                  ),
+                ),
+              ],
             );
           }
         },

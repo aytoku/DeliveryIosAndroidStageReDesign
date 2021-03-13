@@ -68,7 +68,7 @@ class CartScreenState extends State<CartScreen> {
               key: Key(currentUser.cartModel.items[index].getUniqueUuid()),
               background: Container(
                   alignment: AlignmentDirectional.centerEnd,
-                  color: Colors.red,
+                  color: AppColor.mainColor,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: SvgPicture.asset('assets/svg_images/del_basket.svg'),
@@ -100,7 +100,7 @@ class CartScreenState extends State<CartScreen> {
               },
               direction: DismissDirection.endToStart,
               child: Container(
-                color: Colors.white,
+                color: AppColor.elementsColor,
                 width: MediaQuery.of(context).size.width,
                 child: _buildCartItem(order, index),
               ),
@@ -111,6 +111,7 @@ class CartScreenState extends State<CartScreen> {
               child: Column(
                 children: <Widget>[
                   (isTakeAwayScreen) ? Container(
+                    color: AppColor.elementsColor,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Align(
@@ -120,12 +121,14 @@ class CartScreenState extends State<CartScreen> {
                                 + currentUser.cartModel.cookingTime.toStringAsFixed(0)
                                   + ' мин',
                           style: TextStyle(
-                            fontSize: 14
+                            fontSize: 14,
+                            color: AppColor.textColor
                           ),
                         ),
                       ),
                     ),
                   ) : Container(
+                    color: AppColor.elementsColor,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Row(
@@ -137,7 +140,7 @@ class CartScreenState extends State<CartScreen> {
                                 'Доставка',
                                 style: TextStyle(
                                     fontSize: 18.0,
-                                    color: Color(0xFF000000)),
+                                    color: AppColor.textColor),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0, top: 5),
@@ -145,7 +148,7 @@ class CartScreenState extends State<CartScreen> {
                                   (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
                                   style: TextStyle(
                                     fontSize: 12.0,
-                                    color: Colors.black,
+                                    color: AppColor.textColor,
                                   ),
                                 ),
                               ),
@@ -155,7 +158,7 @@ class CartScreenState extends State<CartScreen> {
                             (currentUser.cartModel.deliveryPrice != null)? '~' + '${currentUser.cartModel.deliveryPrice} \₽' : '',
                             style: TextStyle(
                                 fontSize: 18.0,
-                                color: Color(0xFF000000)),
+                                color: AppColor.textColor,),
                           ),
                         ],
                       ),
@@ -177,12 +180,13 @@ class CartScreenState extends State<CartScreen> {
                           'Итого',
                           style: TextStyle(
                               fontSize: 18.0,
-                              color: Color(0xFF000000)),
+                              color: AppColor.textColor),
                         ),
                         Text(
                             (currentUser.cartModel.totalPrice != null)? '~' + '${currentUser.cartModel.totalPrice.toStringAsFixed(0)} \₽' : '',
                           style: TextStyle(
-                            fontSize: 18
+                            fontSize: 18,
+                            color: AppColor.textColor,
                           ),
                         )
                       ],
@@ -249,7 +253,7 @@ class CartScreenState extends State<CartScreen> {
                       style: TextStyle(
                           decoration: TextDecoration.none,
                           fontSize: 14.0,
-                          color: Color(0xFF000000)),
+                          color: AppColor.textColor),
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -307,7 +311,7 @@ class CartScreenState extends State<CartScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                                 child: SvgPicture.asset(
-                                    'assets/svg_images/del_basket.svg'),
+                                    'assets/svg_images/del_basket.svg', color: AppColor.textColor,),
                               ),
                             ),
                             onTap: () {
@@ -487,7 +491,7 @@ class CartScreenState extends State<CartScreen> {
       child: new Scaffold(
         key: _scaffoldStateKey,
         body: Container(
-            color: Colors.white,
+            color: AppColor.elementsColor,
             child: Column(
               children: <Widget>[
                 _buildList(),

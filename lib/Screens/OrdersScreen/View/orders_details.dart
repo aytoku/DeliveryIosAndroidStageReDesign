@@ -6,6 +6,7 @@ import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/cancel_order.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
+import 'package:flutter_app/app.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -65,6 +66,10 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0))),
           child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              color: AppColor.themeColor,
+            ),
               height: 150,
               width: 320,
               child: Column(
@@ -77,13 +82,13 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF424242)),
+                            color: AppColor.textColor),
                       ),
                     ),
                   ),
                   Center(
                     child: SpinKitThreeBounce(
-                      color: Colors.green,
+                      color: AppColor.mainColor,
                       size: 20.0,
                     ),
                   ),
@@ -147,9 +152,9 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 spreadRadius: 1.0, //extend the shadow
               )
             ],
-            color: Colors.white,
+            color: AppColor.elementsColor,
             borderRadius: BorderRadius.circular(10.0),
-            border: Border.all(width: 1.0, color: Colors.grey[200])),
+            border: Border.all(width: 1.0, color: AppColor.elementsColor)),
         child: Column(
           children: <Widget>[
             Padding(
@@ -161,13 +166,13 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     (ordersDetailsModelItem.storeData != null)
                         ? ordersDetailsModelItem.storeData.name
                         : 'Пусто',
-                    style: TextStyle(fontSize: 18, color: Color(0xFF000000)),
+                    style: TextStyle(fontSize: 18, color: AppColor.textColor),
                   ),
                   Text(
                     '${ordersDetailsModelItem.totalPrice.toStringAsFixed(0)} \₽',
                     style: TextStyle(
                       fontSize: 18,
-                      color: Colors.black,
+                      color: AppColor.textColor,
                     ),
                   ),
                 ],
@@ -183,13 +188,13 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: 2),
-                          child: SvgPicture.asset('assets/svg_images/clock.svg'),
+                          child: SvgPicture.asset('assets/svg_images/clock.svg', color: AppColor.additionalTextColor,),
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 0, top: 0, right: 15),
                           child: Text(
                             format.format(ordersDetailsModelItem.createdAt),
-                            style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
+                            style: TextStyle(fontSize: 12, color: AppColor.additionalTextColor),
                           ),
                         ),
                       ],
@@ -199,13 +204,13 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     children: [
                       Text(statusTitles[ordersDetailsModelItem.state],
                         style: TextStyle(
-                            color: Colors.black,
+                            color: AppColor.textColor,
                             fontSize: 14
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0, right: 5),
-                        child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state]),
+                        child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state], color: AppColor.textColor,),
                       ),
                     ],
                   )
@@ -224,7 +229,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                   'Адрес доставки',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Color(0xFF3F3F3F),),
+                    color: AppColor.additionalTextColor,),
                 ),
               ),
             ),
@@ -236,7 +241,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       (ordersDetailsModelItem.deliveryAddress != null)
                           ?  ordersDetailsModelItem.deliveryAddress.unrestrictedValue
                           : 'Пусто',
-                      style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0),),
+                      style: TextStyle(fontSize: 12, color: AppColor.textColor,),
                       textAlign: TextAlign.start,
                     )
                 )
@@ -344,7 +349,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                               style: TextStyle(
                                   decoration: TextDecoration.none,
                                   fontSize: 14.0,
-                                  color: Color(0xFF000000)),
+                                  color: AppColor.textColor),
                               textAlign: TextAlign.start,
                             ),
                           ),
@@ -392,7 +397,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                             child: Text(
                               '${(item.totalItemPrice.toStringAsFixed(0))} \₽',
                               style: TextStyle(
-                                  color: Colors.black, fontSize: 18),
+                                  color: AppColor.textColor, fontSize: 18),
                             ),
                           ),
                         ),
@@ -403,7 +408,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                             child: Text(
                               '${item.count}шт',
                               style: TextStyle(
-                                  color: Colors.black, fontSize: 18),
+                                  color: AppColor.textColor, fontSize: 18),
                             ),
                           ),
                         ),
@@ -473,7 +478,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 Text(
                   "Доставка",
                   style: TextStyle(
-                      color: Color(0xFF000000),
+                      color: AppColor.textColor,
                       fontSize: 18),
                 ),
                 Padding(
@@ -481,7 +486,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                   child: Text(
                     (ordersDetailsModelItem.deliveryPrice.toStringAsFixed(0)).toString() + ' \₽',
                     style: TextStyle(
-                        color: Colors.black, fontSize: 18),
+                        color: AppColor.textColor, fontSize: 18),
                   ),
                 ),
               ],
@@ -496,7 +501,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 'Итого',
                 style: TextStyle(
                     fontSize: 18.0,
-                    color: Color(0xFF000000)),
+                    color: AppColor.textColor),
               ),
             ),
             Padding(
@@ -504,7 +509,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
               child: Text('${totalPrice.toStringAsFixed(0)} \₽',
                   style: TextStyle(
                       fontSize: 18.0,
-                      color: Color(0xFF000000))),
+                      color: AppColor.textColor)),
             )
           ],
         )
@@ -626,7 +631,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                 padding:
                                 EdgeInsets.only(top: 12, bottom: 12, right: 10),
                                 child:  SvgPicture.asset(
-                                    'assets/svg_images/arrow_left.svg'),
+                                    'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
                               ))),
                       onTap: () {
                         Navigator.pop(context);
@@ -643,7 +648,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF3F3F3F)),
+                              color: AppColor.textColor),
                         ),
                       ),
                     ),
@@ -718,14 +723,14 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           height: 50,
                           width: 340,
                           decoration: BoxDecoration(
-                            color: Color(0xFFFE534F),
+                            color: AppColor.mainColor,
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: Center(
                             child: Text(
                               'Отменить заказ',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppColor.textColor,
                                 fontSize: 18,),
                             ),
                           )),
@@ -743,7 +748,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                         child: Text('Вы действительно хотите отменить заказ?',
                                           style: TextStyle(
                                             fontSize: 20,
-                                            color: Colors.black
+                                            color: AppColor.textColor
                                           ),
                                         ),
                                       ),
@@ -794,6 +799,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(15.0))),
                                     child: Container(
+                                      decoration: BoxDecoration(color: AppColor.themeColor, borderRadius: BorderRadius.circular(15.0)),
                                         height: 210,
                                         width: 300,
                                         child: Column(
@@ -804,7 +810,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                                 child: Text('Вы действительно хотите отменить заказ?',
                                                   style: TextStyle(
                                                       fontSize: 20,
-                                                      color: Colors.black
+                                                      color: AppColor.textColor
                                                   ),
                                                   textAlign: TextAlign.center,
                                                 ),
@@ -849,7 +855,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                                 child: Center(
                                                   child: Text("Вернуться назад",
                                                     style: TextStyle(
-                                                        color: Color(0xFF007AFF),
+                                                        color: AppColor.textColor,
                                                         fontSize: 20
                                                     ),
                                                   ),
@@ -882,7 +888,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                               decoration: BoxDecoration(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(11)),
-                                  color: mainColor),
+                                  color: AppColor.mainColor),
                               child: Padding(
                                   padding: EdgeInsets.only(
                                       top: 5, right: 0, bottom: 5, left: 0),
@@ -1012,6 +1018,7 @@ class OrderRejectScreenState extends State<OrderRejectScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0))),
           child: Container(
+            color: AppColor.themeColor,
               height: 100,
               width: 320,
               child: Column(
@@ -1024,13 +1031,13 @@ class OrderRejectScreenState extends State<OrderRejectScreen> {
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF424242)),
+                            color: AppColor.textColor),
                       ),
                     ),
                   ),
                   Center(
                     child: SpinKitThreeBounce(
-                      color: Colors.green,
+                      color: AppColor.mainColor,
                       size: 20.0,
                     ),
                   ),

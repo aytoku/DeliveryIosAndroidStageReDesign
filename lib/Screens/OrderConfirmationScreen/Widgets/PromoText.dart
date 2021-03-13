@@ -65,9 +65,9 @@ class PromoTextState extends State<PromoText>{
         height: 40,
         width: 300,
         decoration: BoxDecoration(
-          color: mainColor,
+          color: AppColor.mainColor,
           border: Border.all(
-            color: mainColor,
+            color: AppColor.mainColor,
           ),
           borderRadius: const BorderRadius.all(
             const Radius.circular(10.0),

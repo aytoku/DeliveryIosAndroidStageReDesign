@@ -37,7 +37,6 @@ import '../../CityScreen/View/city_screen.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import '../Model/FilteredStores.dart';
 
-
 class HomeScreen extends StatefulWidget {
   HomeScreen() : super(key: homeScreenKey);
 
@@ -45,7 +44,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
+class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   List<OrderChecking> orderList;
   List<FilteredStores> recordsItems;
   GlobalKey<ScaffoldState> _scaffoldKey;
@@ -57,8 +56,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   RestaurantGetBloc restaurantGetBloc;
   CartButton cartButton;
   Timer timer;
-
-
 
   @override
   void initState() {
@@ -78,10 +75,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     temporaryOrderCheckingKey = new GlobalKey();
     // временное решение(убрать когда будет центрифуга)
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
-      if(temporaryOrderCheckingKey.currentState != null){
-        temporaryOrderCheckingKey.currentState.setState(() {
-
-        });
+      if (temporaryOrderCheckingKey.currentState != null) {
+        temporaryOrderCheckingKey.currentState.setState(() {});
       }
     });
   }
@@ -99,10 +94,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state == AppLifecycleState.resumed){
-      setState(() {
-
-      });
+    if (state == AppLifecycleState.resumed) {
+      setState(() {});
     }
   }
 
@@ -114,8 +107,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           leading: SvgPicture.asset('assets/svg_images/info.svg'),
           title: Text(
             'Информация',
-            style: TextStyle(
-                fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+            style:
+                TextStyle(fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {
@@ -139,7 +132,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           padding: EdgeInsets.only(top: 0),
           child: InkWell(
             child: Container(
-              color: mainColor,
+              color: AppColor.mainColor,
               child: ListTile(
                 title: Text(
                   necessaryDataForAuth.name ?? ' ',
@@ -153,8 +146,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                   style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
                 trailing: GestureDetector(
-                  child: SvgPicture.asset(
-                      'assets/svg_images/pencil.svg'),
+                  child: SvgPicture.asset('assets/svg_images/pencil.svg'),
                 ),
               ),
             ),
@@ -205,7 +197,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             title: Text(
               'История заказов',
               style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+                  fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
             ),
             onTap: () async {
               if (await Internet.checkConnection()) {
@@ -276,7 +268,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             title: Text(
               'Выход',
               style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+                  fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
             ),
             onTap: () async {
               if (await Internet.checkConnection()) {
@@ -285,9 +277,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                 authCodeData.token = null;
                 await NecessaryDataForAuth.saveData();
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (context) => DeviceIdScreen()),
-                        (Route<dynamic> route) => false);
+                    MaterialPageRoute(builder: (context) => DeviceIdScreen()),
+                    (Route<dynamic> route) => false);
               } else {
                 noConnection(context);
               }
@@ -302,57 +293,62 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             padding: EdgeInsets.only(top: 0),
             child: ListTile(
                 title: InkWell(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 0, bottom: 20),
-                    child: Text(
-                      'Авторизоваться',
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: Color(0xFF424242),
-                          letterSpacing: 0.45),
+              child: Padding(
+                padding: EdgeInsets.only(top: 0, bottom: 20),
+                child: Text(
+                  'Авторизоваться',
+                  style: TextStyle(
+                      fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                ),
+              ),
+              onTap: () async {
+                if (await Internet.checkConnection()) {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                        create: (context) => AuthGetBloc(),
+                        child: AuthScreen(),
+                      ),
                     ),
-                  ),
-                  onTap: () async {
-                    if (await Internet.checkConnection()) {
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (context)=> AuthGetBloc(),
-                            child: AuthScreen(),
-                          ),
-                        ),
-                      );
-                    } else {
-                      noConnection(context);
-                    }
-                  },
-                )),
+                  );
+                } else {
+                  noConnection(context);
+                }
+              },
+            )),
           ));
     }
     return allSideBarItems;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarBrightness: Brightness.light
-      ),
+          statusBarColor: Colors.white, statusBarBrightness: Brightness.light),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.themeColor,
         key: _scaffoldKey,
         drawer: ClipRRect(
-          borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
-          child: Drawer(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+          child: Theme(
+            data: Theme.of(context).copyWith(
+                canvasColor: AppColor.themeColor //This will change the drawer background to blue.
+                //other styles
+            ),
+            child: Drawer(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 60, bottom: 15),
-                    child: Center(
-                      child: SvgPicture.asset('assets/svg_images/tuk_tuk_logo.svg')
+                  Container(
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
+                    height: 200,
+                    width: 300,
+                    child: Transform(
+                      transform: Matrix4.translationValues(0, 15, 0),
+                      child: Image.asset('assets/images/old_school_logo.png'),
                     ),
                   ),
                   Expanded(
@@ -361,27 +357,28 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                     ),
                   ),
                 ],
-              )
+              ),
+            ),
           ),
         ),
         body: BlocBuilder<RestaurantGetBloc, RestaurantGetState>(
             bloc: BlocProvider.of<RestaurantGetBloc>(context),
-            builder: (BuildContext context,
-                RestaurantGetState state) {
-              if(state is RestaurantGetStateLoading)
+            builder: (BuildContext context, RestaurantGetState state) {
+              if (state is RestaurantGetStateLoading)
                 return Center(
                   child: SpinKitFadingCircle(
-                    color: Colors.green,
+                    color: AppColor.mainColor,
                     size: 50.0,
                   ),
                 );
-              else if(state is RestaurantGetStateSuccess){
+              else if (state is RestaurantGetStateSuccess) {
                 recordsItems.clear();
                 recordsItems.addAll(state.items);
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(top: 50, left: 16, right: 15, bottom: 10),
+                      padding: const EdgeInsets.only(
+                          top: 50, left: 16, right: 15, bottom: 10),
                       child: Row(
                         children: [
                           Padding(
@@ -397,7 +394,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
                                   'assets/svg_images/home_menu.svg',
-                                  color: Colors.black,
+                                  color: AppColor.textColor,
                                 ),
                               ),
                               onTap: () {
@@ -413,23 +410,20 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: mainColor
-                                ),
+                                    color: AppColor.mainColor),
                                 child: Center(
-                                  child: Text(selectedCity.name,
+                                  child: Text(
+                                    selectedCity.name,
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13
-                                    ),
+                                        color: Colors.white, fontSize: 13),
                                   ),
                                 ),
                               ),
-                              onTap: (){
+                              onTap: () {
                                 Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                    builder: (context) =>
-                                    new CityScreen(),
+                                    builder: (context) => new CityScreen(),
                                   ),
                                 );
                               },
@@ -454,8 +448,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         children: <Widget>[
                           TemporaryOrderChecking(
                               orderList: orderList,
-                              key: temporaryOrderCheckingKey
-                          ),
+                              key: temporaryOrderCheckingKey),
                           // (!currentUser.isLoggedIn) ? Container() :
                           // FutureBuilder<List<OrderChecking>>(
                           //   future: OrderChecking.getActiveOrder(),
@@ -552,54 +545,62 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //   },
                           // ),
                           Padding(
-                            padding:
-                            EdgeInsets.symmetric(horizontal: 20.0),
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
                             child: Text('Рестораны',
                                 style: TextStyle(
                                   fontSize: 28,
-                                  color: Color(0xFF3F3F3F),
+                                  color: AppColor.textColor,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.2,
                                 )),
                           ),
                           filter = Filter(this),
-                          (recordsItems.isEmpty) ?  Center(
-                            child: Container(),
-                          ) : restaurantsList = RestaurantsList(List.from(recordsItems), this, key: GlobalKey())
+                          (recordsItems.isEmpty)
+                              ? Center(
+                                  child: Container(),
+                                )
+                              : restaurantsList = RestaurantsList(
+                                  List.from(recordsItems), this,
+                                  key: GlobalKey())
                         ],
                       ),
                     ),
-                    cartButton != null ? cartButton :
-                    FutureBuilder<CartModel>(
-                        future: getCartByDeviceId(necessaryDataForAuth.device_id),
-                        builder: (BuildContext context, AsyncSnapshot<CartModel> snapshot){
-                          if(snapshot.connectionState == ConnectionState.done){
-                            currentUser.cartModel = snapshot.data;
-                            if(currentUser.cartModel == null
-                                || currentUser.cartModel.items == null
-                                || currentUser.cartModel.items.length < 1){
-                              currentUser.cartModel = new CartModel();
+                    cartButton != null
+                        ? cartButton
+                        : FutureBuilder<CartModel>(
+                            future: getCartByDeviceId(
+                                necessaryDataForAuth.device_id),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<CartModel> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                currentUser.cartModel = snapshot.data;
+                                if (currentUser.cartModel == null ||
+                                    currentUser.cartModel.items == null ||
+                                    currentUser.cartModel.items.length < 1) {
+                                  currentUser.cartModel = new CartModel();
+                                  return Container();
+                                }
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 0),
+                                  child: cartButton = CartButton(
+                                    key: basketButtonStateKey,
+                                    restaurant: FilteredStores.fromStoreData(
+                                        currentUser.cartModel.storeData),
+                                    source: CartSources.Home,
+                                  ),
+                                );
+                              }
                               return Container();
-                            }
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 0),
-                              child: cartButton = CartButton(
-                                key: basketButtonStateKey,
-                                restaurant: FilteredStores.fromStoreData(currentUser.cartModel.storeData),
-                                source: CartSources.Home,
-                              ),
-                            );
-                          }
-                          return Container();
-                        }
-                    )
+                            })
                   ],
                 );
-              }else if(state is RestaurantGetStateEmpty){
+              } else if (state is RestaurantGetStateEmpty) {
                 return Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 50, left: 16, right: 15, bottom: 10),
+                      padding: const EdgeInsets.only(
+                          top: 50, left: 16, right: 15, bottom: 10),
                       child: Row(
                         children: [
                           Padding(
@@ -615,7 +616,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
                                   'assets/svg_images/home_menu.svg',
-                                  color: Colors.black,
+                                  color: AppColor.textColor,
                                 ),
                               ),
                               onTap: () {
@@ -631,23 +632,20 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: mainColor
-                                ),
+                                    color: AppColor.mainColor),
                                 child: Center(
-                                  child: Text(selectedCity.name,
+                                  child: Text(
+                                    selectedCity.name,
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13
-                                    ),
+                                        color: AppColor.textColor, fontSize: 13),
                                   ),
                                 ),
                               ),
-                              onTap: (){
+                              onTap: () {
                                 Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                    builder: (context) =>
-                                    new CityScreen(),
+                                    builder: (context) => new CityScreen(),
                                   ),
                                 );
                               },
@@ -665,7 +663,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.3),
                       child: Center(
                         child: Text('Нет заведений по этому городу'),
                       ),

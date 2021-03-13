@@ -104,7 +104,7 @@ class CartPageState extends State<CartPageScreen> {
         child: Scaffold(
           resizeToAvoidBottomPadding: false,
           body: Container(
-            color: Colors.white,
+            color: AppColor.elementsColor,
             child: Column(
               children: [
                 Padding(
@@ -144,7 +144,7 @@ class CartPageState extends State<CartPageScreen> {
                                  padding: EdgeInsets.only(
                                      top: 12, bottom: 12, right: 15, left: 0),
                                  child: SvgPicture.asset(
-                                     'assets/svg_images/arrow_left.svg'),
+                                     'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
                                ))),
                         Padding(
                           padding: EdgeInsets.only(right: 20),
@@ -153,7 +153,7 @@ class CartPageState extends State<CartPageScreen> {
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF3F3F3F)),
+                                color: AppColor.textColor),
                           ),
                         ),
                         Padding(
@@ -165,7 +165,7 @@ class CartPageState extends State<CartPageScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                                   child: SvgPicture.asset(
-                                      'assets/svg_images/del_basket.svg'),
+                                      'assets/svg_images/del_basket.svg', color: AppColor.textColor,),
                                 ),
                               ),
                               onTap: () {
@@ -291,10 +291,10 @@ class CartPageState extends State<CartPageScreen> {
                   padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: mainColor,
+                      color: AppColor.subElementsColor,
                       borderRadius: BorderRadius.circular(4),
                       border: Border.all(
-                        color: mainColor,
+                        color: AppColor.subElementsColor,
                         width: 0.5
                       ),
                     ),
@@ -311,16 +311,16 @@ class CartPageState extends State<CartPageScreen> {
                                   bottomLeft: Radius.circular(4),
                                 ),
                                 border: Border.all(
-                                    color: mainColor,
+                                    color: AppColor.subElementsColor,
                                     width: 0.5
                                 ),
-                                color: (selectedPageId == 0) ? mainColor : Colors.white,
+                                color: (selectedPageId == 0) ? AppColor.subElementsColor : AppColor.elementsColor,
                               ),
                               child: Center(
                                 child: Text(
                                   'Доставка',
                                   style: TextStyle(
-                                      color: (selectedPageId == 0) ? Colors.white : mainColor, fontSize: 15),
+                                      color: (selectedPageId == 0) ? Colors.white : AppColor.additionalTextColor, fontSize: 15),
                                 ),
                               ),
                             ),
@@ -346,17 +346,17 @@ class CartPageState extends State<CartPageScreen> {
                                   topRight: Radius.circular(4),
                                   bottomRight: Radius.circular(4),
                                 ),
-                                border: Border.all(
-                                    color: mainColor,
-                                    width: 0.5
-                                ),
-                                color: (selectedPageId == 1) ? mainColor : Colors.white,
+                                // border: Border.all(
+                                //     color: AppColor.elementsColor,
+                                //     width: 0.5
+                                // ),
+                                color: (selectedPageId == 1) ? AppColor.subElementsColor : AppColor.elementsColor,
                               ),
                               child: Center(
                                 child: Text(
                                   'Самовывоз',
                                   style: TextStyle(
-                                      color: (selectedPageId == 1) ? Colors.white : mainColor, fontSize: 15),
+                                      color: (selectedPageId == 1) ? Colors.white : AppColor.additionalTextColor, fontSize: 15),
                                 ),
                               ),
                             ),
@@ -393,7 +393,7 @@ class CartPageState extends State<CartPageScreen> {
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColor.themeColor,
                         boxShadow: [
                           BoxShadow(
                               color: Colors.black12,
@@ -421,7 +421,7 @@ class CartPageState extends State<CartPageScreen> {
                                         : '',
                                     style: TextStyle(
                                       fontSize: 12.0,
-                                      color: Colors.black,
+                                      color: AppColor.textColor,
                                     ),
                                   ),
                                 ),
@@ -433,7 +433,7 @@ class CartPageState extends State<CartPageScreen> {
                               height: 52,
                               width: 168,
                               decoration: BoxDecoration(
-                                color: mainColor,
+                                color: AppColor.mainColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Center(

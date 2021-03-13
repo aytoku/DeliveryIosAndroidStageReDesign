@@ -41,7 +41,7 @@ class EstimateState extends State<Estimate>{
               child: Padding(
                 padding: const EdgeInsets.only(top: 15, left: 20, right: 20, bottom: 15),
                 child: (!selectedStars[index]) ? SvgPicture.asset('assets/svg_images/estimate_star.svg') :
-                SvgPicture.asset('assets/svg_images/estimate_star.svg', color: mainColor,),
+                SvgPicture.asset('assets/svg_images/estimate_star.svg', color: AppColor.mainColor,),
               ),
               onTap: (){
                 setState(() {

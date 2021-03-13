@@ -43,10 +43,10 @@ class RestaurantsListState extends State<RestaurantsList>{
 //      bool day_off = restaurant.work_schedule[dayNumber].day_off;
 //      bool available = restaurant.available != null ? restaurant.available : true;
       restaurantList.add(InkWell(
-          hoverColor: Colors.white,
-          focusColor: Colors.white,
-          splashColor: Colors.white,
-          highlightColor: Colors.white,
+          hoverColor: AppColor.themeColor,
+          focusColor: AppColor.themeColor,
+          splashColor: AppColor.themeColor,
+          highlightColor: AppColor.themeColor,
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             decoration: BoxDecoration(
@@ -57,9 +57,9 @@ class RestaurantsListState extends State<RestaurantsList>{
                     spreadRadius: 1.0, //extend the shadow
                   )
                 ],
-                color: Colors.white,
+                color: AppColor.elementsColor,
                 borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(width: 1.0, color: Colors.grey[200])),
+                border: Border.all(width: 1.0, color: AppColor.elementsColor)),
             child: Column(
               children: <Widget>[
 //                ( day_off ||
@@ -148,7 +148,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                           style: TextStyle(
                             fontSize: 21.0,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF3F3F3F),),
+                            color: AppColor.textColor,),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -165,7 +165,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                                 height: 25,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: mainColor
+                                    color: AppColor.mainColor
                                 ),
                                 child: Row(
                                   children: [
@@ -188,20 +188,21 @@ class RestaurantsListState extends State<RestaurantsList>{
                               padding: EdgeInsets.only(left: 10, right: 10),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(0xFFEFEFEF)
+                                  color: AppColor.subElementsColor
                               ),
                               child: Row(
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(right: 5.0, left: 0),
                                     child: SvgPicture.asset(
-                                        'assets/svg_images/rest_car.svg'),
+                                        'assets/svg_images/rest_car.svg',
+                                    color: AppColor.textColor,),
                                   ),
                                   Text(
                                     restaurant.meta.avgDeliveryTime.toString(),
                                     style: TextStyle(
                                         fontSize: 14.0,
-                                        color: Colors.black,
+                                        color: AppColor.textColor,
                                         fontWeight: FontWeight.w500
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -216,14 +217,14 @@ class RestaurantsListState extends State<RestaurantsList>{
                                 padding: EdgeInsets.only(left: 10, right: 10),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xFFEFEFEF)
+                                    color: AppColor.subElementsColor
                                 ),
                                 child: Center(
                                   child: Text(
                                     '${restaurant.meta.avgDeliveryPrice}',
                                     style: TextStyle(
                                         fontSize: 14.0,
-                                        color: Colors.black,
+                                        color: AppColor.textColor,
                                         fontWeight: FontWeight.w500
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -245,7 +246,7 @@ class RestaurantsListState extends State<RestaurantsList>{
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) {
-                  return RestaurantScreen(restaurant: restaurant);
+                  return  RestaurantScreen(restaurant: restaurant);
                 }),
               );
             } else {
@@ -271,13 +272,13 @@ class RestaurantsListState extends State<RestaurantsList>{
           Offset(0, 0) //enabled value
         ],
         child: Container(
-          color: Colors.white,
+          color: AppColor.themeColor,
           child: _buildRestaurantsList(),
         ),
       );
     }else{
      return Container(
-       color: Colors.white,
+       color: AppColor.themeColor,
        child: _buildRestaurantsList(),
      );
     }

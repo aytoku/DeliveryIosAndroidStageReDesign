@@ -15,8 +15,9 @@ class AboutAppScreenState extends State<AboutAppScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: AppColor.themeColor,
         body: Container(
-          color: Colors.white,
+          color: AppColor.themeColor,
           child: Stack(
             children: <Widget>[
               ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'О приложении'),
@@ -30,7 +31,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         Center(
                           child: Padding(
                               padding: EdgeInsets.only(top: 20, bottom: 10),
-                              child: SvgPicture.asset('assets/svg_images/tuk_tuk_logo.svg')
+                              child: Image.asset('assets/images/old_school_logo.png')
                           ),
                         ),
                         Padding(
@@ -44,7 +45,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                           ),
                         ),
                         Container(
-                          height: 30,
+                          height: 0.3,
                           color: Color(0xFFF9F9F9),
                         ),
                         Align(
@@ -58,10 +59,10 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                                 children: <Widget>[
                                   Text('Лицензионное соглашение',
                                       style:
-                                      TextStyle(fontSize: 17, color: Color(0xFF424242))),
+                                      TextStyle(fontSize: 17, color: AppColor.textColor)),
                                   GestureDetector(
                                     child:
-                                    SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                                    SvgPicture.asset('assets/svg_images/arrow_right.svg', color: AppColor.textColor,),
                                   )
                                 ],
                               ),
@@ -89,10 +90,10 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                                 children: <Widget>[
                                   Text('Политика конфиденцальности',
                                       style:
-                                      TextStyle(fontSize: 17, color: Color(0xFF424242))),
+                                      TextStyle(fontSize: 17, color: AppColor.textColor)),
                                   GestureDetector(
                                     child:
-                                    SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                                    SvgPicture.asset('assets/svg_images/arrow_right.svg', color: AppColor.textColor,),
                                   )
                                 ],
                               ),

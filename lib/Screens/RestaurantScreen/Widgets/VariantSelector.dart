@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_app/data/data.dart';
 
 class VariantsSelector extends StatefulWidget {
   VariantGroup variantGroup;
@@ -71,13 +72,14 @@ class VariantsSelectorState extends State<VariantsSelector> {
               padding: EdgeInsets.only(left: 15, top: 10, bottom: 15),
               child: Text(
                 groupName,
+                style: TextStyle(color: AppColor.textColor),
               ),
             ),
           ),
           (error) ? Padding(
             padding: EdgeInsets.only(right: 15, top: 10, bottom: 15),
             child: Text((required) ? 'Обязательно' : 'Опционально',
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(color: AppColor.mainColor),
             ),
           ) : Row(
             children: [
@@ -105,16 +107,17 @@ class VariantsSelectorState extends State<VariantsSelector> {
       variantsList.forEach((element) {
         widgetsList.add( InkWell(
           child: Container(
+            color: AppColor.elementsColor,
             padding:  EdgeInsets.only(left: 15, top: 0, bottom: 22),
             child: Row(
               children: [
                 (selectedVariants.contains(element)) ? SvgPicture.asset('assets/svg_images/kitchen_selected.svg') :
-                SvgPicture.asset('assets/svg_images/kitchen_unselected.svg'),
+                SvgPicture.asset('assets/svg_images/kitchen_unselected.svg', color: AppColor.subElementsColor,),
                 Padding(
                   padding: EdgeInsets.only(left: 15),
                   child: Text(
                     element.name,
-                    style: TextStyle(color: Color(0xff424242), fontSize: 14),
+                    style: TextStyle(color: AppColor.textColor, fontSize: 14),
                   ),
                 ),
                 Padding(
@@ -187,7 +190,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
       });
     }
     return Container(
-      color: Colors.white,
+      color: AppColor.elementsColor,
       child: ScrollConfiguration(
         behavior: new ScrollBehavior(),
         child: SingleChildScrollView(
