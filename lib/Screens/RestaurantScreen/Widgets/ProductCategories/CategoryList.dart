@@ -78,6 +78,7 @@ class CategoryListState extends State<CategoryList> {
     return Container(
       height: 400,
       child: ListView(
+          physics: BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
           children: List.generate(categoryItems.length, (index) {
             int itemCount = 0;

@@ -25,6 +25,7 @@ import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.d
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/GooglePay.dart';
+import 'package:flutter_app/Screens/PaymentScreen/Model/SberGooglePayment.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
 import 'package:flutter_app/data/data.dart';
@@ -32,6 +33,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mad_pay/mad_pay.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../Preloader/device_id_screen.dart';
 import '../../../data/data.dart';
@@ -60,6 +62,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   RestaurantGetBloc restaurantGetBloc;
   CartButton cartButton;
   Timer timer;
+
 
 
 
@@ -532,49 +535,16 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           SizedBox(
                             height: 10,
                           ),
-                          GestureDetector(
-                            child: Container(
-                              height: 40,width: 40,
-                              child: Text('sdf'),
-                            ),
-                            onTap: () async {
-                              final MadPay pay = MadPay();
-                              await pay.checkPayments();
-                              await pay.checkActiveCard(
-                                paymentNetworks: <PaymentNetwork>[
-                                  PaymentNetwork.visa,
-                                  PaymentNetwork.mastercard,
-                                ],
-                              );
-
-                              final Map<String, String> req =
-                              await pay.processingPayment(
-                                google: GoogleParameters(
-                                  gatewayName: 'sberbank',
-                                  gatewayMerchantId: 'T1513081007',
-                                ),
-                                apple: AppleParameters(
-                                  merchantIdentifier: 'merchant.faemEda.com',
-                                ),
-                                currencyCode: 'RUB',
-                                countryCode: 'RU',
-                                paymentItems: <PaymentItem>[
-                                  PaymentItem(name: 'Шавуха', price: 1.54),
-                                ],
-                                paymentNetworks: <PaymentNetwork>[
-                                  PaymentNetwork.visa,
-                                  PaymentNetwork.mastercard,
-                                ],
-                              );
-                              print(req);
-                              var result = await SberAPI.googlePay(req);
-                              if(result.success){
-                                var result2 = await SberAPI.getOrderStatus(result.data.orderId);
-                                print("");
-                              }
-                              print("");
-                            },
-                          ),
+                          // GestureDetector(
+                          //   child: Container(
+                          //     height: 40,width: 40,
+                          //     child: Text('sdf'),
+                          //   ),
+                          //   onTap: () async {
+                          //
+                          //     print("");
+                          //   },
+                          // ),
                           Padding(
                             padding:
                             EdgeInsets.symmetric(horizontal: 20.0),
@@ -604,7 +574,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 || currentUser.cartModel.items.length < 1){
                               currentUser.cartModel = new CartModel();
                               return Container();
-                            } 
+                            }
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 0),
                               child: cartButton = CartButton(

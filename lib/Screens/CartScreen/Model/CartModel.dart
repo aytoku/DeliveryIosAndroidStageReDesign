@@ -78,7 +78,7 @@ class CartModel {
   final bool withoutDelivery;
   final bool eatInStore;
   final String deliveryType;
-  final int deliveryPrice;
+  final double deliveryPrice;
   final Address deliveryAddress;
   final int cookingTime;
   final DateTime createdAt;
@@ -103,7 +103,7 @@ class CartModel {
     withoutDelivery: json["without_delivery"] == null ? null : json["without_delivery"],
     eatInStore: json["eat_in_store"] == null ? null : json["eat_in_store"],
     deliveryType: json["delivery_type"] == null ? null : json["delivery_type"],
-    deliveryPrice: json["delivery_price"] == null ? null : json["delivery_price"],
+    deliveryPrice: json["delivery_price"] == null ? null : json["delivery_price"] * 1.0,
     deliveryAddress: json["delivery_address"] == null ? null : Address.fromJson(json["delivery_address"]),
     cookingTime: json["cooking_time"] == null ? null : json["cooking_time"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),

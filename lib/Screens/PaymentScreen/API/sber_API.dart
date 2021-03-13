@@ -18,8 +18,8 @@ class SberAPI{
   static String language = 'ru';
   static String clientId = '11';
   static String pageView = 'MOBILE';
-  static int orderNumber = 2287;
-  static int amount = 154;
+  static String orderNumber = '';
+  static int amount = 0;
 
   static Future<OrderRegistration> orderRegistration() async {
     OrderRegistration orderRegistration = null;
@@ -122,6 +122,7 @@ class SberAPI{
       'amount': amount,
       'phone': currentUser.phone,
       'returnUrl': returnUrl,
+      'failUrl': failUrl,
     });
     var url = 'https://3dsec.sberbank.ru/payment/google/payment.do';
     var response = await http.post(url, body: request, headers: <String, String>{
