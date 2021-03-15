@@ -11,8 +11,8 @@ class SberGooglePayment {
 
   factory SberGooglePayment.fromJson(Map<String, dynamic> json) => SberGooglePayment(
     success: json["success"],
-    data: json["success"] ? Data.fromJson(json["data"]) : null,
-    error: !json["success"] ? Error.fromJson(json["error"]) : null,
+    data: json["data"] ? Data.fromJson(json["data"]) : null,
+    error: !json["error"] ? Error.fromJson(json["error"]) : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -40,9 +40,9 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     orderId: json["orderId"],
     acsUrl: json.containsKey("acsUrl") ? json["acsUrl"] : null,
-    paReq: json.containsKey("acsUrl") ? json["paReq"] : null,
-    termUrl: json.containsKey("acsUrl") ? json["termUrl"]: null,
-    MD: json.containsKey("acsUrl") ? json["MD"] : null,
+    paReq: json.containsKey("paReq") ? json["paReq"] : null,
+    termUrl: json.containsKey("termUrl") ? json["termUrl"]: null,
+    MD: json.containsKey("MD") ? json["MD"] : null,
   );
 
   Map<String, dynamic> toJson() => {

@@ -5,6 +5,7 @@ import 'package:flutter_app/Screens/PaymentScreen/Model/OrderRefund.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/OrderRegistration.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/OrderReverse.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/OrderStatus.dart';
+import 'package:flutter_app/Screens/PaymentScreen/Model/SberApplePayment.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/SberGooglePayment.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
@@ -138,5 +139,35 @@ class SberAPI{
 
 
     return sberGooglePayment;
+  }
+
+
+  static Future<ApplePaymentSuccess> applePay(Map<String, String> applePay) async {
+    ApplePaymentSuccess applePaymentSuccess = null;
+    var request = convert.jsonEncode({
+      'merchant': 'merchant.faemEda.com',
+      'orderNumber': orderNumber,
+      'description': '',
+      'paymentToken': convert.base64Encode(utf8.encode(applePay['paymentToken'])),
+      'language': language,
+      'additionalParameters': {
+
+      },
+      'preAuth': true,
+    });
+    var url = 'https://3dsec.sberbank.ru/payment/apple/payment.do';
+    var response = await http.post(url, body: request, headers: <String, String>{
+      'Content-Type': 'application/json'
+    });
+    print(response.body);
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      applePaymentSuccess = new ApplePaymentSuccess.fromJson(jsonResponse);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+
+
+    return applePaymentSuccess;
   }
 }

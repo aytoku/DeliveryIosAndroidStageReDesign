@@ -1230,8 +1230,11 @@ class AddressScreenState extends State<AddressScreen>
                                             builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
                                             (Route<dynamic> route) => false);
                                   else{ // если не наличка
-                                    await doGooglePayPayment();
-
+                                    if(Platform.isIOS){
+                                      await doApplePayPayment();
+                                    }else{
+                                      await doGooglePayPayment();
+                                    }
                                   }
                                 } else {
                                   noConnection(context);
@@ -1251,6 +1254,16 @@ class AddressScreenState extends State<AddressScreen>
           },
         ),),
     );
+  }
+
+  Future<bool> doApplePayPayment() async{
+    SberAPI.amount = (currentUser.cartModel.totalPrice * 100).round();
+    SberAPI.orderNumber = currentUser.cartModel.id;
+
+    Map<String, String> req = await madPayment();
+
+    var result = await SberAPI.applePay(req);
+     return result.success;
   }
 
   Future<bool> doGooglePayPayment() async{

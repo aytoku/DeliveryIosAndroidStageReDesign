@@ -542,7 +542,35 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //   ),
                           //   onTap: () async {
                           //
-                          //     print("");
+                          //     final MadPay pay = MadPay();
+                          //     await pay.checkPayments();
+                          //     await pay.checkActiveCard(
+                          //       paymentNetworks: <PaymentNetwork>[
+                          //         PaymentNetwork.visa,
+                          //         PaymentNetwork.mastercard,
+                          //       ],
+                          //     );
+                          //
+                          //     var req = await pay.processingPayment(
+                          //       google: GoogleParameters(
+                          //         gatewayName: 'Your Gateway',
+                          //         gatewayMerchantId: 'Your id',
+                          //       ),
+                          //       apple: AppleParameters(
+                          //         merchantIdentifier: 'merchant.faemEda.com',
+                          //       ),
+                          //       currencyCode: 'RUB',
+                          //       countryCode: 'RU',
+                          //       paymentItems: <PaymentItem>[
+                          //         PaymentItem(name: 'T-Shirt', price: 1.14),
+                          //       ],
+                          //       paymentNetworks: <PaymentNetwork>[
+                          //         PaymentNetwork.visa,
+                          //         PaymentNetwork.mastercard,
+                          //         PaymentNetwork.maestro
+                          //       ],
+                          //     );
+                          //     print(req);
                           //   },
                           // ),
                           Padding(
