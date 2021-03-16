@@ -82,7 +82,7 @@ class PanelContentState extends State<PanelContent> {
                                   topLeft: Radius.circular(12),
                                   topRight: Radius.circular(12),
                                 ),
-                                color: Colors.white),
+                                color: AppColor.elementsColor),
                             child: ClipRRect(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(12),
@@ -93,7 +93,7 @@ class PanelContentState extends State<PanelContent> {
                                   Image.network(
                                     getImage(
                                         restaurantDataItems.meta.images[0]),
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.fitHeight,
                                     height: 300,
                                     width: MediaQuery.of(context).size.width,
                                   ),

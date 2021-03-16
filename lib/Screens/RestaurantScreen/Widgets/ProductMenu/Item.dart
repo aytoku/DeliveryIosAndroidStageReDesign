@@ -294,7 +294,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                                     (restaurantDataItems.meta.images != null)
                                         ? restaurantDataItems.meta.images[0]
                                         : ''),
-                                fit: BoxFit.fill,
+                                fit: BoxFit.fitHeight,
                                 height: 300,
                                 width: MediaQuery.of(context).size.width,
                               ) : Center(
