@@ -382,6 +382,7 @@ class CartScreenState extends State<CartScreen> {
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(15.0))),
                                         child: Container(
+                                          decoration: BoxDecoration(color: AppColor.themeColor, borderRadius: BorderRadius.circular(15.0)),
                                             height: 130,
                                             width: 300,
                                             child: Column(
@@ -392,7 +393,7 @@ class CartScreenState extends State<CartScreen> {
                                                     child: Center(
                                                       child: Text("Удалить",
                                                         style: TextStyle(
-                                                            color: Color(0xFFFF3B30),
+                                                            color: AppColor.mainColor,
                                                             fontSize: 20
                                                         ),
                                                       ),
@@ -434,7 +435,7 @@ class CartScreenState extends State<CartScreen> {
                                                     child: Center(
                                                       child: Text("Отмена",
                                                         style: TextStyle(
-                                                            color: Color(0xFF007AFF),
+                                                            color: AppColor.textColor,
                                                             fontSize: 20
                                                         ),
                                                       ),

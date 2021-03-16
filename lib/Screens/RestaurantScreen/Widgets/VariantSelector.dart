@@ -92,9 +92,10 @@ class VariantsSelectorState extends State<VariantsSelector> {
                 child: Text(
                   (required) ? 'Обязательно' : 'Опционально',
                   style: TextStyle(
-                    color: (selectedVariants.isNotEmpty && required) ?
-                    Colors.black :
-                    Color(0xFF7D7D7D)
+                    color: AppColor.textColor
+                    // (selectedVariants.isNotEmpty && required) ?
+                    // Colors.black :
+                    // Color(0xFF7D7D7D)
                   ),
                 ),
               )
@@ -151,18 +152,19 @@ class VariantsSelectorState extends State<VariantsSelector> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Colors.white
+                  color: AppColor.elementsColor
                 ),
                 padding:  EdgeInsets.only(top: 0, bottom: 22 , left: 15),
                 child: Row(
                   children: [
-                    (selectedVariants.contains(element)) ? SvgPicture.asset('assets/svg_images/checked_rest_circle.svg')
-                        : SvgPicture.asset('assets/svg_images/rest_circle.svg'),
+                    (selectedVariants.contains(element)) ? SvgPicture.asset('assets/svg_images/checked_rest_circle.svg', color: AppColor.mainColor,)
+                        : SvgPicture.asset('assets/svg_images/rest_circle.svg', color: AppColor.additionalTextColor,),
                     Padding(
                       padding: EdgeInsets.only(left: 18),
                       child: Text(element.name,
                         style: TextStyle(
-                            fontSize: 14
+                            fontSize: 14,
+                          color: AppColor.textColor,
                         ),
                       ),
                     ),
@@ -170,7 +172,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
                       padding: EdgeInsets.only(left: 12.0),
                       child: Text(
                         '${element.price} \₽',
-                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                        style: TextStyle(color: AppColor.additionalTextColor, fontSize: 14),
                       ),
                     ),
                   ],

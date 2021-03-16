@@ -199,14 +199,23 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(15),
                           bottomRight: Radius.circular(15)),
-                      child: Image.network(
-                        getImage((restaurantDataItems.meta.images != null)
-                            ? restaurantDataItems.meta.images[0]
-                            : ''),
-                        fit: BoxFit.cover,
-                        height: MediaQuery.of(context).size.height,
-                        width: 168,
-                      ),
+                      child: (restaurantDataItems.meta.images != null)
+                          ? Image.network(
+                              getImage((restaurantDataItems.meta.images != null)
+                                  ? restaurantDataItems.meta.images[0]
+                                  : ''),
+                              fit: BoxFit.cover,
+                              height: MediaQuery.of(context).size.height,
+                              width: 168,
+                            )
+                          : Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Image.asset(
+                                  'assets/images/Dish.png',
+                                ),
+                            ),
+                          ),
                     ),
                   ),
                 ],
@@ -265,7 +274,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColor.elementsColor,
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(12),
                           topRight: const Radius.circular(12),
@@ -280,7 +289,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                               bottomRight: Radius.circular(0)),
                           child: Stack(
                             children: <Widget>[
-                              Image.network(
+                              (restaurantDataItems.meta.images != null) ? Image.network(
                                 getImage(
                                     (restaurantDataItems.meta.images != null)
                                         ? restaurantDataItems.meta.images[0]
@@ -288,6 +297,12 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                                 fit: BoxFit.fill,
                                 height: 300,
                                 width: MediaQuery.of(context).size.width,
+                              ) : Center(
+                                child: Image.asset(
+                                  'assets/images/bigger_dish.png',
+                                  height: 300,
+                                  width: MediaQuery.of(context).size.width,
+                                ),
                               ),
                               // Align(
                               //     alignment: Alignment.topRight,
@@ -513,7 +528,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                                                                           TextStyle(
                                                                         fontSize:
                                                                             15.0,
-                                                                        color: AppColor.textColor,
+                                                                        color: AppColor
+                                                                            .textColor,
                                                                       ),
                                                                     ),
                                                                   ],
@@ -528,8 +544,10 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                                                                   right: 20,
                                                                   top: 8),
                                                           child: PriceField(
-                                                              key: priceFieldKey,
-                                                              restaurantDataItems: restaurantDataItems),
+                                                              key:
+                                                                  priceFieldKey,
+                                                              restaurantDataItems:
+                                                                  restaurantDataItems),
                                                         )
                                                       ],
                                                     ),
@@ -541,21 +559,30 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                                                           top: 10, bottom: 5),
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                            MainAxisAlignment.spaceEvenly,
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
                                                         children: <Widget>[
                                                           Flexible(
                                                             flex: 1,
                                                             child: Padding(
-                                                              padding: EdgeInsets.only(left: 16),
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: 16),
                                                               child: ProductDescCounter(
-                                                                  key: parent.counterKey,
-                                                                  priceFieldKey: priceFieldKey),
+                                                                  key: parent
+                                                                      .counterKey,
+                                                                  priceFieldKey:
+                                                                      priceFieldKey),
                                                             ),
                                                           ),
                                                           Flexible(
                                                             flex: 2,
                                                             child: Padding(
-                                                              padding: EdgeInsets.only(left: 8, right: 16),
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: 8,
+                                                                      right:
+                                                                          16),
                                                               child:
                                                                   GestureDetector(
                                                                 child:

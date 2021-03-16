@@ -51,6 +51,7 @@ dependencies:
   equatable: ^1.0.0
   rxdart: ^0.24.0
   meta: ^1.1.6
+  change_app_package_name: ^0.1.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -64,7 +65,9 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/tuk_tuk_logo.png"
+  image_path: "assets/images/old_school_icon.png"
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

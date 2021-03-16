@@ -14,7 +14,7 @@ class MenuItemTitle extends StatefulWidget {
   MenuItemTitleState createState() {
     return new MenuItemTitleState(title);
   }
-
+  //
   static List<MenuItemTitle> fromCategoryList(List<CategoriesUuid> categories){
     List<MenuItemTitle> result = new List<MenuItemTitle>();
     categories.forEach((element) {

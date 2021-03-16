@@ -54,9 +54,10 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                   spreadRadius: 1.0, //extend the shadow
                 )
               ],
-              color: Colors.white,
+              color: AppColor.elementsColor,
               borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(width: 1.0, color: Colors.grey[200])),
+              // border: Border.all(width: 1.0, color: Colors.grey[200])
+          ),
           child: InkWell(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,12 +69,12 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                     children: [
                       Text(ordersStoryModelItem.storeData.name,
                           textAlign: TextAlign.start,
-                          style: TextStyle(fontSize: 18, color: Color(0xFF000000))),
+                          style: TextStyle(fontSize: 18, color: AppColor.textColor)),
                       Text(
                         '${ordersStoryModelItem.totalPrice.toStringAsFixed(0)} \₽',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: AppColor.textColor,
                         ),
                       ),
                     ],
@@ -89,11 +90,11 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(bottom: 2.0),
-                              child: SvgPicture.asset('assets/svg_images/clock.svg'),
+                              child: SvgPicture.asset('assets/svg_images/clock.svg', color:  AppColor.additionalTextColor),
                             ),
                             Text(
                               format.format(ordersStoryModelItem.createdAt),
-                              style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
+                              style: TextStyle(fontSize: 12, color: AppColor.additionalTextColor),
                             ),
                           ],
                         ),
@@ -102,7 +103,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                         children: [
                           Text('Доставлен',
                             style: TextStyle(
-                                color: Colors.black,
+                                color: AppColor.textColor,
                                 fontSize: 14
                             ),
                           ),
@@ -115,7 +116,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                         children: [
                           Text('Отменен',
                             style: TextStyle(
-                                color: Colors.black,
+                                color: AppColor.textColor,
                                 fontSize: 14
                             ),
                           ),

@@ -107,6 +107,7 @@ class NameScreenState extends State<NameScreen> {
                               textCapitalization: TextCapitalization.sentences,
                               style: TextStyle(
                                 fontSize: 18,
+                                color: AppColor.textColor
                               ),
                               keyboardType: TextInputType.text,
                               decoration: new InputDecoration(

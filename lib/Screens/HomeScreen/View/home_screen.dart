@@ -666,7 +666,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * 0.3),
                       child: Center(
-                        child: Text('Нет заведений по этому городу'),
+                        child: Text('Нет заведений по этому городу', style: TextStyle(color: AppColor.textColor),),
                       ),
                     ),
                   ],

@@ -25,31 +25,51 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
 
 
   Future<NecessaryDataForAuth> devId;
-  bool selected;
+  bool selected = true;
+  Timer timer;
+  bool navigate = false;
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     devId = NecessaryDataForAuth.getData();
-    selected = true;
-    new Timer.periodic(Duration(milliseconds: 5), (Timer t) => selected = false);
+    // new Timer.periodic(const Duration(milliseconds: 50), (Timer t) => selected = false);
+    timer = new Timer(const Duration(seconds: 3), nav);
+  }
+
+  void nav() {
+
+    navigate = true;
+    setState(() {});
+    print("navigate: $navigate");
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    timer.cancel();
   }
 
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width *
+        MediaQuery.of(context).devicePixelRatio;
+
+    double middleX = screenWidth / 21.5;
+
+    print (middleX);
     return Container(
       color: AppColor.mainColor,
       child: FutureBuilder<NecessaryDataForAuth>(
         future: devId,
         builder:
             (BuildContext context, AsyncSnapshot<NecessaryDataForAuth> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // CartDataModel.getCart().then((value) {
-            //   currentUser.cartModel = value;
-            //   print('Cnjbn');
-            // });
+          if (snapshot.connectionState == ConnectionState.done && navigate == true) {
+
             necessaryDataForAuth = snapshot.data;
             if (necessaryDataForAuth.refresh_token == null ||
                 necessaryDataForAuth.phone_number == null ||
@@ -90,22 +110,23 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
             return Stack(
               alignment: Alignment.center,
               children: [
-                AnimatedPositioned(
-                  duration: Duration(milliseconds: 1000),
-                  left: selected ? -500.0 : 75,
-                  curve: Curves.bounceInOut,
-                  child: Image(
-                    image: AssetImage('assets/images/old.png'),
-                  ),
-                ),
-                AnimatedPositioned(
-                  duration: Duration(milliseconds: 1000),
-                  right: selected ? -500.0 : 60,
-                  curve: Curves.bounceInOut,
-                  child: Image(
-                    image: AssetImage('assets/images/school.png'),
-                  ),
-                ),
+                Image.asset('assets/gif/old_school_gif.gif')
+                // AnimatedPositioned(
+                //   duration: Duration(milliseconds: 1000),
+                //   left: selected ? -500.0 : middleX,
+                //   curve: Curves.bounceInOut,
+                //   child: Image(
+                //     image: AssetImage('assets/images/old.png'),
+                //   ),
+                // ),
+                // AnimatedPositioned(
+                //   duration: Duration(milliseconds: 1000),
+                //   right: selected ? -500.0 : middleX,
+                //   curve: Curves.bounceInOut,
+                //   child: Image(
+                //     image: AssetImage('assets/images/school.png'),
+                //   ),
+                // ),
               ],
             );
           }

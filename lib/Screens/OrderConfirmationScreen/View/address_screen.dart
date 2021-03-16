@@ -988,6 +988,7 @@ class AddressScreenState extends State<AddressScreen>
                                 color: AppColor.subElementsColor,
                                 borderRadius: BorderRadius.circular(10.0),
                                 // border: Border.all(width: 1.0, color: AppColor.subElementsColor),
+
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),

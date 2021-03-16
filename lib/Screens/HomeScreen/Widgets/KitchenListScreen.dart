@@ -115,7 +115,7 @@ class KitchenListScreenState extends State<KitchenListScreen> {
               child: FlatButton(
                 child: Text('Применить',
                     style: TextStyle(fontSize: 18.0, color: Colors.white)),
-                color: hasSelectedItems() ? AppColor.mainColor : AppColor.fieldColor,
+                color: hasSelectedItems() ? AppColor.mainColor : AppColor.elementsColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

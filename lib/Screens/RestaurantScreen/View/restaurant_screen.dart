@@ -322,28 +322,32 @@ class RestaurantScreenState extends State<RestaurantScreen> {
 //    int dayNumber  = now.weekday-1;
 //    int work_ending = restaurant.work_schedule[dayNumber].work_ending;
     return Container(
+      color: AppColor.themeColor,
       child: Column(
         children: [
           Padding(
             padding: EdgeInsets.only(left: 20, top: 30),
             child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  restaurant.name,
-                  style: TextStyle(
-                      color: Color(0xFF424242),
-                      fontSize: 21,
-                      fontWeight: FontWeight.bold),
-                )),
+              alignment: Alignment.topLeft,
+              child: Text(
+                restaurant.name,
+                style: TextStyle(
+                    color: AppColor.textColor,
+                    fontSize: 21,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 20),
             child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Адрес',
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
-                )),
+              alignment: Alignment.topLeft,
+              child: Text(
+                'Адрес',
+                style: TextStyle(
+                    color: AppColor.additionalTextColor, fontSize: 14),
+              ),
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 10),
@@ -351,7 +355,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   restaurant.address.unrestrictedValue,
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14, color: AppColor.textColor),
                 )),
           ),
           Padding(
@@ -360,7 +364,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Время доставки",
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                  style: TextStyle(
+                      color: AppColor.additionalTextColor, fontSize: 14),
                 )),
           ),
           Padding(
@@ -369,7 +374,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   '${restaurant.meta.avgDeliveryTime}',
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14, color: AppColor.textColor),
                 )),
           ),
           Padding(
@@ -378,18 +383,21 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   'Кухни',
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                  style: TextStyle(
+                      color: AppColor.additionalTextColor, fontSize: 14),
                 )),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20, top: 10),
+            padding: EdgeInsets.only(left: 20, top: 10, right: 20.0),
             child: Align(
                 alignment: Alignment.topLeft,
                 child: Row(
                   children: List.generate(restaurant.storeCategoriesUuid.length,
                       (index) {
                     return Text(
-                        restaurant.storeCategoriesUuid[index].name + ' ');
+                      restaurant.storeCategoriesUuid[index].name + ' ',
+                      style: TextStyle(color: AppColor.textColor),
+                    );
                   }),
                 )),
           )
@@ -551,7 +559,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         restaurantDataItems.productsByStoreUuidList, this));
     foodMenuTitles.clear();
     foodMenuTitles.addAll(
-        MenuItemTitle.fromCategoryList(restaurant.productCategoriesUuid));
+        MenuItemTitle.fromCategoryList(restaurant.productCategoriesUuid)); ///////Title
     menuWithTitles = generateMenu();
 
     List<Widget> sliverChildren = getSliverChildren();
@@ -626,8 +634,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       if (sliverImageKey.currentState != null &&
           sliverScrollController.offset > 89) {
         sliverImageKey.currentState.setState(() {
-          sliverImageKey.currentState.image =
-              new SvgPicture.asset('assets/svg_images/arrow_left.svg', color: AppColor.textColor,);
+          sliverImageKey.currentState.image = new SvgPicture.asset(
+            'assets/svg_images/arrow_left.svg',
+            color: AppColor.textColor,
+          );
         });
       } else {
         if (sliverImageKey.currentState != null) {
@@ -946,7 +956,16 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   header: SliverShadow(
                       categoryList: _buildFoodCategoryList(),
                       key: sliverShadowKey),
+                  // sliver: SliverGrid.count(
+                  //   crossAxisCount: 2,
+                  //   crossAxisSpacing: 15.0,
+                  //   children: sliverChildren,
+                  // ),
                   sliver: SliverList(
+                    // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    //   ///no.of items in the horizontal axis
+                    //   crossAxisCount: 2,
+                    // ),
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         return TranslationAnimatedWidget(

@@ -119,7 +119,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
             height: 600,
             child: _buildKitchensFilterNavigationMenu(categories),
             decoration: BoxDecoration(
-                color: AppColor.fieldColor,
+                color: AppColor.themeColor,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(20),
                   topRight: const Radius.circular(20),
