@@ -428,7 +428,6 @@ class StoreData {
     this.ownDelivery,
     this.url,
     this.meta,
-    this.settings,
   });
 
   String uuid;
@@ -449,7 +448,6 @@ class StoreData {
   bool ownDelivery;
   String url;
   StoreDataMeta meta;
-  Settings settings;
 
   factory StoreData.fromJson(Map<String, dynamic> json) => StoreData(
     uuid: json["uuid"],
@@ -470,7 +468,6 @@ class StoreData {
     ownDelivery: json["own_delivery"],
     url: json["url"],
     meta: StoreDataMeta.fromJson(json["meta"]),
-    settings: Settings.fromJson(json["settings"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -492,7 +489,6 @@ class StoreData {
     "own_delivery": ownDelivery,
     "url": url,
     "meta": meta.toJson(),
-    "settings": settings.toJson(),
   };
 }
 
@@ -524,42 +520,30 @@ class StoreDataMeta {
   StoreDataMeta({
     this.images,
     this.rating,
-    this.deliveryTime,
-    this.deliveryPrice,
+    this.avgDeliveryTime,
+    this.avgDeliveryPrice,
+    this.confirmationTime
   });
 
-  List<String> images;
-  double rating;
-  String deliveryTime;
-  String deliveryPrice;
+  final List<String> images;
+  final double rating;
+  final int avgDeliveryTime;
+  final int avgDeliveryPrice;
+  final int confirmationTime;
 
   factory StoreDataMeta.fromJson(Map<String, dynamic> json) => StoreDataMeta(
-    images: List<String>.from(json["images"].map((x) => x)),
-    rating: json["rating"].toDouble(),
-    deliveryTime: json["delivery_time"],
-    deliveryPrice: json["delivery_price"],
+      images: json["images"] == null ? null : List<String>.from(json["images"].map((x) => x)),
+      rating: json["rating"] == null ? null : json["rating"].toDouble(),
+      avgDeliveryTime: json["avg_delivery_time"] == null ? null : json["avg_delivery_time"],
+      avgDeliveryPrice: json["avg_delivery_price"] == null ? null : json["avg_delivery_price"],
+      confirmationTime: json["confirmation_time"] == null ? null : json["confirmation_time"]
   );
 
   Map<String, dynamic> toJson() => {
-    "images": List<dynamic>.from(images.map((x) => x)),
-    "rating": rating,
-    "delivery_time": deliveryTime,
-    "delivery_price": deliveryPrice,
-  };
-}
-
-class Settings {
-  Settings({
-    this.confirmationTime,
-  });
-
-  int confirmationTime;
-
-  factory Settings.fromJson(Map<String, dynamic> json) => Settings(
-    confirmationTime: json["confirmation_time"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "confirmation_time": confirmationTime,
+    "images": images == null ? null : List<dynamic>.from(images.map((x) => x)),
+    "rating": rating == null ? null : rating,
+    "avg_delivery_time": avgDeliveryTime == null ? null : avgDeliveryTime,
+    "avg_delivery_price": avgDeliveryPrice == null ? null : avgDeliveryPrice,
+    "confirmation_time": confirmationTime == null ? null : confirmationTime,
   };
 }
