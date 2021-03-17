@@ -1323,7 +1323,7 @@ class AddressScreenState extends State<AddressScreen>
         gatewayMerchantId: 'T1513081007',
       ),
       apple: AppleParameters(
-        merchantIdentifier: 'merchant.faemEda.com',
+        merchantIdentifier: 'merchant.eda.com',
       ),
       currencyCode: 'RUB',
       countryCode: 'RU',

@@ -21,7 +21,7 @@ Future<ProductsByStoreUuidData> getProductsByStoreUuid(String store_uuid) async 
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
-  //print(response.body);
+  print(response.body);
   return productsByStoreUuid;
 }
 

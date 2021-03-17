@@ -83,7 +83,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     restaurantGetBloc.add(InitialLoad());
     temporaryOrderCheckingKey = new GlobalKey();
     // временное решение(убрать когда будет центрифуга)
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    timer = Timer.periodic(Duration(seconds: 100), (timer) {
       if(temporaryOrderCheckingKey.currentState != null){
         temporaryOrderCheckingKey.currentState.setState(() {
 
@@ -553,11 +553,11 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //
                           //     var req = await pay.processingPayment(
                           //       google: GoogleParameters(
-                          //         gatewayName: 'Your Gateway',
-                          //         gatewayMerchantId: 'Your id',
+                          //         gatewayName: 'sberbank',
+                          //         gatewayMerchantId: 'T1513081007',
                           //       ),
                           //       apple: AppleParameters(
-                          //         merchantIdentifier: 'merchant.faemEda.com',
+                          //         merchantIdentifier: 'merchant.eda.com',
                           //       ),
                           //       currencyCode: 'RUB',
                           //       countryCode: 'RU',
