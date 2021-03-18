@@ -37,7 +37,8 @@ class Centrifugo{
     });
     client.connect();
 
-    final subscription = client.getSubscription('client/' + authCodeData.clientUuid);
+    final subscription = client.getSubscription('eda/orderstates/client/${authCodeData.clientUuid}');
+    print('eda/orderstates/client/${necessaryDataForAuth.device_id}' + 'CENTRIFUGO');
 
     subscription.publishStream.listen((event){
       var parsedJson = convert.jsonDecode(utf8.decode(event.data));

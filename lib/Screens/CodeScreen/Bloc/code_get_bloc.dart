@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Amplitude/amplitude.dart';
+import 'package:flutter_app/Centrifugo/centrifugo.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CodeScreen/API/auth_code_data_pass.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_event.dart';
@@ -66,7 +67,7 @@ class CodeGetBloc extends Bloc<CodeEvent, CodeState> {
             authCodeData.token;
         await NecessaryDataForAuth.saveData();
 
-        //await Centrifugo.connectToServer();
+        // await Centrifugo.connectToServer();
 
         // Изменение флажка и переход на скрин
         currentUser.isLoggedIn = true;

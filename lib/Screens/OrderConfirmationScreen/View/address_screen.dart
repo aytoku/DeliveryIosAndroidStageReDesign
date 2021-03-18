@@ -108,10 +108,8 @@ class AddressScreenState extends State<AddressScreen>
       },
       {
         "name": (Platform.isIOS) ? "ApplePay" : "GooglePay",
-        "image": "assets/svg_images/apple_pay.svg"
+        "image": "assets/svg_images/visa.svg"
       },
-
-
     ];
     // addressValueController = TextEditingController(text: restaurant.destination_points[0].street + ' ' + restaurant.destination_points[0].house);
     // selectedAddress = restaurant.address[0];
@@ -1070,7 +1068,7 @@ class AddressScreenState extends State<AddressScreen>
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: 10, left: 0, right: 15, bottom: 10),
+                                    top: 10, left: 15, right: 15, bottom: 10),
                                 child: Align(
                                   alignment: Alignment.bottomLeft,
                                   child: GestureDetector(
@@ -1106,13 +1104,16 @@ class AddressScreenState extends State<AddressScreen>
                                                         color: Color(0xFFB8B8B8)),
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 17),
-                                                  child: Text(
-                                                    paymentMethods[selectedPaymentId]['name'],
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.black),
+                                                Align(
+                                                  alignment: Alignment.bottomLeft,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 17),
+                                                    child: Text(
+                                                      paymentMethods[selectedPaymentId]['name'],
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.black),
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -1264,7 +1265,6 @@ class AddressScreenState extends State<AddressScreen>
       result = await SberAPI.googlePay(req);
     }
     if(result.success){
-      //var result2 = await SberAPI.getOrderStatus(result.data.orderId);
       if(result.data.acsUrl != null){
         Navigator.of(context).push(
             MaterialPageRoute(

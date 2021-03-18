@@ -11,8 +11,8 @@ class SberGooglePayment {
 
   factory SberGooglePayment.fromJson(Map<String, dynamic> json) => SberGooglePayment(
     success: json["success"],
-    data: json["data"] ? Data.fromJson(json["data"]) : null,
-    error: !json["error"] ? Error.fromJson(json["error"]) : null,
+    data: json["data"] != null ? Data.fromJson(json["data"]) : null,
+    error: json["error"] != null ? Error.fromJson(json["error"]) : null,
   );
 
   Map<String, dynamic> toJson() => {

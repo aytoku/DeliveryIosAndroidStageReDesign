@@ -142,21 +142,21 @@ class SberAPI{
   }
 
 
-  static Future<ApplePaymentSuccess> applePay(Map<String, String> applePay) async {
-    ApplePaymentSuccess applePaymentSuccess = null;
+  static Future<SberGooglePayment> applePay(Map<String, String> applePay) async {
+    SberGooglePayment applePaymentSuccess = null;
     var request = convert.jsonEncode({
-      'merchant': 'merchant.eda.com',
+      'merchant': 'T1513081007',
       'orderNumber': orderNumber,
-      'paymentToken': convert.base64Encode(utf8.encode(applePay['token'])),
+      'paymentToken': convert.base64Encode(utf8.encode(applePay['token']))
     });
     var url = 'https://3dsec.sberbank.ru/payment/applepay/payment.do';
     var response = await http.post(url, body: request, headers: <String, String>{
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json; charset=UTF-8'
     });
     print(response.body);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
-      applePaymentSuccess = new ApplePaymentSuccess.fromJson(jsonResponse);
+      applePaymentSuccess = new SberGooglePayment.fromJson(jsonResponse);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
