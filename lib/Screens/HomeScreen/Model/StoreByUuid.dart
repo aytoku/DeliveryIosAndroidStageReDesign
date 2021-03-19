@@ -41,7 +41,7 @@ class StoreByUuid {
   dynamic workSchedule;
   Address address;
   dynamic contacts;
-  double priority;
+  int priority;
   int lat;
   int lon;
   String url;

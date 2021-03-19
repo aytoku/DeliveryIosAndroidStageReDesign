@@ -51,7 +51,7 @@ class ProductsByStoreUuid {
   bool available;
   bool stopList;
   bool defaultSet;
-  double priority;
+  int priority;
   bool openable;
   String type;
   double price;
@@ -199,7 +199,7 @@ class ProductCategory {
 
   String uuid;
   String name;
-  double priority;
+  int priority;
   String comment;
   String url;
   ProductCategoryMeta meta;

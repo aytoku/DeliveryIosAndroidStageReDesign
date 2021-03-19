@@ -73,7 +73,7 @@ class Product {
   bool available;
   bool stopList;
   bool defaultSet;
-  double priority;
+  int priority;
   String type;
   int leftover;
   int price;
@@ -196,7 +196,7 @@ class ProductCategory {
 
   String uuid;
   String name;
-  double priority;
+  int priority;
   String comment;
   String url;
   ProductCategoryMeta meta;

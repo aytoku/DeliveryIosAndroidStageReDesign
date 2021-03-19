@@ -536,7 +536,7 @@ class StoreData {
   final dynamic workSchedule;
   final Address address;
   final dynamic contacts;
-  final double priority;
+  final int priority;
   final int lat;
   final int lon;
   final bool ownDelivery;

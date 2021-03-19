@@ -79,7 +79,7 @@ class FilteredStores {
   WorkSchedule workSchedule;
   Address address;
   List<Contact> contacts;
-  double priority;
+  int priority;
   int lat;
   int lon;
   String url;
@@ -345,7 +345,7 @@ class CategoriesUuid {
 
   String uuid;
   String name;
-  double priority;
+  int priority;
   String comment;
   String url;
   ProductCategoriesUuidMeta meta;
