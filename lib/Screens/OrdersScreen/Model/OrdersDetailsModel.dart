@@ -445,7 +445,7 @@ class StoreData {
   dynamic holidayWorkSchedule;
   Address address;
   dynamic contacts;
-  int priority;
+  double priority;
   int lat;
   int lon;
   bool ownDelivery;

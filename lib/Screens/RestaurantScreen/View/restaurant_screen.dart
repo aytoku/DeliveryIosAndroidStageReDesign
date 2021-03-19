@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/FadeAnimation.dart';
 import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -686,13 +686,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             ),
             CustomScrollView(
               physics: BouncingScrollPhysics(),
-              anchor: 0.01,
+              anchor: 0.02,
               controller: sliverScrollController,
               slivers: [
                 SliverAppBar(
                   brightness:
                       _isAppBarExpanded ? Brightness.dark : Brightness.light,
-                  expandedHeight: 140.0,
+                  expandedHeight: 160.0,
                   floating: false,
                   pinned: true,
                   snap: false,
@@ -700,12 +700,12 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   elevation: 0,
                   backgroundColor: AppColor.themeColor,
                   leading: InkWell(
-                    hoverColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
+                    hoverColor: AppColor.themeColor,
+                    focusColor: AppColor.themeColor,
+                    splashColor: AppColor.themeColor,
+                    highlightColor: AppColor.themeColor,
                     child: Container(
-                      height: 40,
+                      height: 60,
                       width: 60,
                       child: Padding(
                         padding: const EdgeInsets.only(
@@ -824,8 +824,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   ),
                 ),
                 SliverStickyHeader(
-                  sticky: false,
+                  sticky: true,
                   header: Container(
+                    height: 100,
                     decoration: BoxDecoration(
                       color: AppColor.themeColor,
                       borderRadius: BorderRadius.only(
@@ -837,33 +838,37 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  this.restaurant.name,
-                                  style: TextStyle(
-                                      fontSize: 21, color: AppColor.textColor),
-                                ),
-                              ),
-                              InkWell(
-                                hoverColor: AppColor.themeColor,
-                                focusColor: AppColor.themeColor,
-                                splashColor: AppColor.themeColor,
-                                highlightColor: AppColor.themeColor,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 3.0),
-                                  child: SvgPicture.asset(
-                                    'assets/svg_images/rest_info.svg',
-                                    color: AppColor.textColor,
+                          child: FadeOnScroll(
+                            scrollController: sliverScrollController,
+                            fullOpacityOffset: 110,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    this.restaurant.name,
+                                    style: TextStyle(
+                                        fontSize: 21, color: AppColor.textColor),
                                   ),
                                 ),
-                                onTap: () {
-                                  _restInfo();
-                                },
-                              ),
-                            ],
+                                InkWell(
+                                  hoverColor: AppColor.themeColor,
+                                  focusColor: AppColor.themeColor,
+                                  splashColor: AppColor.themeColor,
+                                  highlightColor: AppColor.themeColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 3.0),
+                                    child: SvgPicture.asset(
+                                      'assets/svg_images/rest_info.svg',
+                                      color: AppColor.textColor,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    _restInfo();
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Row(

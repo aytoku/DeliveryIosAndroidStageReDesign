@@ -51,7 +51,7 @@ class ProductsByStoreUuid {
   bool available;
   bool stopList;
   bool defaultSet;
-  int priority;
+  double priority;
   bool openable;
   String type;
   double price;
@@ -199,7 +199,7 @@ class ProductCategory {
 
   String uuid;
   String name;
-  int priority;
+  double priority;
   String comment;
   String url;
   ProductCategoryMeta meta;
@@ -207,7 +207,7 @@ class ProductCategory {
   factory ProductCategory.fromJson(Map<String, dynamic> json) => ProductCategory(
     uuid: json["uuid"],
     name: json["name"],
-    priority: json["priority"],
+    priority: json["priority"] * 1.0,
     comment: json["comment"],
     url: json["url"],
     meta: ProductCategoryMeta.fromJson(json["meta"]),

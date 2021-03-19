@@ -32,7 +32,7 @@ class AllStoreCategories {
   String name;
   String url;
   Meta meta;
-  int priority;
+  double priority;
 
   factory AllStoreCategories.fromJson(Map<String, dynamic> json) => AllStoreCategories(
     uuid: json["uuid"],

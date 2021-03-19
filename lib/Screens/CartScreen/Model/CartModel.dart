@@ -298,7 +298,7 @@ class Product {
   final String name;
   final String storeUuid;
   final String type;
-  final double price;
+  final int price;
   final int weight;
   final String weightMeasurement;
   final ProductMeta meta;
@@ -536,7 +536,7 @@ class StoreData {
   final dynamic workSchedule;
   final Address address;
   final dynamic contacts;
-  final int priority;
+  final double priority;
   final int lat;
   final int lon;
   final bool ownDelivery;

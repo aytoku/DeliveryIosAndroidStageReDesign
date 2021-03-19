@@ -384,10 +384,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           Padding(
                             padding: EdgeInsets.only(left: 0, top: 0),
                             child: InkWell(
-                              hoverColor: Colors.white,
-                              focusColor: Colors.white,
-                              splashColor: Colors.white,
-                              highlightColor: Colors.white,
+                              hoverColor: AppColor.themeColor,
+                              focusColor: AppColor.themeColor,
+                              splashColor: AppColor.themeColor,
+                              highlightColor: AppColor.themeColor,
                               child: Container(
                                 height: 40,
                                 width: 40,

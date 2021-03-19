@@ -41,7 +41,7 @@ Future<ProductsByStoreUuidData> getSortedProductsByStoreUuid(FilteredStores stor
             uuid: element.productCategories[0].uuid,
             name: element.productCategories[0].name,
             comment: element.productCategories[0].comment,
-            priority: element.productCategories[0].priority,
+            priority: element.productCategories[0].priority.toDouble(),
             url: element.productCategories[0].url
         ));
   });

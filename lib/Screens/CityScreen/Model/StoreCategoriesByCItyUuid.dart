@@ -21,7 +21,7 @@ class StoreCategoriesByCItyUuid {
   String name;
   String url;
   Meta meta;
-  int priority;
+  double priority;
 
   factory StoreCategoriesByCItyUuid.fromJson(Map<String, dynamic> json) => StoreCategoriesByCItyUuid(
     uuid: json["uuid"],

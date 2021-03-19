@@ -73,10 +73,10 @@ class Product {
   bool available;
   bool stopList;
   bool defaultSet;
-  int priority;
+  double priority;
   String type;
   int leftover;
-  double price;
+  int price;
   ProductMeta meta;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -119,6 +119,7 @@ class Product {
 class ProductMeta {
   ProductMeta({
     this.description,
+    this.shortDescription,
     this.composition,
     this.weight,
     this.weightMeasurement,
@@ -127,6 +128,7 @@ class ProductMeta {
   });
 
   String description;
+  String shortDescription;
   String composition;
   int weight;
   String weightMeasurement;
@@ -135,6 +137,7 @@ class ProductMeta {
 
   factory ProductMeta.fromJson(Map<String, dynamic> json) => ProductMeta(
     description: json["description"],
+    shortDescription: json["short_description"],
     composition: json["composition"],
     weight: json["weight"],
     weightMeasurement: json["weight_measurement"],
@@ -145,6 +148,7 @@ class ProductMeta {
   Map<String, dynamic> toJson() => {
     "description": description,
     "composition": composition,
+    "short_description": shortDescription,
     "weight": weight,
     "weight_measurement": weightMeasurement,
     "images": (images != null) ? List<dynamic>.from(images.map((x) => x)) : null,
@@ -192,7 +196,7 @@ class ProductCategory {
 
   String uuid;
   String name;
-  int priority;
+  double priority;
   String comment;
   String url;
   ProductCategoryMeta meta;

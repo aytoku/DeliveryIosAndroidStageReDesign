@@ -154,7 +154,8 @@ class PanelContentState extends State<PanelContent> {
                                                             EdgeInsets.only(
                                                                 top: 20,
                                                                 bottom: 15,
-                                                                left: 16),
+                                                                left: 16,
+                                                                right: 10),
                                                         child: Text(
                                                           restaurantDataItems
                                                               .name,
@@ -165,22 +166,16 @@ class PanelContentState extends State<PanelContent> {
                                                         ),
                                                       ),
                                                     ),
-                                                    (productsDescription
-                                                                    .product
-                                                                    .meta
-                                                                    .description !=
+                                                    (productsDescription.product.meta.description !=
                                                                 "" &&
-                                                            productsDescription
-                                                                    .product
-                                                                    .meta
-                                                                    .description !=
+                                                            productsDescription.product.meta.description !=
                                                                 null)
                                                         ? Padding(
                                                             padding:
                                                                 EdgeInsets.only(
                                                                     left: 15,
                                                                     top: 17,
-                                                                    bottom: 17),
+                                                                    bottom: 17, right: 10),
                                                             child: Align(
                                                               alignment:
                                                                   Alignment

@@ -176,10 +176,10 @@ class CategoryListState extends State<CategoryList> {
               Padding(
                 padding: const EdgeInsets.only(left: 7, right: 5),
                 child: InkWell(
-                  hoverColor: Colors.white,
-                  focusColor: Colors.white,
-                  splashColor: Colors.white,
-                  highlightColor: Colors.white,
+                  hoverColor: AppColor.themeColor,
+                  focusColor: AppColor.themeColor,
+                  splashColor: AppColor.themeColor,
+                  highlightColor: AppColor.themeColor,
                   child: SvgPicture.asset(
                     'assets/svg_images/rest_menu.svg',
                     color: AppColor.textColor,

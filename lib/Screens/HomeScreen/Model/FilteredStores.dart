@@ -19,10 +19,10 @@ class FilteredStoresData{
     }
 
     return FilteredStoresData(
-        filteredStoresList:storesList,
+      filteredStoresList:storesList,
     );
   }
-  
+
   static Future<List<FilteredStores>> applyCategoryFilters(List<AllStoreCategories> filters) async{
     // если выбран хотя бы один из фильтров, то
     if(filters.length > 0){
@@ -51,6 +51,9 @@ class FilteredStores {
     this.cityUuid,
     this.legalEntityUuid,
     this.parentUuid,
+    this.available,
+    this.settings,
+    this.open,
     this.type,
     this.workSchedule,
     this.address,
@@ -70,15 +73,18 @@ class FilteredStores {
   String cityUuid;
   String legalEntityUuid;
   String parentUuid;
+  Available available;
   String type;
-  dynamic workSchedule;
+  bool open;
+  WorkSchedule workSchedule;
   Address address;
-  dynamic contacts;
-  int priority;
+  List<Contact> contacts;
+  double priority;
   int lat;
   int lon;
   String url;
   FilteredStoreMeta meta;
+  Settings settings;
 
   factory FilteredStores.fromStoreData(StoreData store){
 
@@ -96,7 +102,7 @@ class FilteredStores {
         name: store.name,
         uuid: store.uuid,
         address: store.address,
-      productCategoriesUuid: productCategoriesUuid
+        productCategoriesUuid: productCategoriesUuid
     );
   }
 
@@ -109,10 +115,12 @@ class FilteredStores {
     cityUuid: json["city_uuid"],
     legalEntityUuid: json["legal_entity_uuid"],
     parentUuid: json["parent_uuid"],
-    type: json["type"],
-    workSchedule: json["work_schedule"],
+    available: json["available"] == null ? null : Available.fromJson(json["available"]),
+    type: json["type"] == null ? null : json["type"],
+    open: json["open"] == null ? null : json["open"],
+    workSchedule: json["work_schedule"] == null ? null : WorkSchedule.fromJson(json["work_schedule"]),
     address: Address.fromJson(json["address"]),
-    contacts: json["contacts"],
+    contacts: json["contacts"] == null ? null : List<Contact>.from(json["contacts"].map((x) => Contact.fromJson(x))),
     priority: json["priority"],
     lat: json["lat"],
     lon: json["lon"],
@@ -121,23 +129,25 @@ class FilteredStores {
   );
 
   Map<String, dynamic> toJson() => {
-    "uuid": uuid,
-    "name": name,
-    "store_categories_uuid": List<dynamic>.from(storeCategoriesUuid.map((x) => x.toJson())),
-    "product_categories_uuid": List<dynamic>.from(productCategoriesUuid.map((x) => x.toJson())),
-    "payment_types": List<dynamic>.from(paymentTypes.map((x) => x)),
-    "city_uuid": cityUuid,
-    "legal_entity_uuid": legalEntityUuid,
-    "parent_uuid": parentUuid,
-    "type": type,
-    "work_schedule": workSchedule,
-    "address": address.toJson(),
-    "contacts": contacts,
-    "priority": priority,
-    "lat": lat,
-    "lon": lon,
-    "url": url,
-    "meta": meta.toJson(),
+    "uuid": uuid == null ? null : uuid,
+    "name": name == null ? null : name,
+    "store_categories_uuid": storeCategoriesUuid == null ? null : List<dynamic>.from(storeCategoriesUuid.map((x) => x.toJson())),
+    "product_categories_uuid": productCategoriesUuid == null ? null : List<dynamic>.from(productCategoriesUuid.map((x) => x.toJson())),
+    "payment_types": paymentTypes == null ? null : List<dynamic>.from(paymentTypes.map((x) => x)),
+    "city_uuid": cityUuid == null ? null : cityUuid,
+    "legal_entity_uuid": legalEntityUuid == null ? null : legalEntityUuid,
+    "parent_uuid": parentUuid == null ? null : parentUuid,
+    "available": available == null ? null : available.toJson(),
+    "type": type == null ? null : type,
+    "open": open == null ? null : open,
+    "work_schedule": workSchedule == null ? null : workSchedule.toJson(),
+    "address": address == null ? null : address.toJson(),
+    "contacts": contacts == null ? null : List<dynamic>.from(contacts.map((x) => x.toJson())),
+    "lat": lat == null ? null : lat,
+    "lon": lon == null ? null : lon,
+    "url": url == null ? null : url,
+    "meta": meta == null ? null : meta.toJson(),
+    "settings": settings == null ? null : settings.toJson(),
   };
 }
 
@@ -245,6 +255,40 @@ class Address {
   };
 }
 
+class Available {
+  Available({
+    this.flag,
+    this.reason,
+    this.duration,
+  });
+
+  final bool flag;
+  final String reason;
+  final int duration;
+
+  factory Available.fromJson(Map<String, dynamic> json) => Available(
+    flag: json["flag"] == null ? null : json["flag"],
+    reason: json["reason"] == null ? null : json["reason"],
+    duration: json["duration"] == null ? null : json["duration"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "flag": flag == null ? null : flag,
+    "reason": reason == null ? null : reason,
+    "duration": duration == null ? null : duration,
+  };
+}
+
+class Contact {
+  Contact();
+
+  factory Contact.fromJson(Map<String, dynamic> json) => Contact(
+  );
+
+  Map<String, dynamic> toJson() => {
+  };
+}
+
 class FilteredStoreMeta {
   FilteredStoreMeta({
     this.images,
@@ -273,6 +317,21 @@ class FilteredStoreMeta {
   };
 }
 
+class Settings {
+  Settings({
+    this.confirmationTime,
+  });
+
+  final int confirmationTime;
+
+  factory Settings.fromJson(Map<String, dynamic> json) => Settings(
+    confirmationTime: json["confirmation_time"] == null ? null : json["confirmation_time"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "confirmation_time": confirmationTime == null ? null : confirmationTime,
+  };
+}
 
 class CategoriesUuid {
   CategoriesUuid({
@@ -286,7 +345,7 @@ class CategoriesUuid {
 
   String uuid;
   String name;
-  int priority;
+  double priority;
   String comment;
   String url;
   ProductCategoriesUuidMeta meta;
@@ -294,7 +353,7 @@ class CategoriesUuid {
   factory CategoriesUuid.fromJson(Map<String, dynamic> json) => CategoriesUuid(
     uuid: json["uuid"],
     name: json["name"],
-    priority: json["priority"],
+    priority: json["priority"] * 1.0,
     comment: json["comment"] == null ? null : json["comment"],
     url: json["url"],
     meta: ProductCategoriesUuidMeta.fromJson(json["meta"]),
@@ -317,5 +376,53 @@ class ProductCategoriesUuidMeta {
   );
 
   Map<String, dynamic> toJson() => {
+  };
+}
+
+class WorkSchedule {
+  WorkSchedule({
+    this.timeZoneOffset,
+    this.standard,
+    this.holiday,
+  });
+
+  final int timeZoneOffset;
+  final List<Standard> standard;
+  final dynamic holiday;
+
+  factory WorkSchedule.fromJson(Map<String, dynamic> json) => WorkSchedule(
+    timeZoneOffset: json["time_zone_offset"] == null ? null : json["time_zone_offset"],
+    standard: json["standard"] == null ? null : List<Standard>.from(json["standard"].map((x) => Standard.fromJson(x))),
+    holiday: json["holiday"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "time_zone_offset": timeZoneOffset == null ? null : timeZoneOffset,
+    "standard": standard == null ? null : List<dynamic>.from(standard.map((x) => x.toJson())),
+    "holiday": holiday,
+  };
+}
+
+class Standard {
+  Standard({
+    this.beginningTime,
+    this.endingTime,
+    this.weekDays,
+  });
+
+  final String beginningTime;
+  final String endingTime;
+  final List<bool> weekDays;
+
+  factory Standard.fromJson(Map<String, dynamic> json) => Standard(
+    beginningTime: json["beginning_time"] == null ? null : json["beginning_time"],
+    endingTime: json["ending_time"] == null ? null : json["ending_time"],
+    weekDays: json["week_days"] == null ? null : List<bool>.from(json["week_days"].map((x) => x)),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "beginning_time": beginningTime == null ? null : beginningTime,
+    "ending_time": endingTime == null ? null : endingTime,
+    "week_days": weekDays == null ? null : List<dynamic>.from(weekDays.map((x) => x)),
   };
 }
