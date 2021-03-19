@@ -147,11 +147,11 @@ class SberAPI{
     var request = convert.jsonEncode({
       'merchant': 'T1513081007',
       'orderNumber': orderNumber,
-      'paymentToken': convert.base64Encode(utf8.encode(applePay['token']))
+      'paymentToken': convert.base64Encode(utf8.encode(applePay['token'])),
     });
     var url = 'https://3dsec.sberbank.ru/payment/applepay/payment.do';
     var response = await http.post(url, body: request, headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8'
+      'Content-Type': 'application/json'
     });
     print(response.body);
     if (response.statusCode == 200) {

@@ -345,7 +345,7 @@ class CategoriesUuid {
 
   String uuid;
   String name;
-  int priority;
+  double priority;
   String comment;
   String url;
   ProductCategoriesUuidMeta meta;
@@ -353,7 +353,7 @@ class CategoriesUuid {
   factory CategoriesUuid.fromJson(Map<String, dynamic> json) => CategoriesUuid(
     uuid: json["uuid"],
     name: json["name"],
-    priority: json["priority"],
+    priority: json["priority"] * 1.0,
     comment: json["comment"] == null ? null : json["comment"],
     url: json["url"],
     meta: ProductCategoriesUuidMeta.fromJson(json["meta"]),

@@ -1254,7 +1254,9 @@ class AddressScreenState extends State<AddressScreen>
   }
 
   Future<bool> makePayment() async{
-    SberAPI.amount = (currentUser.cartModel.totalPrice * 100).round();
+    if(Platform.isAndroid){
+      SberAPI.amount = (currentUser.cartModel.totalPrice * 100).round();
+    }
     SberAPI.orderNumber = currentUser.cartModel.id;
 
     Map<String, String> req = await madPayment();
@@ -1323,7 +1325,7 @@ class AddressScreenState extends State<AddressScreen>
         gatewayMerchantId: 'T1513081007',
       ),
       apple: AppleParameters(
-        merchantIdentifier: 'merchant.eda.com',
+        merchantIdentifier: 'merchant.applePayFaem.com',
       ),
       currencyCode: 'RUB',
       countryCode: 'RU',
