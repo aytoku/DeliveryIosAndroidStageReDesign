@@ -345,7 +345,7 @@ class CategoriesUuid {
 
   String uuid;
   String name;
-  int priority;
+  double priority;
   String comment;
   String url;
   ProductCategoriesUuidMeta meta;

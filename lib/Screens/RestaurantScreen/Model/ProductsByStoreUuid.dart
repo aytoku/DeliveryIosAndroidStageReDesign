@@ -199,7 +199,7 @@ class ProductCategory {
 
   String uuid;
   String name;
-  int priority;
+  double priority;
   String comment;
   String url;
   ProductCategoryMeta meta;
