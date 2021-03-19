@@ -56,6 +56,11 @@ class CartModel {
     this.deliveryPrice,
     this.deliveryAddress,
     this.cookingTime,
+    this.cookingTimeFinish,
+    this.lastUpdateUuid,
+    this.lastUpdateRole,
+    this.cancelReason,
+    this.cancelComment,
     this.createdAt,
   });
 
@@ -78,9 +83,14 @@ class CartModel {
   final bool withoutDelivery;
   final bool eatInStore;
   final String deliveryType;
-  final int deliveryPrice;
+  final double deliveryPrice;
   final Address deliveryAddress;
   final int cookingTime;
+  final DateTime cookingTimeFinish;
+  final String lastUpdateUuid;
+  final String lastUpdateRole;
+  final String cancelReason;
+  final String cancelComment;
   final DateTime createdAt;
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
@@ -103,9 +113,14 @@ class CartModel {
     withoutDelivery: json["without_delivery"] == null ? null : json["without_delivery"],
     eatInStore: json["eat_in_store"] == null ? null : json["eat_in_store"],
     deliveryType: json["delivery_type"] == null ? null : json["delivery_type"],
-    deliveryPrice: json["delivery_price"] == null ? null : json["delivery_price"],
+    deliveryPrice: json["delivery_price"] == null ? null : json["delivery_price"] * 1.0,
     deliveryAddress: json["delivery_address"] == null ? null : Address.fromJson(json["delivery_address"]),
     cookingTime: json["cooking_time"] == null ? null : json["cooking_time"],
+    cookingTimeFinish: json["cooking_time_finish"] == null ? null : DateTime.parse(json["cooking_time_finish"]),
+    lastUpdateUuid: json["last_update_uuid"] == null ? null : json["last_update_uuid"],
+    lastUpdateRole: json["last_update_role"] == null ? null : json["last_update_role"],
+    cancelReason: json["cancel_reason"] == null ? null : json["cancel_reason"],
+    cancelComment: json["cancel_comment"] == null ? null : json["cancel_comment"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
   );
 
@@ -132,6 +147,11 @@ class CartModel {
     "delivery_price": deliveryPrice == null ? null : deliveryPrice,
     "delivery_address": deliveryAddress == null ? null : deliveryAddress.toJson(),
     "cooking_time": cookingTime == null ? null : cookingTime,
+    "cooking_time_finish": cookingTimeFinish == null ? null : cookingTimeFinish.toIso8601String(),
+    "last_update_uuid": lastUpdateUuid == null ? null : lastUpdateUuid,
+    "last_update_role": lastUpdateRole == null ? null : lastUpdateRole,
+    "cancel_reason": cancelReason == null ? null : cancelReason,
+    "cancel_comment": cancelComment == null ? null : cancelComment,
     "created_at": createdAt == null ? null : createdAt.toIso8601String(),
   };
 
@@ -298,7 +318,7 @@ class Product {
   final String name;
   final String storeUuid;
   final String type;
-  final int price;
+  final double price;
   final int weight;
   final String weightMeasurement;
   final ProductMeta meta;
@@ -511,6 +531,7 @@ class StoreData {
     this.cityUuid,
     this.legalEntityUuid,
     this.parentUuid,
+    this.available,
     this.type,
     this.workSchedule,
     this.address,
@@ -521,7 +542,6 @@ class StoreData {
     this.ownDelivery,
     this.url,
     this.meta,
-    this.settings,
   });
 
   final String uuid;
@@ -532,17 +552,17 @@ class StoreData {
   final String cityUuid;
   final String legalEntityUuid;
   final String parentUuid;
+  final Available available;
   final String type;
-  final dynamic workSchedule;
+  final WorkSchedule workSchedule;
   final Address address;
-  final dynamic contacts;
+  final List<Contact> contacts;
   final int priority;
   final int lat;
   final int lon;
   final bool ownDelivery;
   final String url;
   final StoreDataMeta meta;
-  final Settings settings;
 
   factory StoreData.fromJson(Map<String, dynamic> json) => StoreData(
     uuid: json["uuid"] == null ? null : json["uuid"],
@@ -553,39 +573,37 @@ class StoreData {
     cityUuid: json["city_uuid"] == null ? null : json["city_uuid"],
     legalEntityUuid: json["legal_entity_uuid"] == null ? null : json["legal_entity_uuid"],
     parentUuid: json["parent_uuid"] == null ? null : json["parent_uuid"],
+    available: json["available"] == null ? null : Available.fromJson(json["available"]),
     type: json["type"] == null ? null : json["type"],
-    workSchedule: json["work_schedule"],
+    workSchedule: json["work_schedule"] == null ? null : WorkSchedule.fromJson(json["work_schedule"]),
     address: json["address"] == null ? null : Address.fromJson(json["address"]),
-    contacts: json["contacts"],
+    contacts: json["contacts"] == null ? null : List<Contact>.from(json["contacts"].map((x) => Contact.fromJson(x))),
     priority: json["priority"] == null ? null : json["priority"],
     lat: json["lat"] == null ? null : json["lat"],
     lon: json["lon"] == null ? null : json["lon"],
     ownDelivery: json["own_delivery"] == null ? null : json["own_delivery"],
     url: json["url"] == null ? null : json["url"],
     meta: json["meta"] == null ? null : StoreDataMeta.fromJson(json["meta"]),
-    settings: json["settings"] == null ? null : Settings.fromJson(json["settings"]),
   );
 
   Map<String, dynamic> toJson() => {
     "uuid": uuid == null ? null : uuid,
     "name": name == null ? null : name,
-    "store_categories_uuid": storeCategoriesUuid == null ? null : List<dynamic>.from(storeCategoriesUuid.map((x) => x)),
-    "product_categories_uuid": productCategoriesUuid == null ? null : List<dynamic>.from(productCategoriesUuid.map((x) => x)),
     "payment_types": paymentTypes == null ? null : List<dynamic>.from(paymentTypes.map((x) => x)),
     "city_uuid": cityUuid == null ? null : cityUuid,
     "legal_entity_uuid": legalEntityUuid == null ? null : legalEntityUuid,
     "parent_uuid": parentUuid == null ? null : parentUuid,
+    "available": available == null ? null : available.toJson(),
     "type": type == null ? null : type,
-    "work_schedule": workSchedule,
+    "work_schedule": workSchedule == null ? null : workSchedule.toJson(),
     "address": address == null ? null : address.toJson(),
-    "contacts": contacts,
+    "contacts": contacts == null ? null : List<dynamic>.from(contacts.map((x) => x.toJson())),
     "priority": priority == null ? null : priority,
     "lat": lat == null ? null : lat,
     "lon": lon == null ? null : lon,
     "own_delivery": ownDelivery == null ? null : ownDelivery,
     "url": url == null ? null : url,
     "meta": meta == null ? null : meta.toJson(),
-    "settings": settings == null ? null : settings.toJson(),
   };
 }
 
@@ -595,40 +613,36 @@ class StoreDataMeta {
     this.rating,
     this.avgDeliveryTime,
     this.avgDeliveryPrice,
+    this.description,
+    this.confirmationTime,
+    this.cookingTime,
   });
 
   final List<String> images;
   final double rating;
-  final int avgDeliveryTime;
-  final int avgDeliveryPrice;
+  final String avgDeliveryTime;
+  final String avgDeliveryPrice;
+  final String description;
+  final int confirmationTime;
+  final int cookingTime;
 
   factory StoreDataMeta.fromJson(Map<String, dynamic> json) => StoreDataMeta(
     images: json["images"] == null ? null : List<String>.from(json["images"].map((x) => x)),
     rating: json["rating"] == null ? null : json["rating"].toDouble(),
-    avgDeliveryTime: json["avg_delivery_time"] == null ? null : json["avg_delivery_time"],
-    avgDeliveryPrice: json["avg_delivery_price"] == null ? null : json["avg_delivery_price"],
+    avgDeliveryTime: json["delivery_time"] == null ? null : json["delivery_time"],
+    avgDeliveryPrice: json["delivery_price"] == null ? null : json["delivery_price"],
+    description: json["description"] == null ? null : json["description"],
+    confirmationTime: json["confirmation_time"] == null ? null : json["confirmation_time"],
+    cookingTime: json["cooking_time"] == null ? null : json["cooking_time"],
   );
 
   Map<String, dynamic> toJson() => {
     "images": images == null ? null : List<dynamic>.from(images.map((x) => x)),
     "rating": rating == null ? null : rating,
-    "avg_delivery_time": avgDeliveryTime == null ? null : avgDeliveryTime,
-    "avg_delivery_price": avgDeliveryPrice == null ? null : avgDeliveryPrice,
-  };
-}
-
-class Settings {
-  Settings({
-    this.confirmationTime,
-  });
-
-  final int confirmationTime;
-
-  factory Settings.fromJson(Map<String, dynamic> json) => Settings(
-    confirmationTime: json["confirmation_time"] == null ? null : json["confirmation_time"],
-  );
-
-  Map<String, dynamic> toJson() => {
+    "delivery_time": avgDeliveryTime == null ? null : avgDeliveryTime,
+    "delivery_price": avgDeliveryPrice == null ? null : avgDeliveryPrice,
+    "description": description == null ? null : description,
     "confirmation_time": confirmationTime == null ? null : confirmationTime,
+    "cooking_time": cookingTime == null ? null : cookingTime,
   };
 }

@@ -21,7 +21,7 @@ Future<ProductsByStoreUuidData> getProductsByStoreUuid(String store_uuid) async 
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
-  //print(response.body);
+  print(response.body);
   return productsByStoreUuid;
 }
 
@@ -34,7 +34,7 @@ Future<ProductsByStoreUuidData> getSortedProductsByStoreUuid(FilteredStores stor
   store.productCategoriesUuid = new List<CategoriesUuid>();
   productsByStoreUuid.productsByStoreUuidList.forEach((element) {
     int k = store.productCategoriesUuid.indexWhere((storeProductUuid) =>
-              storeProductUuid.name == element.productCategories[0].name);
+    storeProductUuid.name == element.productCategories[0].name);
     if(k == -1)
       if(element.productCategories != null &&  element.productCategories.length > 0)
         store.productCategoriesUuid.add(new CategoriesUuid(
@@ -46,17 +46,17 @@ Future<ProductsByStoreUuidData> getSortedProductsByStoreUuid(FilteredStores stor
         ));
   });
 
-    productsByStoreUuid.productsByStoreUuidList.sort((ProductsByStoreUuid a, ProductsByStoreUuid b) {
-      int ind1 = store.productCategoriesUuid.indexWhere((element) {
-        return (element.uuid == a.productCategories[0].uuid);
-      });
-
-      int ind2 = store.productCategoriesUuid.indexWhere((element) {
-        return (element.uuid == b.productCategories[0].uuid);
-      });
-      if(ind1 == ind2)
-        return 0;
-      return (ind1 > ind2) ? 1 : -1;
+  productsByStoreUuid.productsByStoreUuidList.sort((ProductsByStoreUuid a, ProductsByStoreUuid b) {
+    int ind1 = store.productCategoriesUuid.indexWhere((element) {
+      return (element.uuid == a.productCategories[0].uuid);
     });
-    return productsByStoreUuid;
+
+    int ind2 = store.productCategoriesUuid.indexWhere((element) {
+      return (element.uuid == b.productCategories[0].uuid);
+    });
+    if(ind1 == ind2)
+      return 0;
+    return (ind1 > ind2) ? 1 : -1;
+  });
+  return productsByStoreUuid;
 }
