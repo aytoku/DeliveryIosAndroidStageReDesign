@@ -12,6 +12,7 @@ import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
 
 import '../../../../data/data.dart';
 import '../../Model/ProductsByStoreUuid.dart';
@@ -34,6 +35,7 @@ class MenuItemDescState extends State<MenuItemDesc> {
   ProductsByStoreUuid foodRecords;
   Item item;
   MenuItemState parent;
+  ProductsDataModel productsDataModel;
 
   MenuItemDescState(this.priceFieldKey, this.foodRecords, this.parent);
   int counter = 1;
@@ -45,12 +47,16 @@ class MenuItemDescState extends State<MenuItemDesc> {
         padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
         child: Align(
           alignment: Alignment.topLeft,
-          child: Text(
-            '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
-            style: TextStyle(
-                fontSize: 10.0,
-                color: AppColor.additionalTextColor),
-            overflow: TextOverflow.ellipsis,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Container(
+              child: Text('${widget.foodRecords.meta.description}',
+                style: TextStyle(
+                    fontSize: 10.0,
+                    color: AppColor.additionalTextColor),
+                // overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ),
         ),
       );

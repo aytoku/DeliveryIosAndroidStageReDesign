@@ -63,7 +63,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
 
     print (middleX);
     return Container(
-      color: AppColor.mainColor,
+      color: AppColor.elementsColor,
       child: FutureBuilder<NecessaryDataForAuth>(
         future: devId,
         builder:
@@ -111,22 +111,6 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
               alignment: Alignment.center,
               children: [
                 Image.asset('assets/gif/old_school_gif.gif')
-                // AnimatedPositioned(
-                //   duration: Duration(milliseconds: 1000),
-                //   left: selected ? -500.0 : middleX,
-                //   curve: Curves.bounceInOut,
-                //   child: Image(
-                //     image: AssetImage('assets/images/old.png'),
-                //   ),
-                // ),
-                // AnimatedPositioned(
-                //   duration: Duration(milliseconds: 1000),
-                //   right: selected ? -500.0 : middleX,
-                //   curve: Curves.bounceInOut,
-                //   child: Image(
-                //     image: AssetImage('assets/images/school.png'),
-                //   ),
-                // ),
               ],
             );
           }

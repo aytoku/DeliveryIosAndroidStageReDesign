@@ -8,7 +8,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'CategoryListItem.dart';
 
-class   CategoryList extends StatefulWidget {
+class CategoryList extends StatefulWidget {
   CategoryList({this.key, this.restaurant, this.parent}) : super(key: key);
   final GlobalKey<CategoryListState> key;
   final RestaurantScreenState parent;
@@ -30,7 +30,6 @@ class CategoryListState extends State<CategoryList> {
   ScrollController itemScrollController;
   ItemPositionsListener itemPositionsListener;
 
-
   CategoryListState(this.restaurant, this.parent);
 
   @override
@@ -38,7 +37,9 @@ class CategoryListState extends State<CategoryList> {
     // TODO: implement initState
     super.initState();
     categoryItems = new List<CategoryListItem>();
-    currentCategory = (restaurant.productCategoriesUuid.length > 0) ? restaurant.productCategoriesUuid[0] : '';
+    currentCategory = (restaurant.productCategoriesUuid.length > 0)
+        ? restaurant.productCategoriesUuid[0]
+        : '';
     firstStart = true;
     categoryListScrollController = new ScrollController();
     itemScrollController = ScrollController();
@@ -46,7 +47,7 @@ class CategoryListState extends State<CategoryList> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     categoryListScrollController.dispose();
   }
@@ -57,9 +58,9 @@ class CategoryListState extends State<CategoryList> {
         backgroundColor: Colors.transparent,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(20),
-              topRight: const Radius.circular(20),
-            )),
+          topLeft: const Radius.circular(20),
+          topRight: const Radius.circular(20),
+        )),
         context: context,
         builder: (context) {
           return Container(
@@ -76,33 +77,47 @@ class CategoryListState extends State<CategoryList> {
   }
 
   _buildCategoryBottomNavigationMenu() {
-
     return Container(
       height: 400,
       child: ListView(
-          scrollDirection: Axis.vertical,
-          children: List.generate(categoryItems.length, (index) {
+        scrollDirection: Axis.vertical,
+        children: List.generate(
+          categoryItems.length,
+          (index) {
             int itemCount = 0;
             parent.foodMenuItems.forEach((element) {
-              if(categoryItems[index].value.uuid == element.restaurantDataItems.productCategories[0].uuid)
+              if (categoryItems[index].value.uuid ==
+                  element.restaurantDataItems.productCategories[0].uuid)
                 itemCount++;
             });
 
-
             return Padding(
-              padding: EdgeInsets.only(left: 20,
-                  top: (categoryItems[0].value.name == categoryItems[index].value.name) ? 36 : 15,
-                  bottom: 15, right: 0),
+              padding: EdgeInsets.only(
+                  left: 20,
+                  top: (categoryItems[0].value.name ==
+                          categoryItems[index].value.name)
+                      ? 36
+                      : 15,
+                  bottom: 15,
+                  right: 0),
               child: GestureDetector(
                 child: Row(
                   children: [
-                    Text(categoryItems[index].value.name[0].toUpperCase() + categoryItems[index].value.name.substring(1),
-                      style: (categoryItems[index].value != currentCategory) ? TextStyle(fontSize: 18, color: AppColor.textColor) : TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: AppColor.textColor),
+                    Text(
+                      categoryItems[index].value.name[0].toUpperCase() +
+                          categoryItems[index].value.name.substring(1),
+                      style: (categoryItems[index].value != currentCategory)
+                          ? TextStyle(fontSize: 18, color: AppColor.textColor)
+                          : TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: AppColor.textColor),
                       textAlign: TextAlign.start,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10, top: 2),
-                      child: Text(itemCount.toString(),
+                      child: Text(
+                        itemCount.toString(),
                         style: TextStyle(
                           fontSize: 18,
                           color: AppColor.additionalTextColor,
@@ -115,13 +130,15 @@ class CategoryListState extends State<CategoryList> {
                 onTap: () async {
                   CategoriesUuid value = categoryItems[index].value;
                   Navigator.pop(context);
-                  if(await parent.GoToCategory(restaurant.productCategoriesUuid.indexOf(value)))
+                  if (await parent.GoToCategory(
+                      restaurant.productCategoriesUuid.indexOf(value)))
                     SelectCategory(value);
                   ScrollToSelectedCategory();
                 },
               ),
             );
-          })
+          },
+        ),
       ),
     );
   }
@@ -129,26 +146,27 @@ class CategoryListState extends State<CategoryList> {
   @override
   Widget build(BuildContext context) {
     // Если категории в списке отличаются от категорий ресторана
-    if(categoryItems.length != restaurant.productCategoriesUuid.length){
+    if (categoryItems.length != restaurant.productCategoriesUuid.length) {
       // Очищаем лист, если он не очищен
-      if(categoryItems.length != 0)
-        categoryItems.clear();
+      if (categoryItems.length != 0) categoryItems.clear();
       // Заполянем список категорий категориями продуктов
       restaurant.productCategoriesUuid.forEach((element) {
-        categoryItems.add(new CategoryListItem(key: new GlobalKey<CategoryListItemState>(),
-            categoryList: this,value: element));
+        categoryItems.add(new CategoryListItem(
+            key: new GlobalKey<CategoryListItemState>(),
+            categoryList: this,
+            value: element));
       });
     }
     // Скроллинг к выбранной категории после билда скрина
-    if(!firstStart){
+    if (!firstStart) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await ScrollToSelectedCategory();
       });
-    }else{
+    } else {
       firstStart = false;
     }
 
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.only(top: 0),
       child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -166,54 +184,50 @@ class CategoryListState extends State<CategoryList> {
                     'assets/svg_images/rest_menu.svg',
                     color: AppColor.textColor,
                   ),
-                  onTap: (){
+                  onTap: () {
                     _category();
                   },
                 ),
               ),
-
               Container(
-                width: MediaQuery.of(context).size.width * 0.84,
-                child: SingleChildScrollView(
-                  controller: itemScrollController,
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: categoryItems,
-                  ),
-                )
-              ),
+                  width: MediaQuery.of(context).size.width * 0.84,
+                  child: SingleChildScrollView(
+                    controller: itemScrollController,
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: categoryItems,
+                    ),
+                  )),
             ],
-          )
-      ),
+          )),
     );
-
   }
 
+  // ignore: non_constant_identifier_names
   void SelectCategory(CategoriesUuid category) {
     CategoriesUuid oldCategory = this.currentCategory;
     this.currentCategory = category;
     CategoryListItem categoryItem =
-    categoryItems.firstWhere((element) => element.value == oldCategory);
-    if(categoryItem.key.currentState != null)
-      categoryItem.key.currentState.setState(() { });
+        categoryItems.firstWhere((element) => element.value == oldCategory);
+    if (categoryItem.key.currentState != null)
+      categoryItem.key.currentState.setState(() {});
     categoryItem =
         categoryItems.firstWhere((element) => element.value == category);
-    if(categoryItem.key.currentState != null)
-      categoryItem.key.currentState.setState(() { });
+    if (categoryItem.key.currentState != null)
+      categoryItem.key.currentState.setState(() {});
   }
 
-  Future<void> ScrollToSelectedCategory() async{
+  Future<void> ScrollToSelectedCategory() async {
     // Вычисляем оффсет тайтла необходимой категории
     double offset = 0;
     double defaultItemWidth = 165;
-    for(int i = 0; i<categoryItems.length; i++){
+    for (int i = 0; i < categoryItems.length; i++) {
       var item = categoryItems[i];
-      if(item.value == currentCategory)
-        break;
-      offset += (item.key.currentContext != null) ? item.key.currentContext.size.width : 0;
+      if (item.value == currentCategory) break;
+      offset += (item.key.currentContext != null)
+          ? item.key.currentContext.size.width
+          : 0;
     }
-    await itemScrollController.position.animateTo(offset,curve: Curves.ease, duration: Duration(milliseconds: 600));
-
-
+    // await itemScrollController.position.animateTo(offset,curve: Curves.ease, duration: Duration(milliseconds: 600));
   }
 }

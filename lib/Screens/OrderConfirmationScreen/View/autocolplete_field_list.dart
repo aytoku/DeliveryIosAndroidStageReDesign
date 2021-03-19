@@ -68,6 +68,7 @@ class AutoCompleteFieldState extends State<AutoCompleteField>
                     padding: const EdgeInsets.only(top: 15),
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: TextField(
+                      autofocus: true,
                       keyboardAppearance: Brightness.dark,
                       style: TextStyle(color: AppColor.textColor),
                       controller: controller,

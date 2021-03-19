@@ -66,7 +66,7 @@ class CityScreenState extends State<CityScreen> {
       cityController.text = selectedCity.name;
     }
     return Scaffold(
-      backgroundColor: AppColor.mainColor,
+      backgroundColor: AppColor.elementsColor,
       body: Stack(
         children: [
           Padding(
@@ -134,7 +134,7 @@ class CityScreenState extends State<CityScreen> {
             child: Container(
               height: 190,
               decoration: BoxDecoration(
-                  color: AppColor.elementsColor,
+                  color: AppColor.themeColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),

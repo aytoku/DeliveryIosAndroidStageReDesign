@@ -143,7 +143,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
       return Container();
     }else{
       records_items.forEach((OrderDetailsModelItem ordersStoryModelItem) {
-        if(ordersStoryModelItem.items!= null && ordersStoryModelItem.items.length > 0){
+        if(ordersStoryModelItem.items != null && ordersStoryModelItem.items.length > 0){
           restaurantList.add(
             InkWell(
                 child: column(ordersStoryModelItem),

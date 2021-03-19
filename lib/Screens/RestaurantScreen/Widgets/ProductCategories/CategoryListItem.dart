@@ -13,12 +13,12 @@ class CategoryListItem extends StatefulWidget {
 
   @override
   CategoryListItemState createState() {
-    return new CategoryListItemState(value,categoryList);
+    return new CategoryListItemState(value, categoryList);
   }
 }
 
-
-class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAliveClientMixin {
+class CategoryListItemState extends State<CategoryListItem>
+    with AutomaticKeepAliveClientMixin {
   final CategoryListState categoryList;
   final CategoriesUuid value;
 
@@ -32,40 +32,47 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
     // TODO: implement initState
     super.initState();
   }
+
+  Widget calledWidget() {
+    return Container(
+      key: ValueKey<bool>(value != categoryList.currentCategory),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+          color: (value != categoryList.currentCategory)
+              ? AppColor.elementsColor
+              : AppColor.mainColor),
+      child: Padding(
+        padding: EdgeInsets.only(left: 15, right: 15),
+        child: Center(
+          child: Text(
+            value.name[0].toUpperCase() + value.name.substring(1),
+            style: TextStyle(
+              color: AppColor.textColor,
+              fontSize: 15,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Padding(
-          padding:
-          EdgeInsets.only(left: 11, top: 5, bottom: 5),
+          padding: EdgeInsets.only(left: 11, top: 5, bottom: 5),
           child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return ScaleTransition(child: child, scale: animation);
-            },
-            child: Container(
-              key: ValueKey<bool>(value != categoryList.currentCategory),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  color: (value != categoryList.currentCategory)
-                      ? AppColor.elementsColor
-                      : AppColor.mainColor),
-              child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15),
-                  child: Center(
-                    child: Text(
-                      value.name[0].toUpperCase() + value.name.substring(1),
-                      style: TextStyle(
-                          color: AppColor.textColor,
-                          fontSize: 15),
-                    ),
-                  )),
-            ),
+            duration: const Duration(milliseconds: 100),
+            // transitionBuilder: (Widget child, Animation<double> animation) {
+            //   return ScaleTransition(child: child, scale: animation);
+            // },
+            child: calledWidget(),
           )),
       onTap: () async {
         if (await Internet.checkConnection()) {
           //Если категория загрузась без ошибок
-          if(await categoryList.parent.GoToCategory(categoryList.restaurant.productCategoriesUuid.indexOf(value)))
+          if (await categoryList.parent.GoToCategory(
+              categoryList.restaurant.productCategoriesUuid.indexOf(value)))
             categoryList.SelectCategory(value); // выделяем ее
         } else {
           noConnection(context);

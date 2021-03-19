@@ -110,7 +110,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
             left: 15,
             right: 15,
             bottom: (cartBottomPadding)
-                ? MediaQuery.of(context).size.height * 0.15
+                ? MediaQuery.of(context).size.height * 0.25
                 : 15),
         child: Center(
           child: GestureDetector(
@@ -193,30 +193,36 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(15),
-                          bottomRight: Radius.circular(15)),
-                      child: (restaurantDataItems.meta.images != null)
-                          ? Image.network(
-                              getImage((restaurantDataItems.meta.images != null)
-                                  ? restaurantDataItems.meta.images[0]
-                                  : ''),
-                              fit: BoxFit.cover,
-                              height: MediaQuery.of(context).size.height,
-                              width: 168,
-                            )
-                          : Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
+                  Stack(
+                    children: [
+                      Center(
+                        child: Transform(
+                          transform: Matrix4.translationValues(20, 0, 0),
+                          child: Image.asset(
+                            'assets/images/Dish.png',
+                          ),
+                        ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(15),
+                            bottomRight: Radius.circular(15)),
+                        child: (restaurantDataItems.meta.images != null)
+                            ? Image.network(
+                                getImage((restaurantDataItems.meta.images != null)
+                                    ? restaurantDataItems.meta.images[0]
+                                    : ''),
+                                fit: BoxFit.cover,
+                                height: MediaQuery.of(context).size.height,
+                                width: 168,
+                              )
+                            : Center(
                               child: Image.asset(
                                   'assets/images/Dish.png',
                                 ),
                             ),
-                          ),
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

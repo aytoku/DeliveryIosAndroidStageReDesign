@@ -143,7 +143,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       padding: const EdgeInsets.only(left: 15.0, right: 14, bottom: 10, top: 15),
       child: Container(
         height: 190,
-        padding: EdgeInsets.only(right: 10, left: 15),
+        padding: EdgeInsets.only(right: 10, left: 10),
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(

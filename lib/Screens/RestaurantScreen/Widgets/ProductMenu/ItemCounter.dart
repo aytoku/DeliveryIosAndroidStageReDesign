@@ -78,6 +78,10 @@ class MenuItemCounterState extends State<MenuItemCounter> {
     List<Item> filteredCartItems = findCartItems(foodRecords);
     print(filteredCartItems.length);
     return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(15.0), topLeft: Radius.circular(15.0)),
+        color: AppColor.elementsColor,
+      ),
       height: 300,
       padding: const EdgeInsets.only(top: 20),
       child: Column(
@@ -87,7 +91,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
             child: Center(
               child: Text(
                 'Какое блюдо хотите удалить?',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18, color: AppColor.textColor),
               ),
             ),
           ),
@@ -150,6 +154,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
     GlobalKey<CounterState> counterKey = new GlobalKey();
     GlobalKey<PriceFieldState> priceFieldKey = new GlobalKey<PriceFieldState>();
     return Container(
+      color: AppColor.elementsColor,
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
       child: Stack(
@@ -236,7 +241,8 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                           padding: const EdgeInsets.only(bottom: 5, right: 2),
                           child: GestureDetector(
                             child: SvgPicture.asset(
-                                'assets/svg_images/del_basket.svg'),
+                                'assets/svg_images/del_basket.svg',
+                            color: AppColor.textColor,),
                             onTap: () {
                               if (Platform.isIOS) {
                                 return showDialog(
@@ -341,6 +347,10 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(15.0))),
                                         child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(15.0),
+                                            color: AppColor.elementsColor
+                                          ),
                                             height: 130,
                                             width: 300,
                                             child: Column(
@@ -353,8 +363,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                                                       child: Text(
                                                         "Удалить",
                                                         style: TextStyle(
-                                                            color: Color(
-                                                                0xFFFF3B30),
+                                                            color: AppColor.mainColor,
                                                             fontSize: 20),
                                                       ),
                                                     ),
@@ -398,8 +407,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                                                       child: Text(
                                                         "Отмена",
                                                         style: TextStyle(
-                                                            color: Color(
-                                                                0xFF007AFF),
+                                                            color: AppColor.textColor,
                                                             fontSize: 20),
                                                       ),
                                                     ),

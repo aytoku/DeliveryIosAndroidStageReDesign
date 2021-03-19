@@ -772,6 +772,7 @@ class AddressScreenState extends State<AddressScreen>
                                     child: Container(
                                       height: 20,
                                       child: TextField(
+                                        style: TextStyle(color: AppColor.textColor),
                                         textCapitalization: TextCapitalization.sentences,
                                         controller: officeField,
                                         maxLength: 6,
@@ -795,6 +796,7 @@ class AddressScreenState extends State<AddressScreen>
                                     child: Container(
                                       height: 20,
                                       child: TextField(
+                                        style: TextStyle(color: AppColor.textColor),
                                         textCapitalization: TextCapitalization.sentences,
                                         controller: intercomField,
                                         maxLength: 6,

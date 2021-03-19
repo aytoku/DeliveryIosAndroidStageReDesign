@@ -448,108 +448,118 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     // Если хавки нет
     if (restaurantDataItems != null &&
         restaurantDataItems.productsByStoreUuidList.length == 0) {
-      return Container(
-        color: AppColor.elementsColor,
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 50, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 0),
-                      child: InkWell(
-                          hoverColor: Colors.white,
-                          focusColor: Colors.white,
-                          splashColor: Colors.white,
-                          highlightColor: Colors.white,
-                          onTap: () async {
-                            homeScreenKey = new GlobalKey<HomeScreenState>();
-                            if (await Internet.checkConnection()) {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                          anotherAnimation) {
-                                        return BlocProvider(
-                                          create: (context) =>
-                                              RestaurantGetBloc(),
-                                          child: new HomeScreen(),
-                                        );
-                                      },
-                                      transitionDuration:
-                                          Duration(milliseconds: 300),
-                                      transitionsBuilder: (context, animation,
-                                          anotherAnimation, child) {
-                                        return SlideTransition(
-                                          position: Tween(
-                                                  begin: Offset(1.0, 0.0),
-                                                  end: Offset(0.0, 0.0))
-                                              .animate(animation),
-                                          child: child,
-                                        );
-                                      }),
-                                  (Route<dynamic> route) => false);
-                            } else {
-                              noConnection(context);
-                            }
-                          },
-                          child: Container(
+      return Column(
+        children: [
+          Container(
+            color: AppColor.themeColor,
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 50, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 0),
+                          child: InkWell(
+                            hoverColor: Colors.white,
+                            focusColor: Colors.white,
+                            splashColor: Colors.white,
+                            highlightColor: Colors.white,
+                            onTap: () async {
+                              homeScreenKey = new GlobalKey<HomeScreenState>();
+                              if (await Internet.checkConnection()) {
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                            anotherAnimation) {
+                                          return BlocProvider(
+                                            create: (context) =>
+                                                RestaurantGetBloc(),
+                                            child: new HomeScreen(),
+                                          );
+                                        },
+                                        transitionDuration:
+                                            Duration(milliseconds: 300),
+                                        transitionsBuilder: (context, animation,
+                                            anotherAnimation, child) {
+                                          return SlideTransition(
+                                            position: Tween(
+                                                    begin: Offset(1.0, 0.0),
+                                                    end: Offset(0.0, 0.0))
+                                                .animate(animation),
+                                            child: child,
+                                          );
+                                        }),
+                                    (Route<dynamic> route) => false);
+                              } else {
+                                noConnection(context);
+                              }
+                            },
+                            child: Container(
                               height: 40,
                               width: 60,
                               child: Padding(
                                 padding: EdgeInsets.only(
                                     top: 12, bottom: 12, right: 10, left: 16),
                                 child: SvgPicture.asset(
-                                    'assets/svg_images/arrow_left.svg'),
-                              ))),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 7,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 30),
-                        child: Text(
-                          this.restaurant.name,
-                          style: TextStyle(
-                            fontSize: 18,
+                                  'assets/svg_images/arrow_left.svg',
+                                  color: AppColor.textColor,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
+                      Flexible(
+                        flex: 7,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 30),
+                            child: Text(
+                              this.restaurant.name,
+                              style: TextStyle(
+                                  fontSize: 18, color: AppColor.textColor),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 0.0, bottom: 0),
+                //   child: Divider(
+                //     color: Color(0xFFEEEEEE),
+                //     height: 1,
+                //   ),
+                // ),
+                // _buildFoodCategoryList(),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 10.0, bottom: 0),
+                //   child: Divider(
+                //     color: Color(0xFFEEEEEE),
+                //     height: 1,
+                //   ),
+                // ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.3),
+                  child: Center(
+                    child: Text(
+                      'Нет товаров данной категории',
+                      style: TextStyle(color: AppColor.textColor),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 0.0, bottom: 0),
-              child: Divider(
-                color: Color(0xFFEEEEEE),
-                height: 1,
-              ),
-            ),
-            _buildFoodCategoryList(),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 0),
-              child: Divider(
-                color: Color(0xFFEEEEEE),
-                height: 1,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.3),
-              child: Center(
-                child: Text('Нет товаров данной категории'),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       );
     }
 
@@ -558,8 +568,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     foodMenuItems.addAll(MenuItem.fromFoodRecordsList(
         restaurantDataItems.productsByStoreUuidList, this));
     foodMenuTitles.clear();
-    foodMenuTitles.addAll(
-        MenuItemTitle.fromCategoryList(restaurant.productCategoriesUuid)); ///////Title
+    foodMenuTitles.addAll(MenuItemTitle.fromCategoryList(
+        restaurant.productCategoriesUuid)); ///////Title
     menuWithTitles = generateMenu();
 
     List<Widget> sliverChildren = getSliverChildren();
@@ -975,10 +985,17 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                             Offset(0, 100), //intermediate value
                             Offset(0, 0) //enabled value
                           ],
-                          child: Container(
-                            decoration:
-                                BoxDecoration(color: AppColor.themeColor),
-                            child: Column(children: sliverChildren),
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration:
+                                    BoxDecoration(color: AppColor.themeColor),
+                                child: Column(children: sliverChildren),
+                              ),
+                              Container(
+                                height: 80,
+                              )
+                            ],
                           ),
                         );
                       },

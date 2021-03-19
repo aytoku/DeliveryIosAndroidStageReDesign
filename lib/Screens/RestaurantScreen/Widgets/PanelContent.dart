@@ -153,7 +153,7 @@ class PanelContentState extends State<PanelContent> {
                                                         padding:
                                                             EdgeInsets.only(
                                                                 top: 20,
-                                                                bottom: 0,
+                                                                bottom: 15,
                                                                 left: 16),
                                                         child: Text(
                                                           restaurantDataItems
@@ -193,8 +193,7 @@ class PanelContentState extends State<PanelContent> {
                                                                 style: TextStyle(
                                                                     color: AppColor
                                                                         .additionalTextColor,
-                                                                    fontSize:
-                                                                        13),
+                                                                    fontSize: 13),
                                                               ),
                                                             ),
                                                           )

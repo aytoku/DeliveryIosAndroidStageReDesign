@@ -152,6 +152,7 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
                     Container(
                       padding: const EdgeInsets.only(top: 15),
                       child: TextFormField(
+                        autofocus: true,
                         style: TextStyle(color: AppColor.textColor),
                         onTap: () async {
                           if (await Internet.checkConnection()) {

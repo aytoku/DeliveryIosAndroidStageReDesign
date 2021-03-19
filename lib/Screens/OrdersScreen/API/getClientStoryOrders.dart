@@ -10,7 +10,7 @@ import 'dart:convert' as convert;
 
 Future<OrderDetailsModel> getClientStoryOrders() async {
   await SendRefreshToken.sendRefreshToken();
-  OrderDetailsModel ordersDetails = null;
+  OrderDetailsModel ordersDetails;
   var url = '${apiUrl}orders/history';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',

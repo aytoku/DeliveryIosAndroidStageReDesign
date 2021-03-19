@@ -38,93 +38,93 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                           padding: EdgeInsets.only(bottom: 25),
                           child: Center(
                             child: Text(
-                              'Версия 1.0.10 от 9 мар. 2021 г.\nсборка 18',
+                              'Версия 2.0.0 от 19 мар. 2021 г.\nсборка 5',
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Color(0x97979797), fontSize: 15),
                             ),
                           ),
                         ),
-                        Container(
-                          height: 0.3,
-                          color: Color(0xFFF9F9F9),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: InkWell(
-                            child: Padding(
-                              padding:
-                              EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('Лицензионное соглашение',
-                                      style:
-                                      TextStyle(fontSize: 17, color: AppColor.textColor)),
-                                  GestureDetector(
-                                    child:
-                                    SvgPicture.asset('assets/svg_images/arrow_right.svg', color: AppColor.textColor,),
-                                  )
-                                ],
-                              ),
-                            ),
-                            onTap: () async {
-                              if (await Internet.checkConnection()) {
-                                if (await canLaunch("https://faem.ru/legal/agreement")) {
-                                  await launch("https://faem.ru/legal/agreement");
-                                }
-                              } else {
-                                noConnection(context);
-                              }
-                            },
-                          ),
-                        ),
-                        Divider(height: 1.0, color: Color(0xFFEDEDED)),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: InkWell(
-                            child: Padding(
-                              padding:
-                              EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('Политика конфиденцальности',
-                                      style:
-                                      TextStyle(fontSize: 17, color: AppColor.textColor)),
-                                  GestureDetector(
-                                    child:
-                                    SvgPicture.asset('assets/svg_images/arrow_right.svg', color: AppColor.textColor,),
-                                  )
-                                ],
-                              ),
-                            ),
-                            onTap: () async {
-                              if (await Internet.checkConnection()) {
-                                if (await canLaunch("https://faem.ru/privacy")) {
-                                  await launch("https://faem.ru/privacy");
-                                }
-                              } else {
-                                noConnection(context);
-                              }
-                            },
-                          ),
-                        ),
-                        Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                        // Container(
+                        //   height: 0.3,
+                        //   color: Color(0xFFF9F9F9),
+                        // ),
+                        // Align(
+                        //   alignment: Alignment.centerLeft,
+                        //   child: InkWell(
+                        //     child: Padding(
+                        //       padding:
+                        //       EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 15),
+                        //       child: Row(
+                        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //         children: <Widget>[
+                        //           Text('Лицензионное соглашение',
+                        //               style:
+                        //               TextStyle(fontSize: 17, color: AppColor.textColor)),
+                        //           GestureDetector(
+                        //             child:
+                        //             SvgPicture.asset('assets/svg_images/arrow_right.svg', color: AppColor.textColor,),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     onTap: () async {
+                        //       if (await Internet.checkConnection()) {
+                        //         if (await canLaunch("https://faem.ru/legal/agreement")) {
+                        //           await launch("https://faem.ru/legal/agreement");
+                        //         }
+                        //       } else {
+                        //         noConnection(context);
+                        //       }
+                        //     },
+                        //   ),
+                        // ),
+                        // Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                        // Align(
+                        //   alignment: Alignment.centerLeft,
+                        //   child: InkWell(
+                        //     child: Padding(
+                        //       padding:
+                        //       EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 15),
+                        //       child: Row(
+                        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //         children: <Widget>[
+                        //           Text('Политика конфиденцальности',
+                        //               style:
+                        //               TextStyle(fontSize: 17, color: AppColor.textColor)),
+                        //           GestureDetector(
+                        //             child:
+                        //             SvgPicture.asset('assets/svg_images/arrow_right.svg', color: AppColor.textColor,),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     onTap: () async {
+                        //       if (await Internet.checkConnection()) {
+                        //         if (await canLaunch("https://faem.ru/privacy")) {
+                        //           await launch("https://faem.ru/privacy");
+                        //         }
+                        //       } else {
+                        //         noConnection(context);
+                        //       }
+                        //     },
+                        //   ),
+                        // ),
+                        // Divider(height: 1.0, color: Color(0xFFEDEDED)),
                       ],
                     ),
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 20, left: 15),
-                  child: Text(
-                    '@ 2011-2020 ООО «ФАЕМ ТЕХНОЛОГИИ»',
-                    style: TextStyle(color: Color(0x97979797), fontSize: 15),
-                  ),
-                ),
-              )
+              // Align(
+              //   alignment: Alignment.bottomLeft,
+              //   child: Padding(
+              //     padding: EdgeInsets.only(bottom: 20, left: 15),
+              //     child: Text(
+              //       '@ 2011-2021 ООО «ФАЕМ ТЕХНОЛОГИИ»',
+              //       style: TextStyle(color: Color(0x97979797), fontSize: 15),
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ));
