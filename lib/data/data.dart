@@ -71,14 +71,14 @@ class AppColor {
   AppColor._();
 
   static const Color mainColor = Color(0xFF92CB45);
-  static const Color textColor = Colors.black;
+  static const Color textColor = Color(0xFF000000);
   static const Color unselectedTextColor = Color(0xFFFFFFFF);
-  static const Color additionalTextColor = Colors.grey;
+  static const Color additionalTextColor = Color(0xFF9E9E9E);
   static const Color themeColor = Color(0xFFFFFFFF);
   static const Color fieldColor = Color(0xFFFFFFFF);
-  static const Color borderFieldColor = Color(0xFFFFFFFF);
-  static const Color unselectedBorderFieldColor = Color(0xFFFFFFFF);
-  static const Color elementsColor = Color(0xFFFFFFFF);
+  static const Color borderFieldColor = Color(0xFF92CB45);
+  static const Color unselectedBorderFieldColor = Color(0xFF9E9E9E);
+  static const Color elementsColor = Color(0xFFEFEFEF);
   static const Color subElementsColor = Color(0xFFEFEFEF);
 
 }
