@@ -202,7 +202,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                             suggestions[index].value,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 16, color: AppColor.fieldColor),
+                                fontSize: 16, color: AppColor.textColor),
                           ),
                         ),
                         Align(

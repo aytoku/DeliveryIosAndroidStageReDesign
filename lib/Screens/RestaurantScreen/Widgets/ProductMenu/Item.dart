@@ -132,7 +132,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                     spreadRadius: 1.0, //extend the shadow
                   )
                 ],
-                color: AppColor.elementsColor,
+                color: AppColor.themeColor,
                 // border: Border.all(width: 1.0, color:elementsColor),
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -147,7 +147,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                           alignment: Alignment.topLeft,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: AppColor.elementsColor,
+                              color: AppColor.themeColor,
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(15),
                                   bottomLeft: Radius.circular(15),

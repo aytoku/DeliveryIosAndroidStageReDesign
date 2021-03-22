@@ -59,7 +59,7 @@ class CartButtonState extends State<CartButton> {
         height: 85,
         padding: EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
-          color: AppColor.elementsColor,
+          color: AppColor.themeColor,
           boxShadow: [
             BoxShadow(
               color: Colors.black12,

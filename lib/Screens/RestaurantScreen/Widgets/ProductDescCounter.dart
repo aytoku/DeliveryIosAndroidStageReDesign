@@ -50,7 +50,7 @@ class ProductDescCounterState extends State<ProductDescCounter> {
         height: 52,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            border: Border.all(color: AppColor.fieldColor)),
+            border: Border.all(color: AppColor.unselectedBorderFieldColor)),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
             padding: EdgeInsets.only(left: 0, top: 0, bottom: 0),

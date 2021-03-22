@@ -108,7 +108,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
       variantsList.forEach((element) {
         widgetsList.add( InkWell(
           child: Container(
-            color: AppColor.elementsColor,
+            color: AppColor.themeColor,
             padding:  EdgeInsets.only(left: 15, top: 0, bottom: 22),
             child: Row(
               children: [
@@ -192,7 +192,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
       });
     }
     return Container(
-      color: AppColor.elementsColor,
+      color: AppColor.themeColor,
       child: ScrollConfiguration(
         behavior: new ScrollBehavior(),
         child: SingleChildScrollView(

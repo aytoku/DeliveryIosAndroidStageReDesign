@@ -123,7 +123,7 @@ class PanelContentState extends State<PanelContent> {
                                 )),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: AppColor.elementsColor,
+                                      color: AppColor.themeColor,
                                       borderRadius: BorderRadius.only(
                                         topLeft: const Radius.circular(12),
                                         topRight: const Radius.circular(12),
@@ -134,7 +134,7 @@ class PanelContentState extends State<PanelContent> {
                                         alignment: Alignment.bottomCenter,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              color: AppColor.elementsColor,
+                                              color: AppColor.themeColor,
                                               borderRadius: BorderRadius.only(
                                                 topLeft:
                                                     const Radius.circular(12),

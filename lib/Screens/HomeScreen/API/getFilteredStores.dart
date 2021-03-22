@@ -11,7 +11,7 @@ Future<FilteredStoresData> getFilteredStores(String city_uuid, bool only_parents
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',
     "ServiceName": 'faem_food',
-    "Application": 'eda/sashimi',
+    "Application": 'eda/oldschool',
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);

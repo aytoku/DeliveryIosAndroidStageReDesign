@@ -78,7 +78,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                   spreadRadius: 1.0, //extend the shadow
                 )
               ],
-              color: AppColor.elementsColor,
+              color: AppColor.themeColor,
               borderRadius: BorderRadius.circular(17.0),
               border: Border.all(width: 1.0, color: AppColor.elementsColor)),
           child: Column(
