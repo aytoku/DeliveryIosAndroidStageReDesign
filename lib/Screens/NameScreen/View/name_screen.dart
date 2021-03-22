@@ -41,7 +41,7 @@ class NameScreenState extends State<NameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColor.elementsColor,
+        backgroundColor: AppColor.themeColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -99,7 +99,7 @@ class NameScreenState extends State<NameScreen> {
                             decoration: BoxDecoration(
                               color: AppColor.fieldColor,
                               borderRadius: BorderRadius.circular(7.0),
-                              border: Border.all(width: 1.0, color: AppColor.fieldColor),
+                              border: Border.all(width: 1.0, color: AppColor.mainColor),
                             ),
                             child: TextField(
                               controller: nameFieldController,

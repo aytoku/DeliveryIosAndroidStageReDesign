@@ -69,9 +69,9 @@ class _CodeScreenState extends State<CodeScreen> {
         buttonStateKey.currentState.color = AppColor.mainColor;
       });
     } else if (code.length < 4 &&
-        buttonStateKey.currentState.color != AppColor.fieldColor) {
+        buttonStateKey.currentState.color != AppColor.subElementsColor) {
       buttonStateKey.currentState.setState(() {
-        buttonStateKey.currentState.color = AppColor.fieldColor;
+        buttonStateKey.currentState.color = AppColor.subElementsColor;
       });
     }
   }
@@ -137,7 +137,7 @@ class _CodeScreenState extends State<CodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.elementsColor,
+      backgroundColor: AppColor.themeColor,
       body: BlocListener<CodeGetBloc, CodeState>(
         bloc: codeGetBloc,
         listener: (BuildContext context, CodeState state){
@@ -239,7 +239,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                 'Введите код из смс',
                                 style: TextStyle(
                                     fontSize: 18,
-                                    color: Colors.white
+                                    color: AppColor.unselectedTextColor
                                 ),
                               ),
                             ),
@@ -403,14 +403,14 @@ class TimerCountDownState extends State<TimerCountDown> {
     return _start != 0
         ? Text('Получить новый код можно через $_start c',
         style: TextStyle(
-          color: AppColor.fieldColor,
+          color: AppColor.additionalTextColor,
           fontSize: 13.0,
           letterSpacing: 1.2,
         ))
         : GestureDetector(
       child: Text(
         'Отправить код повторно',
-        style: TextStyle(color: AppColor.fieldColor),
+        style: TextStyle(color: AppColor.additionalTextColor),
       ),
       onTap: () {
         codeScreenState.setState(() {});

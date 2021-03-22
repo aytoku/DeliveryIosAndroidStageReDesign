@@ -57,7 +57,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                     spreadRadius: 1.0, //extend the shadow
                   )
                 ],
-                color: AppColor.elementsColor,
+                color: AppColor.themeColor,
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(width: 1.0, color: AppColor.elementsColor)),
             child: Column(

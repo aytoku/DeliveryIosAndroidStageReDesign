@@ -59,7 +59,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColor.elementsColor,
+        backgroundColor: AppColor.themeColor,
         body: BlocListener<AuthGetBloc, AuthState>( // листенер для переходов на другие скрины
           bloc: authGetBloc,
           listener: (BuildContext context, AuthState state){
@@ -276,7 +276,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
-                        child: Button(key: buttonStateKey, color: AppColor.additionalTextColor, source: source, authGetBloc: authGetBloc)
+                        child: Button(key: buttonStateKey, color: AppColor.subElementsColor, source: source, authGetBloc: authGetBloc)
                     ),
                   ),
                 ],
