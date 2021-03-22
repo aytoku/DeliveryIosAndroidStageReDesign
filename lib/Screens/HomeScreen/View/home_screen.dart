@@ -355,7 +355,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       child: Transform(
                         transform: Matrix4.translationValues(0, 15, 0),
                         child: Container(
-                          child: Image.asset('assets/images/SashimiIcon.png'),
+                          child: Image.asset('assets/images/Siria.png'),
                         ),
                       ),
                     ),
