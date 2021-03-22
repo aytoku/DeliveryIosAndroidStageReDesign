@@ -156,7 +156,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  height: 100,
+                                  height: 112,
                                   child: Column(
                                     children: [
                                       Padding(
