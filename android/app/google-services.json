@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:165429683269:android:696d5427f8675a88c9af2c",
+        "mobilesdk_app_id": "1:165429683269:android:0e7c738011357527c9af2c",
         "android_client_info": {
-          "package_name": "com.example.faem_delivery"
+          "package_name": "com.example.faem_taxi_app"
         }
       },
       "oauth_client": [
@@ -44,9 +44,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:165429683269:android:0e7c738011357527c9af2c",
+        "mobilesdk_app_id": "1:165429683269:android:04b154dc247b5a28c9af2c",
         "android_client_info": {
-          "package_name": "com.example.faem_taxi_app"
+          "package_name": "com.example.fermer_market"
         }
       },
       "oauth_client": [
@@ -155,6 +155,42 @@
         "mobilesdk_app_id": "1:165429683269:android:3c9feb061a71bccfc9af2c",
         "android_client_info": {
           "package_name": "com.example.food_delivery_oldschool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rsfzVN6EkwvEghTGCuPVCCMhm-Afrxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ebanyifcm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165429683269:android:91eb9184cdbfa61cc9af2c",
+        "android_client_info": {
+          "package_name": "com.example.siria"
         }
       },
       "oauth_client": [
