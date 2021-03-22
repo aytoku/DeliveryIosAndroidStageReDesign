@@ -66,14 +66,18 @@ class CityScreenState extends State<CityScreen> {
       cityController.text = selectedCity.name;
     }
     return Scaffold(
-      backgroundColor: AppColor.mainColor,
+      backgroundColor: AppColor.themeColor,
       body: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 150.0),
             child: Align(
               alignment: Alignment.center,
-              child: Image.asset('assets/images/Siria.png', width: 200, height: 200,),
+              child: Image.asset(
+                'assets/images/Siria.png',
+                width: 200,
+                height: 200,
+              ),
             ),
           ),
           // SvgPicture.asset('assets/svg_images/city.svg',
@@ -105,12 +109,13 @@ class CityScreenState extends State<CityScreen> {
                         height: 41,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: AppColor.themeColor),
+                            color: AppColor.mainColor),
                         child: Center(
                           child: Text(
                             'Войти',
                             style: TextStyle(
-                                fontSize: 18, color: AppColor.textColor),
+                                fontSize: 18,
+                                color: AppColor.unselectedTextColor),
                           ),
                         ),
                       ),
@@ -134,11 +139,20 @@ class CityScreenState extends State<CityScreen> {
             child: Container(
               height: 190,
               decoration: BoxDecoration(
-                  color: AppColor.themeColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  )),
+                color: AppColor.themeColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ]
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
