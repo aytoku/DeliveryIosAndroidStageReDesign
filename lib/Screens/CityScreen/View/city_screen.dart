@@ -66,14 +66,14 @@ class CityScreenState extends State<CityScreen> {
       cityController.text = selectedCity.name;
     }
     return Scaffold(
-      backgroundColor: AppColor.elementsColor,
+      backgroundColor: AppColor.mainColor,
       body: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 150.0),
             child: Align(
               alignment: Alignment.center,
-              child: Image.asset('assets/images/old_school_logo.png'),
+              child: Image.asset('assets/images/Siria.png', width: 200, height: 200,),
             ),
           ),
           // SvgPicture.asset('assets/svg_images/city.svg',
@@ -105,12 +105,12 @@ class CityScreenState extends State<CityScreen> {
                         height: 41,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: AppColor.textColor),
+                            color: AppColor.themeColor),
                         child: Center(
                           child: Text(
                             'Войти',
                             style: TextStyle(
-                                fontSize: 18, color: AppColor.mainColor),
+                                fontSize: 18, color: AppColor.textColor),
                           ),
                         ),
                       ),
@@ -194,7 +194,7 @@ class CityScreenState extends State<CityScreen> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
                                 color: (cityController.text.length == 0)
-                                    ? AppColor.themeColor
+                                    ? AppColor.subElementsColor
                                     : AppColor.mainColor),
                             child: Center(
                               child: Text(
