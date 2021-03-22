@@ -23,7 +23,7 @@ class App extends StatelessWidget {
         selectedRowColor: mainColor,
         toggleableActiveColor: mainColor,
       ),
-      home: DeviceIdScreen(),
+      home: PaymentScreen(),
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),
       ],

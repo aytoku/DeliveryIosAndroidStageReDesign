@@ -1257,7 +1257,7 @@ class AddressScreenState extends State<AddressScreen>
     if(Platform.isAndroid){
       SberAPI.amount = (currentUser.cartModel.totalPrice * 100).round();
     }
-    SberAPI.orderNumber = currentUser.cartModel.id;
+     SberAPI.orderNumber = currentUser.cartModel.id;
 
     Map<String, String> req = await madPayment();
     var result;
@@ -1315,7 +1315,7 @@ class AddressScreenState extends State<AddressScreen>
     currentUser.cartModel.items.forEach((item) {
       paymentItems.add(PaymentItem(name: item.product.name, price: item.totalItemPrice));
     });
-    paymentItems.add(PaymentItem(name: "Доставка", price: currentUser.cartModel.deliveryPrice));
+    paymentItems.add(PaymentItem(name: "Доставка", price: currentUser.cartModel.deliveryPrice + 1));
 
 
     final Map<String, String> req =
