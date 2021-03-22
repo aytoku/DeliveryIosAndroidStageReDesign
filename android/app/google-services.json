@@ -8,6 +8,114 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:165429683269:android:0e7c738011357527c9af2c",
+        "android_client_info": {
+          "package_name": "com.example.faem_taxi_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rsfzVN6EkwvEghTGCuPVCCMhm-Afrxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ebanyifcm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165429683269:android:04b154dc247b5a28c9af2c",
+        "android_client_info": {
+          "package_name": "com.example.fermer_market"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rsfzVN6EkwvEghTGCuPVCCMhm-Afrxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ebanyifcm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165429683269:android:8789cc1fd76f14e9c9af2c",
+        "android_client_info": {
+          "package_name": "com.example.flutter_faem_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rsfzVN6EkwvEghTGCuPVCCMhm-Afrxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ebanyifcm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:165429683269:android:cf4282983de0114ec9af2c",
         "android_client_info": {
           "package_name": "com.example.food_delivery"
@@ -32,10 +140,10 @@
               "client_type": 3
             },
             {
-              "client_id": "165429683269-gn825uqek7g4os3r4hchpfuhtnt2nrnq.apps.googleusercontent.com",
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "ru.faem.taxi-client-ios-lite"
+                "bundle_id": "com.example.ebanyifcm"
               }
             }
           ]
@@ -44,9 +152,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:165429683269:android:d4d1f38fe76dfe36c9af2c",
+        "mobilesdk_app_id": "1:165429683269:android:3c9feb061a71bccfc9af2c",
         "android_client_info": {
-          "package_name": "com.example.taxiapp"
+          "package_name": "com.example.food_delivery_oldschool"
         }
       },
       "oauth_client": [
@@ -68,10 +176,82 @@
               "client_type": 3
             },
             {
-              "client_id": "165429683269-gn825uqek7g4os3r4hchpfuhtnt2nrnq.apps.googleusercontent.com",
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "ru.faem.taxi-client-ios-lite"
+                "bundle_id": "com.example.ebanyifcm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165429683269:android:0c9b06d13679a7dac9af2c",
+        "android_client_info": {
+          "package_name": "com.example.taxi_final_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rsfzVN6EkwvEghTGCuPVCCMhm-Afrxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ebanyifcm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165429683269:android:e4c71ac28666c016c9af2c",
+        "android_client_info": {
+          "package_name": "com.prod.food_delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rsfzVN6EkwvEghTGCuPVCCMhm-Afrxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ebanyifcm"
               }
             }
           ]
@@ -104,10 +284,10 @@
               "client_type": 3
             },
             {
-              "client_id": "165429683269-gn825uqek7g4os3r4hchpfuhtnt2nrnq.apps.googleusercontent.com",
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "ru.faem.taxi-client-ios-lite"
+                "bundle_id": "com.example.ebanyifcm"
               }
             }
           ]
@@ -140,10 +320,10 @@
               "client_type": 3
             },
             {
-              "client_id": "165429683269-gn825uqek7g4os3r4hchpfuhtnt2nrnq.apps.googleusercontent.com",
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "ru.faem.taxi-client-ios-lite"
+                "bundle_id": "com.example.ebanyifcm"
               }
             }
           ]
@@ -176,10 +356,10 @@
               "client_type": 3
             },
             {
-              "client_id": "165429683269-gn825uqek7g4os3r4hchpfuhtnt2nrnq.apps.googleusercontent.com",
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "ru.faem.taxi-client-ios-lite"
+                "bundle_id": "com.example.ebanyifcm"
               }
             }
           ]
@@ -212,10 +392,82 @@
               "client_type": 3
             },
             {
-              "client_id": "165429683269-gn825uqek7g4os3r4hchpfuhtnt2nrnq.apps.googleusercontent.com",
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "ru.faem.taxi-client-ios-lite"
+                "bundle_id": "com.example.ebanyifcm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165429683269:android:9c2dbc269d004f97c9af2c",
+        "android_client_info": {
+          "package_name": "ru.faem.food.partner_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rsfzVN6EkwvEghTGCuPVCCMhm-Afrxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ebanyifcm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165429683269:android:43f940c427981a42c9af2c",
+        "android_client_info": {
+          "package_name": "ru.faem.tuktuk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7rsfzVN6EkwvEghTGCuPVCCMhm-Afrxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165429683269-scvge7a9itvsmfnjffehln1dj4m9hc3e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "165429683269-2jqjs8e5co1o63lsmj5nsj8te8apv087.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ebanyifcm"
               }
             }
           ]

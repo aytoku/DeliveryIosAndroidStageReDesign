@@ -9,6 +9,8 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+bool isGroc;
+
 class RestaurantsList extends StatefulWidget {
 
   GlobalKey<RestaurantsListState> key;
@@ -132,7 +134,8 @@ class RestaurantsListState extends State<RestaurantsList>{
                           height: 200.0,
                           width: MediaQuery.of(context).size.width,
                           fit: BoxFit.cover,
-                        )),
+                        ),
+                    ),
                   ],
                 ),
                 Container(
@@ -241,13 +244,25 @@ class RestaurantsListState extends State<RestaurantsList>{
             ),
           ),
           onTap: () async {
+
             if (await Internet.checkConnection()) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) {
-                  return RestaurantScreen(restaurant: restaurant);
-                }),
-              );
+              if (restaurant.type == 'restaurant') {
+                isGroc = false;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) {
+                    return RestaurantScreen(restaurant: restaurant, isGrocery: false,);
+                  }),
+                );
+              } else if (restaurant.type == 'grocery') {
+                isGroc = true;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) {
+                    return RestaurantScreen(restaurant: restaurant, isGrocery: true,);
+                  }),
+                );
+              }
             } else {
               noConnection(context);
             }
