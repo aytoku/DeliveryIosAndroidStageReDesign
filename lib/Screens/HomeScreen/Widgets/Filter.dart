@@ -291,8 +291,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                         height: 45,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                ? AppColor.mainColor : AppColor.elementsColor),
+                            color: AppColor.mainColor,),
                         child: Padding(
                             padding: EdgeInsets.only(left: 15, right: 15),
                             child: Center(
@@ -302,13 +301,13 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                                   Text(
                                     "Кухни",
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColor.themeColor ,
                                         fontSize: 15),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: SvgPicture.asset('assets/svg_images/arrow_down',
-                                      color: Colors.white,
+                                      color: AppColor.themeColor,
                                     ),
                                   )
                                 ],
@@ -386,7 +385,8 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                         child: Text(
                           element.name[0].toUpperCase() + element.name.substring(1),
                           style: TextStyle(
-                              color: Colors.white,
+                              color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)
+                                  || !selectedCategoryFromHomeScreen) ? AppColor.textColor : AppColor.themeColor,
                               fontSize: 15),
                         ),
                       )),

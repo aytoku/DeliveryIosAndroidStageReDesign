@@ -182,7 +182,7 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
                           enabledBorder:  OutlineInputBorder(
                             // width: 0.0 produces a thin "hairline" border
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: (notFavouriteAddressController.text != '') ? BorderSide(color: AppColor.mainColor) : BorderSide(color: AppColor.fieldColor),
+                            borderSide: (notFavouriteAddressController.text != '') ? BorderSide(color: AppColor.mainColor) : BorderSide(color: AppColor.additionalTextColor),
                           ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10)),

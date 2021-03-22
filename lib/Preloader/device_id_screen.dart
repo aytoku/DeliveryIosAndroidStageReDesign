@@ -63,7 +63,8 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
 
     print (middleX);
     return Container(
-      color: AppColor.elementsColor,
+
+      color: AppColor.themeColor,
       child: FutureBuilder<NecessaryDataForAuth>(
         future: devId,
         builder:
@@ -110,7 +111,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
             return Stack(
               alignment: Alignment.center,
               children: [
-                Image.asset('assets/gif/old_school_gif.gif')
+                Image.asset('assets/images/Siria.png', width: 200, height: 200,),
               ],
             );
           }

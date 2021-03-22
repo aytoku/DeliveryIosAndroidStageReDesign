@@ -55,7 +55,7 @@ class InformationScreenState extends State<InformationScreen>{
                 },
               ),
               Padding(
-                padding: EdgeInsets.only(top: 30, left: 70, right: 15, bottom: 10),
+                padding: EdgeInsets.only(top: 30, left: 90, right: 15, bottom: 10),
                 child: Text('Информация',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColor.textColor)),
               ),
             ],

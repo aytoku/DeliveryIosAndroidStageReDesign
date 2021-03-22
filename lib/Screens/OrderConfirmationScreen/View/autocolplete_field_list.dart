@@ -85,7 +85,7 @@ class AutoCompleteFieldState extends State<AutoCompleteField>
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: AppColor.fieldColor),
+                          borderSide: BorderSide(color: AppColor.additionalTextColor),
                         ),
                       ),
                       onChanged: (text) async {
@@ -202,7 +202,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                             suggestions[index].value,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 16, color: AppColor.textColor),
+                                fontSize: 16, color: AppColor.fieldColor),
                           ),
                         ),
                         Align(

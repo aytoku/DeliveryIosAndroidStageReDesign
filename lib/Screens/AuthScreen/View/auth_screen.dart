@@ -136,6 +136,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               borderRadius: const BorderRadius.all(
                                 const Radius.circular(10.0),
                               ),
+                              border: Border.all(color: AppColor.mainColor),
                             ),
                             child: Column(
                               children: [
@@ -150,7 +151,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                 ),
                                 Padding(
-                                    padding: EdgeInsets.only(top: 12),
+                                    padding: EdgeInsets.only(top: 10),
                                     child: TextField(
                                       autofocus: true,
                                       controller: controller,
@@ -275,7 +276,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
-                        child: Button(key: buttonStateKey, color: AppColor.fieldColor, source: source, authGetBloc: authGetBloc)
+                        child: Button(key: buttonStateKey, color: AppColor.additionalTextColor, source: source, authGetBloc: authGetBloc)
                     ),
                   ),
                 ],
@@ -302,7 +303,7 @@ class Button extends StatefulWidget {
 
 class ButtonState extends State<Button> {
   String error = '';
-  Color color = Color(0xFFF3F3F3);
+  Color color = AppColor.mainColor;
   AuthSources source;
   AuthGetBloc authGetBloc;
 
@@ -335,7 +336,7 @@ class ButtonState extends State<Button> {
           child: Text('Далее',
               style: TextStyle(
                   fontSize: 18.0,
-                  color: Colors.white)),
+                  color: AppColor.themeColor)),
         ),
 
       ),

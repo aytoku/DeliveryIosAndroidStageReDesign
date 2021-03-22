@@ -292,10 +292,10 @@ class CartPageState extends State<CartPageScreen> {
                   padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppColor.subElementsColor,
+                      color: AppColor.mainColor,
                       borderRadius: BorderRadius.circular(4),
                       border: Border.all(
-                        color: AppColor.subElementsColor,
+                        color: AppColor.mainColor,
                         width: 0.5
                       ),
                     ),
@@ -315,13 +315,13 @@ class CartPageState extends State<CartPageScreen> {
                                     color: AppColor.subElementsColor,
                                     width: 0.5
                                 ),
-                                color: (selectedPageId == 0) ? AppColor.subElementsColor : AppColor.elementsColor,
+                                color: (selectedPageId == 0) ? AppColor.mainColor : AppColor.elementsColor,
                               ),
                               child: Center(
                                 child: Text(
                                   'Доставка',
                                   style: TextStyle(
-                                      color: (selectedPageId == 0) ? Colors.white : AppColor.additionalTextColor, fontSize: 15),
+                                      color: (selectedPageId == 0) ? AppColor.themeColor : AppColor.mainColor, fontSize: 15),
                                 ),
                               ),
                             ),
@@ -351,13 +351,13 @@ class CartPageState extends State<CartPageScreen> {
                                 //     color: AppColor.elementsColor,
                                 //     width: 0.5
                                 // ),
-                                color: (selectedPageId == 1) ? AppColor.subElementsColor : AppColor.elementsColor,
+                                color: (selectedPageId == 1) ? AppColor.mainColor : AppColor.elementsColor,
                               ),
                               child: Center(
                                 child: Text(
                                   'Самовывоз',
                                   style: TextStyle(
-                                      color: (selectedPageId == 1) ? Colors.white : AppColor.additionalTextColor, fontSize: 15),
+                                      color: (selectedPageId == 1) ? AppColor.themeColor : AppColor.mainColor, fontSize: 15),
                                 ),
                               ),
                             ),

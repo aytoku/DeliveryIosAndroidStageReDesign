@@ -117,7 +117,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               decoration: BoxDecoration(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
-                                  color: AppColor.fieldColor),
+                                  color: AppColor.subElementsColor),
                               child: Row(
                                 children: [
                                   Padding(
@@ -215,7 +215,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                   .contains(ordersStoryModelItem.state) ||
                                   in_the_way.contains(ordersStoryModelItem.state))
                                   ? AppColor.mainColor
-                                  : AppColor.fieldColor),
+                                  : AppColor.subElementsColor),
                           child: Column(
                             children: <Widget>[
                               Padding(
@@ -276,7 +276,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               color: (in_the_way
                                   .contains(ordersStoryModelItem.state))
                                   ? AppColor.mainColor
-                                  : AppColor.fieldColor),
+                                  : AppColor.subElementsColor),
                           child: Column(
                             children: <Widget>[
                               Padding(

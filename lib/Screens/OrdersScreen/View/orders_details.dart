@@ -730,7 +730,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                             child: Text(
                               'Отменить заказ',
                               style: TextStyle(
-                                color: AppColor.textColor,
+                                color: AppColor.unselectedTextColor,
                                 fontSize: 18,),
                             ),
                           )),

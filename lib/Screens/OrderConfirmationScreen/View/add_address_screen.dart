@@ -121,7 +121,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         "Добавить адрес",
                         style: TextStyle(
                             fontSize: 16.0,
-                            color: AppColor.textColor)
+                            color: AppColor.themeColor)
                     ),
                     color: AppColor.mainColor,
                     shape: RoundedRectangleBorder(

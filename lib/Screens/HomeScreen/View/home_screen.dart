@@ -107,8 +107,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           leading: SvgPicture.asset('assets/svg_images/info.svg'),
           title: Text(
             'Информация',
-            style:
-                TextStyle(fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+            style: TextStyle(
+                fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {
@@ -298,7 +298,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 child: Text(
                   'Авторизоваться',
                   style: TextStyle(
-                      fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                      fontSize: 17,
+                      color: AppColor.textColor,
+                      letterSpacing: 0.45),
                 ),
               ),
               onTap: () async {
@@ -335,20 +337,27 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
           child: Theme(
             data: Theme.of(context).copyWith(
-                canvasColor: AppColor.themeColor //This will change the drawer background to blue.
+                canvasColor: AppColor
+                    .themeColor //This will change the drawer background to blue.
                 //other styles
-            ),
+                ),
             child: Drawer(
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    height: 200,
-                    width: 300,
-                    child: Transform(
-                      transform: Matrix4.translationValues(0, 15, 0),
-                      child: Image.asset('assets/images/old_school_logo.png'),
+                    width: 200,
+                    height: 250,
+                    child: Container(
+                      margin: EdgeInsets.zero,
+                      padding: EdgeInsets.zero,
+                      height: 100,
+                      width: 100,
+                      child: Transform(
+                        transform: Matrix4.translationValues(0, 15, 0),
+                        child: Container(
+                          child: Image.asset('assets/images/Siria.png'),
+                        ),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -637,7 +646,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                   child: Text(
                                     selectedCity.name,
                                     style: TextStyle(
-                                        color: AppColor.textColor, fontSize: 13),
+                                        color: AppColor.textColor,
+                                        fontSize: 13),
                                   ),
                                 ),
                               ),
@@ -666,7 +676,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * 0.3),
                       child: Center(
-                        child: Text('Нет заведений по этому городу', style: TextStyle(color: AppColor.textColor),),
+                        child: Text(
+                          'Нет заведений по этому городу',
+                          style: TextStyle(color: AppColor.textColor),
+                        ),
                       ),
                     ),
                   ],

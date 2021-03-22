@@ -31,16 +31,16 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         Center(
                           child: Padding(
                               padding: EdgeInsets.only(top: 20, bottom: 10),
-                              child: Image.asset('assets/images/old_school_logo.png')
+                              child: Image.asset('assets/images/Siria.png', width: 200, height: 200,)
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 25),
                           child: Center(
                             child: Text(
-                              'Версия 2.0.0 от 19 мар. 2021 г.\nсборка 9',
+                              'Версия 3.0.0 от 22 мар. 2021 г.\nсборка 1',
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Color(0x97979797), fontSize: 15),
+                              style: TextStyle(color: AppColor.textColor, fontSize: 15),
                             ),
                           ),
                         ),

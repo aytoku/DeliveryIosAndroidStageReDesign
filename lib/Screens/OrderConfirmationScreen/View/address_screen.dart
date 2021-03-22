@@ -834,7 +834,7 @@ class AddressScreenState extends State<AddressScreen>
                                     ),
                                     enabledBorder:  OutlineInputBorder(
                                       // width: 0.0 produces a thin "hairline" border
-                                      borderSide: BorderSide(color: AppColor.fieldColor),
+                                      borderSide: BorderSide(color: AppColor.additionalTextColor),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     border: OutlineInputBorder(

@@ -227,6 +227,7 @@ class _CodeScreenState extends State<CodeScreen> {
                         borderRadius: const BorderRadius.all(
                           const Radius.circular(10.0),
                         ),
+                        border: Border.all(color: AppColor.mainColor),
                       ),
                       child: Column(
                         children: [
@@ -244,7 +245,7 @@ class _CodeScreenState extends State<CodeScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 14.0),
+                            padding: const EdgeInsets.only(top: 12.0),
                             child: Container(
                               height: 80.0,
                               decoration: BoxDecoration(

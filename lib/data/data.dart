@@ -70,13 +70,16 @@ var DeliveryStates = [
 class AppColor {
   AppColor._();
 
-  static const Color mainColor = Color(0xFFC80000);
-  static const Color textColor = Colors.white;
+  static const Color mainColor = Color(0xFF92CB45);
+  static const Color textColor = Colors.black;
+  static const Color unselectedTextColor = Color(0xFFFFFFFF);
   static const Color additionalTextColor = Colors.grey;
-  static const Color themeColor = Color(0xFF333333);
-  static const Color fieldColor = Color(0xFF828282);
-  static const Color elementsColor = Color(0xFF474747);
-  static const Color subElementsColor = Color(0xFF656565);
+  static const Color themeColor = Color(0xFFFFFFFF);
+  static const Color fieldColor = Color(0xFFFFFFFF);
+  static const Color borderFieldColor = Color(0xFFFFFFFF);
+  static const Color unselectedBorderFieldColor = Color(0xFFFFFFFF);
+  static const Color elementsColor = Color(0xFFFFFFFF);
+  static const Color subElementsColor = Color(0xFFEFEFEF);
 
 }
 

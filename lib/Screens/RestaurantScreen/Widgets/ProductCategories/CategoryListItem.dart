@@ -47,7 +47,7 @@ class CategoryListItemState extends State<CategoryListItem>
           child: Text(
             value.name[0].toUpperCase() + value.name.substring(1),
             style: TextStyle(
-              color: AppColor.textColor,
+              color: (value != categoryList.currentCategory) ? AppColor.textColor : AppColor.themeColor,
               fontSize: 15,
             ),
           ),
