@@ -12,7 +12,7 @@ Future<CartModel> getCartByDeviceId(String device_id) async {
   var url = '${apiUrl}orders/device/${device_id}/last';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
-    'Application': 'eda/hatta',
+    'Application': 'eda/beirut',
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
