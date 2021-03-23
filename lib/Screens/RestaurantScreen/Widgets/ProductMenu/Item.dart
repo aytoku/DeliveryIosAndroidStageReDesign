@@ -96,102 +96,182 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   Widget build(BuildContext context) {
     super.build(context);
     GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();
-    return Container(
-      color: Colors.white,
-      child: Padding(
-        padding: EdgeInsets.only(top: 15.0, left: 15, right: 15,
-            bottom: (cartBottomPadding) ? MediaQuery.of(context).size.height * 0.15 : 15),
-        child: Center(
-            child: GestureDetector(
-                onTap: () async {
-                  if (await Internet.checkConnection()) {
-                    onPressedButton(restaurantDataItems, menuItemCounterKey);
-                    // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
-                  } else {
-                    noConnection(context);
-                  }
-                },
-                child: Container(
-                  height: 153,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4.0, // soften the shadow
-                        spreadRadius: 1.0, //extend the shadow
-                      )
-                    ],
-                    color: Colors.white,
-                    border: Border.all(width: 1.0, color: Colors.grey[200]),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
-                        child: Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFFFFFFF),
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      bottomLeft: Radius.circular(15),
-                                      bottomRight: Radius.circular(15)),
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      height: 100,
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 10.0, left: 15, bottom: 5),
-                                            child: Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                restaurantDataItems.name,
-                                                maxLines: 3,
-                                                style: TextStyle(
-                                                    fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
-                                                textAlign: TextAlign.start,
-                                                overflow: TextOverflow.ellipsis,
+    if(parent.restaurant.type == 'restaurant'){
+      return Container(
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.only(top: 15.0, left: 15, right: 15,
+              bottom: (cartBottomPadding) ? MediaQuery.of(context).size.height * 0.15 : 15),
+          child: Center(
+              child: GestureDetector(
+                  onTap: () async {
+                    if (await Internet.checkConnection()) {
+                      onPressedButton(restaurantDataItems, menuItemCounterKey);
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
+                    } else {
+                      noConnection(context);
+                    }
+                  },
+                  child: Container(
+                    height: 153,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4.0, // soften the shadow
+                          spreadRadius: 1.0, //extend the shadow
+                        )
+                      ],
+                      color: Colors.white,
+                      border: Border.all(width: 1.0, color: Colors.grey[200]),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFFFFFFF),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        bottomLeft: Radius.circular(15),
+                                        bottomRight: Radius.circular(15)),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        height: 100,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 10.0, left: 15, bottom: 5),
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  restaurantDataItems.name,
+                                                  maxLines: 3,
+                                                  style: TextStyle(
+                                                      fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
+                                                  textAlign: TextAlign.start,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          MenuItemDesc(foodRecords: restaurantDataItems, parent: this)
-                                        ],
+                                            MenuItemDesc(foodRecords: restaurantDataItems, parent: this)
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    MenuItemCounter(foodRecords: restaurantDataItems, menuItemCounterKey: menuItemCounterKey, parent: this)
-                                  ],
+                                      MenuItemCounter(foodRecords: restaurantDataItems, menuItemCounterKey: menuItemCounterKey, parent: this)
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(15),
+                                bottomRight: Radius.circular(15)),
+                            child: Image.network(
+                              getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                              fit: BoxFit.cover,
+                              height: MediaQuery.of(context).size.height,
+                              width: 168,
+                            ),),
+                        )
+                      ],
+                    ),
+                  ))),
+        ),
+      );
+    }else {
+      return GestureDetector(
+        child: Container(
+          margin: EdgeInsets.only(left: 10, right: 10),
+          height: 250,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 4.0, // soften the shadow
+                spreadRadius: 1.0, //extend the shadow
+              )
+            ],
+            color: Colors.white,
+            border: Border.all(width: 1.0, color: Colors.grey[200]),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            children: [
+              Container(
+                height: 140,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      topLeft: Radius.circular(10)),
+                  child: Image.network(
+                    getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width,
+                  ),),
+              ),
+              Container(
+                height: 110,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10)),
+                    color: Color(0xFFFAFAFA)
+                ),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 14, top: 12),
+                        child: Text(
+                          restaurantDataItems.name,
+                          maxLines: 3,
+                          style: TextStyle(
+                              fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(15),
-                              bottomRight: Radius.circular(15)),
-                          child: Image.network(
-                            getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
-                            fit: BoxFit.cover,
-                            height: MediaQuery.of(context).size.height,
-                            width: 168,
-                          ),),
-                      )
-                    ],
-                  ),
-                ))),
-      ),
-    );
+                    ),
+                    MenuItemDesc(foodRecords: restaurantDataItems, parent: this),
+                    Padding(
+                      padding: EdgeInsets.only(top: 0),
+                      child: MenuItemCounter(
+                          foodRecords: restaurantDataItems,
+                          menuItemCounterKey: menuItemCounterKey,
+                          parent: this),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        onTap: () async {
+          if (await Internet.checkConnection()) {
+            onPressedButton(restaurantDataItems, menuItemCounterKey);
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
+          } else {
+            noConnection(context);
+          }
+        },
+      );
+    }
   }
 
 

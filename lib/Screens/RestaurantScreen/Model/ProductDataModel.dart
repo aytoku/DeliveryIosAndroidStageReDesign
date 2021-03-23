@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'dart:io';
+
 ProductsDataModel productsDataModelFromJson(String str) => ProductsDataModel.fromJson(json.decode(str));
 
 String productsDataModelToJson(ProductsDataModel data) => json.encode(data.toJson());
@@ -33,7 +35,7 @@ class ProductsDataModel {
       variantGroupsList.add(element.toServerJson());
     });
     Map<String, dynamic> request = {
-      "source": "mod",
+      "source": (Platform.isIOS) ? "ios" : "android",
       "item": {
         "product_uuid": product.uuid,
         "variant_groups": variantGroupsList,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +14,8 @@ Future<CartModel> getCartByDeviceId(String device_id) async {
   var url = '${apiUrl}orders/device/${device_id}/last';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
+    'Application': 'eda/faem',
+    'Source': (Platform.isIOS) ? "ios" : "android",
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);

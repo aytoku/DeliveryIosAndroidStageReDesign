@@ -4,6 +4,7 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -248,6 +249,21 @@ class RestaurantsListState extends State<RestaurantsList>{
                   return RestaurantScreen(restaurant: restaurant);
                 }),
               );
+              // if(restaurant.type == 'restaurant'){
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (_) {
+              //       return RestaurantScreen(restaurant: restaurant);
+              //     }),
+              //   );
+              // }else{
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (_) {
+              //       return GroceryScreen();
+              //     }),
+              //   );
+              // }
             } else {
               noConnection(context);
             }

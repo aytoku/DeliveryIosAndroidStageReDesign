@@ -20,10 +20,12 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/Title.d
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverBackButton.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverShadow.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverText.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/sliverAppBar.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -63,6 +65,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   PanelController panelController;
   GlobalKey<PanelContentState> panelContentKey;
   ScrollController sc;
+  GlobalKey<SliverAppBarSettingsState> sliverAppBarKey;
 
   RestaurantScreenState(this.restaurant);
 
@@ -78,6 +81,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     sliverShadowKey = new GlobalKey();
     basketButtonStateKey = new GlobalKey<CartButtonState>();
     _scaffoldStateKey = GlobalKey();
+    sliverAppBarKey = GlobalKey();
     sliverScrollController = new ScrollController();
 
     // Инициализируем список категорий
@@ -94,6 +98,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   bool get _isAppBarExpanded {
     return sliverScrollController.hasClients && sliverScrollController.offset > 90;
   }
+
 
   _dayOff(ProductsByStoreUuid restaurantDataItems,
       GlobalKey<MenuItemCounterState> menuItemCounterKey) {
@@ -717,6 +722,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
                                 fit: BoxFit.cover,
                                 height: 500.0,
+                                alignment: Alignment.topCenter,
                                 width: MediaQuery.of(context).size.width,
                               ),
                               Align(
@@ -888,7 +894,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 SliverStickyHeader(
                   sticky: true,
                   header: SliverShadow(categoryList: _buildFoodCategoryList(), key: sliverShadowKey),
-                  sliver: SliverList(
+                  sliver: (restaurant.type == 'restaurant') ? SliverList(
                     delegate: SliverChildBuilderDelegate(
                           (context, index){
                         return TranslationAnimatedWidget(
@@ -910,6 +916,18 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       },
                       childCount: 1,
                     ),
+                  ) : SliverStaggeredGrid.countBuilder(
+                    crossAxisCount: 2,
+                    itemCount: sliverChildren.length,
+                    itemBuilder: (BuildContext context, int index) => sliverChildren[index],
+                    staggeredTileBuilder: (int index) {
+                      if (sliverChildren[index] is MenuItemTitle) {
+                        return StaggeredTile.extent(2, 50);
+                      }
+                      return StaggeredTile.extent(1, 260);
+                    },
+                    mainAxisSpacing: 10.0,
+                    crossAxisSpacing: 0.0,
                   ),
                 )
               ],
