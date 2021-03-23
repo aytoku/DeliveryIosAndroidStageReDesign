@@ -197,7 +197,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                     children: [
                       Center(
                         child: Transform(
-                          transform: Matrix4.translationValues(20, 0, 0),
+                          transform: Matrix4.translationValues(-10, 0, 0),
                           child: Image.asset(
                             'assets/images/Dish.png',
                           ),
@@ -216,11 +216,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                                 height: MediaQuery.of(context).size.height,
                                 width: 168,
                               )
-                            : Center(
-                              child: Image.asset(
-                                  'assets/images/Dish.png',
-                                ),
-                            ),
+                            : Container(),
                       ),
                     ],
                   ),

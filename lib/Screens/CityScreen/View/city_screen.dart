@@ -66,14 +66,14 @@ class CityScreenState extends State<CityScreen> {
       cityController.text = selectedCity.name;
     }
     return Scaffold(
-      backgroundColor: AppColor.mainColor,
+      backgroundColor: AppColor.themeColor,
       body: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 150.0),
             child: Align(
               alignment: Alignment.center,
-              child: Image.asset('assets/images/Sashimi.png', width: 200, height: 200,),
+              child: Image.asset('assets/images/Hatta.png', width: 200, height: 200,),
             ),
           ),
           // SvgPicture.asset('assets/svg_images/city.svg',
@@ -105,7 +105,7 @@ class CityScreenState extends State<CityScreen> {
                         height: 41,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: AppColor.themeColor),
+                            color: AppColor.mainColor),
                         child: Center(
                           child: Text(
                             'Войти',
