@@ -73,7 +73,7 @@ class CityScreenState extends State<CityScreen> {
             padding: const EdgeInsets.only(bottom: 150.0),
             child: Align(
               alignment: Alignment.center,
-              child: Image.asset('assets/images/Hatta.png', width: 200, height: 200,),
+              child: Image.asset('assets/images/Beirut.png', width: 200, height: 200,),
             ),
           ),
           // SvgPicture.asset('assets/svg_images/city.svg',
@@ -110,7 +110,7 @@ class CityScreenState extends State<CityScreen> {
                           child: Text(
                             'Войти',
                             style: TextStyle(
-                                fontSize: 18, color: AppColor.textColor),
+                                fontSize: 18, color: AppColor.unselectedTextColor),
                           ),
                         ),
                       ),
