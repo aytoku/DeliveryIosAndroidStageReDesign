@@ -58,7 +58,7 @@ class PanelContentState extends State<PanelContent> {
         if (productsDescription != null) {
           return Container(
             decoration: BoxDecoration(
-                color: AppColor.elementsColor,
+                color: AppColor.themeColor,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(12),
                   topRight: const Radius.circular(12),
@@ -197,7 +197,7 @@ class PanelContentState extends State<PanelContent> {
                                                           ),
                                                     Divider(
                                                       height: 0,
-                                                      color: Color(0xFFE6E6E6),
+                                                      color: AppColor.themeColor,
                                                     ),
                                                     // Padding(
                                                     //   padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 15),

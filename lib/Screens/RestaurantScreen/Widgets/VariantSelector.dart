@@ -152,7 +152,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: AppColor.elementsColor
+                  color: AppColor.themeColor
                 ),
                 padding:  EdgeInsets.only(top: 0, bottom: 22 , left: 15),
                 child: Row(
