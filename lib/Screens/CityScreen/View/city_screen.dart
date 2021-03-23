@@ -110,7 +110,7 @@ class CityScreenState extends State<CityScreen> {
                           child: Text(
                             'Войти',
                             style: TextStyle(
-                                fontSize: 18, color: AppColor.textColor),
+                                fontSize: 18, color: AppColor.unselectedTextColor),
                           ),
                         ),
                       ),
