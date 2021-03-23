@@ -3,6 +3,7 @@ import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'dart:io';
 
 import '../../../data/data.dart';
 import '../../../data/refreshToken.dart';
@@ -14,6 +15,8 @@ Future<CartModel> addVariantToCart(ProductsDataModel product, String device_id, 
   var url = '${apiUrl}orders/carts/${device_id}';
   var response = await http.put(url, body: json_request, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
+    'Application': 'eda/beirut',
+    'Source': (Platform.isIOS) ? "ios" : "android",
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);

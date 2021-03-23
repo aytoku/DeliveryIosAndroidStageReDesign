@@ -12,6 +12,7 @@ Future<CartModel> incrementCartItemCount(String device_id, int item_id) async {
   var url = '${apiUrl}orders/carts/${device_id}/items/${item_id}';
   var response = await http.put(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
+
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
