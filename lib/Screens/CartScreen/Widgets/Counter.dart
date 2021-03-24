@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CartScreen/API/change_item_count_in_cart.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../Internet/check_internet.dart';

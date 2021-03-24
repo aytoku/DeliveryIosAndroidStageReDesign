@@ -6,6 +6,7 @@ import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/quick_message_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

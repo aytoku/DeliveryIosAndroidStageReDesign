@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_app/Screens/ChatScreen/Model/ChatHistoryModel.dart';
 import 'package:flutter_app/Screens/ChatScreen/Model/QuickMessagesModel.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;

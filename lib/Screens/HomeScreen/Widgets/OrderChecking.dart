@@ -3,6 +3,7 @@ import 'package:flutter_app/Screens/OrdersScreen/API/getClientsOrdersInProcess.d
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_details.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

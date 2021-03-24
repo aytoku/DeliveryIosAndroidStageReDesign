@@ -15,6 +15,7 @@ import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/OrderSuccess
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PromoText.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';

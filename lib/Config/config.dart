@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:device_id/device_id.dart';
 import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;

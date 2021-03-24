@@ -6,6 +6,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductCategories/CategoryList.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/grocery_item.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

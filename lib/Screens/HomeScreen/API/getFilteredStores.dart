@@ -1,5 +1,6 @@
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/data/api.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -11,7 +12,7 @@ Future<FilteredStoresData> getFilteredStores(String city_uuid, bool only_parents
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',
     "ServiceName": 'faem_food',
-    "Application": 'eda/faem',
+    "Application": header,
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);

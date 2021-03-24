@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../data/data.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/global_variables.dart';
 
 import '../../../data/data.dart';
 
