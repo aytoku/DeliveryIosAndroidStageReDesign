@@ -244,27 +244,21 @@ class RestaurantsListState extends State<RestaurantsList>{
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) {
-                  return RestaurantScreen(restaurant: restaurant);
-                }),
-              );
-              // if(restaurant.type == 'restaurant'){
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (_) {
-              //       return RestaurantScreen(restaurant: restaurant);
-              //     }),
-              //   );
-              // }else{
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (_) {
-              //       return GroceryScreen();
-              //     }),
-              //   );
-              // }
+              if(restaurant.type == 'restaurant'){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) {
+                    return RestaurantScreen(restaurant: restaurant);
+                  }),
+                );
+              }else{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) {
+                    return GroceryScreen(restaurant: restaurant);
+                  }),
+                );
+              }
             } else {
               noConnection(context);
             }

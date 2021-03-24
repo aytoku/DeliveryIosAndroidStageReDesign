@@ -12,7 +12,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class GroceryScreen extends StatefulWidget {
   GroceryScreen({
-    this.key
+    this.key,
+    this.restaurant
   }) : super(key: key);
   final GlobalKey<GroceryScreenState> key;
   FilteredStores restaurant;
@@ -27,13 +28,132 @@ class GroceryScreenState extends State<GroceryScreen>{
 
   FilteredStores restaurant;
   CategoryList categoryList;
-  GroceryScreenState(restaurant);
+  GroceryScreenState(this.restaurant);
 
   _buildFoodCategoryList() {
     if(restaurant.productCategoriesUuid.length>0)
       return categoryList;
     else
       return Container(height: 0);
+  }
+
+  _restInfo() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(20),
+              topRight: const Radius.circular(20),
+            )),
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 300,
+            child: _buildRestInfoNavigationMenu(),
+            decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(20),
+                  topRight: const Radius.circular(20),
+                )),
+          );
+        });
+  }
+
+  _buildRestInfoNavigationMenu() {
+//    DateTime now = DateTime.now();
+//    int currentTime = now.hour*60+now.minute;
+//    int dayNumber  = now.weekday-1;
+//    int work_ending = restaurant.work_schedule[dayNumber].work_ending;
+    return Container(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 30),
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(restaurant.name,
+                  style: TextStyle(
+                      color: Color(0xFF424242),
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold
+                  ),
+                )
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 20),
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Text('Адрес',
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14
+                  ),
+                )
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 10),
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(restaurant.address.unrestrictedValue,
+                  style: TextStyle(
+                      fontSize: 14
+                  ),
+                )
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 20),
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Text("Время доставки",
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14
+                  ),
+                )
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 10),
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Text('${restaurant.meta.avgDeliveryTime}',
+                  style: TextStyle(
+                      fontSize: 14
+                  ),
+                )
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 20),
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Text('Кухни',
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14
+                  ),
+                )
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 10),
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Row(
+                  children: List.generate(restaurant.storeCategoriesUuid.length, (index){
+                    return Text(restaurant.storeCategoriesUuid[index].name + ' ');
+                  }),
+                )
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -61,13 +181,13 @@ class GroceryScreenState extends State<GroceryScreen>{
                 )),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 25.0, bottom: 20),
+            padding: const EdgeInsets.only(top: 20.0, bottom: 20),
             child: Row(
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 15),
                   child: Text(
-                    'Наш',
+                    this.restaurant.name,
                     style: TextStyle(
                         fontSize: 21,
                         color: Color(0xFF3F3F3F)),
@@ -84,7 +204,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                         'assets/svg_images/rest_info.svg'),
                   ),
                   onTap: (){
-
+                    _restInfo();
                   },
                 ),
               ],
@@ -109,7 +229,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 5),
-                            child: Text('4,7',
+                            child: Text(restaurant.meta.rating.toString(),
                               style: TextStyle(
                               ),
                             ),
@@ -139,7 +259,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                             ),
                           ),
                           Text(
-                            '~' +  '10 мин',
+                            '~' +  '${restaurant.meta.avgDeliveryTime}',
                             style: TextStyle(
                             ),
                           ),
@@ -160,7 +280,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                   child: Center(
                     child: Padding(
                       padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
-                      child: Text('150 руб',
+                      child: Text('${restaurant.meta.avgDeliveryPrice}',
                         style: TextStyle(
                         ),
                       ),
@@ -184,18 +304,19 @@ class GroceryScreenState extends State<GroceryScreen>{
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              itemCount: 2,
+              itemCount: restaurant.productCategoriesUuid.length,
               itemBuilder: (context, index) {
+                var productCategory = restaurant.productCategoriesUuid[index];
                 return GestureDetector(
                   child: Container(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
                       child: Row(
                         children: [
-                          SvgPicture.asset('assets/svg_images/pizza.svg'),
+                          Image.network(productCategory.url),
                           Padding(
                             padding: const EdgeInsets.only(left: 15),
-                            child: Text('Фрукты',
+                            child: Text(productCategory.name,
                               style: TextStyle(
                                 fontSize: 14
                               ),
@@ -213,7 +334,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '2',
+                                    '228',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF4D9D46)
@@ -231,7 +352,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) {
-                        return RestaurantScreen(restaurant: restaurant);
+                        return RestaurantScreen(restaurant: restaurant, selectedCategoriesUuid: productCategory);
                       }),
                     );
                   },
