@@ -110,7 +110,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 15, left: 20, bottom: 0),
+                          padding: EdgeInsets.only(right: 25, left: 20, bottom: 0),
                           child: InkWell(
                             child: Container(
                               height: 30,
