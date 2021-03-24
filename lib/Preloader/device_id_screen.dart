@@ -111,7 +111,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
             return Stack(
               alignment: Alignment.center,
               children: [
-                Image.asset('assets/images/Hatta.png'),
+                Image.asset('assets/gif/hatta_preloader.gif'),
               ],
             );
           }
