@@ -38,7 +38,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                           padding: EdgeInsets.only(bottom: 25),
                           child: Center(
                             child: Text(
-                              'Версия 2.0.0 от 19 мар. 2021 г.\nсборка 9',
+                              'Версия 2.0.0 от 23 мар. 2021 г.\nсборка 10',
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Color(0x97979797), fontSize: 15),
                             ),
