@@ -171,7 +171,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
                     Padding(
                       padding: EdgeInsets.only(left: 12.0),
                       child: Text(
-                        '${element.price} \₽',
+                        '+${element.price} \₽',
                         style: TextStyle(color: AppColor.additionalTextColor, fontSize: 14),
                       ),
                     ),
