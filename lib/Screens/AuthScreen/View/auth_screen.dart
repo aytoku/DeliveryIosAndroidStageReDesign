@@ -218,59 +218,59 @@ class _AuthScreenState extends State<AuthScreen> {
                       ) : Container(),
                     ],
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: GestureDetector(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 85, top: 10),
-                        child: Text.rich(
-                          TextSpan(
-                              text:
-                              'Нажимая кнопку “Далее”, вы принимете условия\n',
-                              style: TextStyle(
-                                  color: Color(0x97979797), fontSize: 13),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: 'Пользовательского соглашения',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        if (await Internet.checkConnection()) {
-                                          if (await canLaunch(
-                                              "https://faem.ru/legal/agreement")) {
-                                            await launch(
-                                                "https://faem.ru/legal/agreement");
-                                          }
-                                        } else {
-                                          noConnection(context);
-                                        }
-                                      }),
-                                TextSpan(
-                                  text: ' и ',
-                                ),
-                                TextSpan(
-                                    text: 'Политики\nконфиденцальности',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        if (await Internet.checkConnection()) {
-                                          if (await canLaunch(
-                                              "https://faem.ru/privacy")) {
-                                            await launch(
-                                                "https://faem.ru/privacy");
-                                          }
-                                        } else {
-                                          noConnection(context);
-                                        }
-                                      }),
-                              ]),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.bottomCenter,
+                  //   child: GestureDetector(
+                  //     child: Padding(
+                  //       padding: EdgeInsets.only(bottom: 85, top: 10),
+                  //       child: Text.rich(
+                  //         TextSpan(
+                  //             text:
+                  //             'Нажимая кнопку “Далее”, вы принимете условия\n',
+                  //             style: TextStyle(
+                  //                 color: Color(0x97979797), fontSize: 13),
+                  //             children: <TextSpan>[
+                  //               TextSpan(
+                  //                   text: 'Пользовательского соглашения',
+                  //                   style: TextStyle(
+                  //                       decoration: TextDecoration.underline),
+                  //                   recognizer: TapGestureRecognizer()
+                  //                     ..onTap = () async {
+                  //                       if (await Internet.checkConnection()) {
+                  //                         if (await canLaunch(
+                  //                             "https://faem.ru/legal/agreement")) {
+                  //                           await launch(
+                  //                               "https://faem.ru/legal/agreement");
+                  //                         }
+                  //                       } else {
+                  //                         noConnection(context);
+                  //                       }
+                  //                     }),
+                  //               TextSpan(
+                  //                 text: ' и ',
+                  //               ),
+                  //               TextSpan(
+                  //                   text: 'Политики\nконфиденцальности',
+                  //                   style: TextStyle(
+                  //                       decoration: TextDecoration.underline),
+                  //                   recognizer: TapGestureRecognizer()
+                  //                     ..onTap = () async {
+                  //                       if (await Internet.checkConnection()) {
+                  //                         if (await canLaunch(
+                  //                             "https://faem.ru/privacy")) {
+                  //                           await launch(
+                  //                               "https://faem.ru/privacy");
+                  //                         }
+                  //                       } else {
+                  //                         noConnection(context);
+                  //                       }
+                  //                     }),
+                  //             ]),
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
