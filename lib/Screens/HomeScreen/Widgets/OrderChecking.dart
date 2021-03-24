@@ -224,7 +224,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                     .contains(ordersStoryModelItem.state) ||
                                     in_the_way.contains(ordersStoryModelItem.state))
                                     ? SvgPicture.asset(
-                                    'assets/svg_images/white_bell.svg', color: AppColor.textColor,)
+                                    'assets/svg_images/white_bell.svg', color: AppColor.unselectedTextColor,)
                                     : SvgPicture.asset(
                                     'assets/svg_images/bell.svg', color: AppColor.textColor),
                               ),
@@ -235,7 +235,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                         .contains(ordersStoryModelItem.state) ||
                                         in_the_way.contains(ordersStoryModelItem.state))
                                         ? TextStyle(
-                                        color: AppColor.textColor, fontSize: 10)
+                                        color: AppColor.unselectedTextColor, fontSize: 10)
                                         : TextStyle(
                                         color: AppColor.textColor,
                                         fontSize: 10)),
@@ -284,9 +284,10 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                 child: (in_the_way
                                     .contains(ordersStoryModelItem.state))
                                     ? SvgPicture.asset(
-                                    'assets/svg_images/light_car.svg')
+                                    'assets/svg_images/light_car.svg',
+                                color: AppColor.unselectedTextColor,)
                                     : SvgPicture.asset(
-                                    'assets/svg_images/car.svg'),
+                                    'assets/svg_images/car.svg', color: AppColor.textColor),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
@@ -294,7 +295,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                     style: (in_the_way
                                         .contains(ordersStoryModelItem.state))
                                         ? TextStyle(
-                                        color: AppColor.textColor, fontSize: 10)
+                                        color: AppColor.unselectedTextColor, fontSize: 10)
                                         : TextStyle(
                                         color: AppColor.textColor,
                                         fontSize: 10)),
