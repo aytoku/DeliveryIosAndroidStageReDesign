@@ -1069,24 +1069,24 @@ class AddressScreenState extends State<AddressScreen>
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: 10, left: 15, right: 15, bottom: 10),
+                                    top: 10, left: 0, right: 15, bottom: 10),
                                 child: Align(
                                   alignment: Alignment.bottomLeft,
                                   child: GestureDetector(
                                     child: Container(
                                       width: 160,
                                       height: 64,
-                                      decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                blurRadius: 2.0,
-                                                offset: Offset(0.0, 1)
-                                            )
-                                          ],
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(10.0),
-                                          border: Border.all(width: 1.0, color: Colors.grey[200])),
+                                      // decoration: BoxDecoration(
+                                      //     boxShadow: [
+                                      //       BoxShadow(
+                                      //           color: Colors.black12,
+                                      //           blurRadius: 2.0,
+                                      //           offset: Offset(0.0, 1)
+                                      //       )
+                                      //     ],
+                                      //     color: Colors.white,
+                                      //     borderRadius: BorderRadius.circular(10.0),
+                                      //     border: Border.all(width: 1.0, color: Colors.grey[200])),
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             top: 0, left: 0, right: 20, bottom: 10),
@@ -1097,7 +1097,7 @@ class AddressScreenState extends State<AddressScreen>
                                             Column(
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(bottom: 8.0, left: 15, top: 10),
+                                                  padding: const EdgeInsets.only(bottom: 8.0, left: 15),
                                                   child: Text(
                                                     "Способ оплаты",
                                                     style: TextStyle(
@@ -1105,31 +1105,29 @@ class AddressScreenState extends State<AddressScreen>
                                                         color: AppColor.textColor),
                                                   ),
                                                 ),
-                                                Align(
-                                                  alignment: Alignment.bottomLeft,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(left: 17),
-                                                    child: Text(
-                                                      paymentMethods[selectedPaymentId]['name'],
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: AppColor.textColor),
-                                                    ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 17),
+                                                  child: Text(
+                                                    'Наличными',
+                                                    // (selectedPaymentId == 1) ? card : cash,
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: AppColor.textColor),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.only(left: 10, top: 12),
-                                              child: SvgPicture.asset(
-                                                  'assets/svg_images/arrow_down.svg'),
-                                            ),
+                                            // Padding(
+                                            //   padding: EdgeInsets.only(left: 10),
+                                            //   child: SvgPicture.asset(
+                                            //       'assets/svg_images/arrow_down.svg'),
+                                            // ),
                                           ],
                                         ),
                                       ),
                                     ),
                                     onTap: () async {
-                                       _payment();
+                                      // _payment();
                                     },
                                   ),
                                 ),
@@ -1141,6 +1139,84 @@ class AddressScreenState extends State<AddressScreen>
                             ],
                           ),
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(bottom: 30, right: 10),
+                        //   child: Row(
+                        //     children: [
+                        //       Padding(
+                        //         padding: EdgeInsets.only(
+                        //             top: 10, left: 15, right: 15, bottom: 10),
+                        //         child: Align(
+                        //           alignment: Alignment.bottomLeft,
+                        //           child: GestureDetector(
+                        //             child: Container(
+                        //               width: 160,
+                        //               height: 64,
+                        //               decoration: BoxDecoration(
+                        //                   boxShadow: [
+                        //                     BoxShadow(
+                        //                         color: Colors.black12,
+                        //                         blurRadius: 2.0,
+                        //                         offset: Offset(0.0, 1)
+                        //                     )
+                        //                   ],
+                        //                   color: Colors.white,
+                        //                   borderRadius: BorderRadius.circular(10.0),
+                        //                   border: Border.all(width: 1.0, color: Colors.grey[200])),
+                        //               child: Padding(
+                        //                 padding: EdgeInsets.only(
+                        //                     top: 0, left: 0, right: 20, bottom: 10),
+                        //                 child: Row(
+                        //                   mainAxisAlignment:
+                        //                   MainAxisAlignment.spaceBetween,
+                        //                   children: <Widget>[
+                        //                     Column(
+                        //                       children: [
+                        //                         Padding(
+                        //                           padding: const EdgeInsets.only(bottom: 8.0, left: 15, top: 10),
+                        //                           child: Text(
+                        //                             "Способ оплаты",
+                        //                             style: TextStyle(
+                        //                                 fontSize: 12,
+                        //                                 color: AppColor.textColor),
+                        //                           ),
+                        //                         ),
+                        //                         Align(
+                        //                           alignment: Alignment.bottomLeft,
+                        //                           child: Padding(
+                        //                             padding: const EdgeInsets.only(left: 17),
+                        //                             child: Text(
+                        //                               paymentMethods[selectedPaymentId]['name'],
+                        //                               style: TextStyle(
+                        //                                   fontSize: 16,
+                        //                                   color: AppColor.textColor),
+                        //                             ),
+                        //                           ),
+                        //                         ),
+                        //                       ],
+                        //                     ),
+                        //                     Padding(
+                        //                       padding: EdgeInsets.only(left: 10, top: 12),
+                        //                       child: SvgPicture.asset(
+                        //                           'assets/svg_images/arrow_down.svg'),
+                        //                     ),
+                        //                   ],
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //             onTap: () async {
+                        //                _payment();
+                        //             },
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       // Padding(
+                        //       //   padding: const EdgeInsets.only(right: 0),
+                        //       //   child: PromoText(key: promoTextKey,),
+                        //       // )
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
