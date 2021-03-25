@@ -774,6 +774,15 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   sticky: false,
                   header: Container(
                     decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(0, 5),
+                          blurRadius: 4,
+                          spreadRadius: 2,
+                        )
+                      ],
+                      border: Border.all(color: Colors.white, width: 4),
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
@@ -910,6 +919,15 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                           ],
                           child: Container(
                             decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(0, 0),
+                                    blurRadius: 4,
+                                    spreadRadius: 2,
+                                  )
+                                ],
+                                border: Border.all(color: Colors.white, width: 4),
                                 color: Colors.white
                             ),
                             child: Column(
