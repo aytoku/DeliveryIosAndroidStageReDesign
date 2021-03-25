@@ -238,12 +238,12 @@ class AddressScreenState extends State<AddressScreen>
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF424242)),
+                            color: AppColor.textColor),
                       ),
                     ),
                     Center(
                       child: SpinKitThreeBounce(
-                        color: Colors.green,
+                        color: AppColor.mainColor,
                         size: 20.0,
                       ),
                     ),
@@ -321,7 +321,7 @@ class AddressScreenState extends State<AddressScreen>
                   width: 380,
                   height: 60,
                   decoration: BoxDecoration(
-                      color: mainColor,
+                      color: AppColor.mainColor,
                       borderRadius: BorderRadius.circular(10)
                   ),
                   child: Center(
@@ -361,7 +361,7 @@ class AddressScreenState extends State<AddressScreen>
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF424242))),
+                          color: AppColor.textColor),),
                 ),
               ),
               buildAddressesListSelector(),
@@ -390,7 +390,7 @@ class AddressScreenState extends State<AddressScreen>
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF424242))),
+                              color: AppColor.textColor)),
                     ),
                   ),
                   buildAddressesListSelector()
@@ -408,12 +408,12 @@ class AddressScreenState extends State<AddressScreen>
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF424242))),
+                            color: AppColor.textColor)),
                   ),
                 ),
                 Center(
                   child: SpinKitThreeBounce(
-                    color: Colors.green,
+                    color: AppColor.mainColor,
                     size: 20.0,
                   ),
                 ),
@@ -437,7 +437,7 @@ class AddressScreenState extends State<AddressScreen>
     double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
+          statusBarColor: AppColor.textColor,
           statusBarBrightness: Brightness.light
       ),
       child: Scaffold(
@@ -445,7 +445,7 @@ class AddressScreenState extends State<AddressScreen>
         resizeToAvoidBottomPadding: false,
         body:  GestureDetector(
           child: Container(
-              color: Colors.white,
+              color: AppColor.themeColor,
               child:  Column(
                 children: [
                   Padding(
@@ -471,7 +471,7 @@ class AddressScreenState extends State<AddressScreen>
                                         padding: EdgeInsets.only(
                                             top: 12, bottom: 12, right: 20),
                                         child: SvgPicture.asset(
-                                            'assets/svg_images/arrow_left.svg'),
+                                            'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
                                       ))),
                             ),
                           ),
@@ -485,7 +485,7 @@ class AddressScreenState extends State<AddressScreen>
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF000000)),
+                                  color: AppColor.textColor),
                             ),
                           ),
                         )
@@ -727,7 +727,7 @@ class AddressScreenState extends State<AddressScreen>
                                         decoration: new InputDecoration(
                                           hintText: 'Подъезд',
                                           hintStyle: TextStyle(
-                                              color: Color(0xFFB0B0B0),
+                                              color: AppColor.additionalTextColor,
                                               fontSize: 13),
                                           border: InputBorder.none,
                                           counterText: '',
@@ -750,7 +750,7 @@ class AddressScreenState extends State<AddressScreen>
                                         decoration: new InputDecoration(
                                           hintText: 'Этаж',
                                           hintStyle: TextStyle(
-                                              color: Color(0xFFB0B0B0),
+                                              color: AppColor.additionalTextColor,
                                               fontSize: 13),
                                           border: InputBorder.none,
                                           counterText: '',
@@ -773,7 +773,7 @@ class AddressScreenState extends State<AddressScreen>
                                         decoration: new InputDecoration(
                                           hintText: 'Кв./офис',
                                           hintStyle: TextStyle(
-                                              color: Color(0xFFB0B0B0),
+                                              color: AppColor.additionalTextColor,
                                               fontSize: 13),
                                           border: InputBorder.none,
                                           counterText: '',
@@ -796,7 +796,7 @@ class AddressScreenState extends State<AddressScreen>
                                         decoration: new InputDecoration(
                                           hintText: 'Домофон',
                                           hintStyle: TextStyle(
-                                              color: Color(0xFFB0B0B0),
+                                              color: AppColor.additionalTextColor,
                                               fontSize: 13),
                                           border: InputBorder.none,
                                           counterText: '',
@@ -824,7 +824,7 @@ class AddressScreenState extends State<AddressScreen>
                                     ),
                                     enabledBorder:  OutlineInputBorder(
                                       // width: 0.0 produces a thin "hairline" border
-                                      borderSide: BorderSide(color: Colors.black26),
+                                      borderSide: BorderSide(color: AppColor.additionalTextColor),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     border: OutlineInputBorder(
@@ -837,14 +837,14 @@ class AddressScreenState extends State<AddressScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 20),
                                     child: Container(
-                                      color: Colors.white,
+                                      color: AppColor.themeColor,
                                       child: Padding(
                                         padding: EdgeInsets.all(5),
                                         child: Text(
                                           'Комментарий',
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.grey
+                                              color: AppColor.additionalTextColor
                                           ),
                                         ),
                                       ),
@@ -867,13 +867,13 @@ class AddressScreenState extends State<AddressScreen>
                               Text(
                                 'Стоимость',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: AppColor.textColor,
                                     fontSize: 14),
                               ),
                               Text(
                                 '${currentUser.cartModel.totalPrice.toStringAsFixed(0)} \₽',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: AppColor.textColor,
                                     fontSize: 14),
                               )
                             ],
@@ -891,7 +891,7 @@ class AddressScreenState extends State<AddressScreen>
                                     Text(
                                       'Доставка',
                                       style: TextStyle(
-                                          color: Colors.black,
+                                          color: AppColor.textColor,
                                           fontSize: 14),
                                     ),
                                     Padding(
@@ -899,7 +899,7 @@ class AddressScreenState extends State<AddressScreen>
                                       child: Text(
                                         '30-50 мин.',
                                         style: TextStyle(
-                                            color: Colors.black,
+                                            color: AppColor.textColor,
                                             fontSize: 12),
                                       ),
                                     ),
@@ -909,7 +909,7 @@ class AddressScreenState extends State<AddressScreen>
                               Text(
                                 '${currentUser.cartModel.deliveryPrice} \₽',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: AppColor.textColor,
                                     fontSize: 14),
                               )
                             ],
@@ -945,13 +945,13 @@ class AddressScreenState extends State<AddressScreen>
                               Text(
                                 'Итого',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: AppColor.textColor,
                                     fontSize: 22),
                               ),
                               Text(
                                 '${(totalPrice).toStringAsFixed(0)} \₽',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: AppColor.textColor,
                                     fontSize: 22),
                               )
                             ],
@@ -959,7 +959,7 @@ class AddressScreenState extends State<AddressScreen>
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: Divider(color: Colors.grey),
+                          child: Divider(color: AppColor.textColor),
                         ),
                         // Container(
                         //   height: 10,
@@ -977,7 +977,7 @@ class AddressScreenState extends State<AddressScreen>
                                     spreadRadius: 1.0, //extend the shadow
                                   )
                                 ],
-                                color: Colors.white,
+                                color: AppColor.themeColor,
                                 borderRadius: BorderRadius.circular(10.0),
                                 border: Border.all(width: 1.0, color: Colors.grey[200])),
                             child: Padding(
@@ -989,7 +989,7 @@ class AddressScreenState extends State<AddressScreen>
                                   Text(
                                     'Поем в заведении',
                                     style: TextStyle(
-                                        color: Color(0xFF3F3F3F),
+                                        color: AppColor.textColor,
                                         fontSize: 15),
                                   ),
                                   Padding(
@@ -998,7 +998,7 @@ class AddressScreenState extends State<AddressScreen>
                                       width: 55.0,
                                       height: 25.0,
                                       inactiveColor: Color(0xD6D6D6D6),
-                                      activeColor: Colors.green,
+                                      activeColor: AppColor.mainColor,
                                       valueFontSize: 12.0,
                                       toggleSize: 18.0,
                                       value: eatInStore,
@@ -1102,7 +1102,7 @@ class AddressScreenState extends State<AddressScreen>
                                                     "Способ оплаты",
                                                     style: TextStyle(
                                                         fontSize: 12,
-                                                        color: Color(0xFFB8B8B8)),
+                                                        color: AppColor.textColor),
                                                   ),
                                                 ),
                                                 Align(
@@ -1113,7 +1113,7 @@ class AddressScreenState extends State<AddressScreen>
                                                       paymentMethods[selectedPaymentId]['name'],
                                                       style: TextStyle(
                                                           fontSize: 16,
-                                                          color: Colors.black),
+                                                          color: AppColor.textColor),
                                                     ),
                                                   ),
                                                 ),
@@ -1155,7 +1155,7 @@ class AddressScreenState extends State<AddressScreen>
                               offset: Offset(0.0, 1)
                           )
                         ],
-                        color: Colors.white,),
+                        color: AppColor.themeColor,),
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 15, left: 50, right: 20, top: 15),
                         child: Row(
@@ -1167,7 +1167,7 @@ class AddressScreenState extends State<AddressScreen>
                                     '${(totalPrice).toStringAsFixed(0)} \₽',
                                     style: TextStyle(
                                         fontSize: 18.0,
-                                        color: Colors.black)),
+                                        color: AppColor.textColor)),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 3),
                                   child: Text(
@@ -1176,7 +1176,7 @@ class AddressScreenState extends State<AddressScreen>
                                         : '',
                                     style: TextStyle(
                                       fontSize: 12.0,
-                                      color: Colors.black,
+                                      color: AppColor.textColor,
                                     ),
                                   ),
                                 ),
@@ -1187,7 +1187,7 @@ class AddressScreenState extends State<AddressScreen>
                                 height: 52,
                                 width: 168,
                                 decoration: BoxDecoration(
-                                  color: mainColor,
+                                  color: AppColor.mainColor,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Center(

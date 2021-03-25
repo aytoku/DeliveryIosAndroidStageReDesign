@@ -20,5 +20,19 @@ String FCMToken = '';
 int code = 0;
 NecessaryDataForAuth necessaryDataForAuth = new NecessaryDataForAuth(phone_number: null, refresh_token: null, device_id: null, name: null);
 FilteredCities selectedCity;
-Color mainColor = Color(0xFF09B44D);
-String header = 'eda/faem';
+class AppColor {
+  AppColor._();
+
+  static const Color mainColor = Color(0xFF92CB45);
+  static const Color textColor = Color(0xFF000000);
+  static const Color unselectedTextColor = Color(0xFFFFFFFF);
+  static const Color additionalTextColor = Color(0xFF9E9E9E);
+  static const Color themeColor = Color(0xFFFFFFFF);
+  static const Color fieldColor = Color(0xFFFFFFFF);
+  static const Color elementsColor = Color(0xFFEFEFEF);
+  static const Color subElementsColor = Color(0xFFEFEFEF);
+  static const Color borderFieldColor = Color(0xFF92CB45);
+  static const Color unselectedBorderFieldColor = Color(0xFF9E9E9E);
+
+}
+String header = 'eda/siria';

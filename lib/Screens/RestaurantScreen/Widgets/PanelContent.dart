@@ -88,7 +88,7 @@ class PanelContentState extends State<PanelContent>{
                                   topLeft: Radius.circular(12),
                                   topRight: Radius.circular(12),
                                 ),
-                                color: Colors.white
+                                color: AppColor.themeColor
                             ),
                             child: ClipRRect(
                                 borderRadius: BorderRadius.only(
@@ -127,7 +127,7 @@ class PanelContentState extends State<PanelContent>{
                                     )),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: AppColor.themeColor,
                                       borderRadius: BorderRadius.only(
                                         topLeft: const Radius.circular(12),
                                         topRight: const Radius.circular(12),
@@ -140,7 +140,7 @@ class PanelContentState extends State<PanelContent>{
                                         alignment: Alignment.bottomCenter,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              color: Colors.white,
+                                              color: AppColor.themeColor,
                                               borderRadius: BorderRadius.only(
                                                 topLeft: const Radius.circular(12),
                                                 topRight: const Radius.circular(12),
@@ -284,7 +284,7 @@ class PanelContentState extends State<PanelContent>{
                   child: Container(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     decoration: (productsDescription.variantGroups != null) ? BoxDecoration(
-                      color: Colors.white,
+                      color: AppColor.themeColor,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black12,
@@ -309,9 +309,10 @@ class PanelContentState extends State<PanelContent>{
                                       TextSpan(text: restaurantDataItems.name,
                                         style: TextStyle(
                                             fontSize: 15.0,
-                                            color: Color(0xFF000000)),),
+                                            color: AppColor.themeColor),
+                                      ),
                                     ]
-                                )
+                                  ),
                                 ),
                               ),
                             )),
@@ -347,7 +348,7 @@ class PanelContentState extends State<PanelContent>{
                                     child: Container(
                                       height: 52,
                                       decoration: BoxDecoration(
-                                        color: mainColor,
+                                        color: AppColor.mainColor,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Padding(
@@ -429,7 +430,7 @@ class PanelContentState extends State<PanelContent>{
             padding: const EdgeInsets.only(top: 40),
             child: Center(
               child: SpinKitFadingCircle(
-                color: Colors.green,
+                color: AppColor.mainColor,
                 size: 50.0,
               ),
             ),

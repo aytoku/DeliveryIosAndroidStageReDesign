@@ -4,12 +4,13 @@ import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'add_my_address_screen.dart';
 import 'dart:io' show Platform;
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class MyAddressesScreen extends StatefulWidget {
   @override
@@ -428,7 +429,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                           style: TextStyle(
                               fontSize: 16.0,
                               color: Colors.white)),
-                      color: mainColor,
+                      color: AppColor.mainColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

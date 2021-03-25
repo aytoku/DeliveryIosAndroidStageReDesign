@@ -39,7 +39,7 @@ class KitchenListScreenState extends State<KitchenListScreen>{
               child: Text(
                 'Кухни',
                 style: TextStyle(
-                    color: Color(0xFF000000),
+                    color: AppColor.textColor,
                     fontSize: 20,
                     fontWeight: FontWeight.bold
                 ),
@@ -61,11 +61,10 @@ class KitchenListScreenState extends State<KitchenListScreen>{
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(categories[index].name,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18
-                                ),
+                              child: Text(
+                                categories[index].name,
+                                style:
+                                    TextStyle(color: AppColor.textColor, fontSize: 18),
                               ),
                             )
                           ],
@@ -109,7 +108,7 @@ class KitchenListScreenState extends State<KitchenListScreen>{
                     style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.white)),
-                color: (hasSelectedItems()) ? mainColor : Color(0xF3F3F3F3),
+                color: (hasSelectedItems()) ? AppColor.mainColor : AppColor.elementsColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

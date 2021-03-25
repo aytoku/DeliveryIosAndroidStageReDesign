@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CityScreen/API/getFilteredCities.dart';
 import 'package:flutter_app/Screens/CityScreen/Model/FilteredCities.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 import '../../../Config/config.dart';
 import '../../MyAddressesScreen/Model/NecessaryAddressModel.dart';
@@ -53,7 +54,7 @@ class CityAutocompleteState extends State<CityAutocomplete> with AutomaticKeepAl
 
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: AppColor.themeColor,
       child: Column(
         children: [
           // Container(
@@ -172,7 +173,7 @@ class AutocompleteListState extends State<AutocompleteList> {
   Widget suggestionRow(){
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: Colors.white,
+      color: AppColor.elementsColor,
       height: MediaQuery.of(context).size.height * 0.65,
       child: ListView(
           padding: EdgeInsets.zero,
@@ -189,7 +190,8 @@ class AutocompleteListState extends State<AutocompleteList> {
                           child: Text(suggestions[index].name,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 16
+                                fontSize: 16,
+                              color: AppColor.textColor
                             ),
                           ),
                         ),
@@ -250,7 +252,7 @@ class AutocompleteListState extends State<AutocompleteList> {
             padding: const EdgeInsets.only(top: 50),
             child: Center(
               child: SpinKitThreeBounce(
-                color: Colors.green,
+                color: AppColor.mainColor,
                 size: 20.0,
               ),
             ),

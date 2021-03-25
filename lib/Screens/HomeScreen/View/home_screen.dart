@@ -123,7 +123,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           title: Text(
             'Информация',
             style: TextStyle(
-                fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+                fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {
@@ -147,7 +147,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           padding: EdgeInsets.only(top: 0),
           child: InkWell(
             child: Container(
-              color: mainColor,
+              color: AppColor.mainColor,
               child: ListTile(
                 title: Text(
                   necessaryDataForAuth.name ?? ' ',
@@ -213,7 +213,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             title: Text(
               'История заказов',
               style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+                  fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
             ),
             onTap: () async {
               if (await Internet.checkConnection()) {
@@ -284,7 +284,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             title: Text(
               'Выход',
               style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+                  fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
             ),
             onTap: () async {
               if (await Internet.checkConnection()) {
@@ -310,32 +310,32 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             padding: EdgeInsets.only(top: 0),
             child: ListTile(
                 title: InkWell(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 0, bottom: 20),
-                    child: Text(
-                      'Авторизоваться',
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: Color(0xFF424242),
-                          letterSpacing: 0.45),
+              child: Padding(
+                padding: EdgeInsets.only(top: 0, bottom: 20),
+                child: Text(
+                  'Авторизоваться',
+                  style: TextStyle(
+                      fontSize: 17,
+                      color: AppColor.textColor,
+                      letterSpacing: 0.45),
+                ),
+              ),
+              onTap: () async {
+                if (await Internet.checkConnection()) {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                        create: (context) => AuthGetBloc(),
+                        child: AuthScreen(),
+                      ),
                     ),
-                  ),
-                  onTap: () async {
-                    if (await Internet.checkConnection()) {
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (context)=> AuthGetBloc(),
-                            child: AuthScreen(),
-                          ),
-                        ),
-                      );
-                    } else {
-                      noConnection(context);
-                    }
-                  },
-                )),
+                  );
+                } else {
+                  noConnection(context);
+                }
+              },
+            )),
           ));
     }
     return allSideBarItems;
@@ -350,7 +350,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           statusBarBrightness: Brightness.light
       ),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.themeColor,
         key: _scaffoldKey,
         drawer: ClipRRect(
           borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
@@ -363,7 +363,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                       child: Image(
                         height: 97,
                         width: 142,
-                        image: AssetImage('assets/images/faem.png'),
+                        image: AssetImage('assets/images/Siria.png'),
                       ),
                     ),
                   ),
@@ -383,7 +383,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
               if(state is RestaurantGetStateLoading)
                 return Center(
                   child: SpinKitFadingCircle(
-                    color: Colors.green,
+                    color: AppColor.mainColor,
                     size: 50.0,
                   ),
                 );
@@ -399,17 +399,17 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           Padding(
                             padding: EdgeInsets.only(left: 0, top: 0),
                             child: InkWell(
-                              hoverColor: Colors.white,
-                              focusColor: Colors.white,
-                              splashColor: Colors.white,
-                              highlightColor: Colors.white,
+                              hoverColor: AppColor.themeColor,
+                              focusColor: AppColor.themeColor,
+                              splashColor: AppColor.themeColor,
+                              highlightColor: AppColor.themeColor,
                               child: Container(
                                 height: 40,
                                 width: 40,
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
                                   'assets/svg_images/home_menu.svg',
-                                  color: Colors.black,
+                                  color: AppColor.textColor,
                                 ),
                               ),
                               onTap: () {
@@ -425,7 +425,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: mainColor
+                                    color: AppColor.mainColor
                                 ),
                                 child: Center(
                                   child: Text(selectedCity.name,
@@ -581,7 +581,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             child: Text('Рестораны',
                                 style: TextStyle(
                                   fontSize: 28,
-                                  color: Color(0xFF3F3F3F),
+                                  color: AppColor.textColor,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.2,
                                 )),
@@ -639,7 +639,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
                                   'assets/svg_images/home_menu.svg',
-                                  color: Colors.black,
+                                  color: AppColor.textColor,
                                 ),
                               ),
                               onTap: () {
@@ -655,14 +655,13 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: mainColor
+                                    color: AppColor.mainColor
                                 ),
                                 child: Center(
                                   child: Text(selectedCity.name,
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13
-                                    ),
+                                        color: AppColor.textColor,
+                                        fontSize: 13),
                                   ),
                                 ),
                               ),

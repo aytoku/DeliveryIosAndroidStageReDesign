@@ -58,7 +58,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
             height: 321,
             child: _buildDeleteCartItemNavigationMenu(),
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColor.themeColor,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(20),
                   topRight: const Radius.circular(20),
@@ -78,10 +78,9 @@ class MenuItemCounterState extends State<MenuItemCounter> {
           Padding(
             padding: const EdgeInsets.only(top: 0, bottom: 20),
             child: Center(
-              child: Text('Какое блюдо хотите удалить?',
-                style: TextStyle(
-                    fontSize: 18
-                ),
+              child: Text(
+                'Какое блюдо хотите удалить?',
+                style: TextStyle(fontSize: 18, color: AppColor.textColor),
               ),
             ),
           ),
@@ -180,7 +179,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                       style: TextStyle(
                           decoration: TextDecoration.none,
                           fontSize: 14.0,
-                          color: Color(0xFF000000)),
+                          color: AppColor.textColor),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

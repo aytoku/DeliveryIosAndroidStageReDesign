@@ -143,7 +143,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                     height: 52,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: mainColor,
+                      color: AppColor.mainColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(

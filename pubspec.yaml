@@ -42,6 +42,7 @@ dependencies:
   flutter_spinkit: ^2.1.0
   flutter_sticky_header: ^0.5.0
   scrollable_positioned_list: ^0.1.10
+  pin_input_text_field: ^3.3.0
   flutter_pay: ^0.9.1
   sliding_up_panel: ^1.0.2
   animated_widgets: ^1.0.6
@@ -53,6 +54,7 @@ dependencies:
   equatable: ^1.0.0
   rxdart: ^0.24.0
   meta: ^1.1.6
+  change_app_package_name: ^0.1.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -66,7 +68,9 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/tuk_tuk_logo.png"
+  image_path: "assets/images/Siria.png"
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

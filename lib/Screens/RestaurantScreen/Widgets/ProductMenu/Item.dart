@@ -99,7 +99,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
     GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();
     if(parent.restaurant.type == 'restaurant'){
       return Container(
-        color: Colors.white,
+        color: AppColor.themeColor,
         child: Padding(
           padding: EdgeInsets.only(top: 15.0, left: 15, right: 15,
               bottom: (cartBottomPadding) ? MediaQuery.of(context).size.height * 0.15 : 15),
@@ -123,7 +123,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                           spreadRadius: 1.0, //extend the shadow
                         )
                       ],
-                      color: Colors.white,
+                      color: AppColor.themeColor,
                       border: Border.all(width: 1.0, color: Colors.grey[200]),
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -138,7 +138,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                 alignment: Alignment.topLeft,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFFFFFFF),
+                                    color: AppColor.themeColor,
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(15),
                                         bottomLeft: Radius.circular(15),
@@ -158,7 +158,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                   restaurantDataItems.name,
                                                   maxLines: 3,
                                                   style: TextStyle(
-                                                      fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
+                                                      fontSize: 16.0, color: AppColor.textColor, fontWeight: FontWeight.w700),
                                                   textAlign: TextAlign.start,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
@@ -326,7 +326,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColor.themeColor,
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(12),
                           topRight: const Radius.circular(12),
@@ -386,7 +386,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                   child: Text(
                                     restaurantDataItems.meta.description,
                                     style: TextStyle(
-                                        color: Color(0xFFB0B0B0), fontSize: 13),
+                                        color: AppColor.additionalTextColor, fontSize: 13),
                                   ),
                                 ),
                               )
@@ -493,7 +493,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                       alignment: Alignment.bottomCenter,
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: Colors.white,
+                                          color: AppColor.themeColor,
                                         ),
                                         child: Column(
                                           children: [
@@ -503,7 +503,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                               child: Container(
                                                 padding: EdgeInsets.only(top: 10, bottom: 10),
                                                 decoration: (productsDescription.variantGroups != null) ? BoxDecoration(
-                                                  color: Colors.white,
+                                                  color: AppColor.themeColor,
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
@@ -528,7 +528,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                   TextSpan(text: restaurantDataItems.name,
                                                                     style: TextStyle(
                                                                         fontSize: 15.0,
-                                                                        color: Color(0xFF000000)),),
+                                                                        color: AppColor.textColor),),
                                                                 ]
                                                             )
                                                             ),
@@ -566,7 +566,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                 child: Container(
                                                                   height: 52,
                                                                   decoration: BoxDecoration(
-                                                                    color: mainColor,
+                                                                    color: AppColor.mainColor,
                                                                     borderRadius: BorderRadius.circular(10),
                                                                   ),
                                                                   child: Padding(
@@ -574,8 +574,10 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                     child: Center(
                                                                       child: Text(
                                                                         "Добавить",
-                                                                        style:
-                                                                        TextStyle(color: Colors.white, fontSize: 18),
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                AppColor.unselectedTextColor,
+                                                                            fontSize: 18),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -645,11 +647,11 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                 child: Container(
                                   height: 80,
                                   decoration: BoxDecoration(
-                                      color: Colors.white
+                                      color: AppColor.themeColor
                                   ),
                                   child: Center(
                                     child: SpinKitFadingCircle(
-                                      color: Colors.green,
+                                      color: AppColor.mainColor,
                                       size: 50.0,
                                     ),
                                   ),

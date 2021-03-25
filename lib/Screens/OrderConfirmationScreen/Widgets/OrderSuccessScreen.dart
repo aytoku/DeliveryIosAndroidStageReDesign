@@ -25,7 +25,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          color: Colors.white,
+          color: AppColor.themeColor,
           child: Stack(
             children: <Widget>[
               Align(
@@ -33,10 +33,11 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 40),
                   child: (necessaryDataForAuth.name == '') ? Text('Ваш заказ принят!', style: TextStyle(
-                      fontSize: 24
+                      fontSize: 24, color: AppColor.textColor,
                   ),) : Text(name + ', ваш заказ принят! ',
                     style: TextStyle(
-                        fontSize: 24
+                        fontSize: 24,
+                      color: AppColor.textColor
                     ),
                   ),
                 ),
@@ -47,7 +48,8 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                   padding: EdgeInsets.only(top: 60),
                   child: Text('Вы можете отследить его статус\nна главной странице!',
                     style: TextStyle(
-                        fontSize: 18
+                        fontSize: 18,
+                      color: AppColor.textColor
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -65,7 +67,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                         'Продолжить',
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
-                      color: mainColor,
+                      color: AppColor.mainColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

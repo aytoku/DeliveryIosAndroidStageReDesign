@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductCategories/CategoryList.dart';
+import 'package:flutter_app/data/global_variables.dart';
 
 class SliverShadow extends StatefulWidget {
   SliverShadow({
@@ -25,7 +26,7 @@ class SliverShadowState extends State<SliverShadow>{
   Widget build(BuildContext context) {
     return Container(
       decoration: (showShadow) ? BoxDecoration(
-        color: Colors.white,
+        color: AppColor.themeColor,
         boxShadow: [
           BoxShadow(
             color: Colors.black45,
@@ -34,7 +35,7 @@ class SliverShadowState extends State<SliverShadow>{
           ),
         ],
       ) : BoxDecoration(
-        color: Colors.white
+        color: AppColor.themeColor
       ),
       child: categoryList,
     );

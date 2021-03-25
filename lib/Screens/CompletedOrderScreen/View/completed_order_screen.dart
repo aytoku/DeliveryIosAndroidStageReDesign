@@ -37,13 +37,13 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                     children: [
                       Text(
                         'Спасибо за заказ!',
-                        style: TextStyle(color: Color(0xFF424242), fontSize: 24),
+                        style: TextStyle(color: AppColor.textColor, fontSize: 24),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
                           'Оставьте свой отзыв, это поможет\nсделать приложение лучше! ',
-                          style: TextStyle(color: Color(0xFF424242), fontSize: 18), textAlign: TextAlign.center,
+                          style: TextStyle(color: AppColor.textColor, fontSize: 18), textAlign: TextAlign.center,
                         ),
                       ),
                     ],
@@ -105,7 +105,7 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                       "Оценить заказ",
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
-                    color: mainColor,
+                    color: AppColor.mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

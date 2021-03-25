@@ -12,6 +12,8 @@ import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 import '../../../../data/data.dart';
 import '../../Model/ProductsByStoreUuid.dart';
@@ -49,7 +51,7 @@ class MenuItemDescState extends State<MenuItemDesc> {
             '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
             style: TextStyle(
                 fontSize: 10.0,
-                color: Colors.grey),
+                color: AppColor.additionalTextColor),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -74,7 +76,7 @@ class MenuItemDescState extends State<MenuItemDesc> {
               '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
               style: TextStyle(
                   fontSize: 12.0,
-                  color: Colors.grey),
+                  color: AppColor.additionalTextColor),
               overflow: TextOverflow.ellipsis,
             ),
           ),

@@ -3,9 +3,10 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/autocolplete_field_list.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_svg/svg.dart';
 import 'my_addresses_screen.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 // ignore: must_be_immutable
 class AddMyAddressScreen extends StatefulWidget {
@@ -136,7 +137,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
                             fontSize: 16.0,
                             color: Colors.white)
                     ),
-                    color: mainColor,
+                    color: AppColor.mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

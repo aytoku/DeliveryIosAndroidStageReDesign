@@ -4,11 +4,12 @@ import 'package:flutter_app/Screens/AuthScreen/API/auth_data_pass.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_event.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_state.dart';
 import 'package:flutter_app/Screens/AuthScreen/Model/Auth.dart';
-import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 // сам bloc
 

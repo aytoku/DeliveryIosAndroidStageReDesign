@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class TotalPrice extends StatefulWidget {
   GlobalKey<TotalPriceState> key;
@@ -23,7 +25,7 @@ class TotalPriceState extends State<TotalPrice> {
           '${totalPrice.toStringAsFixed(0)} \₽',
           style: TextStyle(
               fontSize: 18.0,
-              color: Colors.black)),
+              color: AppColor.textColor)),
     );
   }
 }

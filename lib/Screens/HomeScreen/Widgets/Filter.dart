@@ -120,7 +120,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
             height: 600,
             child: _buildKitchensFilterNavigationMenu(categories),
             decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
+                color: AppColor.themeColor,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(20),
                   topRight: const Radius.circular(20),
@@ -292,7 +292,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                ? mainColor : Color(0xFFF6F6F6)),
+                                ? AppColor.themeColor : AppColor.mainColor),
                         child: Padding(
                             padding: EdgeInsets.only(left: 15, right: 15),
                             child: Center(
@@ -304,7 +304,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                                     style: TextStyle(
                                         color: (!selectedCategoryFromHomeScreen
                                             && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                              ? Colors.white: Color(0xFF424242),
+                                              ? AppColor.textColor: AppColor.unselectedTextColor,
                                         fontSize: 15),
                                   ),
                                   Padding(
@@ -312,7 +312,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                                     child: SvgPicture.asset('assets/svg_images/arrow_down',
                                       color: (!selectedCategoryFromHomeScreen
                                                 && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                                 ? Colors.white: Colors.black,
+                                                 ? AppColor.textColor : AppColor.unselectedTextColor,
                                     ),
                                   )
                                 ],
@@ -382,8 +382,8 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)
                           || !selectedCategoryFromHomeScreen)
-                          ? Color(0xFFF6F6F6)
-                          : mainColor),
+                          ? AppColor.themeColor
+                          : AppColor.mainColor),
                   child: Padding(
                       padding: EdgeInsets.only(left: 15, right: 15),
                       child: Center(
@@ -391,8 +391,8 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                           element.name[0].toUpperCase() + element.name.substring(1),
                           style: TextStyle(
                               color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)|| !selectedCategoryFromHomeScreen)
-                                  ? Color(0xFF424242)
-                                  : Colors.white,
+                                  ? AppColor.textColor
+                                  : AppColor.unselectedTextColor,
                               fontSize: 15),
                         ),
                       )),

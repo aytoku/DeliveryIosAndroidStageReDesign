@@ -8,7 +8,6 @@ import 'package:flutter_app/Screens/CodeScreen/Bloc/code_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,6 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../data/data.dart';
 import '../../../data/data.dart';
 import '../../CodeScreen/View/code_screen.dart';
+import 'package:flutter_app/data/global_variables.dart';
 
 class AuthScreen extends StatefulWidget {
   AuthSources source;
@@ -60,7 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.themeColor,
         body: BlocListener<AuthGetBloc, AuthState>( // листенер для переходов на другие скрины
           bloc: authGetBloc,
           listener: (BuildContext context, AuthState state){
@@ -113,8 +113,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                     padding: EdgeInsets.only(
                                         top: 12, bottom: 12, right: 10),
                                     child: SvgPicture.asset(
-                                        'assets/svg_images/arrow_left.svg'),
-                                  )),),
+                                        'assets/svg_images/arrow_left.svg',
+                                    color: AppColor.textColor,),
+                                  ),),),
                         ),
                       ],
                     ),
@@ -129,13 +130,14 @@ class _AuthScreenState extends State<AuthScreen> {
                             height: 91,
                             width: 313,
                             decoration: BoxDecoration(
-                              color: mainColor,
-                              border: Border.all(
-                                color: mainColor,
-                              ),
+                              color: AppColor.mainColor,
+                              // border: Border.all(
+                              //   color: mainColor,
+                              // ),
                               borderRadius: const BorderRadius.all(
                                 const Radius.circular(10.0),
                               ),
+                              border: Border.all(color: AppColor.mainColor),
                             ),
                             child: Column(
                               children: [
@@ -154,7 +156,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     child: TextField(
                                       autofocus: true,
                                       controller: controller,
-                                      style: TextStyle(fontSize: 18),
+                                      style: TextStyle(fontSize: 18, color: AppColor.textColor),
                                       textAlign: TextAlign.start,
                                       maxLength: 16,
                                       keyboardType: TextInputType.number,
@@ -167,13 +169,13 @@ class _AuthScreenState extends State<AuthScreen> {
                                           ),
                                         ),
                                         filled: true,
-                                        fillColor: Colors.white,
+                                        fillColor: AppColor.fieldColor,
                                         counterText: '',
                                         contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.21),
                                         hintStyle: TextStyle(
                                           color: Color(0xFFC0BFC6),
                                         ),
-                                        hintText: '+7918 888-88-88',
+                                        hintText: '+7 918 888-88-88',
                                       ),
                                       onChanged: (String value) {
                                         if(value == '+7 8'){
@@ -185,17 +187,17 @@ class _AuthScreenState extends State<AuthScreen> {
                                         currentUser.phone = value;
                                         if (value.length > 0 &&
                                             buttonStateKey.currentState.color !=
-                                                mainColor) {
+                                                AppColor.mainColor) {
                                           buttonStateKey.currentState.setState(() {
                                             buttonStateKey.currentState.color =
-                                                mainColor;
+                                                AppColor.mainColor;
                                           });
                                         } else if (value.length == 0 &&
                                             buttonStateKey.currentState.color !=
-                                                Color(0xF3F3F3F3)) {
+                                                AppColor.fieldColor) {
                                           buttonStateKey.currentState.setState(() {
                                             buttonStateKey.currentState.color =
-                                                Color(0xF3F3F3F3);
+                                                AppColor.fieldColor;
                                           });
                                         }
                                       },
@@ -218,64 +220,64 @@ class _AuthScreenState extends State<AuthScreen> {
                       ) : Container(),
                     ],
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: GestureDetector(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 85, top: 10),
-                        child: Text.rich(
-                          TextSpan(
-                              text:
-                              'Нажимая кнопку “Далее”, вы принимете условия\n',
-                              style: TextStyle(
-                                  color: Color(0x97979797), fontSize: 13),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: 'Пользовательского соглашения',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        if (await Internet.checkConnection()) {
-                                          if (await canLaunch(
-                                              "https://faem.ru/legal/agreement")) {
-                                            await launch(
-                                                "https://faem.ru/legal/agreement");
-                                          }
-                                        } else {
-                                          noConnection(context);
-                                        }
-                                      }),
-                                TextSpan(
-                                  text: ' и ',
-                                ),
-                                TextSpan(
-                                    text: 'Политики\nконфиденцальности',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        if (await Internet.checkConnection()) {
-                                          if (await canLaunch(
-                                              "https://faem.ru/privacy")) {
-                                            await launch(
-                                                "https://faem.ru/privacy");
-                                          }
-                                        } else {
-                                          noConnection(context);
-                                        }
-                                      }),
-                              ]),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.bottomCenter,
+                  //   child: GestureDetector(
+                  //     child: Padding(
+                  //       padding: EdgeInsets.only(bottom: 85, top: 10),
+                  //       child: Text.rich(
+                  //         TextSpan(
+                  //             text:
+                  //             'Нажимая кнопку “Далее”, вы принимете условия\n',
+                  //             style: TextStyle(
+                  //                 color: Color(0x97979797), fontSize: 13),
+                  //             children: <TextSpan>[
+                  //               TextSpan(
+                  //                   text: 'Пользовательского соглашения',
+                  //                   style: TextStyle(
+                  //                       decoration: TextDecoration.underline),
+                  //                   recognizer: TapGestureRecognizer()
+                  //                     ..onTap = () async {
+                  //                       if (await Internet.checkConnection()) {
+                  //                         if (await canLaunch(
+                  //                             "https://faem.ru/legal/agreement")) {
+                  //                           await launch(
+                  //                               "https://faem.ru/legal/agreement");
+                  //                         }
+                  //                       } else {
+                  //                         noConnection(context);
+                  //                       }
+                  //                     }),
+                  //               TextSpan(
+                  //                 text: ' и ',
+                  //               ),
+                  //               TextSpan(
+                  //                   text: 'Политики\nконфиденцальности',
+                  //                   style: TextStyle(
+                  //                       decoration: TextDecoration.underline),
+                  //                   recognizer: TapGestureRecognizer()
+                  //                     ..onTap = () async {
+                  //                       if (await Internet.checkConnection()) {
+                  //                         if (await canLaunch(
+                  //                             "https://faem.ru/privacy")) {
+                  //                           await launch(
+                  //                               "https://faem.ru/privacy");
+                  //                         }
+                  //                       } else {
+                  //                         noConnection(context);
+                  //                       }
+                  //                     }),
+                  //             ]),
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
-                        child: Button(key: buttonStateKey, color: Color(0xF3F3F3F3), source: source, authGetBloc: authGetBloc)
+                        child: Button(key: buttonStateKey, color: AppColor.subElementsColor, source: source, authGetBloc: authGetBloc)
                     ),
                   ),
                 ],
@@ -302,7 +304,7 @@ class Button extends StatefulWidget {
 
 class ButtonState extends State<Button> {
   String error = '';
-  Color color = Color(0xFFF3F3F3);
+  Color color = AppColor.mainColor;
   AuthSources source;
   AuthGetBloc authGetBloc;
 
@@ -335,7 +337,7 @@ class ButtonState extends State<Button> {
           child: Text('Далее',
               style: TextStyle(
                   fontSize: 18.0,
-                  color: Colors.white)),
+                  color: AppColor.themeColor)),
         ),
 
       ),

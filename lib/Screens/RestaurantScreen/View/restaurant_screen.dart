@@ -143,7 +143,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     style:
                     TextStyle(color: Colors.white, fontSize: 16),
                   ),
-                  color: Color(0xFF09B44D),
+                  color: AppColor.mainColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -342,25 +342,22 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           Padding(
             padding: EdgeInsets.only(left: 20, top: 20),
             child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('Адрес',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14
-                  ),
-                )
+              alignment: Alignment.topLeft,
+              child: Text(
+                'Адрес',
+                style: TextStyle(
+                    color: AppColor.additionalTextColor, fontSize: 14),
+              ),
             ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 10),
             child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(restaurant.address.unrestrictedValue,
-                  style: TextStyle(
-                      fontSize: 14
-                  ),
-                )
-            ),
+                child: Text(
+                  restaurant.address.unrestrictedValue,
+                  style: TextStyle(fontSize: 14, color: AppColor.textColor),
+                )),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 20),
@@ -368,22 +365,17 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 alignment: Alignment.topLeft,
                 child: Text("Время доставки",
                   style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14
-                  ),
-                )
-            ),
+                      color: AppColor.additionalTextColor, fontSize: 14),
+                )),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 10),
             child: Align(
                 alignment: Alignment.topLeft,
-                child: Text('${restaurant.meta.avgDeliveryTime}',
-                  style: TextStyle(
-                      fontSize: 14
-                  ),
-                )
-            ),
+                child: Text(
+                  '${restaurant.meta.avgDeliveryTime}',
+                  style: TextStyle(fontSize: 14, color: AppColor.textColor),
+                )),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 20),
@@ -391,11 +383,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 alignment: Alignment.topLeft,
                 child: Text('Кухни',
                   style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14
-                  ),
-                )
-            ),
+                      color: AppColor.additionalTextColor, fontSize: 14),
+                )),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 10),
@@ -455,7 +444,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     // Если хавки нет
     if (restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length == 0) {
       return Container(
-        color: Colors.white,
+        color: AppColor.themeColor,
         child: Column(
           children: <Widget>[
             Padding(
@@ -646,7 +635,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     return DefaultTabController(
       length: 1,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.themeColor,
         body: Stack(
           children: [
             Image.network(
@@ -668,7 +657,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   snap: false,
                   stretch: true,
                   elevation: 0,
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColor.themeColor,
                   leading: InkWell(
                     hoverColor: Colors.transparent,
                     focusColor: Colors.transparent,
@@ -771,7 +760,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   sticky: false,
                   header: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColor.themeColor,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15),),
@@ -788,7 +777,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                   this.restaurant.name,
                                   style: TextStyle(
                                       fontSize: 21,
-                                      color: Color(0xFF3F3F3F)),
+                                      color: AppColor.additionalTextColor),
                                 ),
                               ),
                               InkWell(
@@ -816,7 +805,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 height: 26,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xFFEFEFEF)
+                                    color: AppColor.elementsColor,
                                 ),
                                 child: Center(
                                   child: Padding(
@@ -844,8 +833,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 height: 26,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xFFEFEFEF)
-                                ),
+                                    color: AppColor.elementsColor),
                                 child: Center(
                                   child: Padding(
                                     padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
@@ -873,8 +861,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 height: 26,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xFFEFEFEF)
-                                ),
+                                    color: AppColor.elementsColor),
                                 child: Center(
                                   child: Padding(
                                     padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
@@ -907,7 +894,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                           ],
                           child: Container(
                             decoration: BoxDecoration(
-                                color: Colors.white
+                                color: AppColor.themeColor
                             ),
                             child: Column(
                                 children: sliverChildren
@@ -954,7 +941,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     panelContentKey = new GlobalKey<PanelContentState>();
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.themeColor,
       key: _scaffoldStateKey,
       body: SlidingUpPanel(
         backdropEnabled: true,
@@ -1006,7 +993,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
               } else {
                 return Center(
                   child: SpinKitFadingCircle(
-                    color: Colors.green,
+                    color: AppColor.mainColor,
                     size: 50.0,
                   ),
                 );
