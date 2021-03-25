@@ -3,6 +3,8 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class AboutAppScreen extends StatefulWidget {
   @override
@@ -38,7 +40,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                           padding: EdgeInsets.only(bottom: 25),
                           child: Center(
                             child: Text(
-                              'Версия 3.0.0 от 23 мар. 2021 г.\nсборка 2',
+                              'Версия 3.0.0 от 25 мар. 2021 г.\nсборка 5',
                               textAlign: TextAlign.center,
                               style: TextStyle(color: AppColor.textColor, fontSize: 15),
                             ),

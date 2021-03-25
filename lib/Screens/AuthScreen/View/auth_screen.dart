@@ -15,6 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../data/data.dart';
 import '../../../data/data.dart';
 import '../../CodeScreen/View/code_screen.dart';
+import 'package:flutter_app/data/global_variables.dart';
 
 class AuthScreen extends StatefulWidget {
   AuthSources source;

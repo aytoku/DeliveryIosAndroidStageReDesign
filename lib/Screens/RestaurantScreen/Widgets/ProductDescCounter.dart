@@ -4,6 +4,8 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class ProductDescCounter extends StatefulWidget {
   GlobalKey<PriceFieldState> priceFieldKey;
@@ -74,7 +76,7 @@ class ProductDescCounterState extends State<ProductDescCounter> {
                 child: Padding(
                   padding: EdgeInsets.all(7),
                   child: (counter <= 1) ? SvgPicture.asset('assets/svg_images/minus.svg',
-                    color: AppColor.textColor,
+                    color: AppColor.additionalTextColor,
                   ) :
                   SvgPicture.asset('assets/svg_images/black_minus.svg',
                     color: AppColor.textColor,

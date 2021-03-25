@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/getClientStoryOrders.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
-import 'package:flutter_app/app.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -56,8 +56,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
               ],
               color: AppColor.elementsColor,
               borderRadius: BorderRadius.circular(10.0),
-              // border: Border.all(width: 1.0, color: Colors.grey[200])
-          ),
+              border: Border.all(width: 1.0, color: Colors.grey[200])),
           child: InkWell(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,7 +142,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
       return Container();
     }else{
       records_items.forEach((OrderDetailsModelItem ordersStoryModelItem) {
-        if(ordersStoryModelItem.items != null && ordersStoryModelItem.items.length > 0){
+        if(ordersStoryModelItem.items!= null && ordersStoryModelItem.items.length > 0){
           restaurantList.add(
             InkWell(
                 child: column(ordersStoryModelItem),
@@ -174,7 +173,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
       child: Scaffold(
           body: Column(
             children: [
-              ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'История зазказов'),
+              ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'История зазказов',),
               Divider(height: 1.0, color: Colors.grey),
               FutureBuilder<OrderDetailsModel>(
                   future: getClientStoryOrders(),

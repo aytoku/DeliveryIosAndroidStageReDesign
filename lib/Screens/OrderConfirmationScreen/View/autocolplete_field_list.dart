@@ -4,6 +4,7 @@ import 'package:flutter_app/Screens/CityScreen/API/getStreet.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/Cross.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -13,9 +14,7 @@ class AutoCompleteField extends StatefulWidget {
   GlobalKey<AutoCompleteFieldState> key;
   AsyncCallback onSelected;
   String initialValue;
-
-  AutoCompleteField(this.key, {this.onSelected, this.initialValue})
-      : super(key: key);
+  AutoCompleteField(this.key, {this.onSelected, this.initialValue}) : super(key: key);
 
   @override
   AutoCompleteFieldState createState() {
@@ -23,13 +22,10 @@ class AutoCompleteField extends StatefulWidget {
   }
 }
 
-class AutoCompleteFieldState extends State<AutoCompleteField>
-    with AutomaticKeepAliveClientMixin {
+class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeepAliveClientMixin{
   @override
   bool get wantKeepAlive => true;
-
   AutoCompleteFieldState(this.onSelected, this.initialValue);
-
   String initialValue;
   List<InitialAddressModel> suggestions;
   TextEditingController controller;
@@ -39,89 +35,79 @@ class AutoCompleteFieldState extends State<AutoCompleteField>
   FocusNode node;
 
   @override
-  void initState() {
-    autocompleteList =
-        AutocompleteList(suggestions, this, new GlobalKey(), initialValue);
-    controller = new TextEditingController(
-        text: (initialValue != null) ? initialValue : '');
+  void initState(){
+    autocompleteList = AutocompleteList(suggestions, this, new GlobalKey(), initialValue);
+    controller = new TextEditingController(text: (initialValue != null) ? initialValue :  '');
     suggestions = new List<InitialAddressModel>();
     node = new FocusNode();
     super.initState();
   }
 
   @override
-  void dispose() {
+  void dispose(){
     super.dispose();
   }
 
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.elementsColor,
+      color: AppColor.themeColor,
       child: Column(
         children: [
           Container(
               child: Row(
-            children: [
-              Stack(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.only(top: 15),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: TextField(
-                      autofocus: true,
-                      keyboardAppearance: Brightness.dark,
-                      style: TextStyle(color: AppColor.textColor),
-                      controller: controller,
-                      focusNode: node,
-                      decoration: new InputDecoration(
-                        suffix: Padding(
-                          padding: const EdgeInsets.only(right: 8.0, top: 3),
-                          child: Cross(controller, autocompleteList),
-                        ),
-                        contentPadding:
-                            EdgeInsets.only(left: 10, right: 5, bottom: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: AppColor.additionalTextColor),
+                  Stack(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(top: 15),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: TextField(
+                          autofocus: true,
+                          controller: controller,
+                          focusNode: node,
+                          decoration: new InputDecoration(
+                            suffix: Padding(
+                              padding: const EdgeInsets.only(right:8.0, top: 3),
+                              child: Cross(controller, autocompleteList),
+                            ),
+                            contentPadding: EdgeInsets.only(left: 10, right: 5, bottom: 10),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          onChanged: (text) async {
+                            var temp = await findAddress(text);
+                            if(temp != null && autocompleteList.autoCompleteListKey.currentState != null){
+                              autocompleteList.autoCompleteListKey.currentState.setState(() {
+                                autocompleteList.autoCompleteListKey.currentState.suggestions = temp;
+                              });
+                            }
+                          },
                         ),
                       ),
-                      onChanged: (text) async {
-                        var temp = await findAddress(text);
-                        if (temp != null &&
-                            autocompleteList.autoCompleteListKey.currentState !=
-                                null) {
-                          autocompleteList.autoCompleteListKey.currentState
-                              .setState(() {
-                            autocompleteList.autoCompleteListKey.currentState
-                                .suggestions = temp;
-                          });
-                        }
-                      },
-                    ),
-                  ),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Container(
-                          color: AppColor.elementsColor,
+                      Align(
+                          alignment: Alignment.topLeft,
                           child: Padding(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              'Адрес',
-                              style: TextStyle(
-                                  fontSize: 12, color: AppColor.textColor),
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Container(
+                              color: AppColor.themeColor,
+                              child: Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Text(
+                                  'Адрес',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: AppColor.textColor,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      )),
+                          )
+                      ),
+                    ],
+                  ),
                 ],
-              ),
-            ],
-          )),
+              )
+          ),
           autocompleteList
         ],
       ),
@@ -144,22 +130,21 @@ class AutoCompleteFieldState extends State<AutoCompleteField>
         // // который загоняем в подсказски автокомплита
         // necessaryAddressDataItems = temp.map<InitialAddressModel>((item) => item.address).toList();
       }
-    } catch (e) {
+    }
+    catch (e) {
       print("Error getting addresses.");
     }
     return necessaryAddressDataItems;
   }
 }
 
+
 class AutocompleteList extends StatefulWidget {
   List<InitialAddressModel> suggestions;
   AutoCompleteFieldState parent;
   String initialValue;
   GlobalKey<AutocompleteListState> autoCompleteListKey;
-
-  AutocompleteList(this.suggestions, this.parent, this.autoCompleteListKey,
-      this.initialValue)
-      : super(key: autoCompleteListKey);
+  AutocompleteList(this.suggestions, this.parent, this.autoCompleteListKey, this.initialValue) : super(key: autoCompleteListKey);
 
   @override
   AutocompleteListState createState() {
@@ -168,87 +153,84 @@ class AutocompleteList extends StatefulWidget {
 }
 
 class AutocompleteListState extends State<AutocompleteList> {
+
   List<InitialAddressModel> suggestions;
   AutoCompleteFieldState parent;
   String initialValue;
-
   AutocompleteListState(this.suggestions, this.parent, this.initialValue);
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     suggestions = new List<InitialAddressModel>();
   }
 
-  Widget suggestionRow() {
+  Widget suggestionRow(){
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: AppColor.elementsColor,
+      color: AppColor.themeColor,
       height: MediaQuery.of(context).size.height * 0.65,
       child: ListView(
-          padding: EdgeInsets.zero,
-          children: List.generate(suggestions.length, (index) {
+        padding: EdgeInsets.zero,
+          children: List.generate(suggestions.length, (index){
             return InkWell(
               child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 5, top: 10, right: 15, bottom: 0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            suggestions[index].value,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 16, color: AppColor.textColor),
+                padding: const EdgeInsets.only(left: 5, top: 10, right: 15, bottom: 0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(suggestions[index].value,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 16
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Владикавказ, Республика Северная Осетия -\nАлания, Россия',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: AppColor.additionalTextColor),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text('Владикавказ, Республика Северная Осетия -\nАлания, Россия',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: AppColor.additionalTextColor
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Divider(
-                            color: AppColor.additionalTextColor,
-                          ),
-                        )
-                      ],
-                    ),
-                  )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Divider(color: AppColor.additionalTextColor,),
+                      )
+                    ],
+                  ),
+                )
+              ),
               onTap: () async {
                 parent.selectedValue = suggestions[index];
                 parent.controller.text = suggestions[index].unrestrictedValue;
                 // Избегаем потери фокуса и ставим курсор в конец
                 parent.node.requestFocus();
-                parent.controller.selection = TextSelection.fromPosition(
-                    TextPosition(offset: parent.controller.text.length));
-                if (parent.onSelected != null) {
+                parent.controller.selection = TextSelection.fromPosition(TextPosition(offset: parent.controller.text.length));
+                if(parent.onSelected != null){
                   await parent.onSelected();
                 }
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
             );
-          })),
+          })
+      ),
     );
   }
 
   Widget build(BuildContext context) {
-    if (suggestions == null || suggestions.length == 0) {
+    if(suggestions == null || suggestions.length == 0){
       return FutureBuilder(
         future: parent.findAddress((initialValue == null) ? '' : initialValue),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<InitialAddressModel>> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.data != null) {
+        builder: (BuildContext context, AsyncSnapshot<List<InitialAddressModel>> snapshot){
+          if(snapshot.hasData){
+            if(snapshot.connectionState == ConnectionState.done){
+              if(snapshot.data != null){
                 suggestions = snapshot.data;
               }
               return suggestionRow();

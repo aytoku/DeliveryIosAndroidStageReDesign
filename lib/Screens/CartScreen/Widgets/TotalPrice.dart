@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class TotalPrice extends StatefulWidget {
   GlobalKey<TotalPriceState> key;

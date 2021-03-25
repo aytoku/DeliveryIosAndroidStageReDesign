@@ -19,6 +19,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:async';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 import '../../../Amplitude/amplitude.dart';
 import '../../../Centrifugo/centrifugo.dart';

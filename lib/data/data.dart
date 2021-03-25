@@ -11,42 +11,26 @@ import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/tickets_chat_screen.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_app/data/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:convert' as convert;
 
-Map<String, GlobalKey<OrderCheckingState>> orderCheckingStates =
-    new Map<String, GlobalKey<OrderCheckingState>>();
-Map<String, GlobalKey<ChatMessageScreenState>> chatMessagesStates =
-    new Map<String, GlobalKey<ChatMessageScreenState>>();
-Map<String, GlobalKey<TicketsChatMessageScreenState>>
-    ticketsChatMessagesStates =
-    new Map<String, GlobalKey<TicketsChatMessageScreenState>>();
-GlobalKey<HomeScreenState> homeScreenKey =
-    new GlobalKey<HomeScreenState>(debugLabel: 'homeScreenKey');
-GlobalKey<ChatScreenState> chatKey = new GlobalKey<ChatScreenState>();
-AuthCodeData authCodeData = null;
-AuthData authData = null;
-String FCMToken = '';
-int code = 0;
-NecessaryDataForAuth necessaryDataForAuth = new NecessaryDataForAuth(
-    phone_number: null, refresh_token: null, device_id: null, name: null);
-FilteredCities selectedCity;
 
 String getImage(String imgJson) {
   try {
-    Map<String, dynamic> json = convert.jsonDecode(imgJson);
-    if (json.containsKey('medium_format')) {
+    Map<String,dynamic> json = convert.jsonDecode(imgJson);
+    if(json.containsKey('medium_format')){
       print('parsedJson ' + json['medium_format']);
       return json['medium_format'];
     }
     print('not parsedJson ' + imgJson);
     return imgJson;
-  } catch (e) {
-    if (imgJson.startsWith('"\\"')) {
+  } catch(e){
+    if(imgJson.startsWith('"\\"')) {
       imgJson = imgJson.substring(3, imgJson.length - 3);
-    } else if (imgJson.startsWith('"')) {
+    }else if(imgJson.startsWith('"')){
       imgJson = imgJson.substring(1, imgJson.length - 1);
     }
     print('exception ' + imgJson);
@@ -67,21 +51,6 @@ var DeliveryStates = [
   'order_payment'
 ];
 
-class AppColor {
-  AppColor._();
-
-  static const Color mainColor = Color(0xFFD0443D);
-  static const Color textColor = Color(0xFF000000);
-  static const Color unselectedTextColor = Color(0xFFFFFFFF);
-  static const Color additionalTextColor = Color(0xFF9E9E9E);
-  static const Color themeColor = Color(0xFFFFFFFF);
-  static const Color fieldColor = Color(0xFFFFFFFF);
-  static const Color borderFieldColor = Color(0xFFD0443D);
-  static const Color unselectedBorderFieldColor = Color(0xFF9E9E9E);
-  static const Color elementsColor = Color(0xFFEFEFEF);
-  static const Color subElementsColor = Color(0xFFEFEFEF);
-
-}
 
 // User
 final currentUser = User(
@@ -148,39 +117,40 @@ class ScreenTitlePopState extends State<ScreenTitlePop> {
                   splashColor: Colors.white,
                   highlightColor: Colors.white,
                   child: Container(
-                    height: 50,
-                    width: 55,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 17, bottom: 17, right: 10),
-                      child: SvgPicture.asset(
-                        img,
-                        color: AppColor.textColor,
-                      ),
-                    ),
-                  ),
-                  onTap: () {
+                      height: 50,
+                      width: 55,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: 17, bottom: 17, right: 10),
+                        child: SvgPicture.asset(
+                            img),
+                      )),
+                  onTap: (){
                     homeScreenKey = new GlobalKey<HomeScreenState>();
-                    Navigator.of(context).push(PageRouteBuilder(
-                        pageBuilder: (context, animation, anotherAnimation) {
-                          return BlocProvider(
-                            create: (context) => RestaurantGetBloc(),
-                            child: new HomeScreen(),
-                          );
-                        },
-                        transitionDuration: Duration(milliseconds: 300),
-                        transitionsBuilder:
-                            (context, animation, anotherAnimation, child) {
+                    Navigator.of(context).push(
+                        PageRouteBuilder(
+                            pageBuilder: (context, animation, anotherAnimation) {
+                              return BlocProvider(
+                              create: (context) => RestaurantGetBloc(),
+                              child: new HomeScreen(),
+                              );
+                            },
+                            transitionDuration: Duration(milliseconds: 300),
+                            transitionsBuilder:
+                                (context, animation, anotherAnimation, child) {
 //                                      animation = CurvedAnimation(
 //                                          curve: Curves.bounceIn, parent: animation);
-                          return SlideTransition(
-                            position: Tween(
+                              return SlideTransition(
+                                position: Tween(
                                     begin: Offset(1.0, 0.0),
                                     end: Offset(0.0, 0.0))
-                                .animate(animation),
-                            child: child,
-                          );
-                        }));
-                  }),
+                                    .animate(animation),
+                                child: child,
+                              );
+                            }
+                        ));
+                  }
+              ),
             ),
             Align(
               alignment: Alignment.topCenter,
@@ -191,7 +161,7 @@ class ScreenTitlePopState extends State<ScreenTitlePop> {
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: AppColor.textColor),
+                      color: Color(0xFF424242)),
                 ),
               ),
             )
@@ -207,8 +177,7 @@ class ScreenTitlePushAndRemoveUntil extends StatefulWidget {
   String title = '';
   String img = '';
 
-  ScreenTitlePushAndRemoveUntil({Key key, this.title, this.img})
-      : super(key: key);
+  ScreenTitlePushAndRemoveUntil({Key key, this.title, this.img}) : super(key: key);
 
   @override
   ScreenTitlePushAndRemoveUntilState createState() {
@@ -216,8 +185,7 @@ class ScreenTitlePushAndRemoveUntil extends StatefulWidget {
   }
 }
 
-class ScreenTitlePushAndRemoveUntilState
-    extends State<ScreenTitlePushAndRemoveUntil> {
+class ScreenTitlePushAndRemoveUntilState extends State<ScreenTitlePushAndRemoveUntil> {
   String title = '';
   String img = '';
 
@@ -239,8 +207,10 @@ class ScreenTitlePushAndRemoveUntilState
                   height: 50,
                   width: 60,
                   child: Padding(
-                    padding: EdgeInsets.only(top: 17, bottom: 17, right: 10),
-                    child: SvgPicture.asset(img),
+                    padding:
+                    EdgeInsets.only(top: 17, bottom: 17, right: 10),
+                    child: SvgPicture.asset(
+                        img),
                   )),
               onTap: () async {
                 if (await Internet.checkConnection()) {
@@ -249,8 +219,8 @@ class ScreenTitlePushAndRemoveUntilState
                       PageRouteBuilder(
                           pageBuilder: (context, animation, anotherAnimation) {
                             return BlocProvider(
-                              create: (context) => RestaurantGetBloc(),
-                              child: new HomeScreen(),
+                            create: (context) => RestaurantGetBloc(),
+                            child: new HomeScreen(),
                             );
                           },
                           transitionDuration: Duration(milliseconds: 300),
@@ -260,13 +230,13 @@ class ScreenTitlePushAndRemoveUntilState
 //                                          curve: Curves.bounceIn, parent: animation);
                             return SlideTransition(
                               position: Tween(
-                                      begin: Offset(1.0, 0.0),
-                                      end: Offset(0.0, 0.0))
+                                  begin: Offset(1.0, 0.0),
+                                  end: Offset(0.0, 0.0))
                                   .animate(animation),
                               child: child,
                             );
-                          }),
-                      (Route<dynamic> route) => false);
+                          }
+                      ), (Route<dynamic> route) => false);
                 } else {
                   noConnection(context);
                 }
@@ -293,3 +263,4 @@ class ScreenTitlePushAndRemoveUntilState
     );
   }
 }
+

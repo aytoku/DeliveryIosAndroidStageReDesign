@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderSuccessScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          color: AppColor.elementsColor,
+          color: AppColor.themeColor,
           child: Stack(
             children: <Widget>[
               Align(
@@ -57,7 +58,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  // decoration: BoxDecoration(color: Colors.white),
+                  decoration: BoxDecoration(color: Colors.white),
                   child: Padding(
                     padding:
                     EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),

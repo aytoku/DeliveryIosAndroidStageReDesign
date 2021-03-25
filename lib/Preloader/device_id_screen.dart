@@ -1,11 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_app/CoreColor/Model/color.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 import '../Amplitude/amplitude.dart';
 import '../Config/config.dart';
@@ -22,55 +23,28 @@ class DeviceIdScreen extends StatefulWidget{
 class DeviceIdScreenState extends State<DeviceIdScreen> {
 
   GlobalKey<CityScreenState> cityScreenKey = new GlobalKey();
-
-
   Future<NecessaryDataForAuth> devId;
-  bool selected = true;
-  Timer timer;
-  bool navigate = false;
-
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     devId = NecessaryDataForAuth.getData();
-    // new Timer.periodic(const Duration(milliseconds: 50), (Timer t) => selected = false);
-    timer = new Timer(const Duration(seconds: 3), nav);
   }
-
-  void nav() {
-
-    navigate = true;
-    setState(() {});
-    print("navigate: $navigate");
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    timer.cancel();
-  }
-
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width *
-        MediaQuery.of(context).devicePixelRatio;
-
-    double middleX = screenWidth / 21.5;
-
-    print (middleX);
     return Container(
-
-      color: AppColor.mainColor,
+      color: Colors.white,
       child: FutureBuilder<NecessaryDataForAuth>(
         future: devId,
         builder:
             (BuildContext context, AsyncSnapshot<NecessaryDataForAuth> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done && navigate == true) {
-
+          if (snapshot.connectionState == ConnectionState.done) {
+            // CartDataModel.getCart().then((value) {
+            //   currentUser.cartModel = value;
+            //   print('Cnjbn');
+            // });
             necessaryDataForAuth = snapshot.data;
             if (necessaryDataForAuth.refresh_token == null ||
                 necessaryDataForAuth.phone_number == null ||
@@ -108,11 +82,10 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
               );
             }
           } else {
-            return Stack(
-              alignment: Alignment.center,
-              children: [
-                Image.asset('assets/images/Sashimi.png'),
-              ],
+            return Center(
+              child: Image(
+                image: AssetImage('assets/images/SashimiIcon.png'),
+              )
             );
           }
         },
