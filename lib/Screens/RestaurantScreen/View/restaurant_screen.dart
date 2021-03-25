@@ -777,7 +777,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                   this.restaurant.name,
                                   style: TextStyle(
                                       fontSize: 21,
-                                      color: AppColor.additionalTextColor),
+                                      color: AppColor.textColor),
                                 ),
                               ),
                               InkWell(
