@@ -5,6 +5,7 @@ import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_screen.dart';
 import 'package:flutter_app/Screens/CityScreen/Model/FilteredCities.dart';
 import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/tickets_chat_screen.dart';
@@ -22,3 +23,4 @@ NecessaryDataForAuth necessaryDataForAuth = new NecessaryDataForAuth(phone_numbe
 FilteredCities selectedCity;
 Color mainColor = Color(0xFF09B44D);
 String header = 'eda/faem';
+CategoriesUuid selectedCategoriesUuid;

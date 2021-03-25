@@ -38,13 +38,13 @@ import '../Model/ProductDataModel.dart';
 
 class RestaurantScreen extends StatefulWidget {
   final FilteredStores restaurant;
-  CategoriesUuid selectedCategoriesUuid;
 
-  RestaurantScreen({Key key, this.restaurant, this.selectedCategoriesUuid}) : super(key: key);
+
+  RestaurantScreen({Key key, this.restaurant}) : super(key: key);
 
   @override
   RestaurantScreenState createState() =>
-      RestaurantScreenState(restaurant, selectedCategoriesUuid);
+      RestaurantScreenState(restaurant);
 }
 
 class RestaurantScreenState extends State<RestaurantScreen> {
@@ -56,7 +56,6 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   List<MenuItem> foodMenuItems; // Виджеты с хавкой
   List<MenuItemTitle> foodMenuTitles; // Тайтлы категорий
   List<Widget> menuWithTitles;
-  CategoriesUuid selectedCategoriesUuid;
 
   GlobalKey<ProductDescCounterState> counterKey;
   GlobalKey<CartButtonState> basketButtonStateKey;
@@ -71,7 +70,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   ScrollController sc;
   GlobalKey<SliverAppBarSettingsState> sliverAppBarKey;
 
-  RestaurantScreenState(this.restaurant, this.selectedCategoriesUuid);
+  RestaurantScreenState(this.restaurant);
 
 
   @override
@@ -907,7 +906,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 SliverStickyHeader(
                   sticky: true,
                   header: SliverShadow(categoryList: _buildFoodCategoryList(), key: sliverShadowKey),
-                  sliver: (restaurant.type == 'restaurant') ? SliverList(
+                  sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                           (context, index){
                         return TranslationAnimatedWidget(
@@ -938,19 +937,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       },
                       childCount: 1,
                     ),
-                  ) : SliverStaggeredGrid.countBuilder(
-                    crossAxisCount: 2,
-                    itemCount: sliverChildren.length,
-                    itemBuilder: (BuildContext context, int index) => sliverChildren[index],
-                    staggeredTileBuilder: (int index) {
-                      if (sliverChildren[index] is MenuItemTitle) {
-                        return StaggeredTile.extent(2, 50);
-                      }
-                      return StaggeredTile.extent(1, 260);
-                    },
-                    mainAxisSpacing: 10.0,
-                    crossAxisSpacing: 0.0,
-                  ),
+                  )
                 )
               ],
             ),
@@ -1104,7 +1091,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 60),
+                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.3),
                     child: Text(
                       restaurant.name,
                       style: TextStyle(
@@ -1116,7 +1103,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 80),
+            padding: const EdgeInsets.only(top: 100),
             child: StaggeredGridView.countBuilder(
               physics: BouncingScrollPhysics(),
               padding: EdgeInsets.zero,

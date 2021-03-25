@@ -4,7 +4,6 @@ import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductCategories/CategoryList.dart';
-import 'package:flutter_app/Screens/RestaurantScreen/Widgets/grocery_item.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -181,7 +180,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                 )),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 20),
+            padding: const EdgeInsets.only(top: 24.0, bottom: 17),
             child: Row(
               children: [
                 Padding(
@@ -189,7 +188,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                   child: Text(
                     this.restaurant.name,
                     style: TextStyle(
-                        fontSize: 21,
+                        fontSize: 24,
                         color: Color(0xFF3F3F3F)),
                   ),
                 ),
@@ -291,7 +290,7 @@ class GroceryScreenState extends State<GroceryScreen>{
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 25, left: 15),
+            padding: EdgeInsets.only(top: 30, left: 15),
             child: Align(
               alignment: Alignment.topLeft,
               child: Text('Категории',
@@ -349,10 +348,11 @@ class GroceryScreenState extends State<GroceryScreen>{
                     ),
                   ),
                   onTap: (){
+                    selectedCategoriesUuid = productCategory;
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) {
-                        return RestaurantScreen(restaurant: restaurant, selectedCategoriesUuid: productCategory);
+                        return RestaurantScreen(restaurant: restaurant);
                       }),
                     );
                   },

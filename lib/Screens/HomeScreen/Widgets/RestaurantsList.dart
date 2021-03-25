@@ -35,15 +35,14 @@ class RestaurantsListState extends State<RestaurantsList>{
   }
 
   _buildRestaurantsList() {
-    DateTime now = DateTime.now();
-    int currentTime = now.hour*60+now.minute;
-    int dayNumber  = now.weekday-1;
+    // DateTime now = DateTime.now();
+    // int currentTime = now.hour*60+now.minute;
+    // int dayNumber  = now.weekday-1;
     List<Widget> restaurantList = [];
     records_items.forEach((FilteredStores restaurant) {
-//      int work_beginning = restaurant.work_schedule[dayNumber].work_beginning;
-//      int work_ending = restaurant.work_schedule[dayNumber].work_ending;
-//      bool day_off = restaurant.work_schedule[dayNumber].day_off;
-//      bool available = restaurant.available != null ? restaurant.available : true;
+     // String work_beginning = restaurant.workSchedule.standard[dayNumber].beginningTime;
+     // String work_ending = restaurant.workSchedule.standard[dayNumber].endingTime;
+     // bool available = restaurant.available != null ? restaurant.available : true;
       restaurantList.add(InkWell(
           hoverColor: Colors.white,
           focusColor: Colors.white,
@@ -64,63 +63,62 @@ class RestaurantsListState extends State<RestaurantsList>{
                 border: Border.all(width: 1.0, color: Colors.grey[200])),
             child: Column(
               children: <Widget>[
-//                ( day_off ||
-//                    !available ||
-//                    !(currentTime >= work_beginning && currentTime < work_ending)) ? Stack(
-//                  children: [
-//                    ClipRRect(
-//                        borderRadius: BorderRadius.only(
-//                            topLeft: Radius.circular(15),
-//                            topRight: Radius.circular(15),
-//                            bottomLeft: Radius.circular(0),
-//                            bottomRight: Radius.circular(0)),
-//                        child: Hero(
-//                            tag: restaurant.uuid,
-//                            child: ColorFiltered(
-//                              colorFilter: ColorFilter.mode(
-//                                  Colors.grey,
-//                                  BlendMode.saturation
-//                              ),
-//                              child: Image.network(
-//                                getImage(restaurant.image),
-//                                height: 200.0,
-//                                width: MediaQuery.of(context).size.width,
-//                                fit: BoxFit.cover,
-//                              ),
-//                            ))),
-//                    Padding(
-//                      padding: const EdgeInsets.only(top: 150.0),
-//                      child: Align(
-//                        alignment: Alignment.bottomRight,
-//                        child: Container(
-//                          height: 32,
-//                          width: 250,
-//                          decoration: BoxDecoration(
-//                              borderRadius: BorderRadius.only(
-//                                  topLeft: Radius.circular(20),
-//                                  bottomLeft: Radius.circular(20)
-//                              ),
-//                              color: Colors.black.withOpacity(0.5)
-//                          ),
-//                          child: Center(
-//                            child: Padding(
-//                              padding: const EdgeInsets.only(left: 8.0, right: 8),
-//                              child: Text(
-//                                "Заведение откроется в ${(work_beginning / 60).toStringAsFixed(0)} часов",
-//                                style: TextStyle(
-//                                    fontSize: 12.0,
-//                                    fontWeight: FontWeight.w600,
-//                                    color: Colors.white
-//                                ),
-//                                overflow: TextOverflow.ellipsis,
-//                              ),
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    )
-//                  ],
-//                ) :
+               // (!available ||
+               //     !(currentTime >= work_beginning && currentTime < work_ending)) ? Stack(
+               //   children: [
+               //     ClipRRect(
+               //         borderRadius: BorderRadius.only(
+               //             topLeft: Radius.circular(15),
+               //             topRight: Radius.circular(15),
+               //             bottomLeft: Radius.circular(0),
+               //             bottomRight: Radius.circular(0)),
+               //         child: Hero(
+               //             tag: restaurant.uuid,
+               //             child: ColorFiltered(
+               //               colorFilter: ColorFilter.mode(
+               //                   Colors.grey,
+               //                   BlendMode.saturation
+               //               ),
+               //               child: Image.network(
+               //                 getImage(restaurant.meta.images[0]),
+               //                 height: 200.0,
+               //                 width: MediaQuery.of(context).size.width,
+               //                 fit: BoxFit.cover,
+               //               ),
+               //             ))),
+               //     Padding(
+               //       padding: const EdgeInsets.only(top: 150.0),
+               //       child: Align(
+               //         alignment: Alignment.bottomRight,
+               //         child: Container(
+               //           height: 32,
+               //           width: 250,
+               //           decoration: BoxDecoration(
+               //               borderRadius: BorderRadius.only(
+               //                   topLeft: Radius.circular(20),
+               //                   bottomLeft: Radius.circular(20)
+               //               ),
+               //               color: Colors.black.withOpacity(0.5)
+               //           ),
+               //           child: Center(
+               //             child: Padding(
+               //               padding: const EdgeInsets.only(left: 8.0, right: 8),
+               //               child: Text(
+               //                 "Заведение откроется в ${(work_beginning / 60).toStringAsFixed(0)} часов",
+               //                 style: TextStyle(
+               //                     fontSize: 12.0,
+               //                     fontWeight: FontWeight.w600,
+               //                     color: Colors.white
+               //                 ),
+               //                 overflow: TextOverflow.ellipsis,
+               //               ),
+               //             ),
+               //           ),
+               //         ),
+               //       ),
+               //     )
+               //   ],
+               // ) :
                 Stack(
                   children: [
                     ClipRRect(

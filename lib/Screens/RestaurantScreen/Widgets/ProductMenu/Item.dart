@@ -214,7 +214,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
           child: Column(
             children: [
               Container(
-                height: 140,
+                height: 150,
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(10),
@@ -226,7 +226,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   ),),
               ),
               Container(
-                height: 110,
+                height: 108,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
@@ -250,12 +250,14 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                       ),
                     ),
                     MenuItemDesc(foodRecords: restaurantDataItems, parent: this),
-                    Padding(
-                      padding: EdgeInsets.only(top: 0),
-                      child: MenuItemCounter(
-                          foodRecords: restaurantDataItems,
-                          menuItemCounterKey: menuItemCounterKey,
-                          parent: this),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: MenuItemCounter(
+                            foodRecords: restaurantDataItems,
+                            menuItemCounterKey: menuItemCounterKey,
+                            parent: this),
+                      ),
                     )
                   ],
                 ),
