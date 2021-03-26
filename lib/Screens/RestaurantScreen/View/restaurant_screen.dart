@@ -12,6 +12,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/API/getProductsByStoreUuid.
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/CartButton/CartButton.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/FadeAnimation.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/PanelContent.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductCategories/CategoryList.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.dart';
@@ -791,32 +792,36 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  this.restaurant.name,
-                                  style: TextStyle(
-                                      fontSize: 21,
-                                      color: Color(0xFF3F3F3F)),
+                          child: FadeOnScroll(
+                            scrollController: sliverScrollController,
+                            fullOpacityOffset: 110,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    this.restaurant.name,
+                                    style: TextStyle(
+                                        fontSize: 21,
+                                        color: Color(0xFF3F3F3F)),
+                                  ),
                                 ),
-                              ),
-                              InkWell(
-                                hoverColor: Colors.white,
-                                focusColor: Colors.white,
-                                splashColor: Colors.white,
-                                highlightColor: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 3.0),
-                                  child: SvgPicture.asset(
-                                      'assets/svg_images/rest_info.svg'),
+                                InkWell(
+                                  hoverColor: Colors.white,
+                                  focusColor: Colors.white,
+                                  splashColor: Colors.white,
+                                  highlightColor: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 3.0),
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/rest_info.svg'),
+                                  ),
+                                  onTap: (){
+                                    _restInfo();
+                                  },
                                 ),
-                                onTap: (){
-                                  _restInfo();
-                                },
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         Row(

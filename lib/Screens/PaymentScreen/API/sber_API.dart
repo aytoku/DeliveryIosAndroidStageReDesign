@@ -115,7 +115,7 @@ class SberAPI{
     return orderRefund;
   }
 
-  static Future<SberGooglePayment> googlePay(Map<String, String> googlePay) async {
+  static Future<SberGooglePayment> googlePay(Map<String, String> googlePay, String uuid) async {
     SberGooglePayment sberGooglePayment = null;
     var request = convert.jsonEncode({
       'merchant': 'T1513081007',
@@ -126,7 +126,7 @@ class SberAPI{
       'returnUrl': returnUrl,
       'failUrl': failUrl,
     });
-    var url = 'https://3dsec.sberbank.ru/payment/google/payment.do';
+    var url = '${paymentUrl}googlepay/$uuid';
     var response = await http.post(url, body: request, headers: <String, String>{
       'Content-Type': 'application/json'
     });

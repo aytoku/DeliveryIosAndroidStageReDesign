@@ -1266,7 +1266,7 @@ class AddressScreenState extends State<AddressScreen>
     if(Platform.isIOS){
      result  = await SberAPI.applePay(req, currentUser.cartModel.uuid);
     }else{
-      result = await SberAPI.googlePay(req);
+      result = await SberAPI.googlePay(req, currentUser.cartModel.uuid);
     }
     if(result.success){
       if(result.data.acsUrl != null){
