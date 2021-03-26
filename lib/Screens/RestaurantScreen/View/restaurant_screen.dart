@@ -116,7 +116,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
 //    int work_beginning = restaurant.work_schedule[dayNumber].work_beginning;
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.themeColor,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(12),
             topRight: const Radius.circular(12),
@@ -143,9 +143,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   child: Text(
                     "Далее",
                     style:
-                    TextStyle(color: Colors.white, fontSize: 16),
+                    TextStyle(color: AppColor.textColor, fontSize: 16),
                   ),
-                  color: Color(0xFF09B44D),
+                  color: AppColor.mainColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -457,7 +457,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     // Если хавки нет
     if (restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length == 0) {
       return Container(
-        color: Colors.white,
+        color: AppColor.themeColor,
         child: Column(
           children: <Widget>[
             Padding(
@@ -648,7 +648,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     return DefaultTabController(
       length: 1,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.themeColor,
         body: Stack(
           children: [
             Image.network(
@@ -670,7 +670,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   snap: false,
                   stretch: true,
                   elevation: 0,
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColor.themeColor,
                   leading: InkWell(
                     hoverColor: Colors.transparent,
                     focusColor: Colors.transparent,
@@ -775,14 +775,14 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white,
+                          color: AppColor.themeColor,
                           offset: Offset(0, 5),
                           blurRadius: 4,
                           spreadRadius: 2,
                         )
                       ],
                       border: Border.all(color: Colors.white, width: 4),
-                      color: Colors.white,
+                      color: AppColor.themeColor,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15),),
@@ -927,7 +927,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                   )
                                 ],
                                 border: Border.all(color: Colors.white, width: 4),
-                                color: Colors.white
+                                color: AppColor.themeColor
                             ),
                             child: Column(
                                 children: sliverChildren
@@ -969,7 +969,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     if (restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length == 0 ||
         filteredProducts.length == 0) {
       return Container(
-        color: Colors.white,
+        color: AppColor.themeColor,
         child: Column(
           children: <Widget>[
             Padding(
@@ -1147,7 +1147,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     panelContentKey = new GlobalKey<PanelContentState>();
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.themeColor,
       key: _scaffoldStateKey,
       body: SlidingUpPanel(
         backdropEnabled: true,
@@ -1173,7 +1173,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   padding: const EdgeInsets.only(top: 10),
                   child: Container( height: MediaQuery.of(context).size.height * 0.9,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColor.themeColor,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(12),
                           topRight: Radius.circular(12),

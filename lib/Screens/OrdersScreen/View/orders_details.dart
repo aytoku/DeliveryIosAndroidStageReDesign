@@ -148,7 +148,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 spreadRadius: 1.0, //extend the shadow
               )
             ],
-            color: Colors.white,
+            color: AppColor.themeColor,
             borderRadius: BorderRadius.circular(10.0),
             border: Border.all(width: 1.0, color: Colors.grey[200])),
         child: Column(
@@ -726,7 +726,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                             child: Text(
                               'Отменить заказ',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppColor.textColor,
                                 fontSize: 18,),
                             ),
                           )),
@@ -883,7 +883,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                               decoration: BoxDecoration(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(11)),
-                                  color: mainColor),
+                                  color: AppColor.mainColor),
                               child: Padding(
                                   padding: EdgeInsets.only(
                                       top: 5, right: 0, bottom: 5, left: 0),
@@ -892,7 +892,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                       'Позвонить',
                                       style: TextStyle(
                                           fontSize: 18,
-                                          color: Colors.white
+                                          color: AppColor.textColor
                                       ),
                                     ),
                                   )
@@ -1120,7 +1120,7 @@ class OrderRejectScreenState extends State<OrderRejectScreen> {
                           child: Text(
                             'Оменить заказ',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColor.textColor,
                               fontSize: 18,),
                           ),
                         )),

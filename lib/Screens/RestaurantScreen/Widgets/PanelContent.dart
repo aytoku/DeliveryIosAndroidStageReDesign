@@ -88,7 +88,7 @@ class PanelContentState extends State<PanelContent>{
                                   topLeft: Radius.circular(12),
                                   topRight: Radius.circular(12),
                                 ),
-                                color: Colors.white
+                                color: AppColor.themeColor
                             ),
                             child: ClipRRect(
                                 borderRadius: BorderRadius.only(
@@ -127,20 +127,18 @@ class PanelContentState extends State<PanelContent>{
                                     )),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: AppColor.themeColor,
                                       borderRadius: BorderRadius.only(
                                         topLeft: const Radius.circular(12),
                                         topRight: const Radius.circular(12),
                                       )),
-                                  child:
-
-                                  Stack(
+                                  child: Stack(
                                     children: <Widget>[
                                       Align(
                                         alignment: Alignment.bottomCenter,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              color: Colors.white,
+                                              color: AppColor.themeColor,
                                               borderRadius: BorderRadius.only(
                                                 topLeft: const Radius.circular(12),
                                                 topRight: const Radius.circular(12),
@@ -284,7 +282,7 @@ class PanelContentState extends State<PanelContent>{
                   child: Container(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     decoration: (productsDescription.variantGroups != null) ? BoxDecoration(
-                      color: Colors.white,
+                      color: AppColor.themeColor,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black12,
@@ -347,7 +345,7 @@ class PanelContentState extends State<PanelContent>{
                                     child: Container(
                                       height: 52,
                                       decoration: BoxDecoration(
-                                        color: mainColor,
+                                        color: AppColor.mainColor,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Padding(
@@ -356,7 +354,7 @@ class PanelContentState extends State<PanelContent>{
                                           child: Text(
                                             "Добавить",
                                             style:
-                                            TextStyle(color: Colors.white, fontSize: 18),
+                                            TextStyle(color: AppColor.textColor, fontSize: 18),
                                           ),
                                         ),
                                       ),

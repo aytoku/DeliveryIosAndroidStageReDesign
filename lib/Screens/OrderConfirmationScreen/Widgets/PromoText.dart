@@ -66,9 +66,9 @@ class PromoTextState extends State<PromoText>{
         height: 40,
         width: 300,
         decoration: BoxDecoration(
-          color: mainColor,
+          color: AppColor.mainColor,
           border: Border.all(
-            color: mainColor,
+            color: AppColor.mainColor,
           ),
           borderRadius: const BorderRadius.all(
             const Radius.circular(10.0),
@@ -117,7 +117,7 @@ class PromoTextState extends State<PromoText>{
                     child: Text('Применить',
                       style: TextStyle(
                           fontSize: 21,
-                          color: Colors.white
+                          color: AppColor.textColor
                       ),
                     ),
                   ),
@@ -155,7 +155,7 @@ class PromoTextState extends State<PromoText>{
                       offset: Offset(0.0, 1)
                   )
                 ],
-                color: Colors.white,
+                color: AppColor.themeColor,
                 borderRadius: BorderRadius.circular(10.0),
                 border: Border.all(width: 1.0, color: Colors.grey[200])),
             child: Padding(

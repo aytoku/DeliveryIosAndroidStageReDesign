@@ -101,7 +101,7 @@ class CartScreenState extends State<CartScreen> {
               },
               direction: DismissDirection.endToStart,
               child: Container(
-                color: Colors.white,
+                color: AppColor.themeColor,
                 width: MediaQuery.of(context).size.width,
                 child: _buildCartItem(order, index),
               ),
@@ -271,7 +271,7 @@ class CartScreenState extends State<CartScreen> {
                                         padding: const EdgeInsets.only(bottom: 0.0),
                                         child: Text(order.variantGroups[index].variants[variantsIndex].name,
                                           style: TextStyle(
-                                            color: Colors.grey,
+                                            color: AppColor.additionalTextColor,
                                             fontSize: 10
                                           ),
                                         ),
@@ -488,7 +488,7 @@ class CartScreenState extends State<CartScreen> {
       child: new Scaffold(
         key: _scaffoldStateKey,
         body: Container(
-            color: Colors.white,
+            color: AppColor.themeColor,
             child: Column(
               children: <Widget>[
                 _buildList(),

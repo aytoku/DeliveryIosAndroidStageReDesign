@@ -50,7 +50,7 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
 
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: AppColor.themeColor,
       child: Column(
         children: [
           Container(
@@ -88,14 +88,14 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: Container(
-                              color: Colors.white,
+                              color: AppColor.themeColor,
                               child: Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Text(
                                   'Адрес',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: Colors.grey
+                                      color: AppColor.additionalTextColor
                                   ),
                                 ),
                               ),
@@ -167,7 +167,7 @@ class AutocompleteListState extends State<AutocompleteList> {
   Widget suggestionRow(){
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: Colors.white,
+      color: AppColor.themeColor,
       height: MediaQuery.of(context).size.height * 0.65,
       child: ListView(
         padding: EdgeInsets.zero,
@@ -193,7 +193,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                         child: Text('Владикавказ, Республика Северная Осетия -\nАлания, Россия',
                           style: TextStyle(
                               fontSize: 12,
-                              color: Colors.grey
+                              color: AppColor.additionalTextColor
                           ),
                         ),
                       ),

@@ -60,7 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.themeColor,
         body: BlocListener<AuthGetBloc, AuthState>( // листенер для переходов на другие скрины
           bloc: authGetBloc,
           listener: (BuildContext context, AuthState state){
@@ -97,10 +97,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: Row(
                       children: <Widget>[
                         InkWell(
-                          hoverColor: Colors.white,
-                          focusColor: Colors.white,
-                          splashColor: Colors.white,
-                          highlightColor: Colors.white,
+                          hoverColor: AppColor.themeColor,
+                          focusColor: AppColor.themeColor,
+                          splashColor: AppColor.themeColor,
+                          highlightColor: AppColor.themeColor,
                           onTap: () {
                             Navigator.pop(context);
                           },
@@ -129,9 +129,9 @@ class _AuthScreenState extends State<AuthScreen> {
                             height: 91,
                             width: 313,
                             decoration: BoxDecoration(
-                              color: mainColor,
+                              color: AppColor.mainColor,
                               border: Border.all(
-                                color: mainColor,
+                                color: AppColor.mainColor,
                               ),
                               borderRadius: const BorderRadius.all(
                                 const Radius.circular(10.0),
@@ -145,7 +145,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     'Укажите ваш номер телефона',
                                     style: TextStyle(
                                         fontSize: 18,
-                                        color: Colors.white
+                                        color: AppColor.textColor
                                     ),
                                   ),
                                 ),
@@ -167,7 +167,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                           ),
                                         ),
                                         filled: true,
-                                        fillColor: Colors.white,
+                                        fillColor: AppColor.themeColor,
                                         counterText: '',
                                         contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.21),
                                         hintStyle: TextStyle(
@@ -185,10 +185,10 @@ class _AuthScreenState extends State<AuthScreen> {
                                         currentUser.phone = value;
                                         if (value.length > 0 &&
                                             buttonStateKey.currentState.color !=
-                                                mainColor) {
+                                                AppColor.mainColor) {
                                           buttonStateKey.currentState.setState(() {
                                             buttonStateKey.currentState.color =
-                                                mainColor;
+                                                AppColor.mainColor;
                                           });
                                         } else if (value.length == 0 &&
                                             buttonStateKey.currentState.color !=
@@ -335,7 +335,7 @@ class ButtonState extends State<Button> {
           child: Text('Далее',
               style: TextStyle(
                   fontSize: 18.0,
-                  color: Colors.white)),
+                  color: AppColor.textColor)),
         ),
 
       ),

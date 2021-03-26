@@ -49,8 +49,8 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                   color: (value != categoryList.currentCategory)
-                      ? Colors.white
-                      : mainColor),
+                      ? AppColor.themeColor
+                      : AppColor.mainColor),
               child: Padding(
                   padding: EdgeInsets.only(left: 15, right: 15),
                   child: Center(
@@ -59,7 +59,7 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
                       style: TextStyle(
                           color: (value != categoryList.currentCategory)
                               ? Color(0xFF424242)
-                              : Colors.white,
+                              : AppColor.textColor,
                           fontSize: 15),
                     ),
                   )),

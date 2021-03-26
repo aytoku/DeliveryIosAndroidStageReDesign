@@ -49,7 +49,7 @@ class PaymentScreenState extends State<PaymentScreen> {
   buildAddPaymentCardBottomNavigationMenu() {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.themeColor,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(20),
             topRight: const Radius.circular(20),
@@ -69,7 +69,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                       spreadRadius: 1.0, //extend the shadow
                     )
                   ],
-                  color: Colors.white,
+                  color: AppColor.themeColor,
                   borderRadius: BorderRadius.circular(10.0),
                   border: Border.all(width: 1.0, color: Colors.grey[200])),
               child: Column(
@@ -80,7 +80,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                       padding: const EdgeInsets.only(top: 30, left: 15, bottom: 5),
                       child: Text('Номер карты',
                         style: TextStyle(
-                            color: Colors.grey,
+                            color: AppColor.additionalTextColor,
                             fontSize: 14
                         ),
                       ),
@@ -156,7 +156,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                     padding: const EdgeInsets.only(top: 30, right: 60, bottom: 5),
                                     child: Text('CVV',
                                       style: TextStyle(
-                                          color: Colors.grey,
+                                          color: AppColor.additionalTextColor,
                                           fontSize: 14
                                       ),
                                     ),
@@ -212,7 +212,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                       child: Text('Добавить карту',
                         style: TextStyle(
                             fontSize: 16,
-                            color: Colors.white
+                            color: AppColor.textColor
                         ),
                       ),
                     ),
@@ -241,7 +241,7 @@ class PaymentScreenState extends State<PaymentScreen> {
               height: 88,
               padding: EdgeInsets.only(top: 40),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColor.themeColor,
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black12,
@@ -333,7 +333,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                           spreadRadius: 1.0, //extend the shadow
                         )
                       ],
-                      color: Colors.white,
+                      color: AppColor.themeColor,
                       borderRadius: BorderRadius.circular(10.0),
                       border: Border.all(width: 1.0, color: Colors.grey[200])),
                   child: Column(
@@ -516,7 +516,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                               child: Center(
                                   child: Text('Добавить карту',
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColor.textColor,
                                         fontSize: 16
                                     ),
                                   )

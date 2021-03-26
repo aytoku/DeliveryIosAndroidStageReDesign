@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
+import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class VariantsSelector extends StatefulWidget {
@@ -148,7 +149,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Colors.white
+                  color: AppColor.themeColor
                 ),
                 padding:  EdgeInsets.only(top: 0, bottom: 22 , left: 15),
                 child: Row(
@@ -187,7 +188,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
       });
     }
     return Container(
-      color: Colors.white,
+      color: AppColor.themeColor,
       child: ScrollConfiguration(
         behavior: new ScrollBehavior(),
         child: SingleChildScrollView(

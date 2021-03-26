@@ -56,7 +56,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
     commentField.text = myAddressesModel.description;
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.themeColor,
       resizeToAvoidBottomPadding: false,
       body: GestureDetector(
         child: Stack(
@@ -65,10 +65,10 @@ class AddAddressScreenState extends State<AddAddressScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 InkWell(
-                  hoverColor: Colors.white,
-                  focusColor: Colors.white,
-                  splashColor: Colors.white,
-                  highlightColor: Colors.white,
+                  hoverColor: AppColor.themeColor,
+                  focusColor: AppColor.themeColor,
+                  splashColor: AppColor.themeColor,
+                  highlightColor: AppColor.themeColor,
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -114,7 +114,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                color: Colors.white,
+                color: AppColor.themeColor,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 5),
                   child: FlatButton(
@@ -122,9 +122,9 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         "Добавить адрес",
                         style: TextStyle(
                             fontSize: 16.0,
-                            color: Colors.white)
+                            color: AppColor.textColor)
                     ),
-                    color: mainColor,
+                    color: AppColor.mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

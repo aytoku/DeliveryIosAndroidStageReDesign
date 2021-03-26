@@ -135,7 +135,7 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
       }
     });
     return Container(
-      color: Colors.white,
+      color: AppColor.themeColor,
       child: ScrollConfiguration(
         behavior: new ScrollBehavior(),
         child: Column(
@@ -181,7 +181,7 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
                           enabledBorder:  OutlineInputBorder(
                             // width: 0.0 produces a thin "hairline" border
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: (notFavouriteAddressController.text != '') ? BorderSide(color: mainColor) : BorderSide(color: Colors.black26),
+                            borderSide: (notFavouriteAddressController.text != '') ? BorderSide(color: AppColor.mainColor) : BorderSide(color: Colors.black26),
                           ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10)),
@@ -193,14 +193,14 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Container(
-                            color: Colors.white,
+                            color: AppColor.themeColor,
                             child: Padding(
                               padding: EdgeInsets.all(5),
                               child: Text(
                                 'Адрес',
                                 style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.grey
+                                    color: AppColor.additionalTextColor
                                 ),
                               ),
                             ),

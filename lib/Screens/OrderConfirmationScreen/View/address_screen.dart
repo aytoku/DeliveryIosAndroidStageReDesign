@@ -290,7 +290,7 @@ class AddressScreenState extends State<AddressScreen>
   _buildDispatchAddressBottomNavigationMenu() {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.themeColor,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(20),
             topRight: const Radius.circular(20),
@@ -322,14 +322,14 @@ class AddressScreenState extends State<AddressScreen>
                   width: 380,
                   height: 60,
                   decoration: BoxDecoration(
-                      color: mainColor,
+                      color: AppColor.mainColor,
                       borderRadius: BorderRadius.circular(10)
                   ),
                   child: Center(
                     child: Text('Готово',
                       style: TextStyle(
                           fontSize: 24,
-                          color: Colors.white
+                          color: AppColor.textColor
                       ),
                     ),
                   ),
@@ -446,7 +446,7 @@ class AddressScreenState extends State<AddressScreen>
         resizeToAvoidBottomPadding: false,
         body:  GestureDetector(
           child: Container(
-              color: Colors.white,
+              color: AppColor.themeColor,
               child:  Column(
                 children: [
                   Padding(
@@ -458,10 +458,10 @@ class AddressScreenState extends State<AddressScreen>
                           child: Padding(
                             padding: EdgeInsets.only(left: 0),
                             child: InkWell(
-                              hoverColor: Colors.white,
-                              focusColor: Colors.white,
-                              splashColor: Colors.white,
-                              highlightColor: Colors.white,
+                              hoverColor: AppColor.themeColor,
+                              focusColor: AppColor.themeColor,
+                              splashColor: AppColor.themeColor,
+                              highlightColor: AppColor.themeColor,
                               onTap: () => Navigator.pop(context),
                               child: Padding(
                                   padding: EdgeInsets.only(right: 0),
@@ -838,7 +838,7 @@ class AddressScreenState extends State<AddressScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 20),
                                     child: Container(
-                                      color: Colors.white,
+                                      color: AppColor.themeColor,
                                       child: Padding(
                                         padding: EdgeInsets.all(5),
                                         child: Text(
@@ -978,7 +978,7 @@ class AddressScreenState extends State<AddressScreen>
                                     spreadRadius: 1.0, //extend the shadow
                                   )
                                 ],
-                                color: Colors.white,
+                                color: AppColor.themeColor,
                                 borderRadius: BorderRadius.circular(10.0),
                                 border: Border.all(width: 1.0, color: Colors.grey[200])),
                             child: Padding(
@@ -1085,7 +1085,7 @@ class AddressScreenState extends State<AddressScreen>
                                                 offset: Offset(0.0, 1)
                                             )
                                           ],
-                                          color: Colors.white,
+                                          color: AppColor.themeColor,
                                           borderRadius: BorderRadius.circular(10.0),
                                           border: Border.all(width: 1.0, color: Colors.grey[200])),
                                       child: Padding(
@@ -1156,7 +1156,7 @@ class AddressScreenState extends State<AddressScreen>
                               offset: Offset(0.0, 1)
                           )
                         ],
-                        color: Colors.white,),
+                        color: AppColor.themeColor,),
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 15, left: 50, right: 20, top: 15),
                         child: Row(
@@ -1188,14 +1188,14 @@ class AddressScreenState extends State<AddressScreen>
                                 height: 52,
                                 width: 168,
                                 decoration: BoxDecoration(
-                                  color: mainColor,
+                                  color: AppColor.mainColor,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Center(
                                   child: Text('Заказать',
                                       style: TextStyle(
                                           fontSize: 18.0,
-                                          color: Colors.white)),
+                                          color: AppColor.textColor)),
                                 ),
                               ),
                               onTap: () async {
@@ -1264,7 +1264,7 @@ class AddressScreenState extends State<AddressScreen>
     Map<String, String> req = await madPayment();
     var result;
     if(Platform.isIOS){
-     result  = await SberAPI.applePay(req);
+     result  = await SberAPI.applePay(req, currentUser.cartModel.uuid);
     }else{
       result = await SberAPI.googlePay(req);
     }

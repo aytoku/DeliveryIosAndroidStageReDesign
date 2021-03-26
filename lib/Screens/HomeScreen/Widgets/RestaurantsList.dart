@@ -44,10 +44,10 @@ class RestaurantsListState extends State<RestaurantsList>{
      // String work_ending = restaurant.workSchedule.standard[dayNumber].endingTime;
      // bool available = restaurant.available != null ? restaurant.available : true;
       restaurantList.add(InkWell(
-          hoverColor: Colors.white,
-          focusColor: Colors.white,
-          splashColor: Colors.white,
-          highlightColor: Colors.white,
+          hoverColor: AppColor.themeColor,
+          focusColor: AppColor.themeColor,
+          splashColor: AppColor.themeColor,
+          highlightColor: AppColor.themeColor,
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             decoration: BoxDecoration(
@@ -58,7 +58,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                     spreadRadius: 1.0, //extend the shadow
                   )
                 ],
-                color: Colors.white,
+                color: AppColor.themeColor,
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(width: 1.0, color: Colors.grey[200])),
             child: Column(
@@ -165,7 +165,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                                 height: 25,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: mainColor
+                                    color: AppColor.mainColor
                                 ),
                                 child: Row(
                                   children: [
@@ -176,7 +176,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                                       padding: const EdgeInsets.only(left: 3.0),
                                       child: Text(restaurant.meta.rating.toString(),
                                         style: TextStyle(
-                                            color: Colors.white
+                                            color: AppColor.textColor
                                         ),
                                       ),
                                     )
@@ -280,13 +280,13 @@ class RestaurantsListState extends State<RestaurantsList>{
           Offset(0, 0) //enabled value
         ],
         child: Container(
-          color: Colors.white,
+          color: AppColor.themeColor,
           child: _buildRestaurantsList(),
         ),
       );
     }else{
      return Container(
-       color: Colors.white,
+       color: AppColor.themeColor,
        child: _buildRestaurantsList(),
      );
     }

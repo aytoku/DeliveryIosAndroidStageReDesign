@@ -51,6 +51,19 @@ var DeliveryStates = [
   'order_payment'
 ];
 
+class AppColor {
+  AppColor._();
+
+  static const Color mainColor = Color(0xFF09B44D);
+  static const Color textColor = Colors.white;
+  static const Color additionalTextColor = Colors.grey;
+  static const Color themeColor = Colors.white;
+  static const Color fieldColor = Colors.white;
+  static const Color elementsColor = Color(0xFF474747);
+  static const Color subElementsColor = Color(0xFF656565);
+
+}
+
 
 // User
 final currentUser = User(

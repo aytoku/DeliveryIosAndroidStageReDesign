@@ -105,7 +105,7 @@ class CartPageState extends State<CartPageScreen> {
         child: Scaffold(
           resizeToAvoidBottomPadding: false,
           body: Container(
-            color: Colors.white,
+            color: AppColor.themeColor,
             child: Column(
               children: [
                 Padding(
@@ -115,10 +115,10 @@ class CartPageState extends State<CartPageScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                        InkWell(
-                           hoverColor: Colors.white,
-                           focusColor: Colors.white,
-                           splashColor: Colors.white,
-                           highlightColor: Colors.white,
+                           hoverColor: AppColor.themeColor,
+                           focusColor: AppColor.themeColor,
+                           splashColor: AppColor.themeColor,
+                           highlightColor: AppColor.themeColor,
                            onTap: (){
                              if(source == CartSources.Home){
                                homeScreenKey = new GlobalKey<HomeScreenState>();
@@ -292,10 +292,10 @@ class CartPageState extends State<CartPageScreen> {
                   padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: mainColor,
+                      color: AppColor.mainColor,
                       borderRadius: BorderRadius.circular(4),
                       border: Border.all(
-                        color: mainColor,
+                        color: AppColor.mainColor,
                         width: 0.5
                       ),
                     ),
@@ -312,16 +312,16 @@ class CartPageState extends State<CartPageScreen> {
                                   bottomLeft: Radius.circular(4),
                                 ),
                                 border: Border.all(
-                                    color: mainColor,
+                                    color: AppColor.mainColor,
                                     width: 0.5
                                 ),
-                                color: (selectedPageId == 0) ? mainColor : Colors.white,
+                                color: (selectedPageId == 0) ? AppColor.mainColor : AppColor.themeColor,
                               ),
                               child: Center(
                                 child: Text(
                                   'Доставка',
                                   style: TextStyle(
-                                      color: (selectedPageId == 0) ? Colors.white : mainColor, fontSize: 15),
+                                      color: (selectedPageId == 0) ? AppColor.textColor : AppColor.mainColor, fontSize: 15),
                                 ),
                               ),
                             ),
@@ -348,16 +348,16 @@ class CartPageState extends State<CartPageScreen> {
                                   bottomRight: Radius.circular(4),
                                 ),
                                 border: Border.all(
-                                    color: mainColor,
+                                    color: AppColor.mainColor,
                                     width: 0.5
                                 ),
-                                color: (selectedPageId == 1) ? mainColor : Colors.white,
+                                color: (selectedPageId == 1) ? AppColor.mainColor : AppColor.themeColor,
                               ),
                               child: Center(
                                 child: Text(
                                   'Самовывоз',
                                   style: TextStyle(
-                                      color: (selectedPageId == 1) ? Colors.white : mainColor, fontSize: 15),
+                                      color: (selectedPageId == 1) ? AppColor.textColor : AppColor.mainColor, fontSize: 15),
                                 ),
                               ),
                             ),
@@ -394,7 +394,7 @@ class CartPageState extends State<CartPageScreen> {
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColor.themeColor,
                         boxShadow: [
                           BoxShadow(
                               color: Colors.black12,
@@ -434,14 +434,14 @@ class CartPageState extends State<CartPageScreen> {
                               height: 52,
                               width: 168,
                               decoration: BoxDecoration(
-                                color: mainColor,
+                                color: AppColor.mainColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Center(
                                 child: Text('Далее',
                                     style: TextStyle(
                                         fontSize: 18.0,
-                                        color: Colors.white)),
+                                        color: AppColor.textColor)),
                               ),
                             ),
                             onTap: () async {

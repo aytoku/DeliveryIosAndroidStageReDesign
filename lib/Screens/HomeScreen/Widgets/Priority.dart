@@ -93,8 +93,8 @@ class PriorityScreenState extends State<PriorityScreen>{
                 child: Text('Готово',
                     style: TextStyle(
                         fontSize: 18.0,
-                        color: Colors.white)),
-                color: (haveSelectedItems()) ? mainColor : Color(0xF3F3F3F3),
+                        color: AppColor.textColor)),
+                color: (haveSelectedItems()) ? AppColor.mainColor : Color(0xF3F3F3F3),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

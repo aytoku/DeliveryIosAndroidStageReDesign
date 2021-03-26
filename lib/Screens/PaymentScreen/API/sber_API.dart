@@ -7,6 +7,7 @@ import 'package:flutter_app/Screens/PaymentScreen/Model/OrderReverse.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/OrderStatus.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/SberApplePayment.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/SberGooglePayment.dart';
+import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -142,14 +143,14 @@ class SberAPI{
   }
 
 
-  static Future<SberGooglePayment> applePay(Map<String, String> applePay) async {
+  static Future<SberGooglePayment> applePay(Map<String, String> applePay, String uuid) async {
     SberGooglePayment applePaymentSuccess = null;
     var request = convert.jsonEncode({
       'merchant': 'T1513081007',
       'orderNumber': orderNumber,
       'paymentToken': convert.base64Encode(utf8.encode(applePay['token'])),
     });
-    var url = 'https://3dsec.sberbank.ru/payment/applepay/payment.do';
+    var url = '${paymentUrl}applepay/$uuid';
     var response = await http.post(url, body: request, headers: <String, String>{
       'Content-Type': 'application/json'
     });

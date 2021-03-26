@@ -108,8 +108,8 @@ class KitchenListScreenState extends State<KitchenListScreen>{
                 child: Text('Применить',
                     style: TextStyle(
                         fontSize: 18.0,
-                        color: Colors.white)),
-                color: (hasSelectedItems()) ? mainColor : Color(0xF3F3F3F3),
+                        color: AppColor.textColor)),
+                color: (hasSelectedItems()) ? AppColor.mainColor : Color(0xF3F3F3F3),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

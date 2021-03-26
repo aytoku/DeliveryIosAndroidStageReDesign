@@ -53,7 +53,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                   spreadRadius: 1.0, //extend the shadow
                 )
               ],
-              color: Colors.white,
+              color: AppColor.themeColor,
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(width: 1.0, color: Colors.grey[200])),
           child: InkWell(

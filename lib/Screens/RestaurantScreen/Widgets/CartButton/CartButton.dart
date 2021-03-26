@@ -60,7 +60,7 @@ class CartButtonState extends State<CartButton> {
         height: 85,
         padding: EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.themeColor,
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
@@ -95,20 +95,20 @@ class CartButtonState extends State<CartButton> {
                         (currentUser.cartModel.cookingTime != null)? '~ ${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
                         style: TextStyle(
                           fontSize: 12.0,
-                          color: Colors.white,
+                          color: AppColor.textColor,
                         ),
                       ),
                       Text('Корзина',
                           style: TextStyle(
                               fontSize: 18.0,
-                              color: Colors.white)),
+                              color: AppColor.textColor)),
                       CartButtonCounter(
                         key: buttonCounterKey,
                       ),
                     ],
                   ),
                   decoration: BoxDecoration(
-                    color: mainColor,
+                    color: AppColor.mainColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),

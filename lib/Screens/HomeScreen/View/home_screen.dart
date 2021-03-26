@@ -147,18 +147,18 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           padding: EdgeInsets.only(top: 0),
           child: InkWell(
             child: Container(
-              color: mainColor,
+              color: AppColor.mainColor,
               child: ListTile(
                 title: Text(
                   necessaryDataForAuth.name ?? ' ',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: AppColor.textColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 17),
                 ),
                 subtitle: Text(
                   necessaryDataForAuth.phone_number ?? ' ',
-                  style: TextStyle(color: Colors.white, fontSize: 14),
+                  style: TextStyle(color: AppColor.textColor, fontSize: 14),
                 ),
                 trailing: GestureDetector(
                   child: SvgPicture.asset(
@@ -350,7 +350,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           statusBarBrightness: Brightness.light
       ),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.themeColor,
         key: _scaffoldKey,
         drawer: ClipRRect(
           borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
@@ -399,10 +399,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           Padding(
                             padding: EdgeInsets.only(left: 0, top: 0),
                             child: InkWell(
-                              hoverColor: Colors.white,
-                              focusColor: Colors.white,
-                              splashColor: Colors.white,
-                              highlightColor: Colors.white,
+                              hoverColor: AppColor.themeColor,
+                              focusColor: AppColor.themeColor,
+                              splashColor: AppColor.themeColor,
+                              highlightColor: AppColor.themeColor,
                               child: Container(
                                 height: 40,
                                 width: 40,
@@ -425,12 +425,12 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: mainColor
+                                    color: AppColor.mainColor
                                 ),
                                 child: Center(
                                   child: Text(selectedCity.name,
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColor.textColor,
                                         fontSize: 13
                                     ),
                                   ),
@@ -629,10 +629,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           Padding(
                             padding: EdgeInsets.only(left: 0, top: 0),
                             child: InkWell(
-                              hoverColor: Colors.white,
-                              focusColor: Colors.white,
-                              splashColor: Colors.white,
-                              highlightColor: Colors.white,
+                              hoverColor: AppColor.themeColor,
+                              focusColor: AppColor.themeColor,
+                              splashColor: AppColor.themeColor,
+                              highlightColor: AppColor.themeColor,
                               child: Container(
                                 height: 40,
                                 width: 40,
@@ -655,12 +655,12 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: mainColor
+                                    color: AppColor.mainColor
                                 ),
                                 child: Center(
                                   child: Text(selectedCity.name,
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColor.textColor,
                                         fontSize: 13
                                     ),
                                   ),

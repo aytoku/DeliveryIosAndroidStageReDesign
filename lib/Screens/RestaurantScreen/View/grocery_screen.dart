@@ -87,7 +87,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                 alignment: Alignment.topLeft,
                 child: Text('Адрес',
                   style: TextStyle(
-                      color: Colors.grey,
+                      color: AppColor.additionalTextColor,
                       fontSize: 14
                   ),
                 )
@@ -110,7 +110,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                 alignment: Alignment.topLeft,
                 child: Text("Время доставки",
                   style: TextStyle(
-                      color: Colors.grey,
+                      color: AppColor.additionalTextColor,
                       fontSize: 14
                   ),
                 )
@@ -133,7 +133,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                 alignment: Alignment.topLeft,
                 child: Text('Кухни',
                   style: TextStyle(
-                      color: Colors.grey,
+                      color: AppColor.additionalTextColor,
                       fontSize: 14
                   ),
                 )
@@ -193,7 +193,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                   ),
                 ),
                 InkWell(
-                  hoverColor: Colors.white,
+                  hoverColor: AppColor.themeColor,
                   focusColor: Colors.white,
                   splashColor: Colors.white,
                   highlightColor: Colors.white,

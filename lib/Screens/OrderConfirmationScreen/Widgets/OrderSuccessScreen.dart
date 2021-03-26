@@ -25,7 +25,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          color: Colors.white,
+          color: AppColor.themeColor,
           child: Stack(
             children: <Widget>[
               Align(
@@ -56,16 +56,16 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
+                  decoration: BoxDecoration(color: AppColor.themeColor),
                   child: Padding(
                     padding:
                     EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
                     child: FlatButton(
                       child: Text(
                         'Продолжить',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: TextStyle(color: AppColor.textColor, fontSize: 18),
                       ),
-                      color: mainColor,
+                      color: AppColor.mainColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

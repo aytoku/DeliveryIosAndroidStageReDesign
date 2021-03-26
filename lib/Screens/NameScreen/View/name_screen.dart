@@ -41,15 +41,15 @@ class NameScreenState extends State<NameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.themeColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             InkWell(
-              hoverColor: Colors.white,
-              focusColor: Colors.white,
-              splashColor: Colors.white,
-              highlightColor: Colors.white,
+              hoverColor: AppColor.themeColor,
+              focusColor: AppColor.themeColor,
+              splashColor: AppColor.themeColor,
+              highlightColor: AppColor.themeColor,
               child: Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -135,7 +135,7 @@ class NameScreenState extends State<NameScreen> {
                                 bottom: 20),
                             child: Button(
                               key: buttonStateKey,
-                              color: mainColor,
+                              color: AppColor.mainColor,
                               onTap: () async {
                                 if (await Internet.checkConnection()) {
                                   necessaryDataForAuth.name = nameFieldController.text;
@@ -212,7 +212,7 @@ class ButtonState extends State<Button> {
           child: Text('Далее',
               style: TextStyle(
                   fontSize: 18.0,
-                  color: Colors.white)),
+                  color: AppColor.textColor)),
         ),
       ),
       onTap: () async {

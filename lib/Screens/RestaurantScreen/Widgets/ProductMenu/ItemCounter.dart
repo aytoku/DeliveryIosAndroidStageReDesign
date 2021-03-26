@@ -451,13 +451,37 @@ class MenuItemCounterState extends State<MenuItemCounter> {
   Widget build(BuildContext context) {
     item = currentUser.cartModel.findCartItem(foodRecords);
     if(item == null){
-      return Align(
-        alignment: Alignment.centerLeft,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 15, bottom: 5),
+      if(parent.parent.restaurant.type == 'restaurant'){
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15, bottom: 5),
+            child: Row(
+              children: [
+                SvgPicture.asset('assets/svg_images/rest_plus.svg'),
+                Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8, bottom: 5, top: 5, right: 5),
+                      child: Text(
+                        '${foodRecords.price.toStringAsFixed(0)} \₽',
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                ),
+              ],
+            ),
+          ),
+        );
+      }else{
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 5, right: 15, left: 5),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SvgPicture.asset('assets/svg_images/rest_plus.svg'),
               Container(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8, bottom: 5, top: 5, right: 5),
@@ -471,10 +495,11 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                     ),
                   )
               ),
+              SvgPicture.asset('assets/svg_images/rest_plus.svg'),
             ],
           ),
-        ),
-      );
+        );
+      }
     }
 
     counter = 0;
@@ -486,7 +511,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
     }
 
     return Padding(
-        padding: EdgeInsets.only(left: 15, right: 0),
+        padding: EdgeInsets.only(left: 15, bottom: 5),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           InkWell(
             onTap: () async {

@@ -99,7 +99,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
     GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();
     if(parent.restaurant.type == 'restaurant'){
       return Container(
-        color: Colors.white,
+        color: AppColor.themeColor,
         child: Padding(
           padding: EdgeInsets.only(top: 15.0, left: 15, right: 15,
               bottom: (cartBottomPadding) ? MediaQuery.of(context).size.height * 0.15 : 15),
@@ -123,7 +123,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                           spreadRadius: 1.0, //extend the shadow
                         )
                       ],
-                      color: Colors.white,
+                      color: AppColor.themeColor,
                       border: Border.all(width: 1.0, color: Colors.grey[200]),
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -207,7 +207,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                 spreadRadius: 1.0, //extend the shadow
               )
             ],
-            color: Colors.white,
+            color: AppColor.themeColor,
             border: Border.all(width: 1.0, color: Colors.grey[200]),
             borderRadius: BorderRadius.circular(10),
           ),
@@ -328,7 +328,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColor.themeColor,
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(12),
                           topRight: const Radius.circular(12),
@@ -495,7 +495,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                       alignment: Alignment.bottomCenter,
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: Colors.white,
+                                          color: AppColor.themeColor,
                                         ),
                                         child: Column(
                                           children: [
@@ -505,7 +505,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                               child: Container(
                                                 padding: EdgeInsets.only(top: 10, bottom: 10),
                                                 decoration: (productsDescription.variantGroups != null) ? BoxDecoration(
-                                                  color: Colors.white,
+                                                  color: AppColor.themeColor,
                                                   boxShadow: [
                                                     BoxShadow(
                                                       color: Colors.black12,
@@ -568,7 +568,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                 child: Container(
                                                                   height: 52,
                                                                   decoration: BoxDecoration(
-                                                                    color: mainColor,
+                                                                    color: AppColor.mainColor,
                                                                     borderRadius: BorderRadius.circular(10),
                                                                   ),
                                                                   child: Padding(
@@ -577,7 +577,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                       child: Text(
                                                                         "Добавить",
                                                                         style:
-                                                                        TextStyle(color: Colors.white, fontSize: 18),
+                                                                        TextStyle(color: AppColor.textColor, fontSize: 18),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -647,7 +647,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                 child: Container(
                                   height: 80,
                                   decoration: BoxDecoration(
-                                      color: Colors.white
+                                      color: AppColor.themeColor
                                   ),
                                   child: Center(
                                     child: SpinKitFadingCircle(

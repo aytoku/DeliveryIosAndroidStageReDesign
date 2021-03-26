@@ -53,7 +53,7 @@ class AddCityScreenState extends State<AddCityScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.themeColor,
       resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[

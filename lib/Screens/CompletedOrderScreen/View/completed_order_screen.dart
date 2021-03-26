@@ -81,7 +81,7 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                           decoration: new InputDecoration(
                             hintText: 'Оставьте свой отзыв',
                             hintStyle: TextStyle(
-                                color: Colors.grey,
+                                color: AppColor.additionalTextColor,
                                 fontSize: 16
                             ),
                             contentPadding: EdgeInsets.all(15),
@@ -103,9 +103,9 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                   child: FlatButton(
                     child: Text(
                       "Оценить заказ",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      style: TextStyle(color: AppColor.textColor, fontSize: 18),
                     ),
-                    color: mainColor,
+                    color: AppColor.mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

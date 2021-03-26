@@ -98,13 +98,13 @@ class CityScreenState extends State<CityScreen>{
                     height: 41,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: mainColor
+                        color: AppColor.mainColor
                     ),
                     child: Center(
                       child: Text('Войти',
                         style: TextStyle(
                             fontSize: 18,
-                            color: Colors.white
+                            color: AppColor.textColor
                         ),
                       ),
                     ),
@@ -128,7 +128,7 @@ class CityScreenState extends State<CityScreen>{
               child: Container(
                 height: 190,
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColor.themeColor,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -160,7 +160,7 @@ class CityScreenState extends State<CityScreen>{
                               hintText: 'Введите город',
                               hintStyle: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey
+                                  color: AppColor.additionalTextColor
                               )
                           ),
                         ),
@@ -183,12 +183,12 @@ class CityScreenState extends State<CityScreen>{
                               width: 335,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4),
-                                  color: (cityController.text.length == 0) ? Color(0xFFF6F6F6) : mainColor
+                                  color: (cityController.text.length == 0) ? Color(0xFFF6F6F6) : AppColor.mainColor
                               ),
                               child: Center(
                                 child: Text('Далее',
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: AppColor.textColor,
                                       fontSize: 18
                                   ),
                                 ),

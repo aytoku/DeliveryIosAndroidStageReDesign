@@ -53,7 +53,7 @@ class CityAutocompleteState extends State<CityAutocomplete> with AutomaticKeepAl
 
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: AppColor.themeColor,
       child: Column(
         children: [
           // Container(
@@ -172,7 +172,7 @@ class AutocompleteListState extends State<AutocompleteList> {
   Widget suggestionRow(){
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: Colors.white,
+      color: AppColor.themeColor,
       height: MediaQuery.of(context).size.height * 0.65,
       child: ListView(
           padding: EdgeInsets.zero,
@@ -198,7 +198,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                           child: Text(suggestions[index].meta.description,
                             style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.grey
+                                color: AppColor.additionalTextColor
                             ),
                           ),
                         ),

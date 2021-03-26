@@ -32,7 +32,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          color: Colors.white,
+          color: AppColor.themeColor,
           child: Stack(
             children: <Widget>[
               Align(
@@ -143,7 +143,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                     height: 52,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: mainColor,
+                      color: AppColor.mainColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(
@@ -155,7 +155,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                             'Вернуться на главную',
                               style: TextStyle(
                                   fontSize: 18.0,
-                                  color: Colors.white)
+                                  color: AppColor.textColor)
                           ),
                         ),
                         onTap: () {

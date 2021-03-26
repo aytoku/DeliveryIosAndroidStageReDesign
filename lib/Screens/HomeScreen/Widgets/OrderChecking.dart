@@ -64,10 +64,10 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
       return Container();
     }
     return InkWell(
-      hoverColor: Colors.white,
-      focusColor: Colors.white,
-      splashColor: Colors.white,
-      highlightColor: Colors.white,
+      hoverColor: AppColor.themeColor,
+      focusColor: AppColor.themeColor,
+      splashColor: AppColor.themeColor,
+      highlightColor: AppColor.themeColor,
       child: Container(
           width: MediaQuery.of(context).size.width * 0.89,
           margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -79,7 +79,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                   spreadRadius: 1.0, //extend the shadow
                 )
               ],
-              color: Colors.white,
+              color: AppColor.themeColor,
               borderRadius: BorderRadius.circular(17.0),
               border: Border.all(width: 1.0, color: Colors.grey[200])),
           child: Column(
@@ -165,7 +165,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                           width: 70,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(10)),
-                              color: mainColor),
+                              color: AppColor.mainColor),
                           child: Column(
                             children: <Widget>[
                               Padding(
@@ -177,7 +177,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                 padding: EdgeInsets.only(top: 5),
                                 child: Text('Обработка',
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColor.textColor,
                                         fontSize: 10)),
                               )
                             ],
@@ -193,15 +193,15 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: AppColor.mainColor,),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: AppColor.mainColor,),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: AppColor.mainColor,),
                           ),
                         ],
                       ),
@@ -215,7 +215,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               color: (cooking_state
                                   .contains(ordersStoryModelItem.state) ||
                                   in_the_way.contains(ordersStoryModelItem.state))
-                                  ? mainColor
+                                  ? AppColor.mainColor
                                   : Color(0xF6F6F6F6)),
                           child: Column(
                             children: <Widget>[
@@ -236,7 +236,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                         .contains(ordersStoryModelItem.state) ||
                                         in_the_way.contains(ordersStoryModelItem.state))
                                         ? TextStyle(
-                                        color: Colors.white, fontSize: 10)
+                                        color: AppColor.textColor, fontSize: 10)
                                         : TextStyle(
                                         color: Color(0x42424242),
                                         fontSize: 10)),
@@ -255,15 +255,15 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: AppColor.mainColor,),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: AppColor.mainColor,),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
-                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: mainColor,),
+                            child: SvgPicture.asset('assets/svg_images/ellipse.svg', color: AppColor.mainColor,),
                           ),
                         ],
                       ),
@@ -276,7 +276,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               borderRadius: BorderRadius.all(Radius.circular(10)),
                               color: (in_the_way
                                   .contains(ordersStoryModelItem.state))
-                                  ? mainColor
+                                  ? AppColor.mainColor
                                   : Color(0xF6F6F6F6)),
                           child: Column(
                             children: <Widget>[
@@ -295,7 +295,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                     style: (in_the_way
                                         .contains(ordersStoryModelItem.state))
                                         ? TextStyle(
-                                        color: Colors.white, fontSize: 10)
+                                        color: AppColor.textColor, fontSize: 10)
                                         : TextStyle(
                                         color: Color(0x42424242),
                                         fontSize: 10)),

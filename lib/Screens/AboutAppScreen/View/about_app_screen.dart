@@ -16,7 +16,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
     // TODO: implement build
     return Scaffold(
         body: Container(
-          color: Colors.white,
+          color: AppColor.themeColor,
           child: Stack(
             children: <Widget>[
               ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'О приложении'),

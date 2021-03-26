@@ -53,7 +53,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
     commentField.text = myAddressesModel.description;
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.themeColor,
       resizeToAvoidBottomPadding: false,
       body: GestureDetector(
         child: Stack(
@@ -126,7 +126,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                color: Colors.white,
+                color: AppColor.themeColor,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 10),
                   child: FlatButton(
@@ -134,9 +134,9 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
                       "Добавить адрес",
                         style: TextStyle(
                             fontSize: 16.0,
-                            color: Colors.white)
+                            color: AppColor.textColor)
                     ),
-                    color: mainColor,
+                    color: AppColor.mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

@@ -60,9 +60,9 @@ class _CodeScreenState extends State<CodeScreen> {
         code3.controller.text +
         code4.controller.text;
     if (code.length > 0 &&
-        buttonStateKey.currentState.color != mainColor) {
+        buttonStateKey.currentState.color != AppColor.mainColor) {
       buttonStateKey.currentState.setState(() {
-        buttonStateKey.currentState.color = mainColor;
+        buttonStateKey.currentState.color = AppColor.mainColor;
       });
     } else if (code.length == 0 &&
         buttonStateKey.currentState.color != Color(0xFFF3F3F3)) {
@@ -133,7 +133,7 @@ class _CodeScreenState extends State<CodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.themeColor,
       body: BlocListener<CodeGetBloc, CodeState>(
         bloc: codeGetBloc,
         listener: (BuildContext context, CodeState state){
@@ -174,10 +174,10 @@ class _CodeScreenState extends State<CodeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      hoverColor: Colors.white,
-                      focusColor: Colors.white,
-                      splashColor: Colors.white,
-                      highlightColor: Colors.white,
+                      hoverColor: AppColor.themeColor,
+                      focusColor: AppColor.themeColor,
+                      splashColor: AppColor.themeColor,
+                      highlightColor: AppColor.themeColor,
                       child: Padding(
                           padding: EdgeInsets.only(left: 20, top: 40),
                           child: Container(
@@ -191,10 +191,10 @@ class _CodeScreenState extends State<CodeScreen> {
                       onTap: () => Navigator.pop(context),
                     ),
                     InkWell(
-                      hoverColor: Colors.white,
-                      focusColor: Colors.white,
-                      splashColor: Colors.white,
-                      highlightColor: Colors.white,
+                      hoverColor: AppColor.themeColor,
+                      focusColor: AppColor.themeColor,
+                      splashColor: AppColor.themeColor,
+                      highlightColor: AppColor.themeColor,
                       child:  Padding(
                           padding: EdgeInsets.only(right: 24, top: 40),
                           child: Container(
@@ -217,9 +217,9 @@ class _CodeScreenState extends State<CodeScreen> {
                       height: 130,
                       width: 313,
                       decoration: BoxDecoration(
-                        color: mainColor,
+                        color: AppColor.mainColor,
                         border: Border.all(
-                          color: mainColor,
+                          color: AppColor.mainColor,
                         ),
                         borderRadius: const BorderRadius.all(
                           const Radius.circular(10.0),
@@ -235,7 +235,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                 'Введите код из смс',
                                 style: TextStyle(
                                     fontSize: 18,
-                                    color: Colors.white
+                                    color: AppColor.textColor
                                 ),
                               ),
                             ),
@@ -246,7 +246,7 @@ class _CodeScreenState extends State<CodeScreen> {
                               padding: EdgeInsets.only(bottom: 15),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(bottomRight: Radius.circular(10),bottomLeft: Radius.circular(10)),
-                                  color: Colors.white
+                                  color: AppColor.themeColor
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -268,7 +268,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                             enabledBorder:
                                             UnderlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: mainColor),
+                                                  color: AppColor.mainColor),
                                             ),
                                             counterText: '',
                                           ),
@@ -296,7 +296,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                             enabledBorder:
                                             UnderlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: mainColor),
+                                                  color: AppColor.mainColor),
                                             ),
                                             counterText: '',
                                           ),
@@ -327,7 +327,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                             enabledBorder:
                                             UnderlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: mainColor),
+                                                  color: AppColor.mainColor),
                                             ),
                                             counterText: '',
                                           ),
@@ -365,7 +365,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                         decoration: new InputDecoration(
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                                color: mainColor),
+                                                color: AppColor.mainColor),
                                           ),
                                           counterText: '',
                                         ),
@@ -536,7 +536,7 @@ class ButtonState extends State<Button> {
           child: Text('Далее',
               style: TextStyle(
                   fontSize: 18.0,
-                  color: Colors.white)),
+                  color: AppColor.textColor)),
         ),
       ),
       onTap: () async {
