@@ -82,7 +82,7 @@ class CartButtonState extends State<CartButton> {
             //   ),
             // ),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 10),
               child: GestureDetector(
                 child: Container(
                   padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),

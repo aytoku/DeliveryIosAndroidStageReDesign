@@ -109,7 +109,8 @@ class AddressScreenState extends State<AddressScreen>
       },
       {
         "name": (Platform.isIOS) ? "ApplePay" : "GooglePay",
-        "image": "assets/svg_images/visa.svg"
+        "image": (Platform.isIOS) ? "assets/svg_images/apple_pay.svg"
+            : "assets/svg_images/google_pay.svg"
       },
     ];
     // addressValueController = TextEditingController(text: restaurant.destination_points[0].street + ' ' + restaurant.destination_points[0].house);
@@ -907,7 +908,7 @@ class AddressScreenState extends State<AddressScreen>
                                 ),
                               ),
                               Text(
-                                '${currentUser.cartModel.deliveryPrice} \₽',
+                                '${currentUser.cartModel.deliveryPrice.toStringAsFixed(0)} \₽',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14),

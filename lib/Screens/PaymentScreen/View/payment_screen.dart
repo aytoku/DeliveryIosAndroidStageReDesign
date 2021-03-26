@@ -345,7 +345,8 @@ class PaymentScreenState extends State<PaymentScreen> {
                             children: [
                               Flexible(
                                   flex: 1,
-                                  child: SvgPicture.asset('assets/svg_images/visa.svg')),
+                                  child: SvgPicture.asset((Platform.isIOS) ? "assets/svg_images/apple_pay.svg"
+                                      : "assets/svg_images/google_pay.svg")),
                               Flexible(
                                 flex: 7,
                                 child: Row(
