@@ -15,7 +15,7 @@ import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/OrderSuccess
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PromoText.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -113,6 +113,7 @@ class AddressScreenState extends State<AddressScreen>
             : "assets/svg_images/google_pay.svg"
       },
     ];
+    selectedPaymentId = necessaryDataForAuth.selectedPaymentId;
     // addressValueController = TextEditingController(text: restaurant.destination_points[0].street + ' ' + restaurant.destination_points[0].house);
     // selectedAddress = restaurant.address[0];
   }
@@ -434,6 +435,8 @@ class AddressScreenState extends State<AddressScreen>
 
   @override
   Widget build(BuildContext context) {
+    addressSelectorKey = new GlobalKey();
+    print('a screen build');
     FocusNode focusNode;
     double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
     return AnnotatedRegion<SystemUiOverlayStyle>(

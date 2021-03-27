@@ -4,7 +4,7 @@ import 'package:flutter_app/Screens/CityScreen/API/getStreet.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/Cross.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -181,7 +181,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                     children: [
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text(suggestions[index].value,
+                        child: Text(suggestions[index].unrestrictedValue,
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 16

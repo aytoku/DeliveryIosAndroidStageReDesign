@@ -11,7 +11,7 @@ import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/tickets_chat_screen.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_app/data/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -54,14 +54,24 @@ var DeliveryStates = [
 class AppColor {
   AppColor._();
 
-  static const Color mainColor = Color(0xFF09B44D);
-  static const Color textColor = Colors.white;
-  static const Color additionalTextColor = Colors.grey;
-  static const Color themeColor = Colors.white;
-  static const Color fieldColor = Colors.white;
-  static const Color elementsColor = Color(0xFF474747);
-  static const Color subElementsColor = Color(0xFF656565);
+  static Color mainColor = Color(0xFF09B44D);
+  static Color textColor = Colors.white;
+  static Color additionalTextColor = Colors.grey;
+  static Color themeColor = Colors.white;
+  static Color fieldColor = Colors.white;
+  static Color elementsColor = Color(0xFF474747);
+  static Color subElementsColor = Color(0xFF656565);
 
+
+  static fromJson(Map<String, dynamic> json){
+    mainColor = Color(int.parse(json['main_color']));
+    textColor = Color(int.parse(json['text_color']));
+    additionalTextColor = Color(int.parse(json['additional_text_color']));
+    themeColor = Color(int.parse(json['theme_color']));
+    fieldColor = Color(int.parse(json['text_field_color']));
+    elementsColor = Color(int.parse(json['elements_color']));
+    subElementsColor = Color(int.parse(json['sub_elements_color']));
+  }
 }
 
 

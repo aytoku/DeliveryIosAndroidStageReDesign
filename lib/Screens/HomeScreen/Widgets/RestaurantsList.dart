@@ -7,9 +7,11 @@ import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
+
 
 class RestaurantsList extends StatefulWidget {
 
@@ -34,15 +36,19 @@ class RestaurantsListState extends State<RestaurantsList>{
     super.initState();
   }
 
+
   _buildRestaurantsList() {
-    // DateTime now = DateTime.now();
-    // int currentTime = now.hour*60+now.minute;
-    // int dayNumber  = now.weekday-1;
     List<Widget> restaurantList = [];
     records_items.forEach((FilteredStores restaurant) {
-     // String work_beginning = restaurant.workSchedule.standard[dayNumber].beginningTime;
-     // String work_ending = restaurant.workSchedule.standard[dayNumber].endingTime;
-     // bool available = restaurant.available != null ? restaurant.available : true;
+     bool isScheduleAvailable = restaurant.workSchedule.isAvailable();
+     Standard standard = restaurant.workSchedule.getCurrentStandard();
+     bool available = restaurant.available.flag != null ? restaurant.available.flag : true;
+     // available = true;
+     bool open = restaurant.open != null ? restaurant.open : true;
+     // open = true;
+     if(restaurant.type == 'grocery'){
+       print(restaurant.uuid + 'GROCERY');
+     }
       restaurantList.add(InkWell(
           hoverColor: AppColor.themeColor,
           focusColor: AppColor.themeColor,
@@ -63,62 +69,70 @@ class RestaurantsListState extends State<RestaurantsList>{
                 border: Border.all(width: 1.0, color: Colors.grey[200])),
             child: Column(
               children: <Widget>[
-               // (!available ||
-               //     !(currentTime >= work_beginning && currentTime < work_ending)) ? Stack(
-               //   children: [
-               //     ClipRRect(
-               //         borderRadius: BorderRadius.only(
-               //             topLeft: Radius.circular(15),
-               //             topRight: Radius.circular(15),
-               //             bottomLeft: Radius.circular(0),
-               //             bottomRight: Radius.circular(0)),
-               //         child: Hero(
-               //             tag: restaurant.uuid,
-               //             child: ColorFiltered(
-               //               colorFilter: ColorFilter.mode(
-               //                   Colors.grey,
-               //                   BlendMode.saturation
-               //               ),
-               //               child: Image.network(
-               //                 getImage(restaurant.meta.images[0]),
-               //                 height: 200.0,
-               //                 width: MediaQuery.of(context).size.width,
-               //                 fit: BoxFit.cover,
-               //               ),
-               //             ))),
-               //     Padding(
-               //       padding: const EdgeInsets.only(top: 150.0),
-               //       child: Align(
-               //         alignment: Alignment.bottomRight,
-               //         child: Container(
-               //           height: 32,
-               //           width: 250,
-               //           decoration: BoxDecoration(
-               //               borderRadius: BorderRadius.only(
-               //                   topLeft: Radius.circular(20),
-               //                   bottomLeft: Radius.circular(20)
-               //               ),
-               //               color: Colors.black.withOpacity(0.5)
-               //           ),
-               //           child: Center(
-               //             child: Padding(
-               //               padding: const EdgeInsets.only(left: 8.0, right: 8),
-               //               child: Text(
-               //                 "Заведение откроется в ${(work_beginning / 60).toStringAsFixed(0)} часов",
-               //                 style: TextStyle(
-               //                     fontSize: 12.0,
-               //                     fontWeight: FontWeight.w600,
-               //                     color: Colors.white
-               //                 ),
-               //                 overflow: TextOverflow.ellipsis,
-               //               ),
-               //             ),
-               //           ),
-               //         ),
-               //       ),
-               //     )
-               //   ],
-               // ) :
+               (!available ||
+                   !(isScheduleAvailable) ? Stack(
+                 children: [
+                   ClipRRect(
+                       borderRadius: BorderRadius.only(
+                           topLeft: Radius.circular(15),
+                           topRight: Radius.circular(15),
+                           bottomLeft: Radius.circular(0),
+                           bottomRight: Radius.circular(0)),
+                       child: Hero(
+                           tag: restaurant.uuid,
+                           child: ColorFiltered(
+                             colorFilter: ColorFilter.mode(
+                                 Colors.grey,
+                                 BlendMode.saturation
+                             ),
+                             child: Image.network(
+                               getImage((restaurant.meta.images.length > 0 )? restaurant.meta.images[0]: ''),
+                               height: 200.0,
+                               width: MediaQuery.of(context).size.width,
+                               fit: BoxFit.cover,
+                             ),
+                           ))),
+                   Padding(
+                     padding: const EdgeInsets.only(top: 150.0),
+                     child: Align(
+                       alignment: Alignment.bottomRight,
+                       child: Container(
+                         height: 32,
+                         width: 250,
+                         decoration: BoxDecoration(
+                             borderRadius: BorderRadius.only(
+                                 topLeft: Radius.circular(20),
+                                 bottomLeft: Radius.circular(20)
+                             ),
+                             color: Colors.black.withOpacity(0.5)
+                         ),
+                         child: Center(
+                           child: Padding(
+                             padding: const EdgeInsets.only(left: 8.0, right: 8),
+                             child: (!available || !open) ? Text(
+                               restaurant.available.reason,
+                               style: TextStyle(
+                                   fontSize: 12.0,
+                                   fontWeight: FontWeight.w600,
+                                   color: Colors.white
+                               ),
+                               overflow: TextOverflow.ellipsis,
+                             ) : Text(
+                               (standard!= null) ? "Заведение откроется в ${standard.beginningTime} часов" : '',
+                               style: TextStyle(
+                                   fontSize: 12.0,
+                                   fontWeight: FontWeight.w600,
+                                   color: Colors.white
+                               ),
+                               overflow: TextOverflow.ellipsis,
+                             ),
+                           ),
+                         ),
+                       ),
+                     ),
+                   )
+                 ],
+               ) :
                 Stack(
                   children: [
                     ClipRRect(
@@ -134,7 +148,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                           fit: BoxFit.cover,
                         )),
                   ],
-                ),
+                )),
                 Container(
                   margin: EdgeInsets.only(left: 15.0, top: 12, bottom: 12),
                   child: Column(

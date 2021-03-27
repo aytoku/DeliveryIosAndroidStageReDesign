@@ -25,7 +25,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/Sl
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/sliverAppBar.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -106,15 +106,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
 
   _dayOff(ProductsByStoreUuid restaurantDataItems,
       GlobalKey<MenuItemCounterState> menuItemCounterKey) {
-    GlobalKey<VariantsSelectorState> variantsSelectorStateKey =
-    GlobalKey<VariantsSelectorState>();
-    // GlobalKey<ToppingsSelectorState> toppingsSelectorStateKey =
-    // new GlobalKey<ToppingsSelectorState>();
-
-//    DateTime now = DateTime.now();
-//    int dayNumber  = now.weekday-1;
-//
-//    int work_beginning = restaurant.work_schedule[dayNumber].work_beginning;
+    bool isScheduleAvailable = restaurant.workSchedule.isAvailable();
+    Standard standard = restaurant.workSchedule.getCurrentStandard();
+    bool available = restaurant.available != null ? restaurant.available : true;
+    bool open = restaurant.open != null ? restaurant.open : true;
     return Container(
       decoration: BoxDecoration(
           color: AppColor.themeColor,
@@ -124,18 +119,18 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           )),
       child: Stack(
         children: <Widget>[
-//          Padding(
-//            padding: EdgeInsets.only(top: 30),
-//            child: Align(
-//                alignment: Alignment.topCenter,
-//                child: Text('К сожалению, доставка не доступна.\nБлижайшее время в ${( work_beginning/ 60).toStringAsFixed(0)} часов',
-//                  style: TextStyle(
-//                      fontSize: 16
-//                  ),
-//                  textAlign: TextAlign.center,
-//                )
-//            ),
-//          ),
+         Padding(
+           padding: EdgeInsets.only(top: 30),
+           child: Align(
+               alignment: Alignment.topCenter,
+               child: Text('К сожалению, доставка не доступна.',
+                 style: TextStyle(
+                     fontSize: 16
+                 ),
+                 textAlign: TextAlign.center,
+               )
+           ),
+         ),
           Padding(
             padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 25),
             child: Align(
@@ -322,10 +317,6 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   }
 
   _buildRestInfoNavigationMenu() {
-//    DateTime now = DateTime.now();
-//    int currentTime = now.hour*60+now.minute;
-//    int dayNumber  = now.weekday-1;
-//    int work_ending = restaurant.work_schedule[dayNumber].work_ending;
     return Container(
       child: Column(
         children: [

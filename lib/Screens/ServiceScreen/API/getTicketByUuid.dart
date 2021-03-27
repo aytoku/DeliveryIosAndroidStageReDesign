@@ -1,5 +1,5 @@
 import 'package:flutter_app/Screens/ServiceScreen/Model/TicketModel.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;

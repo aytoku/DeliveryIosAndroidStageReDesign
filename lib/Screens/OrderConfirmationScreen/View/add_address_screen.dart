@@ -4,7 +4,7 @@ import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/autocolplete_field_list.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/svg.dart';
 import 'address_screen.dart';
 
@@ -137,11 +137,18 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         }
                         myAddressesModel.name = nameField.text;
                         myAddressesModel.description = commentField.text;
+                        //Navigator.pop(context);
                         Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.push(context,
-                          new MaterialPageRoute(builder: (context) => new AddressScreen(restaurant: parent.restaurant, myAddressesModelList: parent.myAddressesModelList, isTakeAwayOrderConfirmation: false,)),
-                        );
+                        // Navigator.push(context,
+                        //   new MaterialPageRoute(builder: (context) => new AddressScreen(restaurant: parent.restaurant, myAddressesModelList: parent.myAddressesModelList, isTakeAwayOrderConfirmation: false,)),
+                        // );
+                        setState(() {
+
+                        });
+                        parent.setState(() {
+
+                        });
+
                       } else {
                         noConnection(context);
                       }
