@@ -5,6 +5,7 @@ import 'package:flutter_app/Screens/CartScreen/View/empty_cart_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 
 import 'CartButtonCounter.dart';
 
@@ -59,7 +60,7 @@ class CartButtonState extends State<CartButton> {
         height: 85,
         padding: EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
-          color: AppColor.elementsColor,
+          color: AppColor.themeColor,
           boxShadow: [
             BoxShadow(
               color: Colors.black12,

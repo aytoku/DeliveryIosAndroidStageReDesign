@@ -4,6 +4,7 @@ import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.d
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/add_address_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddressSelector extends StatefulWidget {
@@ -152,7 +153,6 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
                     Container(
                       padding: const EdgeInsets.only(top: 15),
                       child: TextFormField(
-                        autofocus: true,
                         style: TextStyle(color: AppColor.textColor),
                         onTap: () async {
                           if (await Internet.checkConnection()) {
@@ -177,12 +177,12 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
                           contentPadding: EdgeInsets.only(left: 15),
                           hintText: 'Указать адрес',
                           hintStyle: TextStyle(
-                              color: AppColor.textColor
+                              color: AppColor.additionalTextColor
                           ),
                           enabledBorder:  OutlineInputBorder(
                             // width: 0.0 produces a thin "hairline" border
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: (notFavouriteAddressController.text != '') ? BorderSide(color: AppColor.mainColor) : BorderSide(color: AppColor.fieldColor),
+                            borderSide: (notFavouriteAddressController.text != '') ? BorderSide(color: AppColor.mainColor) : BorderSide(color: AppColor.additionalTextColor),
                           ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10)),
@@ -201,7 +201,7 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
                                 'Адрес',
                                 style: TextStyle(
                                     fontSize: 12,
-                                    color: AppColor.textColor
+                                    color: AppColor.additionalTextColor
                                 ),
                               ),
                             ),

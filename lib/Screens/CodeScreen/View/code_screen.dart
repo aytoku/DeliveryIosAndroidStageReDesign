@@ -19,6 +19,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:async';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 import '../../../Amplitude/amplitude.dart';
 import '../../../Centrifugo/centrifugo.dart';
@@ -69,9 +71,9 @@ class _CodeScreenState extends State<CodeScreen> {
         buttonStateKey.currentState.color = AppColor.mainColor;
       });
     } else if (code.length < 4 &&
-        buttonStateKey.currentState.color != AppColor.fieldColor) {
+        buttonStateKey.currentState.color != AppColor.subElementsColor) {
       buttonStateKey.currentState.setState(() {
-        buttonStateKey.currentState.color = AppColor.fieldColor;
+        buttonStateKey.currentState.color = AppColor.subElementsColor;
       });
     }
   }
@@ -137,7 +139,7 @@ class _CodeScreenState extends State<CodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.elementsColor,
+      backgroundColor: AppColor.themeColor,
       body: BlocListener<CodeGetBloc, CodeState>(
         bloc: codeGetBloc,
         listener: (BuildContext context, CodeState state){
@@ -227,6 +229,7 @@ class _CodeScreenState extends State<CodeScreen> {
                         borderRadius: const BorderRadius.all(
                           const Radius.circular(10.0),
                         ),
+                        border: Border.all(color: AppColor.mainColor),
                       ),
                       child: Column(
                         children: [
@@ -238,13 +241,13 @@ class _CodeScreenState extends State<CodeScreen> {
                                 'Введите код из смс',
                                 style: TextStyle(
                                     fontSize: 18,
-                                    color: Colors.white
+                                    color: AppColor.textColor
                                 ),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 14.0),
+                            padding: const EdgeInsets.only(top: 12.0),
                             child: Container(
                               height: 80.0,
                               decoration: BoxDecoration(
@@ -402,14 +405,14 @@ class TimerCountDownState extends State<TimerCountDown> {
     return _start != 0
         ? Text('Получить новый код можно через $_start c',
         style: TextStyle(
-          color: AppColor.fieldColor,
+          color: AppColor.additionalTextColor,
           fontSize: 13.0,
           letterSpacing: 1.2,
         ))
         : GestureDetector(
       child: Text(
         'Отправить код повторно',
-        style: TextStyle(color: AppColor.fieldColor),
+        style: TextStyle(color: AppColor.additionalTextColor),
       ),
       onTap: () {
         codeScreenState.setState(() {});

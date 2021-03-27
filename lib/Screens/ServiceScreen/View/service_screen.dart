@@ -9,6 +9,8 @@ import '../../../Internet/check_internet.dart';
 import '../../../data/data.dart';
 import 'service_orders_story.dart';
 import 'tickets_chat_screen.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class ServiceScreen extends StatefulWidget {
   @override

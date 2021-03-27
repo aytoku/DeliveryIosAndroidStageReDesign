@@ -19,10 +19,10 @@ class FilteredStoresData{
     }
 
     return FilteredStoresData(
-      filteredStoresList:storesList,
+        filteredStoresList:storesList,
     );
   }
-
+  
   static Future<List<FilteredStores>> applyCategoryFilters(List<AllStoreCategories> filters) async{
     // если выбран хотя бы один из фильтров, то
     if(filters.length > 0){
@@ -102,7 +102,7 @@ class FilteredStores {
         name: store.name,
         uuid: store.uuid,
         address: store.address,
-        productCategoriesUuid: productCategoriesUuid
+      productCategoriesUuid: productCategoriesUuid
     );
   }
 

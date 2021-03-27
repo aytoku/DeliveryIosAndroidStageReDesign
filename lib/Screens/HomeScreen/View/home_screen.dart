@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert' as convert;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,13 +23,19 @@ import 'package:flutter_app/Screens/HomeScreen/Widgets/TemporaryOrderChecking.da
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
+import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
+import 'package:flutter_app/Screens/PaymentScreen/Model/GooglePay.dart';
+import 'package:flutter_app/Screens/PaymentScreen/Model/SberGooglePayment.dart';
+import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pay/flutter_pay.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mad_pay/mad_pay.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../Preloader/device_id_screen.dart';
 import '../../../data/data.dart';
@@ -37,6 +44,7 @@ import '../../CityScreen/View/city_screen.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import '../Model/FilteredStores.dart';
 
+
 class HomeScreen extends StatefulWidget {
   HomeScreen() : super(key: homeScreenKey);
 
@@ -44,7 +52,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   List<OrderChecking> orderList;
   List<FilteredStores> recordsItems;
   GlobalKey<ScaffoldState> _scaffoldKey;
@@ -56,6 +64,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   RestaurantGetBloc restaurantGetBloc;
   CartButton cartButton;
   Timer timer;
+
+
+
 
   @override
   void initState() {
@@ -74,9 +85,11 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     restaurantGetBloc.add(InitialLoad());
     temporaryOrderCheckingKey = new GlobalKey();
     // временное решение(убрать когда будет центрифуга)
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
-      if (temporaryOrderCheckingKey.currentState != null) {
-        temporaryOrderCheckingKey.currentState.setState(() {});
+    timer = Timer.periodic(Duration(seconds: 100), (timer) {
+      if(temporaryOrderCheckingKey.currentState != null){
+        temporaryOrderCheckingKey.currentState.setState(() {
+
+        });
       }
     });
   }
@@ -94,8 +107,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      setState(() {});
+    if(state == AppLifecycleState.resumed){
+      setState(() {
+
+      });
     }
   }
 
@@ -107,8 +122,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           leading: SvgPicture.asset('assets/svg_images/info.svg'),
           title: Text(
             'Информация',
-            style:
-                TextStyle(fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+            style: TextStyle(
+                fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {
@@ -146,7 +161,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
                 trailing: GestureDetector(
-                  child: SvgPicture.asset('assets/svg_images/pencil.svg'),
+                  child: SvgPicture.asset(
+                      'assets/svg_images/pencil.svg'),
                 ),
               ),
             ),
@@ -167,11 +183,14 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         // Padding(
         //   padding: const EdgeInsets.only(top: 10, bottom: 10),
         //   child: ListTile(
-        //     leading: SvgPicture.asset('assets/svg_images/pay.svg'),
+        //     leading: Padding(
+        //       padding: const EdgeInsets.only(top: 5.0),
+        //       child: SvgPicture.asset('assets/svg_images/pay.svg',),
+        //     ),
         //     title: Text(
         //       'Способы оплаты',
         //       style: TextStyle(
-        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+        //           fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
         //     ),
         //     onTap: () async {
         //       if (await Internet.checkConnection()) {
@@ -277,8 +296,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 authCodeData.token = null;
                 await NecessaryDataForAuth.saveData();
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => DeviceIdScreen()),
-                    (Route<dynamic> route) => false);
+                    MaterialPageRoute(
+                        builder: (context) => DeviceIdScreen()),
+                        (Route<dynamic> route) => false);
               } else {
                 noConnection(context);
               }
@@ -298,7 +318,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 child: Text(
                   'Авторизоваться',
                   style: TextStyle(
-                      fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                      fontSize: 17,
+                      color: AppColor.textColor,
+                      letterSpacing: 0.45),
                 ),
               ),
               onTap: () async {
@@ -322,63 +344,65 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return allSideBarItems;
   }
 
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-          statusBarColor: Colors.white, statusBarBrightness: Brightness.light),
+          statusBarColor: Colors.white,
+          statusBarBrightness: Brightness.light
+      ),
       child: Scaffold(
         backgroundColor: AppColor.themeColor,
         key: _scaffoldKey,
         drawer: ClipRRect(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
-          child: Theme(
-            data: Theme.of(context).copyWith(
-                canvasColor: AppColor.themeColor //This will change the drawer background to blue.
-                //other styles
-            ),
+          borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+          child: Container(
             child: Drawer(
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    height: 200,
-                    width: 300,
-                    child: Transform(
-                      transform: Matrix4.translationValues(0, 15, 0),
-                      child: Image.asset('assets/images/old_school_logo.png'),
-                    ),
+
+                child: Container(
+                  color: AppColor.themeColor,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 60),
+                        child: Center(
+                          child: Image(
+                            height: 97,
+                            width: 142,
+                            image: AssetImage('assets/images/old_school_logo.png'),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: getSideBarItems(currentUser.isLoggedIn),
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Column(
-                      children: getSideBarItems(currentUser.isLoggedIn),
-                    ),
-                  ),
-                ],
-              ),
+                )
             ),
           ),
         ),
         body: BlocBuilder<RestaurantGetBloc, RestaurantGetState>(
             bloc: BlocProvider.of<RestaurantGetBloc>(context),
-            builder: (BuildContext context, RestaurantGetState state) {
-              if (state is RestaurantGetStateLoading)
+            builder: (BuildContext context,
+                RestaurantGetState state) {
+              if(state is RestaurantGetStateLoading)
                 return Center(
                   child: SpinKitFadingCircle(
                     color: AppColor.mainColor,
                     size: 50.0,
                   ),
                 );
-              else if (state is RestaurantGetStateSuccess) {
+              else if(state is RestaurantGetStateSuccess){
                 recordsItems.clear();
                 recordsItems.addAll(state.items);
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 50, left: 16, right: 15, bottom: 10),
+                      padding: const EdgeInsets.only(top: 50, left: 16, right: 15, bottom: 10),
                       child: Row(
                         children: [
                           Padding(
@@ -410,20 +434,23 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: AppColor.mainColor),
+                                    color: AppColor.mainColor
+                                ),
                                 child: Center(
-                                  child: Text(
-                                    selectedCity.name,
+                                  child: Text(selectedCity.name,
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 13),
+                                        color: Colors.white,
+                                        fontSize: 13
+                                    ),
                                   ),
                                 ),
                               ),
-                              onTap: () {
+                              onTap: (){
                                 Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                    builder: (context) => new CityScreen(),
+                                    builder: (context) =>
+                                    new CityScreen(),
                                   ),
                                 );
                               },
@@ -448,7 +475,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         children: <Widget>[
                           TemporaryOrderChecking(
                               orderList: orderList,
-                              key: temporaryOrderCheckingKey),
+                              key: temporaryOrderCheckingKey
+                          ),
                           // (!currentUser.isLoggedIn) ? Container() :
                           // FutureBuilder<List<OrderChecking>>(
                           //   future: OrderChecking.getActiveOrder(),
@@ -524,28 +552,41 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           //     child: Text('sdf'),
                           //   ),
                           //   onTap: () async {
-                          //     FlutterPay flutterPay = FlutterPay();
                           //
-                          //     PaymentItem item = PaymentItem(name: "T-Shirt", price: 10.98);
-                          //
-                          //     String token = await flutterPay.makePayment(
-                          //       merchantIdentifier: "T1513081007-api",
-                          //       currencyCode: "RUB",
-                          //       countryCode: "RU",
-                          //       allowedPaymentNetworks: [
+                          //     final MadPay pay = MadPay();
+                          //     await pay.checkPayments();
+                          //     await pay.checkActiveCard(
+                          //       paymentNetworks: <PaymentNetwork>[
                           //         PaymentNetwork.visa,
-                          //         PaymentNetwork.masterCard,
+                          //         PaymentNetwork.mastercard,
                           //       ],
-                          //       paymentItems: [item],
-                          //       merchantName: "Faem",
-                          //       gatewayName: "sberbank",
                           //     );
                           //
-                          //     print(token);
+                          //     var req = await pay.processingPayment(
+                          //       google: GoogleParameters(
+                          //         gatewayName: 'sberbank',
+                          //         gatewayMerchantId: 'T1513081007',
+                          //       ),
+                          //       apple: AppleParameters(
+                          //         merchantIdentifier: 'merchant.eda.com',
+                          //       ),
+                          //       currencyCode: 'RUB',
+                          //       countryCode: 'RU',
+                          //       paymentItems: <PaymentItem>[
+                          //         PaymentItem(name: 'T-Shirt', price: 1.14),
+                          //       ],
+                          //       paymentNetworks: <PaymentNetwork>[
+                          //         PaymentNetwork.visa,
+                          //         PaymentNetwork.mastercard,
+                          //         PaymentNetwork.maestro
+                          //       ],
+                          //     );
+                          //     print(req);
                           //   },
                           // ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            padding:
+                            EdgeInsets.symmetric(horizontal: 20.0),
                             child: Text('Рестораны',
                                 style: TextStyle(
                                   fontSize: 28,
@@ -555,52 +596,43 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 )),
                           ),
                           filter = Filter(this),
-                          (recordsItems.isEmpty)
-                              ? Center(
-                                  child: Container(),
-                                )
-                              : restaurantsList = RestaurantsList(
-                                  List.from(recordsItems), this,
-                                  key: GlobalKey())
+                          (recordsItems.isEmpty) ?  Center(
+                            child: Container(),
+                          ) : restaurantsList = RestaurantsList(List.from(recordsItems), this, key: GlobalKey())
                         ],
                       ),
                     ),
-                    cartButton != null
-                        ? cartButton
-                        : FutureBuilder<CartModel>(
-                            future: getCartByDeviceId(
-                                necessaryDataForAuth.device_id),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<CartModel> snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                currentUser.cartModel = snapshot.data;
-                                if (currentUser.cartModel == null ||
-                                    currentUser.cartModel.items == null ||
-                                    currentUser.cartModel.items.length < 1) {
-                                  currentUser.cartModel = new CartModel();
-                                  return Container();
-                                }
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 0),
-                                  child: cartButton = CartButton(
-                                    key: basketButtonStateKey,
-                                    restaurant: FilteredStores.fromStoreData(
-                                        currentUser.cartModel.storeData),
-                                    source: CartSources.Home,
-                                  ),
-                                );
-                              }
+                    cartButton != null ? cartButton :
+                    FutureBuilder<CartModel>(
+                        future: getCartByDeviceId(necessaryDataForAuth.device_id),
+                        builder: (BuildContext context, AsyncSnapshot<CartModel> snapshot){
+                          if(snapshot.connectionState == ConnectionState.done){
+                            currentUser.cartModel = snapshot.data;
+                            if(currentUser.cartModel == null
+                                || currentUser.cartModel.items == null
+                                || currentUser.cartModel.items.length < 1){
+                              currentUser.cartModel = new CartModel();
                               return Container();
-                            })
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 0),
+                              child: cartButton = CartButton(
+                                key: basketButtonStateKey,
+                                restaurant: FilteredStores.fromStoreData(currentUser.cartModel.storeData),
+                                source: CartSources.Home,
+                              ),
+                            );
+                          }
+                          return Container();
+                        }
+                    )
                   ],
                 );
-              } else if (state is RestaurantGetStateEmpty) {
+              }else if(state is RestaurantGetStateEmpty){
                 return Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 50, left: 16, right: 15, bottom: 10),
+                      padding: const EdgeInsets.only(top: 50, left: 16, right: 15, bottom: 10),
                       child: Row(
                         children: [
                           Padding(
@@ -632,20 +664,22 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: AppColor.mainColor),
+                                    color: AppColor.mainColor
+                                ),
                                 child: Center(
-                                  child: Text(
-                                    selectedCity.name,
+                                  child: Text(selectedCity.name,
                                     style: TextStyle(
-                                        color: AppColor.textColor, fontSize: 13),
+                                        color: AppColor.textColor,
+                                        fontSize: 13),
                                   ),
                                 ),
                               ),
-                              onTap: () {
+                              onTap: (){
                                 Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                    builder: (context) => new CityScreen(),
+                                    builder: (context) =>
+                                    new CityScreen(),
                                   ),
                                 );
                               },
@@ -663,10 +697,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.3),
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
                       child: Center(
-                        child: Text('Нет заведений по этому городу', style: TextStyle(color: AppColor.textColor),),
+                        child: Text('Нет заведений по этому городу', style: TextStyle(color: AppColor.textColor)),
                       ),
                     ),
                   ],

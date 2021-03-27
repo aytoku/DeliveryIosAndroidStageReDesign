@@ -6,8 +6,8 @@ import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/cancel_order.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
-import 'package:flutter_app/app.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -66,12 +66,12 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0))),
           child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              color: AppColor.themeColor,
-            ),
               height: 150,
               width: 320,
+              decoration: BoxDecoration(
+                color: AppColor.elementsColor,
+                borderRadius: BorderRadius.circular(15.0),
+              ),
               child: Column(
                 children: <Widget>[
                   Padding(
@@ -143,7 +143,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       padding: const EdgeInsets.only(left: 15.0, right: 14, bottom: 10, top: 15),
       child: Container(
         height: 190,
-        padding: EdgeInsets.only(right: 10, left: 10),
+        padding: EdgeInsets.only(right: 10, left: 15),
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -229,7 +229,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                   'Адрес доставки',
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppColor.additionalTextColor,),
+                    color: AppColor.textColor,),
                 ),
               ),
             ),
@@ -241,7 +241,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       (ordersDetailsModelItem.deliveryAddress != null)
                           ?  ordersDetailsModelItem.deliveryAddress.unrestrictedValue
                           : 'Пусто',
-                      style: TextStyle(fontSize: 12, color: AppColor.textColor,),
+                      style: TextStyle(fontSize: 12, color: AppColor.additionalTextColor,),
                       textAlign: TextAlign.start,
                     )
                 )
@@ -613,6 +613,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     ];
     // TODO: implement build
     return Scaffold(
+      backgroundColor: AppColor.themeColor,
         body: Column(
           children: <Widget>[
             Padding(
@@ -777,7 +778,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                       cancelButton: CupertinoActionSheetAction(
                                         child: Text("Вернуться назад",
                                           style: TextStyle(
-                                              color: Color(0xFF007AFF),
+                                              color: AppColor.textColor,
                                               fontSize: 20
                                           ),
                                         ),
@@ -799,7 +800,10 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(15.0))),
                                     child: Container(
-                                      decoration: BoxDecoration(color: AppColor.themeColor, borderRadius: BorderRadius.circular(15.0)),
+                                      decoration: BoxDecoration(
+                                        color: AppColor.themeColor,
+                                        borderRadius: BorderRadius.circular(15.0),
+                                      ),
                                         height: 210,
                                         width: 300,
                                         child: Column(
@@ -1018,7 +1022,6 @@ class OrderRejectScreenState extends State<OrderRejectScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0))),
           child: Container(
-            color: AppColor.themeColor,
               height: 100,
               width: 320,
               child: Column(

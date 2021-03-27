@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:centrifuge/centrifuge.dart' as centrifuge;
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'API/centrifugo.dart';
 import 'package:flutter_app/Screens/ChatScreen/Model/ChatHistoryModel.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';
@@ -37,7 +38,8 @@ class Centrifugo{
     });
     client.connect();
 
-    final subscription = client.getSubscription('client/' + authCodeData.clientUuid);
+    final subscription = client.getSubscription('eda/orderstates/client/${authCodeData.clientUuid}');
+    print('eda/orderstates/client/${necessaryDataForAuth.device_id}' + 'CENTRIFUGO');
 
     subscription.publishStream.listen((event){
       var parsedJson = convert.jsonDecode(utf8.decode(event.data));

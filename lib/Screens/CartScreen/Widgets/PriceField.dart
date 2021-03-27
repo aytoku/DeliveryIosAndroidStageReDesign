@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 
 import '../Model/CartModel.dart';
 import '../Model/CartModel.dart';

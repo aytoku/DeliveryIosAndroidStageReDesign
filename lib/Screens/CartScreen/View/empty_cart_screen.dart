@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -30,6 +31,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.themeColor,
       body: Container(
           color: AppColor.themeColor,
           child: Stack(
@@ -70,12 +72,12 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                                   height: 60,
                                   child: Center(
                                     child: SvgPicture.asset(
-                                        'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
+                                        'assets/svg_images/arrow_left.svg', color: AppColor.textColor),
                                   ))),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 0, right: 40.0),
+                        padding: EdgeInsets.only(left: 0),
                         child: Text(
                           'Корзина',
                           style: TextStyle(
@@ -87,7 +89,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                       Padding(
                         padding: EdgeInsets.only(right: 10),
                         child: SvgPicture.asset(
-                            ''),),
+                            'assets/svg_images/del_basket.svg', color: AppColor.textColor),),
                     ],
                   ),
                 ),
@@ -104,7 +106,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                           padding: EdgeInsets.only(top: 30),
                           child: Center(
                             child: SvgPicture.asset(
-                                'assets/svg_images/empty_basket.svg'),
+                                'assets/svg_images/basket.svg'),
                           ),
                         ),
                         Padding(
@@ -124,7 +126,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                             child: Text(
                               'Перейдите в список мест, чтобы\nоформить заказ заново',
                               style:
-                              TextStyle(color: AppColor.additionalTextColor, fontSize: 15),
+                              TextStyle(color: Color(0xFFB0B0B0), fontSize: 15),
                               textAlign: TextAlign.center,
                             ),
                           ),

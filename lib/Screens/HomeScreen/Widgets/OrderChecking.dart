@@ -3,6 +3,7 @@ import 'package:flutter_app/Screens/OrdersScreen/API/getClientsOrdersInProcess.d
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_details.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -68,7 +69,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
       splashColor: Colors.white,
       highlightColor: Colors.white,
       child: Container(
-          width: MediaQuery.of(context).size.width * 0.9,
+          width: MediaQuery.of(context).size.width * 0.89,
           margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           decoration: BoxDecoration(
               boxShadow: [
@@ -85,7 +86,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
             children: <Widget>[
               Flexible(
                 child: Container(
-                  margin: EdgeInsets.all(0),
+                  padding: EdgeInsets.only(right: 0),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Row(
@@ -95,7 +96,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                           width: 200,
                           padding: EdgeInsets.only(right: 15),
                           child: Padding(
-                            padding: EdgeInsets.only(left: 20),
+                            padding: EdgeInsets.only(left: 10),
                             child: Align(
                               child: Text(
                                 'Ваш заказ из ' +
@@ -110,14 +111,14 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 15, left: 20, bottom: 0),
+                          padding: EdgeInsets.only(right: 10, left: 20, bottom: 0),
                           child: InkWell(
                             child: Container(
                               height: 30,
                               decoration: BoxDecoration(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
-                                  color: AppColor.fieldColor),
+                                  color: AppColor.subElementsColor),
                               child: Row(
                                 children: [
                                   Padding(
@@ -153,7 +154,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15),
+                  padding: EdgeInsets.only(left: 5, right: 10, bottom: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -215,7 +216,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                   .contains(ordersStoryModelItem.state) ||
                                   in_the_way.contains(ordersStoryModelItem.state))
                                   ? AppColor.mainColor
-                                  : AppColor.fieldColor),
+                                  : AppColor.subElementsColor),
                           child: Column(
                             children: <Widget>[
                               Padding(
@@ -276,7 +277,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               color: (in_the_way
                                   .contains(ordersStoryModelItem.state))
                                   ? AppColor.mainColor
-                                  : AppColor.fieldColor),
+                                  : AppColor.subElementsColor),
                           child: Column(
                             children: <Widget>[
                               Padding(
@@ -284,9 +285,9 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                 child: (in_the_way
                                     .contains(ordersStoryModelItem.state))
                                     ? SvgPicture.asset(
-                                    'assets/svg_images/light_car.svg')
+                                    'assets/svg_images/light_car.svg', color: AppColor.textColor,)
                                     : SvgPicture.asset(
-                                    'assets/svg_images/car.svg'),
+                                    'assets/svg_images/car.svg', color: AppColor.textColor,),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 5),

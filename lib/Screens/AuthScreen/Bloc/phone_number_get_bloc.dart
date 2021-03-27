@@ -8,6 +8,8 @@ import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 // сам bloc
 

@@ -5,6 +5,8 @@ import 'package:flutter_app/Screens/CityScreen/View/city_autocomplete.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 import '../../../data/data.dart';
 import '../../../data/data.dart';

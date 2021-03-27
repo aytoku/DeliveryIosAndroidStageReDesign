@@ -8,6 +8,7 @@ import 'package:flutter_app/Screens/HomeScreen/Widgets/DistancePriority.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/KitchenListScreen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Priority.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Список с фильтрами
@@ -131,7 +132,6 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
   _buildKitchensFilterNavigationMenu(List<AllStoreCategories> categories) {
     return Container(
       height: 610,
-
       padding: EdgeInsets.only(top: 25),
       child: kitchenListScreen,
     );
@@ -292,7 +292,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                ? AppColor.mainColor : AppColor.elementsColor),
+                                ? AppColor.themeColor : AppColor.mainColor),
                         child: Padding(
                             padding: EdgeInsets.only(left: 15, right: 15),
                             child: Center(
@@ -302,13 +302,17 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                                   Text(
                                     "Кухни",
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: (!selectedCategoryFromHomeScreen
+                                            && AllStoreCategoriesData.selectedStoreCategories.length > 0)
+                                              ? AppColor.textColor: AppColor.textColor,
                                         fontSize: 15),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: SvgPicture.asset('assets/svg_images/arrow_down',
-                                      color: Colors.white,
+                                      color: (!selectedCategoryFromHomeScreen
+                                                && AllStoreCategoriesData.selectedStoreCategories.length > 0)
+                                                 ? AppColor.textColor : AppColor.textColor,
                                     ),
                                   )
                                 ],
@@ -378,7 +382,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)
                           || !selectedCategoryFromHomeScreen)
-                          ? AppColor.elementsColor
+                          ? AppColor.themeColor
                           : AppColor.mainColor),
                   child: Padding(
                       padding: EdgeInsets.only(left: 15, right: 15),
@@ -386,7 +390,9 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                         child: Text(
                           element.name[0].toUpperCase() + element.name.substring(1),
                           style: TextStyle(
-                              color: Colors.white,
+                              color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)|| !selectedCategoryFromHomeScreen)
+                                  ? AppColor.textColor
+                                  : AppColor.textColor,
                               fontSize: 15),
                         ),
                       )),

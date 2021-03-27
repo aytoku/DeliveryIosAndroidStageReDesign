@@ -3,6 +3,8 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class AboutAppScreen extends StatefulWidget {
   @override
@@ -15,9 +17,9 @@ class AboutAppScreenState extends State<AboutAppScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      backgroundColor: AppColor.themeColor,
+      backgroundColor: AppColor.elementsColor,
         body: Container(
-          color: AppColor.themeColor,
+          color: AppColor.elementsColor,
           child: Stack(
             children: <Widget>[
               ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'О приложении'),
@@ -31,16 +33,16 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         Center(
                           child: Padding(
                               padding: EdgeInsets.only(top: 20, bottom: 10),
-                              child: Image.asset('assets/images/old_school_logo.png')
+                              child: Image.asset('assets/images/old_school_logo.png', width: 200, height: 200,)
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 25),
                           child: Center(
                             child: Text(
-                              'Версия 2.0.0 от 24 мар. 2021 г.\nсборка 11',
+                              'Версия 2.0.0 от 27 мар. 2021 г.\nсборка 12',
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Color(0x97979797), fontSize: 15),
+                              style: TextStyle(color: AppColor.textColor, fontSize: 15),
                             ),
                           ),
                         ),

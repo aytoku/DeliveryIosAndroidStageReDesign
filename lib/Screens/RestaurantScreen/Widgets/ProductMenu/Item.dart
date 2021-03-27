@@ -14,6 +14,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemDesc.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -31,33 +32,27 @@ class MenuItem extends StatefulWidget {
   MenuItemState createState() {
     return new MenuItemState(restaurantDataItems, parent);
   }
-
-  static List<MenuItem> fromFoodRecordsList(
-      List<ProductsByStoreUuid> foodRecordsList, RestaurantScreenState parent) {
+  static List<MenuItem> fromFoodRecordsList(List<ProductsByStoreUuid> foodRecordsList, RestaurantScreenState parent) {
     List<MenuItem> result = new List<MenuItem>();
     foodRecordsList.forEach((element) {
-      result.add(new MenuItem(
-          parent: parent,
-          restaurantDataItems: element,
-          key: new GlobalKey<MenuItemState>()));
+      result.add(new MenuItem(parent: parent, restaurantDataItems: element, key: new GlobalKey<MenuItemState>()));
     });
     return result;
   }
-
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    if (restaurantDataItems.productCategories != null &&
-        restaurantDataItems.productCategories.isNotEmpty)
+    if(restaurantDataItems.productCategories != null && restaurantDataItems.productCategories.isNotEmpty)
       return "cat: " + restaurantDataItems.productCategories[0].name;
     else
       return "В итеме каты нал";
   }
 }
 
-class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
+class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   final ProductsByStoreUuid restaurantDataItems;
   final RestaurantScreenState parent;
   bool cartBottomPadding = false;
+
 
   MenuItemState(this.restaurantDataItems, this.parent);
 
@@ -86,13 +81,13 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
     );
   }
 
+
   @override
   bool get wantKeepAlive => true;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    if (restaurantDataItems.productCategories != null &&
-        restaurantDataItems.productCategories.isNotEmpty)
+    if(restaurantDataItems.productCategories != null && restaurantDataItems.productCategories.isNotEmpty)
       return "cat: " + restaurantDataItems.productCategories[0].name;
     else
       return "В итеме каты нал";
@@ -102,152 +97,203 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();
-    return Container(
-      color: AppColor.themeColor,
-      child: Padding(
-        padding: EdgeInsets.only(
-            top: 15.0,
-            left: 15,
-            right: 15,
-            bottom: (cartBottomPadding)
-                ? MediaQuery.of(context).size.height * 0.25
-                : 15),
-        child: Center(
-          child: GestureDetector(
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                onPressedButton(restaurantDataItems, menuItemCounterKey);
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
-              } else {
-                noConnection(context);
-              }
-            },
-            child: Container(
-              height: 153,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4.0, // soften the shadow
-                    spreadRadius: 1.0, //extend the shadow
-                  )
-                ],
-                color: AppColor.elementsColor,
-                // border: Border.all(width: 1.0, color:elementsColor),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
-                        child: Align(
-                          alignment: Alignment.topLeft,
+    if(parent.restaurant.type == 'restaurant'){
+      return Container(
+        color: AppColor.themeColor,
+        child: Padding(
+          padding: EdgeInsets.only(top: 15.0, left: 15, right: 15,
+              bottom: (cartBottomPadding) ? MediaQuery.of(context).size.height * 0.15 : 15),
+          child: Center(
+              child: GestureDetector(
+                  onTap: () async {
+                    if (await Internet.checkConnection()) {
+                      onPressedButton(restaurantDataItems, menuItemCounterKey);
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
+                    } else {
+                      noConnection(context);
+                    }
+                  },
+                  child: Container(
+                    height: 153,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4.0, // soften the shadow
+                          spreadRadius: 1.0, //extend the shadow
+                        )
+                      ],
+                      color: AppColor.elementsColor,
+                      border: Border.all(width: 1.0, color: AppColor.elementsColor),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
                           child: Container(
-                            decoration: BoxDecoration(
-                              color: AppColor.elementsColor,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  bottomLeft: Radius.circular(15),
-                                  bottomRight: Radius.circular(15)),
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  height: 112,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColor.elementsColor,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        bottomLeft: Radius.circular(15),
+                                        bottomRight: Radius.circular(15)),
+                                  ),
                                   child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10.0, left: 15, bottom: 5),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            restaurantDataItems.name,
-                                            maxLines: 3,
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: AppColor.textColor,
-                                                fontWeight: FontWeight.w700),
-                                            textAlign: TextAlign.start,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
+                                    children: <Widget>[
+                                      Container(
+                                        height: 100,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 10.0, left: 15, bottom: 5),
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  restaurantDataItems.name,
+                                                  maxLines: 3,
+                                                  style: TextStyle(
+                                                      fontSize: 16.0, color: AppColor.textColor, fontWeight: FontWeight.w700),
+                                                  textAlign: TextAlign.start,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ),
+                                            MenuItemDesc(foodRecords: restaurantDataItems, parent: this)
+                                          ],
                                         ),
                                       ),
-                                      MenuItemDesc(
-                                          foodRecords: restaurantDataItems,
-                                          parent: this)
+                                      MenuItemCounter(foodRecords: restaurantDataItems, menuItemCounterKey: menuItemCounterKey, parent: this)
                                     ],
                                   ),
                                 ),
-                                MenuItemCounter(
-                                    foodRecords: restaurantDataItems,
-                                    menuItemCounterKey: menuItemCounterKey,
-                                    parent: this)
-                              ],
+                              ),
                             ),
                           ),
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(15),
+                                bottomRight: Radius.circular(15)),
+                            child: Image.network(
+                              getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                              fit: BoxFit.cover,
+                              height: MediaQuery.of(context).size.height,
+                              width: 168,
+                            ),),
+                        )
+                      ],
+                    ),
+                  ))),
+        ),
+      );
+    }else {
+      return GestureDetector(
+        child: Container(
+          margin: EdgeInsets.only(left: 10, right: 10),
+          height: 250,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 4.0, // soften the shadow
+                spreadRadius: 1.0, //extend the shadow
+              )
+            ],
+            color: Colors.white,
+            border: Border.all(width: 1.0, color: Colors.grey[200]),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            children: [
+              Container(
+                height: 140,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      topLeft: Radius.circular(10)),
+                  child: Image.network(
+                    getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width,
+                  ),),
+              ),
+              Container(
+                height: 110,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10)),
+                    color: Color(0xFFFAFAFA)
+                ),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 14, top: 12),
+                        child: Text(
+                          restaurantDataItems.name,
+                          maxLines: 3,
+                          style: TextStyle(
+                              fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
-                  ),
-                  Stack(
-                    children: [
-                      Center(
-                        child: Transform(
-                          transform: Matrix4.translationValues(20, 0, 0),
-                          child: Image.asset(
-                            'assets/images/Dish.png',
-                          ),
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(15),
-                            bottomRight: Radius.circular(15)),
-                        child: (restaurantDataItems.meta.images != null)
-                            ? Image.network(
-                                getImage((restaurantDataItems.meta.images != null)
-                                    ? restaurantDataItems.meta.images[0]
-                                    : ''),
-                                fit: BoxFit.cover,
-                                height: MediaQuery.of(context).size.height,
-                                width: 168,
-                              )
-                            : Center(
-                              child: Image.asset(
-                                  'assets/images/Dish.png',
-                                ),
-                            ),
-                      ),
-                    ],
-                  ),
-                ],
+                    MenuItemDesc(foodRecords: restaurantDataItems, parent: this),
+                    Padding(
+                      padding: EdgeInsets.only(top: 0),
+                      child: MenuItemCounter(
+                          foodRecords: restaurantDataItems,
+                          menuItemCounterKey: menuItemCounterKey,
+                          parent: this),
+                    )
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
-      ),
-    );
+        onTap: () async {
+          if (await Internet.checkConnection()) {
+            onPressedButton(restaurantDataItems, menuItemCounterKey);
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
+          } else {
+            noConnection(context);
+          }
+        },
+      );
+    }
   }
 
-  void onPressedButton(ProductsByStoreUuid food,
-      GlobalKey<MenuItemCounterState> menuItemCounterKey) {
+
+  void onPressedButton(ProductsByStoreUuid food, GlobalKey<MenuItemCounterState> menuItemCounterKey) {
+
     DateTime now = DateTime.now();
-    int currentTime = now.hour * 60 + now.minute;
-    int dayNumber = now.weekday - 1;
+    int currentTime = now.hour*60+now.minute;
+    int dayNumber  = now.weekday-1;
 
 //    int work_beginning = parent.restaurant.work_schedule[dayNumber].work_beginning;
 //    int work_ending = parent.restaurant.work_schedule[dayNumber].work_ending;
 //    bool day_off = parent.restaurant.work_schedule[dayNumber].day_off;
 //    bool available = parent.restaurant.available != null ? parent.restaurant.available : true;
 
-    GlobalKey<PriceFieldState> priceFieldKey = new GlobalKey<PriceFieldState>();
 
-    if (restaurantDataItems.type == 'single') {
-      if (parent.panelContentKey.currentState != null)
+    GlobalKey<PriceFieldState> priceFieldKey =
+    new GlobalKey<PriceFieldState>();
+
+
+    if(restaurantDataItems.type == 'single'){
+      if(parent.panelContentKey.currentState != null)
         parent.panelContentKey.currentState.setState(() {
           parent.panelContentKey.currentState.menuItem = null;
         });
@@ -257,111 +303,96 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
           backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(12),
-            topRight: const Radius.circular(12),
-          )),
+                topLeft: const Radius.circular(12),
+                topRight: const Radius.circular(12),
+              )),
           context: context,
           builder: (context) {
             return Container(
               decoration: BoxDecoration(
-                  color: Colors.transparent,
+                color: Colors.transparent,
                   borderRadius: BorderRadius.only(
                     topLeft: const Radius.circular(12),
                     topRight: const Radius.circular(12),
-                  )),
+                  )
+              ),
               child: Wrap(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Align(
                         alignment: Alignment.topCenter,
-                        child: SvgPicture.asset(
-                            'assets/svg_images/close_button.svg')),
+                        child: SvgPicture.asset('assets/svg_images/close_button.svg')),
                   ),
                   Container(
                     decoration: BoxDecoration(
-                        color: AppColor.elementsColor,
+                      color: AppColor.themeColor,
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(12),
                           topRight: const Radius.circular(12),
-                        )),
+                        )
+                    ),
                     child: Column(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
-                              bottomLeft: Radius.circular(0),
-                              bottomRight: Radius.circular(0)),
-                          child: Stack(
-                            children: <Widget>[
-                              (restaurantDataItems.meta.images != null) ? Image.network(
-                                getImage(
-                                    (restaurantDataItems.meta.images != null)
-                                        ? restaurantDataItems.meta.images[0]
-                                        : ''),
-                                fit: BoxFit.fitHeight,
-                                height: 300,
-                                width: MediaQuery.of(context).size.width,
-                              ) : Center(
-                                child: Image.asset(
-                                  'assets/images/bigger_dish.png',
-                                  height: 300,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                                bottomLeft: Radius.circular(0),
+                                bottomRight: Radius.circular(0)),
+                            child: Stack(
+                              children: <Widget>[
+                                Image.network(
+                                  getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                                  fit: BoxFit.fill,
+                                  height:300,
                                   width: MediaQuery.of(context).size.width,
                                 ),
-                              ),
-                              // Align(
-                              //     alignment: Alignment.topRight,
-                              //     child: Padding(
-                              //       padding: EdgeInsets.only(top: 10, right: 15),
-                              //       child: GestureDetector(
-                              //         child: SvgPicture.asset(
-                              //             'assets/svg_images/bottom_close.svg'),
-                              //         onTap: () {
-                              //           Navigator.pop(context);
-                              //         },
-                              //       ),
-                              //     ))
-                            ],
-                          ),
-                        ),
+                                // Align(
+                                //     alignment: Alignment.topRight,
+                                //     child: Padding(
+                                //       padding: EdgeInsets.only(top: 10, right: 15),
+                                //       child: GestureDetector(
+                                //         child: SvgPicture.asset(
+                                //             'assets/svg_images/bottom_close.svg'),
+                                //         onTap: () {
+                                //           Navigator.pop(context);
+                                //         },
+                                //       ),
+                                //     ))
+                              ],
+                            )),
                         Container(
-                          color: AppColor.elementsColor,
                           child: Column(
                             children: [
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 20, bottom: 10, left: 16),
-                                  child: Text(
-                                    restaurantDataItems.name,
+                                  padding: EdgeInsets.only(top: 20, bottom: 10, left: 16),
+                                  child: Text(restaurantDataItems.name,
                                     style: TextStyle(
-                                        fontSize: 24,
-                                        color: AppColor.textColor),
+                                        fontSize: 24
+                                    ),
                                   ),
                                 ),
                               ),
                               (restaurantDataItems.meta.description != "" &&
-                                      restaurantDataItems.meta.description !=
-                                          null)
+                                  restaurantDataItems.meta.description != null)
                                   ? Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 15, top: 10, bottom: 10),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          restaurantDataItems.meta.description,
-                                          style: TextStyle(
-                                              color:
-                                                  AppColor.additionalTextColor,
-                                              fontSize: 13),
-                                        ),
-                                      ),
-                                    )
+                                padding:
+                                EdgeInsets.only(left: 15, top: 10, bottom: 10),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    restaurantDataItems.meta.description,
+                                    style: TextStyle(
+                                        color: AppColor.additionalTextColor, fontSize: 13),
+                                  ),
+                                ),
+                              )
                                   : Container(
-                                      height: 0,
-                                    ),
+                                height: 0,
+                              ),
                               // Padding(
                               //   padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 15),
                               //   child: Row(
@@ -449,14 +480,12 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                         FutureBuilder<ProductsDataModel>(
                           future: getProductData(restaurantDataItems.uuid),
                           builder: (BuildContext context,
-                              AsyncSnapshot<ProductsDataModel> snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              ProductsDataModel productsDescription =
-                                  snapshot.data;
+                              AsyncSnapshot<ProductsDataModel> snapshot){
+                            if(snapshot.connectionState == ConnectionState.done){
+                              ProductsDataModel productsDescription = snapshot.data;
 
-                              List<VariantsSelector> variantsSelectors =
-                                  getVariantGroups(productsDescription);
+                              List<VariantsSelector> variantsSelectors = getVariantGroups(productsDescription);
+
                               return Container(
                                 child: Stack(
                                   children: <Widget>[
@@ -469,91 +498,45 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                                         child: Column(
                                           children: [
                                             Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: (productsDescription
-                                                                  .product
-                                                                  .meta
-                                                                  .description !=
-                                                              "" &&
-                                                          productsDescription
-                                                                  .product
-                                                                  .meta
-                                                                  .description !=
-                                                              null)
-                                                      ? 14
-                                                      : 0),
+                                              padding: EdgeInsets.only(top: (productsDescription.product.meta.description != "" &&
+                                                  productsDescription.product.meta.description != null) ? 14 : 0),
                                               child: Container(
-                                                padding: EdgeInsets.only(
-                                                    top: 10, bottom: 10),
-                                                decoration: (productsDescription
-                                                            .variantGroups !=
-                                                        null)
-                                                    ? BoxDecoration(
-                                                        color:
-                                                            AppColor.themeColor,
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color:
-                                                                Colors.black12,
-                                                            blurRadius: 4.0,
-                                                            // soften the shadow
-                                                            spreadRadius:
-                                                                1.0, //extend the shadow
-                                                          )
-                                                        ],
-                                                      )
-                                                    : null,
+                                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                                decoration: (productsDescription.variantGroups != null) ? BoxDecoration(
+                                                  color: AppColor.themeColor,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black12,
+                                                      blurRadius: 4.0, // soften the shadow
+                                                      spreadRadius: 1.0, //extend the shadow
+                                                    )
+                                                  ],
+                                                ) : null,
                                                 child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
+                                                      mainAxisAlignment: MainAxisAlignment.start,
                                                       children: <Widget>[
-                                                        Expanded(
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 20,
-                                                                    right: 10,
-                                                                    top: 10),
-                                                            child: Container(
-                                                              child: RichText(
-                                                                text: TextSpan(
-                                                                  children: <
-                                                                      TextSpan>[
-                                                                    TextSpan(
-                                                                      text: restaurantDataItems
-                                                                          .name,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            15.0,
-                                                                        color: AppColor
-                                                                            .textColor,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
+                                                        Expanded(child: Padding(
+                                                          padding: const EdgeInsets.only(left: 20, right: 10, top: 10),
+                                                          child: Container(
+                                                            child: RichText(text:
+                                                            TextSpan(
+                                                                children: <TextSpan>[
+                                                                  TextSpan(text: restaurantDataItems.name,
+                                                                    style: TextStyle(
+                                                                        fontSize: 15.0,
+                                                                        color: AppColor.textColor),),
+                                                                ]
+                                                            )
                                                             ),
                                                           ),
-                                                        ),
+                                                        )),
                                                         Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  right: 20,
-                                                                  top: 8),
-                                                          child: PriceField(
-                                                              key:
-                                                                  priceFieldKey,
-                                                              restaurantDataItems:
-                                                                  restaurantDataItems),
+                                                          padding: EdgeInsets.only(right: 20, top: 8),
+                                                          child: PriceField(key: priceFieldKey, restaurantDataItems: restaurantDataItems),
                                                         )
                                                       ],
                                                     ),
@@ -561,171 +544,84 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                                                       height: 4.0,
                                                     ),
                                                     Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10, bottom: 5),
+                                                      padding: EdgeInsets.only(top: 10, bottom: 5),
                                                       child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
+                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                         children: <Widget>[
                                                           Flexible(
                                                             flex: 1,
                                                             child: Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left: 16),
+                                                              padding: EdgeInsets.only(left: 16),
                                                               child: ProductDescCounter(
-                                                                  key: parent
-                                                                      .counterKey,
-                                                                  priceFieldKey:
-                                                                      priceFieldKey),
+                                                                  key: parent.counterKey,
+                                                                  priceFieldKey: priceFieldKey
+                                                              ),
                                                             ),
                                                           ),
                                                           Flexible(
                                                             flex: 2,
                                                             child: Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left: 8,
-                                                                      right:
-                                                                          16),
-                                                              child:
-                                                                  GestureDetector(
-                                                                child:
-                                                                    Container(
+                                                              padding: EdgeInsets.only(left: 8, right: 16),
+                                                              child: GestureDetector(
+                                                                child: Container(
                                                                   height: 52,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: AppColor
-                                                                        .mainColor,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
+                                                                  decoration: BoxDecoration(
+                                                                    color: AppColor.mainColor,
+                                                                    borderRadius: BorderRadius.circular(10),
                                                                   ),
-                                                                  child:
-                                                                      Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            64,
-                                                                        right:
-                                                                            64),
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Text(
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(left: 64, right: 64),
+                                                                    child: Center(
+                                                                      child: Text(
                                                                         "Добавить",
                                                                         style: TextStyle(
                                                                             color:
-                                                                                AppColor.textColor,
+                                                                                AppColor.unselectedTextColor,
                                                                             fontSize: 18),
                                                                       ),
                                                                     ),
                                                                   ),
                                                                 ),
-                                                                onTap:
-                                                                    () async {
-                                                                  if (await Internet
-                                                                      .checkConnection()) {
-                                                                    ProductsDataModel
-                                                                        cartProduct =
-                                                                        ProductsDataModel.fromJson(
-                                                                            productsDescription.toJson());
-                                                                    bool
-                                                                        hasErrors =
-                                                                        false;
-                                                                    cartProduct
-                                                                            .variantGroups =
-                                                                        new List<
-                                                                            VariantGroup>();
-                                                                    variantsSelectors
-                                                                        .forEach(
-                                                                            (variantGroupSelector) {
-                                                                      if (variantGroupSelector
-                                                                          .key
-                                                                          .currentState
-                                                                          .hasSelectedVariants()) {
-                                                                        cartProduct
-                                                                            .variantGroups
-                                                                            .add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
-                                                                        cartProduct
-                                                                            .variantGroups
-                                                                            .last
-                                                                            .variants = variantGroupSelector.key.currentState.selectedVariants;
-                                                                      } else if (variantGroupSelector
-                                                                          .key
-                                                                          .currentState
-                                                                          .required) {
-                                                                        hasErrors =
-                                                                            true;
-                                                                        variantGroupSelector
-                                                                            .key
-                                                                            .currentState
-                                                                            .setState(() {
-                                                                          variantGroupSelector
-                                                                              .key
-                                                                              .currentState
-                                                                              .error = true;
+                                                                onTap: () async {
+                                                                  if (await Internet.checkConnection()) {
+                                                                    ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
+                                                                    bool hasErrors = false;
+                                                                    cartProduct.variantGroups = new List<VariantGroup>();
+                                                                    variantsSelectors.forEach((variantGroupSelector) {
+                                                                      if(variantGroupSelector.key.currentState.hasSelectedVariants()){
+                                                                        cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
+                                                                        cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
+                                                                      } else if(variantGroupSelector.key.currentState.required) {
+                                                                        hasErrors = true;
+                                                                        variantGroupSelector.key.currentState.setState(() {
+                                                                          variantGroupSelector.key.currentState.error = true;
                                                                         });
                                                                       }
                                                                     });
 
-                                                                    if (hasErrors) {
+                                                                    if(hasErrors){
                                                                       return;
                                                                     }
 
-                                                                    if (currentUser.cartModel != null &&
-                                                                        currentUser.cartModel.items !=
-                                                                            null &&
-                                                                        currentUser.cartModel.items.length >
-                                                                            0 &&
-                                                                        productsDescription.product.storeUuid !=
-                                                                            currentUser.cartModel.storeUuid) {
-                                                                      print(productsDescription
-                                                                              .product
-                                                                              .storeUuid
-                                                                              .toString() +
-                                                                          "!=" +
-                                                                          currentUser
-                                                                              .cartModel
-                                                                              .storeUuid
-                                                                              .toString());
-                                                                      parent.showCartClearDialog(
-                                                                          context,
-                                                                          cartProduct,
-                                                                          menuItemCounterKey,
-                                                                          this);
+                                                                    if(currentUser.cartModel != null && currentUser.cartModel.items != null
+                                                                        && currentUser.cartModel.items.length > 0
+                                                                        && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
+                                                                      print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
+                                                                      parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, this);
                                                                     } else {
-                                                                      currentUser.cartModel = await addVariantToCart(
-                                                                          cartProduct,
-                                                                          necessaryDataForAuth
-                                                                              .device_id,
-                                                                          parent
-                                                                              .counterKey
-                                                                              .currentState
-                                                                              .counter);
-                                                                      menuItemCounterKey
-                                                                          .currentState
-                                                                          .refresh();
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                      setState(
-                                                                          () {});
-                                                                      parent.showAlertDialog(
-                                                                          context);
-                                                                      if (parent
-                                                                              .basketButtonStateKey
-                                                                              .currentState !=
-                                                                          null) {
-                                                                        parent
-                                                                            .basketButtonStateKey
-                                                                            .currentState
-                                                                            .refresh();
+                                                                      currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
+                                                                      menuItemCounterKey.currentState.refresh();
+                                                                      Navigator.pop(context);
+                                                                      setState(() {
+
+                                                                      });
+                                                                      parent.showAlertDialog(context);
+                                                                      if(parent.basketButtonStateKey.currentState != null){
+                                                                        parent.basketButtonStateKey.currentState.refresh();
                                                                       }
                                                                     }
                                                                   } else {
-                                                                    noConnection(
-                                                                        context);
+                                                                    noConnection(context);
                                                                   }
                                                                 },
                                                               ),
@@ -745,15 +641,19 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
                                   ],
                                 ),
                               );
-                            } else {
-                              return Container(
-                                height: 80,
-                                decoration:
-                                    BoxDecoration(color: AppColor.themeColor),
-                                child: Center(
-                                  child: SpinKitFadingCircle(
-                                    color: AppColor.mainColor,
-                                    size: 50.0,
+                            }else{
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 40),
+                                child: Container(
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                      color: AppColor.themeColor
+                                  ),
+                                  child: Center(
+                                    child: SpinKitFadingCircle(
+                                      color: AppColor.mainColor,
+                                      size: 50.0,
+                                    ),
                                   ),
                                 ),
                               );
@@ -767,26 +667,22 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin {
               ),
             );
           });
-    } else {
-      if (parent.panelContentKey.currentState != null)
+
+    }else{
+      if(parent.panelContentKey.currentState != null)
         parent.panelContentKey.currentState.setState(() {
           parent.panelContentKey.currentState.reset();
           parent.panelContentKey.currentState.menuItem = this;
-          parent.panelContentKey.currentState.menuItemCounterKey =
-              menuItemCounterKey;
+          parent.panelContentKey.currentState.menuItemCounterKey = menuItemCounterKey;
         });
       parent.panelController.open();
     }
   }
 
-  List<VariantsSelector> getVariantGroups(
-      ProductsDataModel productsDescription) {
+  List<VariantsSelector> getVariantGroups(ProductsDataModel productsDescription){
     List<VariantsSelector> result = new List<VariantsSelector>();
     productsDescription.variantGroups.forEach((element) {
-      result.add(VariantsSelector(
-        key: new GlobalKey<VariantsSelectorState>(),
-        variantGroup: element,
-      ));
+      result.add(VariantsSelector(key: new GlobalKey<VariantsSelectorState>(), variantGroup: element,));
     });
     return result;
   }

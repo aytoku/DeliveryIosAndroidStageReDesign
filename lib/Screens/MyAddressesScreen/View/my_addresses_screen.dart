@@ -9,6 +9,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'add_my_address_screen.dart';
 import 'dart:io' show Platform;
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class MyAddressesScreen extends StatefulWidget {
   @override

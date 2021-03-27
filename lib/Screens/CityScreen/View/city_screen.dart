@@ -8,6 +8,8 @@ import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class CityScreen extends StatefulWidget {
   CityScreen({Key key}) : super(key: key);
@@ -66,14 +68,14 @@ class CityScreenState extends State<CityScreen> {
       cityController.text = selectedCity.name;
     }
     return Scaffold(
-      backgroundColor: AppColor.elementsColor,
+      backgroundColor: AppColor.mainColor,
       body: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 150.0),
             child: Align(
               alignment: Alignment.center,
-              child: Image.asset('assets/images/old_school_logo.png'),
+              child: Image.asset('assets/images/old_school_logo.png', width: 200, height: 200,),
             ),
           ),
           // SvgPicture.asset('assets/svg_images/city.svg',
@@ -105,12 +107,12 @@ class CityScreenState extends State<CityScreen> {
                         height: 41,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: AppColor.textColor),
+                            color: AppColor.themeColor),
                         child: Center(
                           child: Text(
                             'Войти',
                             style: TextStyle(
-                                fontSize: 18, color: AppColor.mainColor),
+                                fontSize: 18, color: AppColor.textColor),
                           ),
                         ),
                       ),
@@ -138,7 +140,16 @@ class CityScreenState extends State<CityScreen> {
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
-                  )),
+                  ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ]
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -194,7 +205,7 @@ class CityScreenState extends State<CityScreen> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
                                 color: (cityController.text.length == 0)
-                                    ? AppColor.themeColor
+                                    ? AppColor.subElementsColor
                                     : AppColor.mainColor),
                             child: Center(
                               child: Text(

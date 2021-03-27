@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
-import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class MenuItemTitle extends StatefulWidget {
   MenuItemTitle({
@@ -14,7 +15,7 @@ class MenuItemTitle extends StatefulWidget {
   MenuItemTitleState createState() {
     return new MenuItemTitleState(title);
   }
-  //
+
   static List<MenuItemTitle> fromCategoryList(List<CategoriesUuid> categories){
     List<MenuItemTitle> result = new List<MenuItemTitle>();
     categories.forEach((element) {

@@ -6,6 +6,8 @@ import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_app/data/global_variables.dart';
+
 
 class InformationScreen extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class InformationScreenState extends State<InformationScreen>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: AppColor.elementsColor,
       body: Column(
         children: <Widget>[
           Row(
@@ -55,7 +58,7 @@ class InformationScreenState extends State<InformationScreen>{
                 },
               ),
               Padding(
-                padding: EdgeInsets.only(top: 30, left: 70, right: 15, bottom: 10),
+                padding: EdgeInsets.only(top: 30, left: 90, right: 15, bottom: 10),
                 child: Text('Информация',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColor.textColor)),
               ),
             ],
