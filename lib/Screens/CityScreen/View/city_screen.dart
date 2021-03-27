@@ -68,7 +68,7 @@ class CityScreenState extends State<CityScreen> {
       cityController.text = selectedCity.name;
     }
     return Scaffold(
-      backgroundColor: AppColor.mainColor,
+      backgroundColor: AppColor.elementsColor,
       body: Stack(
         children: [
           Padding(
@@ -107,7 +107,7 @@ class CityScreenState extends State<CityScreen> {
                         height: 41,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: AppColor.themeColor),
+                            color: AppColor.mainColor),
                         child: Center(
                           child: Text(
                             'Войти',
@@ -143,7 +143,7 @@ class CityScreenState extends State<CityScreen> {
                   ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withOpacity(0.1),
                     spreadRadius: 5,
                     blurRadius: 7,
                     offset: Offset(0, 3), // changes position of shadow
