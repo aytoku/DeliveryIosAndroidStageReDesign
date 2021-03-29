@@ -84,7 +84,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
           } else {
             return Center(
               child: Image(
-                image: AssetImage('assets/images/Siria.png'),
+                image: AssetImage('assets/images/Fermer.png'),
               )
             );
           }

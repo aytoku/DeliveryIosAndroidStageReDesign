@@ -75,7 +75,7 @@ class CityScreenState extends State<CityScreen> {
             padding: const EdgeInsets.only(bottom: 150.0),
             child: Align(
               alignment: Alignment.center,
-              child: Image.asset('assets/images/Sashimi.png', width: 200, height: 200,),
+              child: Image.asset('assets/images/Fermer.png', width: 200, height: 200,),
             ),
           ),
           // SvgPicture.asset('assets/svg_images/city.svg',
