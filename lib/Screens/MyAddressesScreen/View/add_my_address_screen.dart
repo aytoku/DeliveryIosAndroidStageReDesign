@@ -6,7 +6,7 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/svg.dart';
 import 'my_addresses_screen.dart';
 import 'package:flutter_app/data/global_variables.dart';
-
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 // ignore: must_be_immutable
 class AddMyAddressScreen extends StatefulWidget {

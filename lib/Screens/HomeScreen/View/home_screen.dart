@@ -31,11 +31,13 @@ import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mad_pay/mad_pay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:string_to_hex/string_to_hex.dart';
 
 import '../../../Preloader/device_id_screen.dart';
 import '../../../data/data.dart';
@@ -43,6 +45,8 @@ import '../../CartScreen/Model/CartModel.dart';
 import '../../CityScreen/View/city_screen.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import '../Model/FilteredStores.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/CoreColor/Model/color.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -147,7 +151,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           padding: EdgeInsets.only(top: 0),
           child: InkWell(
             child: Container(
-              color: AppColor.mainColor,
+              color: Color(int.parse(colorData.mainColor)),
               child: ListTile(
                 title: Text(
                   necessaryDataForAuth.name ?? ' ',

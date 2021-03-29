@@ -5,6 +5,7 @@ import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.d
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/autocolplete_field_list.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'address_screen.dart';
 
@@ -136,6 +137,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                           return;
                         }
                         myAddressesModel.name = nameField.text;
+
                         myAddressesModel.description = commentField.text;
                         Navigator.pop(context);
                         Navigator.pop(context);

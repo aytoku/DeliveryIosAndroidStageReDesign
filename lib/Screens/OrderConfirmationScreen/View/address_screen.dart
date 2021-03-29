@@ -16,7 +16,9 @@ import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PromoText.da
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mad_pay/mad_pay.dart';
@@ -48,6 +50,16 @@ class AddressScreenState extends State<AddressScreen>
   bool isTakeAwayOrderConfirmation;
   //CreateOrder createOrder;
   GlobalKey<CartPageState> cartPageKey;
+  SharedPreferences sharedPreferences;
+  // Future<Null> getSharedPrefs() async {
+  //   sharedPreferences = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     officeField = new TextEditingController(text: (!sharedPreferences.containsKey("office")) ? sharedPreferences.get('office') : null);
+  //     intercomField = new TextEditingController(text: (!sharedPreferences.containsKey('intercom')) ? sharedPreferences.get('intercom') : null);
+  //     entranceField = new TextEditingController(text: (!sharedPreferences.containsKey('entrance')) ? sharedPreferences.get('entrance') : null);
+  //     floorField = new TextEditingController(text: (!sharedPreferences.containsKey('floor')) ? sharedPreferences.get('floor') : null);
+  //   });
+  // }
 
   List<MyFavouriteAddressesModel> myAddressesModelList;
 
@@ -93,6 +105,7 @@ class AddressScreenState extends State<AddressScreen>
     cash = 'Наличными';
     card = 'Картой';
     _scaffoldStateKey = GlobalKey();
+    // getSharedPrefs();
     commentField = new TextEditingController();
     officeField = new TextEditingController();
     intercomField = new TextEditingController();
@@ -718,9 +731,10 @@ class AddressScreenState extends State<AddressScreen>
                                     padding: EdgeInsets.only( bottom: 0, top: 5),
                                     child: Container(
                                       height: 20,
-                                      child: TextField(
+                                      child: TextFormField(
                                         textCapitalization: TextCapitalization.sentences,
                                         controller: entranceField,
+                                        initialValue: (sharedPreferences.containsKey('office')) ? sharedPreferences.get('office') : null,
                                         maxLength: 3,
                                         keyboardType: TextInputType.number,
                                         focusNode: focusNode,
@@ -732,6 +746,9 @@ class AddressScreenState extends State<AddressScreen>
                                           border: InputBorder.none,
                                           counterText: '',
                                         ),
+                                        onChanged: (newValue) {
+                                          sharedPreferences.setString('entrance', newValue);
+                                        },
                                       ),
                                     )),
                               ),
@@ -755,6 +772,9 @@ class AddressScreenState extends State<AddressScreen>
                                           border: InputBorder.none,
                                           counterText: '',
                                         ),
+                                        onChanged: (newValue) {
+                                          sharedPreferences.setString('floor', newValue);
+                                        },
                                       ),
                                     )),
                               ),
@@ -778,6 +798,9 @@ class AddressScreenState extends State<AddressScreen>
                                           border: InputBorder.none,
                                           counterText: '',
                                         ),
+                                        onChanged: (newValue) {
+                                          sharedPreferences.setString('office', newValue);
+                                        },
                                       ),
                                     )),
                               ),
@@ -801,6 +824,9 @@ class AddressScreenState extends State<AddressScreen>
                                           border: InputBorder.none,
                                           counterText: '',
                                         ),
+                                        onChanged: (newValue) {
+                                          sharedPreferences.setString('intercom', newValue);
+                                        },
                                       ),
                                     )),
                               ),

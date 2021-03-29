@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'add_my_address_screen.dart';
 import 'dart:io' show Platform;
 import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 
 class MyAddressesScreen extends StatefulWidget {

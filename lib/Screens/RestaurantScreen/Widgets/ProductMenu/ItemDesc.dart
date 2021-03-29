@@ -13,6 +13,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.d
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 
 import '../../../../data/data.dart';
@@ -48,7 +49,7 @@ class MenuItemDescState extends State<MenuItemDesc> {
         child: Align(
           alignment: Alignment.topLeft,
           child: Text(
-            '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
+            foodRecords.meta.description,
             style: TextStyle(
                 fontSize: 10.0,
                 color: AppColor.additionalTextColor),
@@ -73,31 +74,31 @@ class MenuItemDescState extends State<MenuItemDesc> {
           child: Align(
             alignment: Alignment.topLeft,
             child: Text(
-              '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
+              foodRecords.meta.description,
               style: TextStyle(
                   fontSize: 12.0,
                   color: AppColor.additionalTextColor),
-              overflow: TextOverflow.ellipsis,
+              overflow: TextOverflow.clip,
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 5.0, top: 6, right: 5),
-          child: SvgPicture.asset('assets/svg_images/ellipse.svg',
-            color: Colors.grey,
-            width: 2,
-            height: 2,),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 5),
-          child: Text(
-            '${foodRecords.price.toStringAsFixed(0)} \₽',
-            style: TextStyle(
-                fontSize: 12.0,
-                color: Colors.grey),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 5.0, top: 6, right: 5),
+        //   child: SvgPicture.asset('assets/svg_images/ellipse.svg',
+        //     color: Colors.grey,
+        //     width: 2,
+        //     height: 2,),
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 5),
+        //   child: Text(
+        //     '${foodRecords.price.toStringAsFixed(0)} \₽',
+        //     style: TextStyle(
+        //         fontSize: 12.0,
+        //         color: Colors.grey),
+        //     overflow: TextOverflow.ellipsis,
+        //   ),
+        // ),
       ],
     );
   }

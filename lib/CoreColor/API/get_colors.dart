@@ -7,17 +7,18 @@ import 'package:flutter_app/CoreColor/Model/color.dart';
 
   Future<ColorData> getColorData(String appName) async {
 
-    var url = '${authApiUrl}clients/new/applications/color_scheme?app=$appName';
+    var url = '${apiUrl}applications/color_scheme?app=$appName';
     var response = await http.get(url, headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       "Source": "eda/faem"
     });
-    print(response.body);
     if (response.statusCode == 200) {
       var responseData = json.decode(response.body);
       colorData = new ColorData.fromJson(responseData);
+      print(colorData.mainColor);
     } else {
-      print('Request failed with status: ${response.statusCode}.');
+      print('Request get colors failed with status: ${response.statusCode}.');
+      print(response.body);
     }
     return colorData;
   }

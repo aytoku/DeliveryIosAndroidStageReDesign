@@ -4,6 +4,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 
 import 'CategoryListItem.dart';

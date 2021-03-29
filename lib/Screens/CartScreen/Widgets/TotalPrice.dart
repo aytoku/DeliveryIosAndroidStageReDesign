@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 
 class TotalPrice extends StatefulWidget {
@@ -25,7 +27,7 @@ class TotalPriceState extends State<TotalPrice> {
           '${totalPrice.toStringAsFixed(0)} \₽',
           style: TextStyle(
               fontSize: 18.0,
-              color: AppColor.textColor)),
+              color: Color(int.parse(colorData.textColor)))),
     );
   }
 }

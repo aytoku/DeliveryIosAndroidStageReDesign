@@ -4,6 +4,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.d
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 import '../Model/CartModel.dart';
 import '../Model/CartModel.dart';

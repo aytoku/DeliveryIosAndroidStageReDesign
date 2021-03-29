@@ -20,6 +20,7 @@ import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:async';
 import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 
 import '../../../Amplitude/amplitude.dart';
@@ -154,7 +155,7 @@ class _CodeScreenState extends State<CodeScreen> {
               );
             }else if(state.goToHomeScreen){
               if(source == AuthSources.Cart){
-                for(int i = 0; i<2;i++)
+                for(int i = 0; i < 2; i++)
                   Navigator.pop(context);
                 return;
               }
@@ -165,8 +166,8 @@ class _CodeScreenState extends State<CodeScreen> {
                     builder: (context) => BlocProvider(
                       create: (context) => RestaurantGetBloc(),
                       child: new HomeScreen(),
-                    ),),
-                      (Route<dynamic> route) => false);
+                    ),
+                  ), (Route<dynamic> route) => false);
             }
           }
         },

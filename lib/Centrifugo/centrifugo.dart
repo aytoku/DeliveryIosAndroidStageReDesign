@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:centrifuge/centrifuge.dart' as centrifuge;
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/global_variables.dart';
+
 import 'API/centrifugo.dart';
 import 'package:flutter_app/Screens/ChatScreen/Model/ChatHistoryModel.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';

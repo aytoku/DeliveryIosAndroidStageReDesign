@@ -9,6 +9,7 @@ import 'package:flutter_app/Screens/HomeScreen/Widgets/KitchenListScreen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Priority.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Список с фильтрами
