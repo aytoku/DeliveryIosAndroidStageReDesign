@@ -734,7 +734,6 @@ class AddressScreenState extends State<AddressScreen>
                                       child: TextFormField(
                                         textCapitalization: TextCapitalization.sentences,
                                         controller: entranceField,
-                                        initialValue: (sharedPreferences.containsKey('office')) ? sharedPreferences.get('office') : null,
                                         maxLength: 3,
                                         keyboardType: TextInputType.number,
                                         focusNode: focusNode,
