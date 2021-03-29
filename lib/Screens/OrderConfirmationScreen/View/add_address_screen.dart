@@ -5,7 +5,6 @@ import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.d
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/autocolplete_field_list.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'address_screen.dart';
 
@@ -66,10 +65,10 @@ class AddAddressScreenState extends State<AddAddressScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 InkWell(
-                  hoverColor: Colors.white,
-                  focusColor: Colors.white,
-                  splashColor: Colors.white,
-                  highlightColor: Colors.white,
+                  hoverColor: AppColor.themeColor,
+                  focusColor: AppColor.themeColor,
+                  splashColor: AppColor.themeColor,
+                  highlightColor: AppColor.themeColor,
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -81,7 +80,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                 padding: EdgeInsets.only(
                                     top: 12, bottom: 12, right: 10),
                                 child:SvgPicture.asset(
-                                    'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
+                                    'assets/svg_images/arrow_left.svg'),
                               )))),
                   onTap: () {
                     Navigator.pop(context);
@@ -115,7 +114,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                color: AppColor.elementsColor,
+                color: AppColor.themeColor,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 5),
                   child: FlatButton(
@@ -123,7 +122,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         "Добавить адрес",
                         style: TextStyle(
                             fontSize: 16.0,
-                            color: AppColor.themeColor)
+                            color: AppColor.unselectedTextColor)
                     ),
                     color: AppColor.mainColor,
                     shape: RoundedRectangleBorder(
@@ -137,13 +136,19 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                           return;
                         }
                         myAddressesModel.name = nameField.text;
-
                         myAddressesModel.description = commentField.text;
+                        //Navigator.pop(context);
                         Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.push(context,
-                          new MaterialPageRoute(builder: (context) => new AddressScreen(restaurant: parent.restaurant, myAddressesModelList: parent.myAddressesModelList, isTakeAwayOrderConfirmation: false,)),
-                        );
+                        // Navigator.push(context,
+                        //   new MaterialPageRoute(builder: (context) => new AddressScreen(restaurant: parent.restaurant, myAddressesModelList: parent.myAddressesModelList, isTakeAwayOrderConfirmation: false,)),
+                        // );
+                        setState(() {
+
+                        });
+                        parent.setState(() {
+
+                        });
+
                       } else {
                         noConnection(context);
                       }

@@ -16,9 +16,7 @@ import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PromoText.da
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mad_pay/mad_pay.dart';
@@ -50,16 +48,6 @@ class AddressScreenState extends State<AddressScreen>
   bool isTakeAwayOrderConfirmation;
   //CreateOrder createOrder;
   GlobalKey<CartPageState> cartPageKey;
-  SharedPreferences sharedPreferences;
-  // Future<Null> getSharedPrefs() async {
-  //   sharedPreferences = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     officeField = new TextEditingController(text: (!sharedPreferences.containsKey("office")) ? sharedPreferences.get('office') : null);
-  //     intercomField = new TextEditingController(text: (!sharedPreferences.containsKey('intercom')) ? sharedPreferences.get('intercom') : null);
-  //     entranceField = new TextEditingController(text: (!sharedPreferences.containsKey('entrance')) ? sharedPreferences.get('entrance') : null);
-  //     floorField = new TextEditingController(text: (!sharedPreferences.containsKey('floor')) ? sharedPreferences.get('floor') : null);
-  //   });
-  // }
 
   List<MyFavouriteAddressesModel> myAddressesModelList;
 
@@ -105,7 +93,6 @@ class AddressScreenState extends State<AddressScreen>
     cash = 'Наличными';
     card = 'Картой';
     _scaffoldStateKey = GlobalKey();
-    // getSharedPrefs();
     commentField = new TextEditingController();
     officeField = new TextEditingController();
     intercomField = new TextEditingController();
@@ -122,9 +109,11 @@ class AddressScreenState extends State<AddressScreen>
       },
       {
         "name": (Platform.isIOS) ? "ApplePay" : "GooglePay",
-        "image": "assets/svg_images/visa.svg"
+        "image": (Platform.isIOS) ? "assets/svg_images/apple_pay.svg"
+            : "assets/svg_images/google_pay.svg"
       },
     ];
+    // selectedPaymentId = necessaryDataForAuth.selectedPaymentId;
     // addressValueController = TextEditingController(text: restaurant.destination_points[0].street + ' ' + restaurant.destination_points[0].house);
     // selectedAddress = restaurant.address[0];
   }
@@ -251,7 +240,7 @@ class AddressScreenState extends State<AddressScreen>
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            color: AppColor.textColor),
+                            color: Color(0xFF424242)),
                       ),
                     ),
                     Center(
@@ -302,7 +291,7 @@ class AddressScreenState extends State<AddressScreen>
   _buildDispatchAddressBottomNavigationMenu() {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.themeColor,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(20),
             topRight: const Radius.circular(20),
@@ -341,7 +330,7 @@ class AddressScreenState extends State<AddressScreen>
                     child: Text('Готово',
                       style: TextStyle(
                           fontSize: 24,
-                          color: Colors.white
+                          color: AppColor.textColor
                       ),
                     ),
                   ),
@@ -374,7 +363,7 @@ class AddressScreenState extends State<AddressScreen>
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColor.textColor),),
+                          color: Color(0xFF424242))),
                 ),
               ),
               buildAddressesListSelector(),
@@ -403,7 +392,7 @@ class AddressScreenState extends State<AddressScreen>
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppColor.textColor)),
+                              color: Color(0xFF424242))),
                     ),
                   ),
                   buildAddressesListSelector()
@@ -421,12 +410,12 @@ class AddressScreenState extends State<AddressScreen>
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: AppColor.textColor)),
+                            color: Color(0xFF424242))),
                   ),
                 ),
                 Center(
                   child: SpinKitThreeBounce(
-                    color: AppColor.mainColor,
+                    color: Colors.green,
                     size: 20.0,
                   ),
                 ),
@@ -446,11 +435,13 @@ class AddressScreenState extends State<AddressScreen>
 
   @override
   Widget build(BuildContext context) {
+    addressSelectorKey = new GlobalKey();
+    print('a screen build');
     FocusNode focusNode;
     double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-          statusBarColor: AppColor.textColor,
+          statusBarColor: Colors.white,
           statusBarBrightness: Brightness.light
       ),
       child: Scaffold(
@@ -470,10 +461,10 @@ class AddressScreenState extends State<AddressScreen>
                           child: Padding(
                             padding: EdgeInsets.only(left: 0),
                             child: InkWell(
-                              hoverColor: Colors.white,
-                              focusColor: Colors.white,
-                              splashColor: Colors.white,
-                              highlightColor: Colors.white,
+                              hoverColor: AppColor.themeColor,
+                              focusColor: AppColor.themeColor,
+                              splashColor: AppColor.themeColor,
+                              highlightColor: AppColor.themeColor,
                               onTap: () => Navigator.pop(context),
                               child: Padding(
                                   padding: EdgeInsets.only(right: 0),
@@ -484,7 +475,7 @@ class AddressScreenState extends State<AddressScreen>
                                         padding: EdgeInsets.only(
                                             top: 12, bottom: 12, right: 20),
                                         child: SvgPicture.asset(
-                                            'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
+                                            'assets/svg_images/arrow_left.svg'),
                                       ))),
                             ),
                           ),
@@ -498,7 +489,7 @@ class AddressScreenState extends State<AddressScreen>
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColor.textColor),
+                                  color: Color(0xFF000000)),
                             ),
                           ),
                         )
@@ -731,7 +722,7 @@ class AddressScreenState extends State<AddressScreen>
                                     padding: EdgeInsets.only( bottom: 0, top: 5),
                                     child: Container(
                                       height: 20,
-                                      child: TextFormField(
+                                      child: TextField(
                                         textCapitalization: TextCapitalization.sentences,
                                         controller: entranceField,
                                         maxLength: 3,
@@ -740,14 +731,11 @@ class AddressScreenState extends State<AddressScreen>
                                         decoration: new InputDecoration(
                                           hintText: 'Подъезд',
                                           hintStyle: TextStyle(
-                                              color: AppColor.additionalTextColor,
+                                              color: Color(0xFFB0B0B0),
                                               fontSize: 13),
                                           border: InputBorder.none,
                                           counterText: '',
                                         ),
-                                        onChanged: (newValue) {
-                                          sharedPreferences.setString('entrance', newValue);
-                                        },
                                       ),
                                     )),
                               ),
@@ -766,14 +754,11 @@ class AddressScreenState extends State<AddressScreen>
                                         decoration: new InputDecoration(
                                           hintText: 'Этаж',
                                           hintStyle: TextStyle(
-                                              color: AppColor.additionalTextColor,
+                                              color: Color(0xFFB0B0B0),
                                               fontSize: 13),
                                           border: InputBorder.none,
                                           counterText: '',
                                         ),
-                                        onChanged: (newValue) {
-                                          sharedPreferences.setString('floor', newValue);
-                                        },
                                       ),
                                     )),
                               ),
@@ -792,14 +777,11 @@ class AddressScreenState extends State<AddressScreen>
                                         decoration: new InputDecoration(
                                           hintText: 'Кв./офис',
                                           hintStyle: TextStyle(
-                                              color: AppColor.additionalTextColor,
+                                              color: Color(0xFFB0B0B0),
                                               fontSize: 13),
                                           border: InputBorder.none,
                                           counterText: '',
                                         ),
-                                        onChanged: (newValue) {
-                                          sharedPreferences.setString('office', newValue);
-                                        },
                                       ),
                                     )),
                               ),
@@ -818,14 +800,11 @@ class AddressScreenState extends State<AddressScreen>
                                         decoration: new InputDecoration(
                                           hintText: 'Домофон',
                                           hintStyle: TextStyle(
-                                              color: AppColor.additionalTextColor,
+                                              color: Color(0xFFB0B0B0),
                                               fontSize: 13),
                                           border: InputBorder.none,
                                           counterText: '',
                                         ),
-                                        onChanged: (newValue) {
-                                          sharedPreferences.setString('intercom', newValue);
-                                        },
                                       ),
                                     )),
                               ),
@@ -849,7 +828,7 @@ class AddressScreenState extends State<AddressScreen>
                                     ),
                                     enabledBorder:  OutlineInputBorder(
                                       // width: 0.0 produces a thin "hairline" border
-                                      borderSide: BorderSide(color: AppColor.additionalTextColor),
+                                      borderSide: BorderSide(color: Colors.black26),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     border: OutlineInputBorder(
@@ -869,7 +848,7 @@ class AddressScreenState extends State<AddressScreen>
                                           'Комментарий',
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: AppColor.additionalTextColor
+                                              color: Colors.grey
                                           ),
                                         ),
                                       ),
@@ -892,13 +871,13 @@ class AddressScreenState extends State<AddressScreen>
                               Text(
                                 'Стоимость',
                                 style: TextStyle(
-                                    color: AppColor.textColor,
+                                    color: Colors.black,
                                     fontSize: 14),
                               ),
                               Text(
                                 '${currentUser.cartModel.totalPrice.toStringAsFixed(0)} \₽',
                                 style: TextStyle(
-                                    color: AppColor.textColor,
+                                    color: Colors.black,
                                     fontSize: 14),
                               )
                             ],
@@ -916,7 +895,7 @@ class AddressScreenState extends State<AddressScreen>
                                     Text(
                                       'Доставка',
                                       style: TextStyle(
-                                          color: AppColor.textColor,
+                                          color: Colors.black,
                                           fontSize: 14),
                                     ),
                                     Padding(
@@ -924,7 +903,7 @@ class AddressScreenState extends State<AddressScreen>
                                       child: Text(
                                         '30-50 мин.',
                                         style: TextStyle(
-                                            color: AppColor.textColor,
+                                            color: Colors.black,
                                             fontSize: 12),
                                       ),
                                     ),
@@ -932,9 +911,9 @@ class AddressScreenState extends State<AddressScreen>
                                 ),
                               ),
                               Text(
-                                '${currentUser.cartModel.deliveryPrice} \₽',
+                                '${currentUser.cartModel.deliveryPrice.toStringAsFixed(0)} \₽',
                                 style: TextStyle(
-                                    color: AppColor.textColor,
+                                    color: Colors.black,
                                     fontSize: 14),
                               )
                             ],
@@ -970,13 +949,13 @@ class AddressScreenState extends State<AddressScreen>
                               Text(
                                 'Итого',
                                 style: TextStyle(
-                                    color: AppColor.textColor,
+                                    color: Colors.black,
                                     fontSize: 22),
                               ),
                               Text(
                                 '${(totalPrice).toStringAsFixed(0)} \₽',
                                 style: TextStyle(
-                                    color: AppColor.textColor,
+                                    color: Colors.black,
                                     fontSize: 22),
                               )
                             ],
@@ -984,7 +963,7 @@ class AddressScreenState extends State<AddressScreen>
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: Divider(color: AppColor.textColor),
+                          child: Divider(color: Colors.grey),
                         ),
                         // Container(
                         //   height: 10,
@@ -1014,7 +993,7 @@ class AddressScreenState extends State<AddressScreen>
                                   Text(
                                     'Поем в заведении',
                                     style: TextStyle(
-                                        color: AppColor.textColor,
+                                        color: Color(0xFF3F3F3F),
                                         fontSize: 15),
                                   ),
                                   Padding(
@@ -1023,7 +1002,7 @@ class AddressScreenState extends State<AddressScreen>
                                       width: 55.0,
                                       height: 25.0,
                                       inactiveColor: Color(0xD6D6D6D6),
-                                      activeColor: AppColor.mainColor,
+                                      activeColor: Colors.green,
                                       valueFontSize: 12.0,
                                       toggleSize: 18.0,
                                       value: eatInStore,
@@ -1094,24 +1073,24 @@ class AddressScreenState extends State<AddressScreen>
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: 10, left: 0, right: 15, bottom: 10),
+                                    top: 10, left: 15, right: 15, bottom: 10),
                                 child: Align(
                                   alignment: Alignment.bottomLeft,
                                   child: GestureDetector(
                                     child: Container(
                                       width: 160,
                                       height: 64,
-                                      // decoration: BoxDecoration(
-                                      //     boxShadow: [
-                                      //       BoxShadow(
-                                      //           color: Colors.black12,
-                                      //           blurRadius: 2.0,
-                                      //           offset: Offset(0.0, 1)
-                                      //       )
-                                      //     ],
-                                      //     color: Colors.white,
-                                      //     borderRadius: BorderRadius.circular(10.0),
-                                      //     border: Border.all(width: 1.0, color: Colors.grey[200])),
+                                      decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black12,
+                                                blurRadius: 2.0,
+                                                offset: Offset(0.0, 1)
+                                            )
+                                          ],
+                                          color: AppColor.themeColor,
+                                          borderRadius: BorderRadius.circular(10.0),
+                                          border: Border.all(width: 1.0, color: Colors.grey[200])),
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             top: 0, left: 0, right: 20, bottom: 10),
@@ -1122,37 +1101,39 @@ class AddressScreenState extends State<AddressScreen>
                                             Column(
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(bottom: 8.0, left: 15),
+                                                  padding: const EdgeInsets.only(bottom: 8.0, left: 15, top: 10),
                                                   child: Text(
                                                     "Способ оплаты",
                                                     style: TextStyle(
                                                         fontSize: 12,
-                                                        color: AppColor.textColor),
+                                                        color: Color(0xFFB8B8B8)),
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 17),
-                                                  child: Text(
-                                                    'Наличными',
-                                                    // (selectedPaymentId == 1) ? card : cash,
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: AppColor.textColor),
+                                                Align(
+                                                  alignment: Alignment.bottomLeft,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 17),
+                                                    child: Text(
+                                                      paymentMethods[selectedPaymentId]['name'],
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: Colors.black),
+                                                    ),
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            // Padding(
-                                            //   padding: EdgeInsets.only(left: 10),
-                                            //   child: SvgPicture.asset(
-                                            //       'assets/svg_images/arrow_down.svg'),
-                                            // ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 10, top: 12),
+                                              child: SvgPicture.asset(
+                                                  'assets/svg_images/arrow_down.svg'),
+                                            ),
                                           ],
                                         ),
                                       ),
                                     ),
                                     onTap: () async {
-                                      // _payment();
+                                       _payment();
                                     },
                                   ),
                                 ),
@@ -1164,84 +1145,6 @@ class AddressScreenState extends State<AddressScreen>
                             ],
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(bottom: 30, right: 10),
-                        //   child: Row(
-                        //     children: [
-                        //       Padding(
-                        //         padding: EdgeInsets.only(
-                        //             top: 10, left: 15, right: 15, bottom: 10),
-                        //         child: Align(
-                        //           alignment: Alignment.bottomLeft,
-                        //           child: GestureDetector(
-                        //             child: Container(
-                        //               width: 160,
-                        //               height: 64,
-                        //               decoration: BoxDecoration(
-                        //                   boxShadow: [
-                        //                     BoxShadow(
-                        //                         color: Colors.black12,
-                        //                         blurRadius: 2.0,
-                        //                         offset: Offset(0.0, 1)
-                        //                     )
-                        //                   ],
-                        //                   color: Colors.white,
-                        //                   borderRadius: BorderRadius.circular(10.0),
-                        //                   border: Border.all(width: 1.0, color: Colors.grey[200])),
-                        //               child: Padding(
-                        //                 padding: EdgeInsets.only(
-                        //                     top: 0, left: 0, right: 20, bottom: 10),
-                        //                 child: Row(
-                        //                   mainAxisAlignment:
-                        //                   MainAxisAlignment.spaceBetween,
-                        //                   children: <Widget>[
-                        //                     Column(
-                        //                       children: [
-                        //                         Padding(
-                        //                           padding: const EdgeInsets.only(bottom: 8.0, left: 15, top: 10),
-                        //                           child: Text(
-                        //                             "Способ оплаты",
-                        //                             style: TextStyle(
-                        //                                 fontSize: 12,
-                        //                                 color: AppColor.textColor),
-                        //                           ),
-                        //                         ),
-                        //                         Align(
-                        //                           alignment: Alignment.bottomLeft,
-                        //                           child: Padding(
-                        //                             padding: const EdgeInsets.only(left: 17),
-                        //                             child: Text(
-                        //                               paymentMethods[selectedPaymentId]['name'],
-                        //                               style: TextStyle(
-                        //                                   fontSize: 16,
-                        //                                   color: AppColor.textColor),
-                        //                             ),
-                        //                           ),
-                        //                         ),
-                        //                       ],
-                        //                     ),
-                        //                     Padding(
-                        //                       padding: EdgeInsets.only(left: 10, top: 12),
-                        //                       child: SvgPicture.asset(
-                        //                           'assets/svg_images/arrow_down.svg'),
-                        //                     ),
-                        //                   ],
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             onTap: () async {
-                        //                _payment();
-                        //             },
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       // Padding(
-                        //       //   padding: const EdgeInsets.only(right: 0),
-                        //       //   child: PromoText(key: promoTextKey,),
-                        //       // )
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -1268,7 +1171,7 @@ class AddressScreenState extends State<AddressScreen>
                                     '${(totalPrice).toStringAsFixed(0)} \₽',
                                     style: TextStyle(
                                         fontSize: 18.0,
-                                        color: AppColor.textColor)),
+                                        color: Colors.black)),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 3),
                                   child: Text(
@@ -1277,7 +1180,7 @@ class AddressScreenState extends State<AddressScreen>
                                         : '',
                                     style: TextStyle(
                                       fontSize: 12.0,
-                                      color: AppColor.textColor,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ),
@@ -1295,7 +1198,7 @@ class AddressScreenState extends State<AddressScreen>
                                   child: Text('Заказать',
                                       style: TextStyle(
                                           fontSize: 18.0,
-                                          color: Colors.white)),
+                                          color: AppColor.unselectedTextColor)),
                                 ),
                               ),
                               onTap: () async {
@@ -1308,6 +1211,10 @@ class AddressScreenState extends State<AddressScreen>
                                         false,
                                         eatInStore,
                                         null,
+                                        '',
+                                        '',
+                                        '',
+                                        '',
                                         commentField.text
                                     );
                                   } else {
@@ -1323,6 +1230,10 @@ class AddressScreenState extends State<AddressScreen>
                                         false,
                                         false,
                                         addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                        entranceField.text,
+                                        floorField.text,
+                                        officeField.text,
+                                        intercomField.text,
                                         commentField.text
                                     );
                                   }
@@ -1364,9 +1275,9 @@ class AddressScreenState extends State<AddressScreen>
     Map<String, String> req = await madPayment();
     var result;
     if(Platform.isIOS){
-     result  = await SberAPI.applePay(req);
+     result  = await SberAPI.applePay(req,);
     }else{
-      result = await SberAPI.googlePay(req);
+      result = await SberAPI.googlePay(req,);
     }
     if(result.success){
       if(result.data.acsUrl != null){

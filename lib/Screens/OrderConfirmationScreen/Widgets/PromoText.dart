@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 import '../../../data/data.dart';
 
@@ -118,7 +117,7 @@ class PromoTextState extends State<PromoText>{
                     child: Text('Применить',
                       style: TextStyle(
                           fontSize: 21,
-                          color: Colors.white
+                          color: AppColor.textColor
                       ),
                     ),
                   ),
@@ -156,7 +155,7 @@ class PromoTextState extends State<PromoText>{
                       offset: Offset(0.0, 1)
                   )
                 ],
-                color: Colors.white,
+                color: AppColor.themeColor,
                 borderRadius: BorderRadius.circular(10.0),
                 border: Border.all(width: 1.0, color: Colors.grey[200])),
             child: Padding(
