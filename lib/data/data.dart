@@ -67,16 +67,16 @@ class AppColor {
 
 
   static fromJson(Map<String, dynamic> json){
-    mainColor = Color(int.parse(json['main_color']));
-    textColor = Color(int.parse(json['text_color']));
-    unselectedTextColor = Color(int.parse(json['unselected_text_color']));
-    additionalTextColor = Color(int.parse(json['additional_text_color']));
-    themeColor = Color(int.parse(json['theme_color']));
-    fieldColor = Color(int.parse(json['text_field_color']));
-    elementsColor = Color(int.parse(json['elements_color']));
-    subElementsColor = Color(int.parse(json['sub_elements_color']));
-    borderFieldColor = Color(int.parse(json['border_field_color']));
-    unselectedBorderFieldColor = Color(int.parse(json['unselected_border_field_color']));
+    mainColor = (json['main_color'] == null || json['main_color'] == '') ? mainColor : Color(int.parse(json['main_color']));
+    textColor = (json['text_color'] == null || json['text_color'] == '') ? textColor : Color(int.parse(json['text_color']));
+    unselectedTextColor = (json['unselected_text_color'] == null || json['unselected_text_color'] == '') ? unselectedTextColor : Color(int.parse(json['unselected_text_color']));
+    additionalTextColor = (json['additional_text_color'] == null || json['additional_text_color'] == '') ? additionalTextColor : Color(int.parse(json['additional_text_color']));
+    themeColor = (json['theme_color'] == null || json['theme_color'] == '') ? themeColor : Color(int.parse(json['theme_color']));
+    fieldColor = (json['text_field_color'] == null || json['text_field_color'] == '') ? fieldColor : Color(int.parse(json['text_field_color']));
+    elementsColor = (json['elements_color'] == null || json['elements_color'] == '') ? elementsColor : Color(int.parse(json['elements_color']));
+    subElementsColor = (json['sub_elements_color'] == null || json['sub_elements_color'] == '') ? subElementsColor : Color(int.parse(json['sub_elements_color']));
+    borderFieldColor = (json['border_field_color'] == null || json['border_field_color'] == '') ? borderFieldColor : Color(int.parse(json['border_field_color']));
+    unselectedBorderFieldColor = (json['unselected_border_field_color'] == null || json['unselected_border_field_color'] == '') ? unselectedBorderFieldColor : Color(int.parse(json['unselected_border_field_color']));
   }
 }
 

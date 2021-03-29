@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 
-Future<void> getColorScheme() async {
+Future<void> getColorScheme(String header) async {
   var url = '${apiUrl}applications/color_scheme?app=${header}';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',

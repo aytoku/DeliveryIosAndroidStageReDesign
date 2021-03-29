@@ -62,10 +62,6 @@ class AddressScreenState extends State<AddressScreen>
   bool eatInStore = false;
   GlobalKey<ScaffoldState> _scaffoldStateKey;
   TextEditingController commentField;
-  TextEditingController officeField;
-  TextEditingController intercomField;
-  TextEditingController entranceField;
-  TextEditingController floorField;
   GlobalKey<AddressSelectorState> addressSelectorKey;
   GlobalKey<PromoTextState> promoTextKey;
 
@@ -94,10 +90,6 @@ class AddressScreenState extends State<AddressScreen>
     card = 'Картой';
     _scaffoldStateKey = GlobalKey();
     commentField = new TextEditingController();
-    officeField = new TextEditingController();
-    intercomField = new TextEditingController();
-    entranceField = new TextEditingController();
-    floorField = new TextEditingController();
     addressSelectorKey = new GlobalKey();
     promoTextKey = new GlobalKey();
     phoneNumberController = new TextEditingController();
@@ -710,107 +702,6 @@ class AddressScreenState extends State<AddressScreen>
                         //   },
                         // ),
                         (isTakeAwayOrderConfirmation) ? Container() : buildAddressesList(),
-                        (isTakeAwayOrderConfirmation) ? Container() : Padding(
-                          padding: EdgeInsets.only(
-                              top: 15, left: 20, bottom: 10, right: 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width: 60,
-                                child: Padding(
-                                    padding: EdgeInsets.only( bottom: 0, top: 5),
-                                    child: Container(
-                                      height: 20,
-                                      child: TextField(
-                                        textCapitalization: TextCapitalization.sentences,
-                                        controller: entranceField,
-                                        maxLength: 3,
-                                        keyboardType: TextInputType.number,
-                                        focusNode: focusNode,
-                                        decoration: new InputDecoration(
-                                          hintText: 'Подъезд',
-                                          hintStyle: TextStyle(
-                                              color: Color(0xFFB0B0B0),
-                                              fontSize: 13),
-                                          border: InputBorder.none,
-                                          counterText: '',
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                              Container(
-                                width: 60,
-                                child: Padding(
-                                    padding: EdgeInsets.only( bottom: 0, top: 5),
-                                    child: Container(
-                                      height: 20,
-                                      child: TextField(
-                                        textCapitalization: TextCapitalization.sentences,
-                                        controller: floorField,
-                                        keyboardType: TextInputType.number,
-                                        focusNode: focusNode,
-                                        maxLength: 2,
-                                        decoration: new InputDecoration(
-                                          hintText: 'Этаж',
-                                          hintStyle: TextStyle(
-                                              color: Color(0xFFB0B0B0),
-                                              fontSize: 13),
-                                          border: InputBorder.none,
-                                          counterText: '',
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                              Container(
-                                width: 60,
-                                child: Padding(
-                                    padding: EdgeInsets.only( bottom: 0, top: 5),
-                                    child: Container(
-                                      height: 20,
-                                      child: TextField(
-                                        textCapitalization: TextCapitalization.sentences,
-                                        controller: officeField,
-                                        maxLength: 6,
-                                        focusNode: focusNode,
-                                        keyboardType: TextInputType.number,
-                                        decoration: new InputDecoration(
-                                          hintText: 'Кв./офис',
-                                          hintStyle: TextStyle(
-                                              color: Color(0xFFB0B0B0),
-                                              fontSize: 13),
-                                          border: InputBorder.none,
-                                          counterText: '',
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                              Container(
-                                width: 80,
-                                child: Padding(
-                                    padding: EdgeInsets.only( bottom: 0, top: 5),
-                                    child: Container(
-                                      height: 20,
-                                      child: TextField(
-                                        textCapitalization: TextCapitalization.sentences,
-                                        controller: intercomField,
-                                        maxLength: 6,
-                                        keyboardType: TextInputType.number,
-                                        focusNode: focusNode,
-                                        decoration: new InputDecoration(
-                                          hintText: 'Домофон',
-                                          hintStyle: TextStyle(
-                                              color: Color(0xFFB0B0B0),
-                                              fontSize: 13),
-                                          border: InputBorder.none,
-                                          counterText: '',
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                            ],
-                          ),
-                        ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: Stack(
@@ -1230,10 +1121,10 @@ class AddressScreenState extends State<AddressScreen>
                                         false,
                                         false,
                                         addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-                                        entranceField.text,
-                                        floorField.text,
-                                        officeField.text,
-                                        intercomField.text,
+                                        addressSelectorKey.currentState.myFavouriteAddressesModel.entranceField,
+                                        addressSelectorKey.currentState.myFavouriteAddressesModel.floorField,
+                                        addressSelectorKey.currentState.myFavouriteAddressesModel.officeField,
+                                        addressSelectorKey.currentState.myFavouriteAddressesModel.intercomField,
                                         commentField.text
                                     );
                                   }

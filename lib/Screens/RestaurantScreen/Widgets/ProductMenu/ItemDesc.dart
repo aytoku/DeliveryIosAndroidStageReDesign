@@ -45,12 +45,16 @@ class MenuItemDescState extends State<MenuItemDesc> {
         padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
         child: Align(
           alignment: Alignment.topLeft,
-          child: Text(
-            foodRecords.meta.description,
-            style: TextStyle(
-                fontSize: 10.0,
-                color: Colors.grey),
-            overflow: TextOverflow.ellipsis,
+          child: Container(
+            padding: EdgeInsets.only(right: 15),
+            child: Text(
+              foodRecords.meta.description,
+              style: TextStyle(
+                  fontSize: 10.0,
+                  color: Colors.grey),
+              textAlign: TextAlign.start,
+              //overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
       );
@@ -70,12 +74,15 @@ class MenuItemDescState extends State<MenuItemDesc> {
           padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
           child: Align(
             alignment: Alignment.topLeft,
-            child: Text(
-              foodRecords.meta.description,
-              style: TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.grey),
-              overflow: TextOverflow.clip,
+            child: Container(
+              padding: EdgeInsets.only(right: 0),
+              child: Text(
+                '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
+                style: TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.grey),
+                textAlign: TextAlign.start,
+              ),
             ),
           ),
         ),

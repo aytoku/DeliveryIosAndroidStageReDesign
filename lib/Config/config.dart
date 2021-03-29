@@ -52,7 +52,7 @@ class NecessaryDataForAuth{
       city = FilteredCities.fromJson(convert.jsonDecode(cityJson));
     }
 
-     //await getColorScheme();
+     await getColorScheme(header);
 
 
     NecessaryDataForAuth result = new NecessaryDataForAuth(

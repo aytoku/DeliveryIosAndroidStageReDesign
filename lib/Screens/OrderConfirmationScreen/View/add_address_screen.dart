@@ -135,6 +135,12 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         if(myAddressesModel.address == null){
                           return;
                         }
+                        // поля для
+                        myAddressesModel.entranceField = autoCompleteFieldKey.currentState.entranceField.text;
+                        myAddressesModel.floorField = autoCompleteFieldKey.currentState.floorField.text;
+                        myAddressesModel.officeField = autoCompleteFieldKey.currentState.officeField.text;
+                        myAddressesModel.intercomField = autoCompleteFieldKey.currentState.intercomField.text;
+
                         myAddressesModel.name = nameField.text;
                         myAddressesModel.description = commentField.text;
                         //Navigator.pop(context);
