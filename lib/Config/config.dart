@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:device_id/device_id.dart';
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/global_variables.dart';
@@ -47,6 +48,8 @@ class NecessaryDataForAuth{
     if(cityJson != null){
       city = FilteredCities.fromJson(convert.jsonDecode(cityJson));
     }
+
+    await getColorScheme(header);
 
     NecessaryDataForAuth result = new NecessaryDataForAuth(
         device_id: device_id,

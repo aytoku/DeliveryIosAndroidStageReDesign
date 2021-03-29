@@ -31,7 +31,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
     // TODO: implement initState
     super.initState();
     devId = NecessaryDataForAuth.getData();
-    getColorData(header).then((value) => colorData = value);
+
   }
 
   @override

@@ -1,11 +1,13 @@
+import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/data/api.dart';
 import 'dart:convert';
 import 'package:flutter_app/CoreColor/Model/color.dart';
+import 'package:flutter_app/data/global_variables.dart';
 
   ColorData colorData;
 
-  Future<ColorData> getColorData(String appName) async {
+  Future<void> getColorScheme(String appName) async {
 
     var url = '${apiUrl}applications/color_scheme?app=$appName';
     var response = await http.get(url, headers: <String, String>{
@@ -14,8 +16,7 @@ import 'package:flutter_app/CoreColor/Model/color.dart';
     });
     if (response.statusCode == 200) {
       var responseData = json.decode(response.body);
-      colorData = new ColorData.fromJson(responseData);
-      print(colorData.mainColor);
+      AppColor.fromJson(responseData);
     } else {
       print('Request get colors failed with status: ${response.statusCode}.');
       print(response.body);
