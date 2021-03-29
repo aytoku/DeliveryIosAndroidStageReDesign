@@ -127,7 +127,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           title: Text(
             'Информация',
             style: TextStyle(
-                fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                fontSize: 17, color: Color(int.parse(colorData.textColor)), letterSpacing: 0.45),
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {
@@ -220,7 +220,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             title: Text(
               'История заказов',
               style: TextStyle(
-                  fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                  fontSize: 17, color: Color(int.parse(colorData.textColor)), letterSpacing: 0.45),
             ),
             onTap: () async {
               if (await Internet.checkConnection()) {
@@ -291,7 +291,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             title: Text(
               'Выход',
               style: TextStyle(
-                  fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                  fontSize: 17, color: Color(int.parse(colorData.textColor)), letterSpacing: 0.45),
             ),
             onTap: () async {
               if (await Internet.checkConnection()) {
@@ -323,7 +323,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                   'Авторизоваться',
                   style: TextStyle(
                       fontSize: 17,
-                      color: AppColor.textColor,
+                      color: Color(int.parse(colorData.textColor)),
                       letterSpacing: 0.45),
                 ),
               ),
@@ -357,7 +357,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           statusBarBrightness: Brightness.light
       ),
       child: Scaffold(
-        backgroundColor: AppColor.themeColor,
+        backgroundColor: Color(int.parse(colorData.themeColor)),
         key: _scaffoldKey,
         drawer: ClipRRect(
           borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
@@ -390,7 +390,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
               if(state is RestaurantGetStateLoading)
                 return Center(
                   child: SpinKitFadingCircle(
-                    color: AppColor.mainColor,
+                    color: Color(int.parse(colorData.mainColor)),
                     size: 50.0,
                   ),
                 );
@@ -416,7 +416,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
                                   'assets/svg_images/home_menu.svg',
-                                  color: AppColor.textColor,
+                                  color: Color(int.parse(colorData.textColor)),
                                 ),
                               ),
                               onTap: () {
@@ -432,7 +432,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: AppColor.mainColor
+                                    color: Color(int.parse(colorData.mainColor))
                                 ),
                                 child: Center(
                                   child: Text(selectedCity.name,
@@ -588,7 +588,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             child: Text('Рестораны',
                                 style: TextStyle(
                                   fontSize: 28,
-                                  color: AppColor.textColor,
+                                  color: Color(int.parse(colorData.textColor)),
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.2,
                                 )),
@@ -646,7 +646,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
                                   'assets/svg_images/home_menu.svg',
-                                  color: AppColor.textColor,
+                                  color: Color(int.parse(colorData.textColor)),
                                 ),
                               ),
                               onTap: () {
@@ -662,12 +662,12 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: AppColor.mainColor
+                                    color: Color(int.parse(colorData.mainColor))
                                 ),
                                 child: Center(
                                   child: Text(selectedCity.name,
                                     style: TextStyle(
-                                        color: AppColor.textColor,
+                                        color: Color(int.parse(colorData.textColor)),
                                         fontSize: 13),
                                   ),
                                 ),
