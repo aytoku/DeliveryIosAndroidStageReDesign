@@ -1211,6 +1211,10 @@ class AddressScreenState extends State<AddressScreen>
                                         false,
                                         eatInStore,
                                         null,
+                                        '',
+                                        '',
+                                        '',
+                                        '',
                                         commentField.text
                                     );
                                   } else {
@@ -1226,6 +1230,10 @@ class AddressScreenState extends State<AddressScreen>
                                         false,
                                         false,
                                         addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                        entranceField.text,
+                                        floorField.text,
+                                        officeField.text,
+                                        intercomField.text,
                                         commentField.text
                                     );
                                   }

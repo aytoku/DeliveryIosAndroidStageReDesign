@@ -43,9 +43,9 @@ class RestaurantsListState extends State<RestaurantsList>{
      bool isScheduleAvailable = restaurant.workSchedule.isAvailable();
      Standard standard = restaurant.workSchedule.getCurrentStandard();
      bool available = restaurant.available.flag != null ? restaurant.available.flag : true;
-     // available = true;
+      available = true;
      bool open = restaurant.open != null ? restaurant.open : true;
-     // open = true;
+      open = true;
      if(restaurant.type == 'grocery'){
        print(restaurant.uuid + 'GROCERY');
      }

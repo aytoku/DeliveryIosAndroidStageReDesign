@@ -56,11 +56,14 @@ class AppColor {
 
   static Color mainColor = Color(0xFF09B44D);
   static Color textColor = Colors.white;
+  static Color unselectedTextColor = Color(0xFFFFFFFF);
   static Color additionalTextColor = Colors.grey;
   static Color themeColor = Colors.white;
   static Color fieldColor = Colors.white;
   static Color elementsColor = Color(0xFF474747);
+  static Color borderFieldColor = Color(0xFFFFFFFF);
   static Color subElementsColor = Color(0xFF656565);
+  static Color unselectedBorderFieldColor = Color(0xFFFFFFFF);
 
 
   static fromJson(Map<String, dynamic> json){
