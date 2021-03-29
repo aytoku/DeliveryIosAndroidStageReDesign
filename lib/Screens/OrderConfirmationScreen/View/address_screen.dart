@@ -245,7 +245,7 @@ class AddressScreenState extends State<AddressScreen>
                     ),
                     Center(
                       child: SpinKitThreeBounce(
-                        color: Colors.green,
+                        color: AppColor.mainColor,
                         size: 20.0,
                       ),
                     ),
@@ -415,7 +415,7 @@ class AddressScreenState extends State<AddressScreen>
                 ),
                 Center(
                   child: SpinKitThreeBounce(
-                    color: Colors.green,
+                    color: AppColor.mainColor,
                     size: 20.0,
                   ),
                 ),

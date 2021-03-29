@@ -68,6 +68,7 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
                         padding: const EdgeInsets.only(top: 15),
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: TextField(
+                          autofocus: true,
                           controller: controller,
                           focusNode: node,
                           decoration: new InputDecoration(

@@ -46,7 +46,7 @@ class MenuItemDescState extends State<MenuItemDesc> {
         child: Align(
           alignment: Alignment.topLeft,
           child: Text(
-            '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
+            foodRecords.meta.description,
             style: TextStyle(
                 fontSize: 10.0,
                 color: Colors.grey),
@@ -71,11 +71,11 @@ class MenuItemDescState extends State<MenuItemDesc> {
           child: Align(
             alignment: Alignment.topLeft,
             child: Text(
-              '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
+              foodRecords.meta.description,
               style: TextStyle(
                   fontSize: 12.0,
                   color: Colors.grey),
-              overflow: TextOverflow.ellipsis,
+              overflow: TextOverflow.clip,
             ),
           ),
         ),

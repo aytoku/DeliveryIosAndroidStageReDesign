@@ -186,7 +186,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                       ),
                       (processing.contains(ordersStoryModelItem.state)) ? Center(
                         child: SpinKitThreeBounce(
-                          color: Colors.green,
+                          color: AppColor.mainColor,
                           size: 20.0,
                         ),
                       ) : Row(
@@ -248,7 +248,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                       (cooking_state
                           .contains(ordersStoryModelItem.state)) ? Center(
                         child: SpinKitThreeBounce(
-                          color: Colors.green,
+                          color: AppColor.mainColor,
                           size: 20.0,
                         ),
                       ) : Row(

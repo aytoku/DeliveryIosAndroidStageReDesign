@@ -66,7 +66,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                 ],
                 color: AppColor.themeColor,
                 borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(width: 1.0, color: Colors.grey[200])),
+                border: Border.all(width: 1.0, color: AppColor.elementsColor)),
             child: Column(
               children: <Widget>[
                (!available ||
@@ -202,7 +202,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                               padding: EdgeInsets.only(left: 10, right: 10),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(0xFFEFEFEF)
+                                  color: AppColor.subElementsColor
                               ),
                               child: Row(
                                 children: [
@@ -230,7 +230,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                                 padding: EdgeInsets.only(left: 10, right: 10),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xFFEFEFEF)
+                                    color: AppColor.subElementsColor
                                 ),
                                 child: Center(
                                   child: Text(

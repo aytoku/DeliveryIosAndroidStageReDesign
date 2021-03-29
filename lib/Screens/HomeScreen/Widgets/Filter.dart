@@ -292,7 +292,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                ? AppColor.mainColor : Color(0xFFF6F6F6)),
+                                ? AppColor.mainColor : AppColor.unselectedBorderFieldColor),
                         child: Padding(
                             padding: EdgeInsets.only(left: 15, right: 15),
                             child: Center(
@@ -304,7 +304,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                                     style: TextStyle(
                                         color: (!selectedCategoryFromHomeScreen
                                             && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                              ? AppColor.textColor: Color(0xFF424242),
+                                              ? AppColor.textColor: AppColor.unselectedTextColor,
                                         fontSize: 15),
                                   ),
                                   Padding(
@@ -382,7 +382,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)
                           || !selectedCategoryFromHomeScreen)
-                          ? Color(0xFFF6F6F6)
+                          ? AppColor.unselectedBorderFieldColor
                           : AppColor.mainColor),
                   child: Padding(
                       padding: EdgeInsets.only(left: 15, right: 15),
@@ -391,7 +391,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
                           element.name[0].toUpperCase() + element.name.substring(1),
                           style: TextStyle(
                               color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)|| !selectedCategoryFromHomeScreen)
-                                  ? Color(0xFF424242)
+                                  ? AppColor.unselectedTextColor
                                   : AppColor.textColor,
                               fontSize: 15),
                         ),

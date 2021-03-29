@@ -91,13 +91,13 @@ class CartButtonState extends State<CartButton> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        (currentUser.cartModel.cookingTime != null)? '~ ${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: AppColor.textColor,
-                        ),
-                      ),
+                      // Text(
+                      //   (currentUser.cartModel.cookingTime != null)? '~ ${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
+                      //   style: TextStyle(
+                      //     fontSize: 12.0,
+                      //     color: AppColor.textColor,
+                      //   ),
+                      // ),
                       Text('Корзина',
                           style: TextStyle(
                               fontSize: 18.0,

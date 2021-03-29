@@ -84,7 +84,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                   ),
                   Center(
                     child: SpinKitThreeBounce(
-                      color: Colors.green,
+                      color: AppColor.mainColor,
                       size: 20.0,
                     ),
                   ),
@@ -1031,7 +1031,7 @@ class OrderRejectScreenState extends State<OrderRejectScreen> {
                   ),
                   Center(
                     child: SpinKitThreeBounce(
-                      color: Colors.green,
+                      color: AppColor.mainColor,
                       size: 20.0,
                     ),
                   ),

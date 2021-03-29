@@ -383,7 +383,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
               if(state is RestaurantGetStateLoading)
                 return Center(
                   child: SpinKitFadingCircle(
-                    color: Colors.green,
+                    color: AppColor.mainColor,
                     size: 50.0,
                   ),
                 );
@@ -578,7 +578,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           Padding(
                             padding:
                             EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text('Рестораны',
+                            child: Text('Рестораны', // нужно добавить цвет для текста
+                                // в некоторых прилагах и черный и белый текст
                                 style: TextStyle(
                                   fontSize: 28,
                                   color: Color(0xFF3F3F3F),
@@ -638,6 +639,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 width: 40,
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
+                                  // добавить цвет для картинок 
                                   'assets/svg_images/home_menu.svg',
                                   color: Colors.black,
                                 ),

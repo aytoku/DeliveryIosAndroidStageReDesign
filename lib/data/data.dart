@@ -55,25 +55,28 @@ class AppColor {
   AppColor._();
 
   static Color mainColor = Color(0xFF09B44D);
-  static Color textColor = Colors.white;
-  static Color unselectedTextColor = Color(0xFFFFFFFF);
-  static Color additionalTextColor = Colors.grey;
-  static Color themeColor = Colors.white;
-  static Color fieldColor = Colors.white;
-  static Color elementsColor = Color(0xFF474747);
+  static Color textColor = Color(0xFFFFFFFF);
+  static Color unselectedTextColor = Color(0xFF424242);
+  static Color additionalTextColor = Color(0xFF808080);
+  static Color themeColor = Color(0xFFFFFFFF);
+  static Color fieldColor = Color(0xFFFFFFFF);
+  static Color elementsColor = Color(0xFFE9E9E9);
   static Color borderFieldColor = Color(0xFFFFFFFF);
-  static Color subElementsColor = Color(0xFF656565);
-  static Color unselectedBorderFieldColor = Color(0xFFFFFFFF);
+  static Color subElementsColor = Color(0xFFEFEFEF);
+  static Color unselectedBorderFieldColor = Color(0xFFF6F6F6);
 
 
   static fromJson(Map<String, dynamic> json){
     mainColor = Color(int.parse(json['main_color']));
     textColor = Color(int.parse(json['text_color']));
+    unselectedTextColor = Color(int.parse(json['unselected_text_color']));
     additionalTextColor = Color(int.parse(json['additional_text_color']));
     themeColor = Color(int.parse(json['theme_color']));
     fieldColor = Color(int.parse(json['text_field_color']));
     elementsColor = Color(int.parse(json['elements_color']));
     subElementsColor = Color(int.parse(json['sub_elements_color']));
+    borderFieldColor = Color(int.parse(json['border_field_color']));
+    unselectedBorderFieldColor = Color(int.parse(json['unselected_border_field_color']));
   }
 }
 
