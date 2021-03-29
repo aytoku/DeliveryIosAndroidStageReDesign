@@ -216,7 +216,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                                     '2',
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Color(0xFF4D9D46)
+                                      color: AppColor.mainColor
                                     ),
                                   ),
                                 ),
