@@ -52,7 +52,8 @@ class MenuItemDescState extends State<MenuItemDesc> {
               style: TextStyle(
                   fontSize: 10.0,
                   color: Colors.grey),
-              textAlign: TextAlign.start,
+              maxLines: (parent.parent.restaurant.type == 'restaurant') ? 3 : 2,
+              overflow: TextOverflow.ellipsis,
               //overflow: TextOverflow.ellipsis,
             ),
           ),

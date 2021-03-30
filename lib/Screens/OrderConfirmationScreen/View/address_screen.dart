@@ -703,7 +703,7 @@ class AddressScreenState extends State<AddressScreen>
                         // ),
                         (isTakeAwayOrderConfirmation) ? Container() : buildAddressesList(),
                         Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
                           child: Stack(
                             children: [
                               Container(

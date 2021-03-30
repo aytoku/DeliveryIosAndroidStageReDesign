@@ -198,7 +198,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
       return GestureDetector(
         child: Container(
           margin: EdgeInsets.only(left: 10, right: 10),
-          height: 250,
+          height: 270,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -226,7 +226,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   ),),
               ),
               Container(
-                height: 108,
+                height: 118,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),

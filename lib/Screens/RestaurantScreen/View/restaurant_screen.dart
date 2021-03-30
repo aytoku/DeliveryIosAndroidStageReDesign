@@ -979,44 +979,41 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     child: Padding(
                       padding: EdgeInsets.only(left: 0),
                       child: InkWell(
-                          hoverColor: Colors.white,
-                          focusColor: Colors.white,
-                          splashColor: Colors.white,
-                          highlightColor: Colors.white,
-                          onTap: () async {
-                            homeScreenKey =
-                            new GlobalKey<HomeScreenState>();
-                            if(await Internet.checkConnection()){
-                              Navigator.of(context).pushReplacement(
-                                  PageRouteBuilder(
-                                      pageBuilder: (context, animation, anotherAnimation) {
-                                        return new GroceryScreen(restaurant: restaurant,);
-                                      },
-                                      transitionDuration: Duration(milliseconds: 300),
-                                      transitionsBuilder:
-                                          (context, animation, anotherAnimation, child) {
-                                        return SlideTransition(
-                                          position: Tween(
-                                              begin: Offset(1.0, 0.0),
-                                              end: Offset(0.0, 0.0))
-                                              .animate(animation),
-                                          child: child,
-                                        );
-                                      }
-                                  ));
-                            }else{
-                              noConnection(context);
-                            }
-                          },
+                        hoverColor: AppColor.themeColor,
+                        focusColor: AppColor.themeColor,
+                        splashColor: AppColor.themeColor,
+                        highlightColor: AppColor.themeColor,
+                        onTap: () {
+                          Navigator.of(context).pushReplacement(
+                              PageRouteBuilder(
+                                  pageBuilder: (context, animation, anotherAnimation) {
+                                    return new GroceryScreen(restaurant: restaurant,);
+                                  },
+                                  transitionDuration: Duration(milliseconds: 300),
+                                  transitionsBuilder:
+                                      (context, animation, anotherAnimation, child) {
+                                    return SlideTransition(
+                                      position: Tween(
+                                          begin: Offset(1.0, 0.0),
+                                          end: Offset(0.0, 0.0))
+                                          .animate(animation),
+                                      child: child,
+                                    );
+                                  }
+                              ));
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 40),
                           child: Container(
                               height: 40,
                               width: 60,
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                    top: 12, bottom: 12, right: 10, left: 16),
+                                    top: 12, bottom: 12, right: 10),
                                 child: SvgPicture.asset(
                                     'assets/svg_images/arrow_left.svg'),
-                              ))),
+                              )),),
+                      ),
                     ),
                   ),
                   Flexible(
@@ -1059,43 +1056,57 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 15, top: 60),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Row(
-                children: [
-                  InkWell(
-                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                    onTap: (){
-                      Navigator.of(context).pushReplacement(
-                          PageRouteBuilder(
-                              pageBuilder: (context, animation, anotherAnimation) {
-                                return new GroceryScreen(restaurant: restaurant,);
-                              },
-                              transitionDuration: Duration(milliseconds: 300),
-                              transitionsBuilder:
-                                  (context, animation, anotherAnimation, child) {
-                                return SlideTransition(
-                                  position: Tween(
-                                      begin: Offset(1.0, 0.0),
-                                      end: Offset(0.0, 0.0))
-                                      .animate(animation),
-                                  child: child,
-                                );
-                              }
-                          ));
-                    },
+            padding: EdgeInsets.only(left: 0, top: 0),
+            child: Row(
+              children: [
+                InkWell(
+                  hoverColor: AppColor.themeColor,
+                  focusColor: AppColor.themeColor,
+                  splashColor: AppColor.themeColor,
+                  highlightColor: AppColor.themeColor,
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                        PageRouteBuilder(
+                            pageBuilder: (context, animation, anotherAnimation) {
+                              return new GroceryScreen(restaurant: restaurant,);
+                            },
+                            transitionDuration: Duration(milliseconds: 300),
+                            transitionsBuilder:
+                                (context, animation, anotherAnimation, child) {
+                              return SlideTransition(
+                                position: Tween(
+                                    begin: Offset(1.0, 0.0),
+                                    end: Offset(0.0, 0.0))
+                                    .animate(animation),
+                                child: child,
+                              );
+                            }
+                        ));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 40),
+                    child: Container(
+                        height: 40,
+                        width: 60,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 12, bottom: 12, right: 10),
+                          child: SvgPicture.asset(
+                              'assets/svg_images/arrow_left.svg'),
+                        )),),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.24,
+                      top: 40
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.3),
-                    child: Text(
-                      restaurant.name,
-                      style: TextStyle(
-                        fontSize: 18,),
-                    ),
+                  child: Text(
+                    restaurant.name,
+                    style: TextStyle(
+                      fontSize: 18,),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Padding(
@@ -1110,7 +1121,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 if (menuWithTitles[index] is MenuItemTitle) {
                   return StaggeredTile.extent(2, 50);
                 }
-                return StaggeredTile.extent(1, 260);
+                return StaggeredTile.extent(1, 270);
               },
               mainAxisSpacing: 10.0,
               crossAxisSpacing: 0.0,

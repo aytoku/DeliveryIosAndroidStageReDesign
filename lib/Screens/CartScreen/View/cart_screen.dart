@@ -126,49 +126,50 @@ class CartScreenState extends State<CartScreen> {
                         ),
                       ),
                     ),
-                  ) : Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              Text(
-                                'Доставка',
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Color(0xFF000000)),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 5),
-                                child: Text(
-                                  (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            (currentUser.cartModel.deliveryPrice != null)? '~' + '${currentUser.cartModel.deliveryPrice} \₽' : '',
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                color: Color(0xFF000000)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
+                  ) : Container(),
+                  // Container(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(top: 5),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: <Widget>[
+                  //         Row(
+                  //           children: [
+                  //             Text(
+                  //               'Доставка',
+                  //               style: TextStyle(
+                  //                   fontSize: 18.0,
+                  //                   color: Color(0xFF000000)),
+                  //             ),
+                  //             Padding(
+                  //               padding: const EdgeInsets.only(left: 8.0, top: 5),
+                  //               child: Text(
+                  //                 (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
+                  //                 style: TextStyle(
+                  //                   fontSize: 12.0,
+                  //                   color: Colors.black,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         Text(
+                  //           (currentUser.cartModel.deliveryPrice != null)? '~' + '${currentUser.cartModel.deliveryPrice} \₽' : '',
+                  //           style: TextStyle(
+                  //               fontSize: 18.0,
+                  //               color: Color(0xFF000000)),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  (isTakeAwayScreen) ? Padding(
                     padding: EdgeInsets.only(bottom: 20, top: 20),
                     child: Divider(
                       height: 1,
                       color: Color(0xFFE6E6E6),
                     ),
-                  ),
+                  ) : Container(),
                   Padding(
                     padding: const EdgeInsets.only(top: 0),
                     child: Row(

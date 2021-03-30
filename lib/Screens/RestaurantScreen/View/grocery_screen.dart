@@ -158,26 +158,39 @@ class GroceryScreenState extends State<GroceryScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.themeColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.only(left: 15, top: 60),
-            child: Align(
-              alignment: Alignment.topLeft,
-                child: InkWell(
-                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                  onTap: (){
-                    homeScreenKey = new GlobalKey<HomeScreenState>();
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                              create: (context) => RestaurantGetBloc(),
-                              child: new HomeScreen(),
-                            )),
-                            (Route<dynamic> route) => false);
-                  },
-                )),
+          Align(
+            alignment: Alignment.topLeft,
+            child: InkWell(
+              hoverColor: AppColor.themeColor,
+              focusColor: AppColor.themeColor,
+              splashColor: AppColor.themeColor,
+              highlightColor: AppColor.themeColor,
+              onTap: () {
+                homeScreenKey = new GlobalKey<HomeScreenState>();
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                          create: (context) => RestaurantGetBloc(),
+                          child: new HomeScreen(),
+                        )),
+                        (Route<dynamic> route) => false);
+              },
+              child: Padding(
+                padding: EdgeInsets.only( top: 40),
+                child: Container(
+                    height: 40,
+                    width: 60,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: 12, bottom: 12, right: 10),
+                      child: SvgPicture.asset(
+                          'assets/svg_images/arrow_left.svg'),
+                    )),),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 24.0, bottom: 17),
@@ -302,12 +315,18 @@ class GroceryScreenState extends State<GroceryScreen>{
           ),
           Expanded(
             child: ListView.builder(
+              physics: BouncingScrollPhysics(),
               padding: EdgeInsets.zero,
               itemCount: restaurant.productCategoriesUuid.length,
               itemBuilder: (context, index) {
                 var productCategory = restaurant.productCategoriesUuid[index];
-                return GestureDetector(
+                return InkWell(
+                  hoverColor: AppColor.themeColor,
+                  focusColor: AppColor.themeColor,
+                  splashColor: AppColor.themeColor,
+                  highlightColor: AppColor.themeColor,
                   child: Container(
+                    width: MediaQuery.of(context).size.width,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
                       child: Row(

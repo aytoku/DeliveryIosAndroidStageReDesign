@@ -22,6 +22,7 @@ import 'package:flutter_app/Screens/HomeScreen/Widgets/RestaurantsList.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/TemporaryOrderChecking.dart';
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.dart';
+import 'package:flutter_app/Screens/NameScreen/API/set_client_name.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/GooglePay.dart';
@@ -543,36 +544,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     child: Text('sdf'),
                           //   ),
                           //   onTap: () async {
-                          //
-                          //     final MadPay pay = MadPay();
-                          //     await pay.checkPayments();
-                          //     await pay.checkActiveCard(
-                          //       paymentNetworks: <PaymentNetwork>[
-                          //         PaymentNetwork.visa,
-                          //         PaymentNetwork.mastercard,
-                          //       ],
-                          //     );
-                          //
-                          //     var req = await pay.processingPayment(
-                          //       google: GoogleParameters(
-                          //         gatewayName: 'sberbank',
-                          //         gatewayMerchantId: 'T1513081007',
-                          //       ),
-                          //       apple: AppleParameters(
-                          //         merchantIdentifier: 'merchant.eda.com',
-                          //       ),
-                          //       currencyCode: 'RUB',
-                          //       countryCode: 'RU',
-                          //       paymentItems: <PaymentItem>[
-                          //         PaymentItem(name: 'T-Shirt', price: 1.14),
-                          //       ],
-                          //       paymentNetworks: <PaymentNetwork>[
-                          //         PaymentNetwork.visa,
-                          //         PaymentNetwork.mastercard,
-                          //         PaymentNetwork.maestro
-                          //       ],
-                          //     );
-                          //     print(req);
+                          //     setClientName(authCodeData.clientUuid, currentUser.name);
                           //   },
                           // ),
                           Padding(
