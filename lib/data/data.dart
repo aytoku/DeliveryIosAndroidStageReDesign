@@ -1,16 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
-import 'package:flutter_app/Screens/AuthScreen/Model/Auth.dart';
-import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';
-import 'package:flutter_app/Screens/ChatScreen/View/chat_screen.dart';
-import 'package:flutter_app/Screens/CityScreen/Model/FilteredCities.dart';
-import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
-import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
-import 'package:flutter_app/Screens/ServiceScreen/View/tickets_chat_screen.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_app/data/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

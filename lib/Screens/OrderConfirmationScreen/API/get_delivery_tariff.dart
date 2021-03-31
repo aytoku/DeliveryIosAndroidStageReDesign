@@ -5,8 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 
-Future<void> getDeliveryTariff(int deliveryPrice) async {
-  //FilteredStoresData filteredStores = null;
+Future<double> getDeliveryTariff() async {
   var url = '${apiUrl}delivery/tariff';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
@@ -14,10 +13,9 @@ Future<void> getDeliveryTariff(int deliveryPrice) async {
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
-    //filteredStores = new FilteredStoresData.fromJson(jsonResponse);
+    return jsonResponse * 1.0;
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
   print(response.body);
-  //return filteredStores;
 }

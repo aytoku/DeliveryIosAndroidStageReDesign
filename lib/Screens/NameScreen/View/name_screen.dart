@@ -3,7 +3,6 @@ import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
-import 'package:flutter_app/Screens/NameScreen/ClientName/ClientName.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -159,7 +158,7 @@ class NameScreenState extends State<NameScreen> {
                                     });
                                     return;
                                   }
-                                  await setClientName(authCodeData.clientUuid, nameFieldController.text);
+                                  await setClientName(necessaryDataForAuth.device_id, nameFieldController.text);
                                   homeScreenKey =
                                   new GlobalKey<HomeScreenState>();
                                   Navigator.of(context).pushAndRemoveUntil(

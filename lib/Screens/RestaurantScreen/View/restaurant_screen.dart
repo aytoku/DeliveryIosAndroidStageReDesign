@@ -899,25 +899,6 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                             ),
                           ],
                         ),
-                        // FutureBuilder<FilteredProductCategories>(
-                        //   future: getFilteredProductCategories(
-                        //       restaurant.uuid,
-                        //       null,
-                        //       necessaryDataForAuth.city.uuid),
-                        //   builder: (BuildContext context,
-                        //       AsyncSnapshot<FilteredProductCategories> snapshot){
-                        //     if(snapshot.connectionState ==
-                        //         ConnectionState.done){
-                        //       return ListView(
-                        //         children: List.generate(4, (index){
-                        //           return Text(snapshot.data.name);
-                        //         }),
-                        //       );
-                        //     }else{
-                        //       return Container();
-                        //     }
-                        //   },
-                        // )
                       ],
                     ),
                   ),

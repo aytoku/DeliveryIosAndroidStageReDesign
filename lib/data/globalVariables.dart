@@ -23,3 +23,4 @@ NecessaryDataForAuth necessaryDataForAuth = new NecessaryDataForAuth(phone_numbe
 FilteredCities selectedCity;
 String header = 'eda/faem';
 CategoriesUuid selectedCategoriesUuid;
+String tempClientUuid = '';

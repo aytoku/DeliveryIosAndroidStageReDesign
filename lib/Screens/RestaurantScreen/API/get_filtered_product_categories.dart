@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 
-Future<FilteredProductCategories> getFilteredProductCategories(String store_uuid, String parent_uuid, String city_uuid) async {
-  FilteredProductCategories filteredProductCategories = null;
+Future<FilteredProductCategoriesData> getFilteredProductCategories(String store_uuid, String parent_uuid, String city_uuid) async {
+  FilteredProductCategoriesData filteredProductCategories = null;
   var url = '${apiUrl}products/categories/filter?parent_uuid=$parent_uuid&city_uuid=$city_uuid&store_uuid=$store_uuid';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
@@ -14,7 +14,7 @@ Future<FilteredProductCategories> getFilteredProductCategories(String store_uuid
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
-    filteredProductCategories = new FilteredProductCategories.fromJson(jsonResponse);
+    filteredProductCategories = new FilteredProductCategoriesData.fromJson(jsonResponse);
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }

@@ -10,6 +10,7 @@ import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/API/create_order.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/AddressSelector.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/DeliveryPrice.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/DestinationPointsAddressSelector.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/OrderSuccessScreen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PaymentButton.dart';
@@ -67,10 +68,13 @@ class AddressScreenState extends State<AddressScreen>
   TextEditingController commentField;
   GlobalKey<AddressSelectorState> addressSelectorKey;
   GlobalKey<PromoTextState> promoTextKey;
+  GlobalKey<PaymentButtonState> paymentButtonKey;
 
   TextEditingController phoneNumberController;
   TextEditingController nameController;
   TextEditingController addressValueController;
+
+  bool isAddressSelected = false;
 
   MyFavouriteAddressesModel addedAddress;
 
@@ -431,7 +435,7 @@ class AddressScreenState extends State<AddressScreen>
   @override
   Widget build(BuildContext context) {
     addressSelectorKey = new GlobalKey();
-    print('a screen build');
+    paymentButtonKey = new GlobalKey();
     FocusNode focusNode;
     double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -804,9 +808,8 @@ class AddressScreenState extends State<AddressScreen>
                                   ],
                                 ),
                               ),
-                              Text(
-                                '100 \₽',
-                                // '${currentUser.cartModel.deliveryPrice.toStringAsFixed(0)} \₽',
+                              (isAddressSelected == true) ? DeliveryPrice() : Text(
+                                '0 \₽',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14),
@@ -1046,130 +1049,64 @@ class AddressScreenState extends State<AddressScreen>
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: (necessaryDataForAuth.selectedPaymentId == 1) ? Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                      child: InkWell(
-                          child: PaymentButton(),
-                        onTap: () async {
-                          if(addressSelectorKey.currentState.myFavouriteAddressesModel.address == null
-                              && !isTakeAwayOrderConfirmation){
-                            emptyAddress(context);
-                            return;
+                    child: PaymentButton(
+                      parent: this,
+                      key: paymentButtonKey,
+                      onTap: () async {
+                        if (await Internet.checkConnection()) {
+                          if(isTakeAwayOrderConfirmation){
+                            showAlertDialog(context);
+                            await createOrder(
+                                currentUser.cartModel.uuid,
+                                isTakeAwayOrderConfirmation,
+                                false,
+                                eatInStore,
+                                null,
+                                '',
+                                '',
+                                '',
+                                '',
+                                commentField.text
+                            );
+                          } else {
+                            if(addressSelectorKey.currentState.myFavouriteAddressesModel.address == null
+                                && !isTakeAwayOrderConfirmation){
+                              emptyAddress(context);
+                              return;
+                            }
+                            showAlertDialog(context);
+                            await createOrder(
+                                currentUser.cartModel.uuid,
+                                false,
+                                false,
+                                false,
+                                addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                addressSelectorKey.currentState.myFavouriteAddressesModel.entranceField,
+                                addressSelectorKey.currentState.myFavouriteAddressesModel.floorField,
+                                addressSelectorKey.currentState.myFavouriteAddressesModel.officeField,
+                                addressSelectorKey.currentState.myFavouriteAddressesModel.intercomField,
+                                commentField.text
+                            );
                           }
-                          showAlertDialog(context);
-                          await makePayment();
-                        },
-                      ),
-                    ) : Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 5.0,
-                              offset: Offset(0.0, 1)
-                          )
-                        ],
-                        color: AppColor.themeColor,),
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 15, left: 50, right: 20, top: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                    '${(totalPrice).toStringAsFixed(0)} \₽',
-                                    style: TextStyle(
-                                        fontSize: 18.0,
-                                        color: Colors.black)),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 3),
-                                  child: Text(
-                                    (currentUser.cartModel.cookingTime != null)
-                                        ? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин'
-                                        : '',
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              child: Container(
-                                height: 52,
-                                width: 168,
-                                decoration: BoxDecoration(
-                                  color: AppColor.mainColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text('Заказать',
-                                      style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: AppColor.textColor)),
-                                ),
-                              ),
-                              onTap: () async {
-                                if (await Internet.checkConnection()) {
-                                  if(isTakeAwayOrderConfirmation){
-                                    showAlertDialog(context);
-                                    await createOrder(
-                                        currentUser.cartModel.uuid,
-                                        isTakeAwayOrderConfirmation,
-                                        false,
-                                        eatInStore,
-                                        null,
-                                        '',
-                                        '',
-                                        '',
-                                        '',
-                                        commentField.text
-                                    );
-                                  } else {
-                                    if(addressSelectorKey.currentState.myFavouriteAddressesModel.address == null
-                                        && !isTakeAwayOrderConfirmation){
-                                      emptyAddress(context);
-                                      return;
-                                    }
-                                    showAlertDialog(context);
-                                    await createOrder(
-                                        currentUser.cartModel.uuid,
-                                        false,
-                                        false,
-                                        false,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.entranceField,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.floorField,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.officeField,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.intercomField,
-                                        commentField.text
-                                    );
-                                  }
 
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-                                          (Route<dynamic> route) => false);
+                          if(selectedPaymentId == 0) // если наличка
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                                    (Route<dynamic> route) => false);
+                          else{ // если не наличка
+                            await makePayment();
+                          }
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                                  (Route<dynamic> route) => false);
 
-                                  // if(selectedPaymentId == 0) // если наличка
-                                  //   Navigator.of(context).pushAndRemoveUntil(
-                                  //       MaterialPageRoute(
-                                  //           builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-                                  //           (Route<dynamic> route) => false);
-                                  // else{ // если не наличка
-                                  //   await makePayment();
-                                  // }
-                                } else {
-                                  noConnection(context);
-                                }
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                        } else {
+                          noConnection(context);
+                        }
+                      },
+                    )
                   )
                 ],
               )
