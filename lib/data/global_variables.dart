@@ -26,16 +26,30 @@ FilteredCities selectedCity;
 class AppColor {
   AppColor._();
 
-  static const Color mainColor = Color(0xFFF7CB46);
-  static const Color textColor = Color(0xFF000000);
-  static const Color unselectedTextColor = Color(0xFFFFFFFF);
-  static const Color additionalTextColor = Color(0xFF9E9E9E);
-  static const Color themeColor = Color(0xFFFFFFFF);
-  static const Color fieldColor = Color(0xFFFFFFFF);
-  static const Color elementsColor = Color(0xFFEFEFEF);
-  static const Color subElementsColor = Color(0xFFEFEFEF);
-  static const Color borderFieldColor = Color(0xFFF7CB46);
-  static const Color unselectedBorderFieldColor = Color(0xFF9E9E9E);
+  static Color mainColor = Color(0xFFF7CB46);
+  static Color textColor = Color(0xFF000000);
+  static Color unselectedTextColor = Color(0xFFFFFFFF);
+  static Color additionalTextColor = Color(0xFF9E9E9E);
+  static Color themeColor = Color(0xFFFFFFFF);
+  static Color fieldColor = Color(0xFFFFFFFF);
+  static Color elementsColor = Color(0xFFEFEFEF);
+  static Color subElementsColor = Color(0xFFEFEFEF);
+  static Color borderFieldColor = Color(0xFFF7CB46);
+  static Color unselectedBorderFieldColor = Color(0xFF9E9E9E);
 
+
+  static fromJson(Map<String, dynamic> json){
+    mainColor = (json['main_color'] == null || json['main_color'] == '') ? mainColor : Color(int.parse(json['main_color']));
+    textColor = (json['text_color'] == null || json['text_color'] == '') ? textColor : Color(int.parse(json['text_color']));
+    unselectedTextColor = (json['unselected_text_color'] == null || json['unselected_text_color'] == '') ? unselectedTextColor : Color(int.parse(json['unselected_text_color']));
+    additionalTextColor = (json['additional_text_color'] == null || json['additional_text_color'] == '') ? additionalTextColor : Color(int.parse(json['additional_text_color']));
+    themeColor = (json['theme_color'] == null || json['theme_color'] == '') ? themeColor : Color(int.parse(json['theme_color']));
+    fieldColor = (json['text_field_color'] == null || json['text_field_color'] == '') ? fieldColor : Color(int.parse(json['text_field_color']));
+    elementsColor = (json['elements_color'] == null || json['elements_color'] == '') ? elementsColor : Color(int.parse(json['elements_color']));
+    subElementsColor = (json['sub_elements_color'] == null || json['sub_elements_color'] == '') ? subElementsColor : Color(int.parse(json['sub_elements_color']));
+    borderFieldColor = (json['border_field_color'] == null || json['border_field_color'] == '') ? borderFieldColor : Color(int.parse(json['border_field_color']));
+    unselectedBorderFieldColor = (json['unselected_border_field_color'] == null || json['unselected_border_field_color'] == '') ? unselectedBorderFieldColor : Color(int.parse(json['unselected_border_field_color']));
+  }
 }
 String header = 'eda/fermer-market';
+

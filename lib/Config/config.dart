@@ -6,6 +6,7 @@ import 'package:flutter_app/data/global_variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 import '../Centrifugo/centrifugo.dart';
 import '../Screens/CityScreen/Model/FilteredCities.dart';
@@ -19,6 +20,7 @@ class NecessaryDataForAuth{
   String name;
   String token;
   FilteredCities city;
+  int selectedPaymentId;
   static NecessaryDataForAuth _necessaryDataForAuth;
 
   NecessaryDataForAuth({
@@ -27,6 +29,7 @@ class NecessaryDataForAuth{
     this.token,
     this.city,
     this.refresh_token,
+    this.selectedPaymentId,
     this.name
   });
 
@@ -39,6 +42,7 @@ class NecessaryDataForAuth{
     String refresh_token = prefs.getString('refresh_token');
     String name = prefs.getString('name');
     String cityJson = prefs.getString('city');
+    int selectedPaymentId = prefs.getInt('selected_payment_id') ?? 0;
     String token = prefs.getString('token');
 
 
@@ -48,12 +52,16 @@ class NecessaryDataForAuth{
       city = FilteredCities.fromJson(convert.jsonDecode(cityJson));
     }
 
+     await getColorScheme(header);
+
+
     NecessaryDataForAuth result = new NecessaryDataForAuth(
         device_id: device_id,
         phone_number: phone_number,
         refresh_token: refresh_token,
         name: name,
         token: token,
+        selectedPaymentId: selectedPaymentId,
         city: city,
     );
 
@@ -75,12 +83,14 @@ class NecessaryDataForAuth{
     String refresh_token = _necessaryDataForAuth.refresh_token;
     String name = _necessaryDataForAuth.name;
     String city = convert.jsonEncode(_necessaryDataForAuth.city.toJson());
+    int selectedPaymentId = _necessaryDataForAuth.selectedPaymentId;
     String token = _necessaryDataForAuth.token;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('phone_number', phone_number);
     prefs.setString('refresh_token',refresh_token);
     prefs.setString('name',name);
     prefs.setString('city',city);
+    prefs.setInt('selected_payment_id',selectedPaymentId);
     prefs.setString('token',token);
   }
 
