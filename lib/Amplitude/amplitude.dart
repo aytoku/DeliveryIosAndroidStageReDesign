@@ -1,6 +1,4 @@
 import 'package:amplitude_flutter/amplitude.dart';
-import 'package:amplitude_flutter/identify.dart';
-import 'package:flutter_app/data/data.dart';
 
 class AmplitudeAnalytics{
 
