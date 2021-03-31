@@ -23,6 +23,7 @@ import 'package:flutter_app/Screens/HomeScreen/Widgets/TemporaryOrderChecking.da
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.dart';
 import 'package:flutter_app/Screens/NameScreen/API/set_client_name.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/API/get_delivery_tariff.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/GooglePay.dart';
@@ -39,6 +40,7 @@ import 'package:mad_pay/mad_pay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../Preloader/device_id_screen.dart';
+import '../../../VersionControl/API/getCurrentVersion.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/Model/CartModel.dart';
 import '../../CityScreen/View/city_screen.dart';
@@ -544,7 +546,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     child: Text('sdf'),
                           //   ),
                           //   onTap: () async {
-                          //     setClientName(authCodeData.clientUuid, currentUser.name);
+                          //     getCurrentVersion();
                           //   },
                           // ),
                           Padding(

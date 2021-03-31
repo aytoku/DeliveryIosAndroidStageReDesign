@@ -33,8 +33,12 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../../data/globalVariables.dart';
 import '../../CartScreen/API/clear_cart.dart';
 import '../API/add_variant_to_cart.dart';
+import '../API/get_filtered_product_categories.dart';
+import '../Model/FilteredProductCategories.dart';
 import '../Model/ProductDataModel.dart';
 
 class RestaurantScreen extends StatefulWidget {
@@ -895,6 +899,25 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                             ),
                           ],
                         ),
+                        // FutureBuilder<FilteredProductCategories>(
+                        //   future: getFilteredProductCategories(
+                        //       restaurant.uuid,
+                        //       null,
+                        //       necessaryDataForAuth.city.uuid),
+                        //   builder: (BuildContext context,
+                        //       AsyncSnapshot<FilteredProductCategories> snapshot){
+                        //     if(snapshot.connectionState ==
+                        //         ConnectionState.done){
+                        //       return ListView(
+                        //         children: List.generate(4, (index){
+                        //           return Text(snapshot.data.name);
+                        //         }),
+                        //       );
+                        //     }else{
+                        //       return Container();
+                        //     }
+                        //   },
+                        // )
                       ],
                     ),
                   ),
@@ -1003,7 +1026,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                               ));
                         },
                         child: Padding(
-                          padding: EdgeInsets.only(top: 40),
+                          padding: EdgeInsets.only(top: 0),
                           child: Container(
                               height: 40,
                               width: 60,

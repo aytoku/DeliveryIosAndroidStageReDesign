@@ -12,6 +12,7 @@ import 'package:flutter_app/Screens/OrderConfirmationScreen/API/create_order.dar
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/AddressSelector.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/DestinationPointsAddressSelector.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/OrderSuccessScreen.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PaymentButton.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PromoText.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/data/data.dart';
@@ -23,6 +24,8 @@ import 'package:mad_pay/mad_pay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../data/data.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
 
 class AddressScreen extends StatefulWidget {
   MyFavouriteAddressesModel addedAddress;
@@ -802,7 +805,8 @@ class AddressScreenState extends State<AddressScreen>
                                 ),
                               ),
                               Text(
-                                '${currentUser.cartModel.deliveryPrice.toStringAsFixed(0)} \₽',
+                                '100 \₽',
+                                // '${currentUser.cartModel.deliveryPrice.toStringAsFixed(0)} \₽',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14),
@@ -1025,6 +1029,7 @@ class AddressScreenState extends State<AddressScreen>
                                     ),
                                     onTap: () async {
                                        _payment();
+
                                     },
                                   ),
                                 ),
@@ -1041,7 +1046,21 @@ class AddressScreenState extends State<AddressScreen>
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: Container(
+                    child: (necessaryDataForAuth.selectedPaymentId == 1) ? Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                      child: InkWell(
+                          child: PaymentButton(),
+                        onTap: () async {
+                          if(addressSelectorKey.currentState.myFavouriteAddressesModel.address == null
+                              && !isTakeAwayOrderConfirmation){
+                            emptyAddress(context);
+                            return;
+                          }
+                          showAlertDialog(context);
+                          await makePayment();
+                        },
+                      ),
+                    ) : Container(
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -1129,14 +1148,19 @@ class AddressScreenState extends State<AddressScreen>
                                     );
                                   }
 
-                                  if(selectedPaymentId == 0) // если наличка
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-                                            (Route<dynamic> route) => false);
-                                  else{ // если не наличка
-                                    await makePayment();
-                                  }
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                                          (Route<dynamic> route) => false);
+
+                                  // if(selectedPaymentId == 0) // если наличка
+                                  //   Navigator.of(context).pushAndRemoveUntil(
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                                  //           (Route<dynamic> route) => false);
+                                  // else{ // если не наличка
+                                  //   await makePayment();
+                                  // }
                                 } else {
                                   noConnection(context);
                                 }

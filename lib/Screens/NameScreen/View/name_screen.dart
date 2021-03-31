@@ -3,13 +3,21 @@ import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
+import 'package:flutter_app/Screens/NameScreen/ClientName/ClientName.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:async';
 
+import '../../../data/data.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
 import '../../AuthScreen/View/auth_screen.dart';
+import '../../CodeScreen/API/auth_code_data_pass.dart';
+import '../API/set_client_name.dart';
+import '../API/set_client_name.dart';
 
 class NameScreen extends StatefulWidget {
   NameScreen({this.source = AuthSources.Drawer, Key key}) : super(key: key);
@@ -151,7 +159,7 @@ class NameScreenState extends State<NameScreen> {
                                     });
                                     return;
                                   }
-
+                                  await setClientName(authCodeData.clientUuid, nameFieldController.text);
                                   homeScreenKey =
                                   new GlobalKey<HomeScreenState>();
                                   Navigator.of(context).pushAndRemoveUntil(
@@ -173,7 +181,8 @@ class NameScreenState extends State<NameScreen> {
               ),
             )
           ],
-        ));
+        )
+    );
   }
 }
 
