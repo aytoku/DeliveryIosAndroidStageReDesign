@@ -5,7 +5,7 @@ import 'package:flutter_app/CoreColor/Model/color.dart';
 
   ColorData colorData;
 
-  Future<ColorData> getColorData(String appName) async {
+  Future<void> getColorData(String appName) async {
 
     var url = '${authApiUrl}clients/new/applications/color_scheme?app=$appName';
     var response = await http.get(url, headers: <String, String>{
