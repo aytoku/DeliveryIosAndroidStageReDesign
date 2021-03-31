@@ -77,6 +77,11 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    Future.delayed(Duration.zero, () {
+
+        checkVer(context);
+
+    });
     orderList = new List<OrderChecking>();
     recordsItems = new List<FilteredStores>();
     _scaffoldKey = new GlobalKey<ScaffoldState>();

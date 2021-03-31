@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
@@ -38,28 +39,35 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 25),
-                          child: FutureBuilder<CurrentVersionModel>(
-                            future: getCurrentVersion(),
-                            builder: (context, AsyncSnapshot<CurrentVersionModel> snapshot) {
-                              return Center(
-                                child: (snapshot.connectionState == ConnectionState.done && snapshot.data != null) ? Text(
-                                  'Версия ${snapshot.data.version} от 27 мар. 2021 г.\nсборка 19',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(color: Color(0x97979797), fontSize: 15),
-                                ) : Center(
-                                  child: SpinKitThreeBounce(
-                                    color: AppColor.mainColor,
-                                    size: 20.0,
-                                  ),
-                                ),
-                                // Text(
-                                //   'Версия 1.0.10 от 27 мар. 2021 г.\nсборка 19',
-                                //   textAlign: TextAlign.center,
-                                //   style: TextStyle(color: Color(0x97979797), fontSize: 15),
-                                // ),
-                              );
-                            }
+                          child: Center(
+                              child: Text(
+                                'Версия ${CheckVersion.updateVersion} от 27 мар. 2021 г.\nсборка 19',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Color(0x97979797), fontSize: 15),
+                              )
                           ),
+                          // FutureBuilder<CurrentVersionModel>(
+                          //   future: getCurrentVersion(authCodeData.token),
+                          //   builder: (context, AsyncSnapshot<CurrentVersionModel> snapshot) {
+                          //     return Center(
+                          //       child: (snapshot.connectionState == ConnectionState.done && snapshot.data != null) ? Text(
+                          //         'Версия ${CheckVersion.updateVersion} от 27 мар. 2021 г.\nсборка 19',
+                          //         textAlign: TextAlign.center,
+                          //         style: TextStyle(color: Color(0x97979797), fontSize: 15),
+                          //       ) : Center(
+                          //         child: SpinKitThreeBounce(
+                          //           color: AppColor.mainColor,
+                          //           size: 20.0,
+                          //         ),
+                          //       ),
+                          //       // Text(
+                          //       //   'Версия 1.0.10 от 27 мар. 2021 г.\nсборка 19',
+                          //       //   textAlign: TextAlign.center,
+                          //       //   style: TextStyle(color: Color(0x97979797), fontSize: 15),
+                          //       // ),
+                          //     );
+                          //   }
+                          // ),
                         ),
                           // Container(
                           //   height: 30,

@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'package:device_id/device_id.dart';
 import 'package:flutter_app/Application/API/get_color_scheme.dart';
 import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
+import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'package:package_info/package_info.dart';
 
 import '../Centrifugo/centrifugo.dart';
 import '../Screens/CityScreen/Model/FilteredCities.dart';
@@ -52,7 +54,8 @@ class NecessaryDataForAuth{
       city = FilteredCities.fromJson(convert.jsonDecode(cityJson));
     }
 
-     await getColorScheme(header);
+    await getAppInfo();
+    await getColorScheme(header);
 
 
     NecessaryDataForAuth result = new NecessaryDataForAuth(
@@ -74,6 +77,8 @@ class NecessaryDataForAuth{
      // await Centrifugo.connectToServer();
       await saveData();
     }
+
+    await getCurrentVersion(authCodeData.token);
 
     return result;
   }
