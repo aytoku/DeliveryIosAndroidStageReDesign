@@ -22,7 +22,6 @@ import 'package:package_info/package_info.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 String getImage(String imgJson) {
   try {
     Map<String, dynamic> json = convert.jsonDecode(imgJson);
@@ -81,7 +80,6 @@ class AppColor {
   static Color subElementsColor = Color(0xFFEFEFEF);
   static Color unselectedBorderFieldColor = Color(0xFFF6F6F6);
 
-
   static fromJson(Map<String, dynamic> json) {
     mainColor = (json['main_color'] == null || json['main_color'] == '')
         ? mainColor
@@ -90,42 +88,44 @@ class AppColor {
         ? textColor
         : Color(int.parse(json['text_color']));
     unselectedTextColor = (json['unselected_text_color'] == null ||
-        json['unselected_text_color'] == '') ? unselectedTextColor : Color(
-        int.parse(json['unselected_text_color']));
+            json['unselected_text_color'] == '')
+        ? unselectedTextColor
+        : Color(int.parse(json['unselected_text_color']));
     additionalTextColor = (json['additional_text_color'] == null ||
-        json['additional_text_color'] == '') ? additionalTextColor : Color(
-        int.parse(json['additional_text_color']));
+            json['additional_text_color'] == '')
+        ? additionalTextColor
+        : Color(int.parse(json['additional_text_color']));
     themeColor = (json['theme_color'] == null || json['theme_color'] == '')
         ? themeColor
         : Color(int.parse(json['theme_color']));
     fieldColor =
-    (json['text_field_color'] == null || json['text_field_color'] == '')
-        ? fieldColor
-        : Color(int.parse(json['text_field_color']));
+        (json['text_field_color'] == null || json['text_field_color'] == '')
+            ? fieldColor
+            : Color(int.parse(json['text_field_color']));
     elementsColor =
-    (json['elements_color'] == null || json['elements_color'] == '')
-        ? elementsColor
-        : Color(int.parse(json['elements_color']));
+        (json['elements_color'] == null || json['elements_color'] == '')
+            ? elementsColor
+            : Color(int.parse(json['elements_color']));
     subElementsColor =
-    (json['sub_elements_color'] == null || json['sub_elements_color'] == '')
-        ? subElementsColor
-        : Color(int.parse(json['sub_elements_color']));
+        (json['sub_elements_color'] == null || json['sub_elements_color'] == '')
+            ? subElementsColor
+            : Color(int.parse(json['sub_elements_color']));
     borderFieldColor =
-    (json['border_field_color'] == null || json['border_field_color'] == '')
-        ? borderFieldColor
-        : Color(int.parse(json['border_field_color']));
+        (json['border_field_color'] == null || json['border_field_color'] == '')
+            ? borderFieldColor
+            : Color(int.parse(json['border_field_color']));
     unselectedBorderFieldColor =
-    (json['unselected_border_field_color'] == null ||
-        json['unselected_border_field_color'] == '')
-        ? unselectedBorderFieldColor
-        : Color(int.parse(json['unselected_border_field_color']));
+        (json['unselected_border_field_color'] == null ||
+                json['unselected_border_field_color'] == '')
+            ? unselectedBorderFieldColor
+            : Color(int.parse(json['unselected_border_field_color']));
   }
 }
 
 class CheckVersion {
   CheckVersion._();
 
-  static String updateVersion = '0.0.0';
+  static String updateVersion = '1.0.0';
   static bool updateRequire = false;
 
   static fromJson(Map<String, dynamic> json) {
@@ -138,7 +138,6 @@ class CheckVersion {
   }
 }
 
-
 checkVer(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   print('version $version');
@@ -147,13 +146,14 @@ checkVer(BuildContext context) async {
     onPressed: () {
       Navigator.pop(context);
       LaunchReview.launch(
-          androidAppId: "com.example.food_delivery", iOSAppId: "");
+          androidAppId: "ru.faem.client", iOSAppId: "1480946104");
     },
   );
 
   Widget denyButton = FlatButton(
     child: Text("Позже"),
     onPressed: () {
+      prefs.setString('deniedVersion', CheckVersion.updateVersion);
       Navigator.pop(context);
     },
   );
@@ -176,15 +176,12 @@ checkVer(BuildContext context) async {
     ),
     title: Text("Доступно обновление"),
     content: Text("Обновить приложение?"),
-    actions: [
-      okButton,
-
-    ],
+    actions: [okButton, denyButton],
   );
 
-  print(
-      'VERSION: $version //////////////////////////////////////////////////////////////////////////////');
-  if (Version.parse(CheckVersion.updateVersion) > Version.parse('0.0.0') &&
+  // print(
+  //     'VERSION: $version //////////////////////////////////////////////////////////////////////////////');
+  if (Version.parse(CheckVersion.updateVersion) > Version.parse(version) &&
       CheckVersion.updateRequire == true) {
     showDialog(
         context: context,
@@ -192,18 +189,19 @@ checkVer(BuildContext context) async {
           return Center(
             child: criticalAlert,
           );
-        }
-    );
-  } else
-  if (Version.parse(CheckVersion.updateVersion) > Version.parse('0.0.0') ) {
+        });
+  } else if ((Version.parse(CheckVersion.updateVersion) >
+              Version.parse(version) &&
+          prefs.get('deniedVersion') == null) ||
+      (Version.parse(CheckVersion.updateVersion) >
+          Version.parse(prefs.get('deniedVersion')))) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return Center(
             child: alert,
           );
-        }
-    );
+        });
   }
 }
 
@@ -275,38 +273,33 @@ class ScreenTitlePopState extends State<ScreenTitlePop> {
                       height: 50,
                       width: 55,
                       child: Padding(
-                        padding: EdgeInsets.only(
-                            top: 17, bottom: 17, right: 10),
-                        child: SvgPicture.asset(
-                            img),
+                        padding:
+                            EdgeInsets.only(top: 17, bottom: 17, right: 10),
+                        child: SvgPicture.asset(img),
                       )),
                   onTap: () {
                     homeScreenKey = new GlobalKey<HomeScreenState>();
-                    Navigator.of(context).push(
-                        PageRouteBuilder(
-                            pageBuilder: (context, animation,
-                                anotherAnimation) {
-                              return BlocProvider(
-                                create: (context) => RestaurantGetBloc(),
-                                child: new HomeScreen(),
-                              );
-                            },
-                            transitionDuration: Duration(milliseconds: 300),
-                            transitionsBuilder:
-                                (context, animation, anotherAnimation, child) {
+                    Navigator.of(context).push(PageRouteBuilder(
+                        pageBuilder: (context, animation, anotherAnimation) {
+                          return BlocProvider(
+                            create: (context) => RestaurantGetBloc(),
+                            child: new HomeScreen(),
+                          );
+                        },
+                        transitionDuration: Duration(milliseconds: 300),
+                        transitionsBuilder:
+                            (context, animation, anotherAnimation, child) {
 //                                      animation = CurvedAnimation(
 //                                          curve: Curves.bounceIn, parent: animation);
-                              return SlideTransition(
-                                position: Tween(
+                          return SlideTransition(
+                            position: Tween(
                                     begin: Offset(1.0, 0.0),
                                     end: Offset(0.0, 0.0))
-                                    .animate(animation),
-                                child: child,
-                              );
-                            }
-                        ));
-                  }
-              ),
+                                .animate(animation),
+                            child: child,
+                          );
+                        }));
+                  }),
             ),
             Align(
               alignment: Alignment.topCenter,
@@ -365,10 +358,8 @@ class ScreenTitlePushAndRemoveUntilState
                   height: 50,
                   width: 60,
                   child: Padding(
-                    padding:
-                    EdgeInsets.only(top: 17, bottom: 17, right: 10),
-                    child: SvgPicture.asset(
-                        img),
+                    padding: EdgeInsets.only(top: 17, bottom: 17, right: 10),
+                    child: SvgPicture.asset(img),
                   )),
               onTap: () async {
                 if (await Internet.checkConnection()) {
@@ -388,13 +379,13 @@ class ScreenTitlePushAndRemoveUntilState
 //                                          curve: Curves.bounceIn, parent: animation);
                             return SlideTransition(
                               position: Tween(
-                                  begin: Offset(1.0, 0.0),
-                                  end: Offset(0.0, 0.0))
+                                      begin: Offset(1.0, 0.0),
+                                      end: Offset(0.0, 0.0))
                                   .animate(animation),
                               child: child,
                             );
-                          }
-                      ), (Route<dynamic> route) => false);
+                          }),
+                      (Route<dynamic> route) => false);
                 } else {
                   noConnection(context);
                 }
@@ -421,4 +412,3 @@ class ScreenTitlePushAndRemoveUntilState
     );
   }
 }
-

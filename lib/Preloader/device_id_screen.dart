@@ -6,6 +6,7 @@ import 'package:flutter_app/VersionControl/Model/CurrentVersionModel.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
 
 import '../Amplitude/amplitude.dart';
 import '../Config/config.dart';
@@ -32,6 +33,12 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
     // TODO: implement initState
     super.initState();
     devId = NecessaryDataForAuth.getData();
+    getVerData(context);
+
+  }
+
+  getVerData(BuildContext context) async {
+    await getCurrentVersion();
   }
 
   showAlertDialog(BuildContext context) {

@@ -78,7 +78,7 @@ class NecessaryDataForAuth{
       await saveData();
     }
 
-    await getCurrentVersion(authCodeData.token);
+
 
     return result;
   }
@@ -97,6 +97,8 @@ class NecessaryDataForAuth{
     prefs.setString('city',city);
     prefs.setInt('selected_payment_id',selectedPaymentId);
     prefs.setString('token',token);
+
+
   }
 
   static Future<String> refreshToken(String refresh_token, String token, String device_id) async {
@@ -122,11 +124,14 @@ class NecessaryDataForAuth{
       var jsonResponse = convert.jsonDecode(response.body);
       authCodeData = AuthCodeData.fromJson(jsonResponse);
       result = authCodeData.refreshToken.value;
+
     } else {
       print('Request failed with status SERV: ${response.statusCode}.');
     }
     return result;
   }
+
+
 
   static Future clear() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
