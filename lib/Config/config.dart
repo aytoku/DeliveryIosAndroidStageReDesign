@@ -20,7 +20,7 @@ class NecessaryDataForAuth{
   String name;
   String token;
   FilteredCities city;
-  int selectedPaymentId;
+  String selectedPaymentName;
   static NecessaryDataForAuth _necessaryDataForAuth;
 
   NecessaryDataForAuth({
@@ -29,7 +29,7 @@ class NecessaryDataForAuth{
     this.token,
     this.city,
     this.refresh_token,
-    this.selectedPaymentId,
+    this.selectedPaymentName,
     this.name
   });
 
@@ -42,7 +42,7 @@ class NecessaryDataForAuth{
     String refresh_token = prefs.getString('refresh_token');
     String name = prefs.getString('name');
     String cityJson = prefs.getString('city');
-    int selectedPaymentId = prefs.getInt('selected_payment_id') ?? 0;
+    String selectedPaymentName = prefs.getString('selected_payment_name') ?? 'cash';
     String token = prefs.getString('token');
 
 
@@ -61,7 +61,7 @@ class NecessaryDataForAuth{
         refresh_token: refresh_token,
         name: name,
         token: token,
-        selectedPaymentId: selectedPaymentId,
+        selectedPaymentName: selectedPaymentName,
         city: city,
     );
 
@@ -83,14 +83,14 @@ class NecessaryDataForAuth{
     String refresh_token = _necessaryDataForAuth.refresh_token;
     String name = _necessaryDataForAuth.name;
     String city = convert.jsonEncode(_necessaryDataForAuth.city.toJson());
-    int selectedPaymentId = _necessaryDataForAuth.selectedPaymentId;
+    String selectedPaymentName = _necessaryDataForAuth.selectedPaymentName;
     String token = _necessaryDataForAuth.token;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('phone_number', phone_number);
     prefs.setString('refresh_token',refresh_token);
     prefs.setString('name',name);
     prefs.setString('city',city);
-    prefs.setInt('selected_payment_id',selectedPaymentId);
+    prefs.setString('selected_payment_name',selectedPaymentName);
     prefs.setString('token',token);
   }
 

@@ -94,8 +94,6 @@ class FilteredStores {
       store.productCategoriesUuid.forEach((element) {
         productCategoriesUuid.add(new CategoriesUuid(uuid: element));
       });
-    }else{
-      return null;
     }
 
 
@@ -103,6 +101,7 @@ class FilteredStores {
         name: store.name,
         uuid: store.uuid,
         address: store.address,
+      paymentTypes: store.paymentTypes,
       productCategoriesUuid: productCategoriesUuid
     );
   }

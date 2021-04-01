@@ -22,7 +22,7 @@ class PaymentScreenState extends State<PaymentScreen> {
   bool isSelected = false;
   bool change = false;
   List<Map<String, String>> paymentMethods;
-  int selectedPaymentId;
+  String selectedPaymentName;
 
   @override
   void initState() {
@@ -31,15 +31,17 @@ class PaymentScreenState extends State<PaymentScreen> {
     paymentMethods = [
       {
         "name": "Наличными",
-        "image": "assets/svg_images/dollar_bills.svg"
+        "image": "assets/svg_images/dollar_bills.svg",
+        "tag": "cash"
       },
       {
         "name": (Platform.isIOS) ? "ApplePay" : "GooglePay",
         "image": (Platform.isIOS) ? "assets/svg_images/apple_pay.svg"
-            : "assets/svg_images/google_pay.svg"
+            : "assets/svg_images/google_pay.svg",
+        "tag": "virtualCardPayment"
       },
     ];
-    selectedPaymentId = necessaryDataForAuth.selectedPaymentId;
+    selectedPaymentName = necessaryDataForAuth.selectedPaymentName;
   }
 
   void addPaymentCard() {
@@ -383,7 +385,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                                 padding: const EdgeInsets.only(left: 20),
                                                 child: Text(paymentMethods[index]['name']),
                                               ),
-                                              (selectedPaymentId == index) ?
+                                              (selectedPaymentName == paymentMethods[index]['tag']) ?
                                               SvgPicture.asset('assets/svg_images/home_selected_item.svg')
                                                   :
                                               SvgPicture.asset('assets/svg_images/home_unselected_item.svg'),
@@ -395,9 +397,9 @@ class PaymentScreenState extends State<PaymentScreen> {
                                   ),
                                   onTap: () async{
                                     setState(() {
-                                      selectedPaymentId = index;
+                                      selectedPaymentName = paymentMethods[index]['tag'];
                                     });
-                                    necessaryDataForAuth.selectedPaymentId = selectedPaymentId;
+                                    necessaryDataForAuth.selectedPaymentName = selectedPaymentName;
                                     await NecessaryDataForAuth.saveData();
                                   },
                                 ),

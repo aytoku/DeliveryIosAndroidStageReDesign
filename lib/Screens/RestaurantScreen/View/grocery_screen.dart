@@ -306,81 +306,81 @@ class GroceryScreenState extends State<GroceryScreen>{
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 30, left: 15),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text('Категории',
-                style: TextStyle(
-                  fontSize: 24
+              padding: EdgeInsets.only(top: 30, left: 15),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text('Категории',
+                  style: TextStyle(
+                      fontSize: 24
+                  ),
                 ),
-              ),
-            )
+              )
           ),
           Expanded(
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              padding: EdgeInsets.zero,
-              itemCount: restaurant.productCategoriesUuid.length,
-              itemBuilder: (context, index) {
-                var productCategory = restaurant.productCategoriesUuid[index];
-                return InkWell(
-                  hoverColor: AppColor.themeColor,
-                  focusColor: AppColor.themeColor,
-                  splashColor: AppColor.themeColor,
-                  highlightColor: AppColor.themeColor,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
-                      child: Row(
-                        children: [
-                          Image.network(productCategory.url),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Text(productCategory.name,
-                              style: TextStyle(
-                                fontSize: 14
+              child: ListView.builder(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.zero,
+                itemCount: restaurant.productCategoriesUuid.length,
+                itemBuilder: (context, index) {
+                  var productCategory = restaurant.productCategoriesUuid[index];
+                  return InkWell(
+                    hoverColor: AppColor.themeColor,
+                    focusColor: AppColor.themeColor,
+                    splashColor: AppColor.themeColor,
+                    highlightColor: AppColor.themeColor,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
+                        child: Row(
+                          children: [
+                            Image.network(productCategory.url),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: Text(productCategory.name,
+                                style: TextStyle(
+                                    fontSize: 14
+                                ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child: Container(
-                                height: 27,
-                                width: 56,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFEEEEEE),
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '228',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF4D9D46)
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  height: 27,
+                                  width: 56,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFEEEEEE),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '228',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF4D9D46)
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  onTap: (){
-                    selectedCategoriesUuid = productCategory;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) {
-                        return RestaurantScreen(restaurant: restaurant);
-                      }),
-                    );
-                  },
-                );
-              },
-            )
+                    onTap: (){
+                      selectedCategoriesUuid = productCategory;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) {
+                          return RestaurantScreen(restaurant: restaurant);
+                        }),
+                      );
+                    },
+                  );
+                },
+              )
           )
         ],
       ),
@@ -551,14 +551,17 @@ class GroceryScreenState extends State<GroceryScreen>{
               if(snapshot.connectionState ==
                   ConnectionState.done &&
                   snapshot.data.filteredProductCategories.length > 0){
-                return Container(
-                  height: MediaQuery.of(context).size.height * 0.6,
+                return Expanded(
                   child: ListView(
+                    padding: EdgeInsets.zero,
                     children: List.generate(snapshot.data.filteredProductCategories.length, (index){
                       return InkWell(
                         child: Container(
                             width: MediaQuery.of(context).size.width,
-                            child: Text(snapshot.data.filteredProductCategories[index].name)
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Text(snapshot.data.filteredProductCategories[index].name),
+                            )
                         ),
                         onTap: (){
                           Navigator.push(context,
@@ -625,14 +628,7 @@ class ChildCategoriesScreenState extends State<ChildCategoriesScreen>{
                 splashColor: AppColor.themeColor,
                 highlightColor: AppColor.themeColor,
                 onTap: () {
-                  homeScreenKey = new GlobalKey<HomeScreenState>();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (context) => RestaurantGetBloc(),
-                            child: new HomeScreen(),
-                          )),
-                          (Route<dynamic> route) => false);
+                  Navigator.pop(context);
                 },
                 child: Padding(
                   padding: EdgeInsets.only( top: 40),
@@ -657,29 +653,45 @@ class ChildCategoriesScreenState extends State<ChildCategoriesScreen>{
                 if(snapshot.connectionState ==
                     ConnectionState.done &&
                     snapshot.data.filteredProductCategories.length > 0){
-                  return Container(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: Column(
-                      children: [
-                        Text(parentCategory.name),
-                        Expanded(
-                          child: ListView(
-                            children: List.generate(snapshot.data.filteredProductCategories.length, (index){
-                              return InkWell(
-                                child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Text(snapshot.data.filteredProductCategories[index].name)
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                child: Text(parentCategory.name,
+                                  style: TextStyle(
+                                    fontSize: 24
+                                  ),
                                 ),
-                                onTap: (){
-                                  setState(() {
-
-                                  });
-                                },
-                              );
-                            }),
+                              )
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: ListView(
+                              padding: EdgeInsets.zero,
+                              children: List.generate(snapshot.data.filteredProductCategories.length, (index){
+                                return InkWell(
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                        child: Text(snapshot.data.filteredProductCategories[index].name),
+                                      )
+                                  ),
+                                  onTap: (){
+                                    setState(() {
+
+                                    });
+                                  },
+                                );
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }else{

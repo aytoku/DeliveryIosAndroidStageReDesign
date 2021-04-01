@@ -27,6 +27,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../../data/data.dart';
 import '../../../data/globalVariables.dart';
 import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
 
 class AddressScreen extends StatefulWidget {
   MyFavouriteAddressesModel addedAddress;
@@ -59,7 +61,7 @@ class AddressScreenState extends State<AddressScreen>
   String card_image;
   String cash;
   String card;
-  int selectedPaymentId = 0;
+  String selectedPaymentName = '';
   List<Map<String, String>> paymentMethods;
 
 
@@ -79,6 +81,8 @@ class AddressScreenState extends State<AddressScreen>
   MyFavouriteAddressesModel addedAddress;
 
   double initHeight = 200;
+  int paymentsMethodCount = 0;
+  int paymentIndex = 0;
 
 
   AddressScreenState(this.restaurant, this.addedAddress, this.isTakeAwayOrderConfirmation, {this.myAddressesModelList});
@@ -104,15 +108,19 @@ class AddressScreenState extends State<AddressScreen>
     paymentMethods = [
       {
         "name": "Наличными",
-        "image": "assets/svg_images/dollar_bills.svg"
+        "image": "assets/svg_images/dollar_bills.svg",
+        "tag": "cash",
+        "outputTag":"cash"
       },
       {
         "name": (Platform.isIOS) ? "ApplePay" : "GooglePay",
         "image": (Platform.isIOS) ? "assets/svg_images/apple_pay.svg"
-            : "assets/svg_images/google_pay.svg"
+            : "assets/svg_images/google_pay.svg",
+        "tag": "virtualCardPayment",
+        "outputTag":"card"
       },
     ];
-    selectedPaymentId = necessaryDataForAuth.selectedPaymentId;
+    selectedPaymentName = necessaryDataForAuth.selectedPaymentName;
     // addressValueController = TextEditingController(text: restaurant.destination_points[0].street + ' ' + restaurant.destination_points[0].house);
     // selectedAddress = restaurant.address[0];
   }
@@ -179,6 +187,9 @@ class AddressScreenState extends State<AddressScreen>
         padding: EdgeInsets.zero,
         children: List.generate(
             paymentMethods.length, (index){
+              if(!restaurant.paymentTypes.contains(paymentMethods[index]['outputTag'])){
+                return Container();
+              }
               return InkWell(
                   child: Padding(
                     padding: EdgeInsets.only(left: 20, bottom: 5, top: 10),
@@ -201,7 +212,7 @@ class AddressScreenState extends State<AddressScreen>
                             alignment: Alignment.centerRight,
                             child: Padding(
                               padding: EdgeInsets.only(right: 15),
-                              child: (selectedPaymentId != index) ?
+                              child: (selectedPaymentName != paymentMethods[index]['tag']) ?
                               SvgPicture.asset('assets/svg_images/pay_circle.svg') :
                               SvgPicture.asset('assets/svg_images/address_screen_selector.svg'),
                             ),
@@ -210,7 +221,7 @@ class AddressScreenState extends State<AddressScreen>
                       ],
                     ),
                   ),
-                  onTap: ()=>_selectItem(index)
+                  onTap: ()=>_selectItem(paymentMethods[index]['tag'])
               );
         })
       ),
@@ -256,10 +267,10 @@ class AddressScreenState extends State<AddressScreen>
     );
   }
 
-  void _selectItem(int index) {
+  void _selectItem(String tag) {
     Navigator.pop(context);
     setState(() {
-      selectedPaymentId = index;
+      selectedPaymentName = tag;
     });
   }
 
@@ -432,12 +443,26 @@ class AddressScreenState extends State<AddressScreen>
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     addressSelectorKey = new GlobalKey();
     paymentButtonKey = new GlobalKey();
     FocusNode focusNode;
+    paymentsMethodCount = 0;
     double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
+    paymentIndex = paymentMethods.indexWhere((element){
+      return element['tag'] == selectedPaymentName;
+    });
+    if(paymentIndex == -1){
+     paymentIndex = 0;
+    }
+    paymentMethods.forEach((element) {
+      if(restaurant.paymentTypes.contains(element['outputTag'])){
+        paymentsMethodCount++;
+      }
+    });
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
           statusBarColor: Colors.white,
@@ -965,7 +990,29 @@ class AddressScreenState extends State<AddressScreen>
                         //     ),
                         //   ),
                         // ),
-                        Padding(
+                        (paymentsMethodCount == 1) ?
+
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10, left: 15),
+                            child: Column(
+                              children: [
+                                Text('Способ оплаты',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: AppColor.additionalTextColor),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5, right: 8),
+                                  child: Text('Налинчыми'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+
+                            : Padding(
                           padding: const EdgeInsets.only(bottom: 30, right: 10),
                           child: Row(
                             children: [
@@ -1012,7 +1059,7 @@ class AddressScreenState extends State<AddressScreen>
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(left: 17),
                                                     child: Text(
-                                                      paymentMethods[selectedPaymentId]['name'],
+                                                      paymentMethods[paymentIndex]['name'],
                                                       style: TextStyle(
                                                           fontSize: 16,
                                                           color: Colors.black),
@@ -1089,7 +1136,7 @@ class AddressScreenState extends State<AddressScreen>
                             );
                           }
 
-                          if(selectedPaymentId == 0) // если наличка
+                          if(selectedPaymentName == paymentMethods[paymentIndex]['tag']) // если наличка
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
