@@ -44,6 +44,7 @@ import '../../../VersionControl/API/getCurrentVersion.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/Model/CartModel.dart';
 import '../../CityScreen/View/city_screen.dart';
+import '../../RestaurantScreen/API/get_filtered_product_categories.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import '../Model/FilteredStores.dart';
 
@@ -546,7 +547,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     child: Text('sdf'),
                           //   ),
                           //   onTap: () async {
-                          //     getCurrentVersion();
+                          //     getFilteredProductCategories(
+                          //         '843c7634-272e-4592-89aa-dfee1f0dadb7',
+                          //         '00826a6e-f3c2-4b66-8f83-ce758898f4d5',
+                          //         '988a1afb-f5a0-475f-9927-bcbc5fc04e09');
                           //   },
                           // ),
                           Padding(

@@ -160,6 +160,7 @@ class GroceryScreenState extends State<GroceryScreen>{
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColor.themeColor,
       body: Column(
@@ -615,7 +616,6 @@ class ChildCategoriesScreenState extends State<ChildCategoriesScreen>{
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         child: Column(
