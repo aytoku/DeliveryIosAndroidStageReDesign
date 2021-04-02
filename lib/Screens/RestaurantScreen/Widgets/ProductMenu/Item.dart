@@ -102,7 +102,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
         color: AppColor.themeColor,
         child: Padding(
           padding: EdgeInsets.only(top: 15.0, left: 15, right: 15,
-              bottom: (cartBottomPadding) ? MediaQuery.of(context).size.height * 0.15 : 15),
+              bottom: (cartBottomPadding) ? 110 : 15),
           child: Center(
               child: GestureDetector(
                   onTap: () async {

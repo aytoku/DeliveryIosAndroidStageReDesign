@@ -9,6 +9,7 @@ import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/getProductsByStoreUuid.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/API/get_filtered_products.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/CartButton/CartButton.dart';
@@ -958,16 +959,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   Widget _buildGroceryScreen() {
     isLoading = false;
 
-    List<ProductsByStoreUuid> filteredProducts;
-    if(restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length > 0){
-     filteredProducts = List.from(restaurantDataItems.productsByStoreUuidList.where(
-              (element) => element.productCategories[0].name == selectedCategoriesUuid.name
-      ));
-    }
 
     // Если хавки нет
-    if (restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length == 0 ||
-        filteredProducts.length == 0) {
+    if (restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length == 0) {
       return Container(
         color: AppColor.themeColor,
         child: Column(
@@ -1051,9 +1045,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
 
     // генерим список еды и названий категория
     foodMenuItems.clear();
-    foodMenuItems.addAll(MenuItem.fromFoodRecordsList(filteredProducts, this));
+    foodMenuItems.addAll(MenuItem.fromFoodRecordsList(restaurantDataItems.productsByStoreUuidList, this));
     foodMenuTitles.clear();
-    foodMenuTitles.addAll(MenuItemTitle.fromCategoryList([selectedCategoriesUuid]));
+    //foodMenuTitles.addAll(MenuItemTitle.fromCategoryList(restaurantDataItems.productsByStoreUuidList[0]));
     menuWithTitles = generateMenu();
 
     return Container(
@@ -1199,7 +1193,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         _buildScreen()
             :
         FutureBuilder<ProductsByStoreUuidData>(
-            future: (restaurant.type == 'restaurant') ? getSortedProductsByStoreUuid(restaurant) : getProductsByStoreUuid(restaurant.uuid),
+            future: (restaurant.type == 'restaurant') ? getSortedProductsByStoreUuid(restaurant) : getFilteredProduct(selectedCategoriesUuid, restaurant.uuid),
             initialData: null,
             builder: (BuildContext context,
                 AsyncSnapshot<ProductsByStoreUuidData> snapshot) {

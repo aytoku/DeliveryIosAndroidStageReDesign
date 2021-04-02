@@ -27,7 +27,7 @@ class PaymentButtonState extends State<PaymentButton>{
   @override
   Widget build(BuildContext context) {
     double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
-    if(parent.selectedPaymentName == parent.paymentMethods[parent.paymentIndex]['tag']){
+    if(parent.selectedPaymentName == parent.paymentMethods[0]['tag']){
       return Container(
         decoration: BoxDecoration(
           boxShadow: [
@@ -89,45 +89,46 @@ class PaymentButtonState extends State<PaymentButton>{
           ),
         ),
       );
-    }
-    return InkWell(
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 43,
-          decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(5)
-          ),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 5),
-                  child: Text('Оплатить',
-                    style: TextStyle(
-                        fontSize: 21,
-                        letterSpacing: 0.4,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600
+    }else{
+      return InkWell(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 43,
+            decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(5)
+            ),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Text('Оплатить',
+                      style: TextStyle(
+                          fontSize: 21,
+                          letterSpacing: 0.4,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600
+                      ),
                     ),
                   ),
-                ),
-                SvgPicture.asset((Platform.isIOS)
-                    ? 'assets/svg_images/apple_pay_logo.svg'
-                    : 'assets/svg_images/google_pay_logo.svg')
-              ],
+                  SvgPicture.asset((Platform.isIOS)
+                      ? 'assets/svg_images/apple_pay_logo.svg'
+                      : 'assets/svg_images/google_pay_logo.svg')
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      onTap: () async {
-        if(onTap != null){
-          await onTap();
-        }
-      },
-    );
+        onTap: () async {
+          if(onTap != null){
+            await onTap();
+          }
+        },
+      );
+    }
   }
 }
