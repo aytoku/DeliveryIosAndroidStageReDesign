@@ -3,7 +3,7 @@ import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' show jsonDecode;
+import 'dart:convert' as convert;
 
 
 Future<ProductsByStoreUuidData> getProductsByStoreUuid(String store_uuid) async {
@@ -16,8 +16,8 @@ Future<ProductsByStoreUuidData> getProductsByStoreUuid(String store_uuid) async 
     "ServiceName": 'faem_food',
   });
   if (response.statusCode == 200) {
-    // var jsonResponse = jsonDecode(response.body);
-    productsByStoreUuid = new ProductsByStoreUuidData(productsByStoreUuidList: jsonDecode(response.body));
+    var jsonResponse = convert.jsonDecode(response.body);
+    productsByStoreUuid = new ProductsByStoreUuidData.fromJson(jsonResponse);
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }

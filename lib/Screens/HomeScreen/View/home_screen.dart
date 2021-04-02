@@ -23,6 +23,7 @@ import 'package:flutter_app/Screens/HomeScreen/Widgets/TemporaryOrderChecking.da
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.dart';
 import 'package:flutter_app/Screens/NameScreen/API/set_client_name.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/API/get_delivery_tariff.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/GooglePay.dart';
@@ -39,6 +40,7 @@ import 'package:mad_pay/mad_pay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../Preloader/device_id_screen.dart';
+import '../../../VersionControl/API/getCurrentVersion.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/Model/CartModel.dart';
 import '../../CityScreen/View/city_screen.dart';
@@ -256,29 +258,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
         //     },
         //   ),
         // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
-        //   child: ListTile(
-        //     leading: SvgPicture.asset('assets/svg_images/service.svg'),
-        //     title: Text(
-        //       'Служба поддержки',
-        //       style: TextStyle(
-        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-        //     ),
-        //     onTap: () async {
-        //       if (await Internet.checkConnection()) {
-        //         Navigator.push(
-        //           context,
-        //           new MaterialPageRoute(
-        //             builder: (context) => new ServiceScreen(),
-        //           ),
-        //         );
-        //       } else {
-        //         noConnection(context);
-        //       }
-        //     },
-        //   ),
-        // ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: ListTile(
+            leading: SvgPicture.asset('assets/svg_images/service.svg'),
+            title: Text(
+              'Служба поддержки',
+              style: TextStyle(
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+            ),
+            onTap: () async {
+              if (await Internet.checkConnection()) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new ServiceScreen(),
+                  ),
+                );
+              } else {
+                noConnection(context);
+              }
+            },
+          ),
+        ),
       ]);
       allSideBarItems.add(
         Padding(
@@ -547,7 +549,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     child: Text('sdf'),
                           //   ),
                           //   onTap: () async {
-                          //     setClientName(authCodeData.clientUuid, currentUser.name);
+                          //     getCurrentVersion();
                           //   },
                           // ),
                           Padding(

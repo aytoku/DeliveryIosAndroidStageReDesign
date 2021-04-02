@@ -9,7 +9,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:async';
 
+import '../../../data/data.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
 import '../../AuthScreen/View/auth_screen.dart';
+import '../../CodeScreen/API/auth_code_data_pass.dart';
+import '../API/set_client_name.dart';
+import '../API/set_client_name.dart';
 
 class NameScreen extends StatefulWidget {
   NameScreen({this.source = AuthSources.Drawer, Key key}) : super(key: key);
@@ -151,7 +158,7 @@ class NameScreenState extends State<NameScreen> {
                                     });
                                     return;
                                   }
-
+                                  await setClientName(necessaryDataForAuth.device_id, nameFieldController.text);
                                   homeScreenKey =
                                   new GlobalKey<HomeScreenState>();
                                   Navigator.of(context).pushAndRemoveUntil(
@@ -173,7 +180,8 @@ class NameScreenState extends State<NameScreen> {
               ),
             )
           ],
-        ));
+        )
+    );
   }
 }
 

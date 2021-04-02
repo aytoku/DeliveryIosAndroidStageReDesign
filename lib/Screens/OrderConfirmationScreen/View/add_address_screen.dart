@@ -135,6 +135,8 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         if(myAddressesModel.address == null){
                           return;
                         }
+                        parent.isAddressSelected = true;
+
                         // поля для
                         myAddressesModel.entranceField = autoCompleteFieldKey.currentState.entranceField.text;
                         myAddressesModel.floorField = autoCompleteFieldKey.currentState.floorField.text;

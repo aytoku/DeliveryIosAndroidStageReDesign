@@ -10,8 +10,10 @@ import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/API/create_order.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/AddressSelector.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/DeliveryPrice.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/DestinationPointsAddressSelector.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/OrderSuccessScreen.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PaymentButton.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PromoText.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/data/data.dart';
@@ -23,6 +25,10 @@ import 'package:mad_pay/mad_pay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../data/data.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
 
 class AddressScreen extends StatefulWidget {
   MyFavouriteAddressesModel addedAddress;
@@ -55,7 +61,7 @@ class AddressScreenState extends State<AddressScreen>
   String card_image;
   String cash;
   String card;
-  int selectedPaymentId = 0;
+  String selectedPaymentName = '';
   List<Map<String, String>> paymentMethods;
 
 
@@ -64,14 +70,19 @@ class AddressScreenState extends State<AddressScreen>
   TextEditingController commentField;
   GlobalKey<AddressSelectorState> addressSelectorKey;
   GlobalKey<PromoTextState> promoTextKey;
+  GlobalKey<PaymentButtonState> paymentButtonKey;
 
   TextEditingController phoneNumberController;
   TextEditingController nameController;
   TextEditingController addressValueController;
 
+  bool isAddressSelected = false;
+
   MyFavouriteAddressesModel addedAddress;
 
   double initHeight = 200;
+  int paymentsMethodCount = 0;
+  int paymentIndex = 0;
 
 
   AddressScreenState(this.restaurant, this.addedAddress, this.isTakeAwayOrderConfirmation, {this.myAddressesModelList});
@@ -97,15 +108,19 @@ class AddressScreenState extends State<AddressScreen>
     paymentMethods = [
       {
         "name": "Наличными",
-        "image": "assets/svg_images/dollar_bills.svg"
+        "image": "assets/svg_images/dollar_bills.svg",
+        "tag": "cash",
+        "outputTag":"cash"
       },
       {
         "name": (Platform.isIOS) ? "ApplePay" : "GooglePay",
         "image": (Platform.isIOS) ? "assets/svg_images/apple_pay.svg"
-            : "assets/svg_images/google_pay.svg"
+            : "assets/svg_images/google_pay.svg",
+        "tag": "virtualCardPayment",
+        "outputTag":"card"
       },
     ];
-    selectedPaymentId = necessaryDataForAuth.selectedPaymentId;
+    selectedPaymentName = necessaryDataForAuth.selectedPaymentName;
     // addressValueController = TextEditingController(text: restaurant.destination_points[0].street + ' ' + restaurant.destination_points[0].house);
     // selectedAddress = restaurant.address[0];
   }
@@ -172,6 +187,9 @@ class AddressScreenState extends State<AddressScreen>
         padding: EdgeInsets.zero,
         children: List.generate(
             paymentMethods.length, (index){
+              if(!restaurant.paymentTypes.contains(paymentMethods[index]['outputTag'])){
+                return Container();
+              }
               return InkWell(
                   child: Padding(
                     padding: EdgeInsets.only(left: 20, bottom: 5, top: 10),
@@ -194,7 +212,7 @@ class AddressScreenState extends State<AddressScreen>
                             alignment: Alignment.centerRight,
                             child: Padding(
                               padding: EdgeInsets.only(right: 15),
-                              child: (selectedPaymentId != index) ?
+                              child: (selectedPaymentName != paymentMethods[index]['tag']) ?
                               SvgPicture.asset('assets/svg_images/pay_circle.svg') :
                               SvgPicture.asset('assets/svg_images/address_screen_selector.svg'),
                             ),
@@ -203,7 +221,7 @@ class AddressScreenState extends State<AddressScreen>
                       ],
                     ),
                   ),
-                  onTap: ()=>_selectItem(index)
+                  onTap: ()=>_selectItem(paymentMethods[index]['tag'])
               );
         })
       ),
@@ -249,10 +267,10 @@ class AddressScreenState extends State<AddressScreen>
     );
   }
 
-  void _selectItem(int index) {
+  void _selectItem(String tag) {
     Navigator.pop(context);
     setState(() {
-      selectedPaymentId = index;
+      selectedPaymentName = tag;
     });
   }
 
@@ -425,12 +443,26 @@ class AddressScreenState extends State<AddressScreen>
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     addressSelectorKey = new GlobalKey();
-    print('a screen build');
+    paymentButtonKey = new GlobalKey();
     FocusNode focusNode;
+    paymentsMethodCount = 0;
     double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
+    paymentIndex = paymentMethods.indexWhere((element){
+      return element['tag'] == selectedPaymentName;
+    });
+    if(paymentIndex == -1){
+     paymentIndex = 0;
+    }
+    paymentMethods.forEach((element) {
+      if(restaurant.paymentTypes.contains(element['outputTag'])){
+        paymentsMethodCount++;
+      }
+    });
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
           statusBarColor: Colors.white,
@@ -801,8 +833,8 @@ class AddressScreenState extends State<AddressScreen>
                                   ],
                                 ),
                               ),
-                              Text(
-                                '${currentUser.cartModel.deliveryPrice.toStringAsFixed(0)} \₽',
+                              (isAddressSelected == true) ? DeliveryPrice() : Text(
+                                '0 \₽',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14),
@@ -958,7 +990,29 @@ class AddressScreenState extends State<AddressScreen>
                         //     ),
                         //   ),
                         // ),
-                        Padding(
+                        (paymentsMethodCount == 1) ?
+
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10, left: 15),
+                            child: Column(
+                              children: [
+                                Text('Способ оплаты',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: AppColor.additionalTextColor),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5, right: 8),
+                                  child: Text('Налинчыми'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+
+                            : Padding(
                           padding: const EdgeInsets.only(bottom: 30, right: 10),
                           child: Row(
                             children: [
@@ -1005,7 +1059,7 @@ class AddressScreenState extends State<AddressScreen>
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(left: 17),
                                                     child: Text(
-                                                      paymentMethods[selectedPaymentId]['name'],
+                                                      paymentMethods[paymentIndex]['name'],
                                                       style: TextStyle(
                                                           fontSize: 16,
                                                           color: Colors.black),
@@ -1025,6 +1079,7 @@ class AddressScreenState extends State<AddressScreen>
                                     ),
                                     onTap: () async {
                                        _payment();
+
                                     },
                                   ),
                                 ),
@@ -1041,111 +1096,64 @@ class AddressScreenState extends State<AddressScreen>
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 5.0,
-                              offset: Offset(0.0, 1)
-                          )
-                        ],
-                        color: AppColor.themeColor,),
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 15, left: 50, right: 20, top: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                    '${(totalPrice).toStringAsFixed(0)} \₽',
-                                    style: TextStyle(
-                                        fontSize: 18.0,
-                                        color: Colors.black)),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 3),
-                                  child: Text(
-                                    (currentUser.cartModel.cookingTime != null)
-                                        ? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин'
-                                        : '',
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              child: Container(
-                                height: 52,
-                                width: 168,
-                                decoration: BoxDecoration(
-                                  color: AppColor.mainColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text('Заказать',
-                                      style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: AppColor.textColor)),
-                                ),
-                              ),
-                              onTap: () async {
-                                if (await Internet.checkConnection()) {
-                                  if(isTakeAwayOrderConfirmation){
-                                    showAlertDialog(context);
-                                    await createOrder(
-                                        currentUser.cartModel.uuid,
-                                        isTakeAwayOrderConfirmation,
-                                        false,
-                                        eatInStore,
-                                        null,
-                                        '',
-                                        '',
-                                        '',
-                                        '',
-                                        commentField.text
-                                    );
-                                  } else {
-                                    if(addressSelectorKey.currentState.myFavouriteAddressesModel.address == null
-                                        && !isTakeAwayOrderConfirmation){
-                                      emptyAddress(context);
-                                      return;
-                                    }
-                                    showAlertDialog(context);
-                                    await createOrder(
-                                        currentUser.cartModel.uuid,
-                                        false,
-                                        false,
-                                        false,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.entranceField,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.floorField,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.officeField,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.intercomField,
-                                        commentField.text
-                                    );
-                                  }
+                    child: PaymentButton(
+                      parent: this,
+                      key: paymentButtonKey,
+                      onTap: () async {
+                        if (await Internet.checkConnection()) {
+                          if(isTakeAwayOrderConfirmation){
+                            showAlertDialog(context);
+                            await createOrder(
+                                currentUser.cartModel.uuid,
+                                isTakeAwayOrderConfirmation,
+                                false,
+                                eatInStore,
+                                null,
+                                '',
+                                '',
+                                '',
+                                '',
+                                commentField.text
+                            );
+                          } else {
+                            if(addressSelectorKey.currentState.myFavouriteAddressesModel.address == null
+                                && !isTakeAwayOrderConfirmation){
+                              emptyAddress(context);
+                              return;
+                            }
+                            showAlertDialog(context);
+                            await createOrder(
+                                currentUser.cartModel.uuid,
+                                false,
+                                false,
+                                false,
+                                addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                addressSelectorKey.currentState.myFavouriteAddressesModel.entranceField,
+                                addressSelectorKey.currentState.myFavouriteAddressesModel.floorField,
+                                addressSelectorKey.currentState.myFavouriteAddressesModel.officeField,
+                                addressSelectorKey.currentState.myFavouriteAddressesModel.intercomField,
+                                commentField.text
+                            );
+                          }
 
-                                  if(selectedPaymentId == 0) // если наличка
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-                                            (Route<dynamic> route) => false);
-                                  else{ // если не наличка
-                                    await makePayment();
-                                  }
-                                } else {
-                                  noConnection(context);
-                                }
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                          if(selectedPaymentName == paymentMethods[paymentIndex]['tag']) // если наличка
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                                    (Route<dynamic> route) => false);
+                          else{ // если не наличка
+                            await makePayment();
+                          }
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                                  (Route<dynamic> route) => false);
+
+                        } else {
+                          noConnection(context);
+                        }
+                      },
+                    )
                   )
                 ],
               )

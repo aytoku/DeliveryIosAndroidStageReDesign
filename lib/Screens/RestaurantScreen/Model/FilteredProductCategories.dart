@@ -1,3 +1,24 @@
+class FilteredProductCategoriesData{
+
+  List<FilteredProductCategories> filteredProductCategories;
+
+  FilteredProductCategoriesData( {
+    this.filteredProductCategories,
+  });
+
+  factory FilteredProductCategoriesData.fromJson(List<dynamic> parsedJson){
+    List<FilteredProductCategories> filteredProductCategoriesList = null;
+    if(parsedJson != null){
+      filteredProductCategoriesList = parsedJson.map((i) => FilteredProductCategories.fromJson(i)).toList();
+    }
+
+    return FilteredProductCategoriesData(
+      filteredProductCategories:filteredProductCategoriesList,
+    );
+  }
+}
+
+
 class FilteredProductCategories {
   FilteredProductCategories({
     this.uuid,

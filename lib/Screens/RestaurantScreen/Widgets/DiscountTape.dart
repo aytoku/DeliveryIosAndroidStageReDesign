@@ -21,7 +21,7 @@ class DiscountTapeWidget extends StatelessWidget {
           child: RotationTransition(
             turns: new AlwaysStoppedAnimation(35 / 360),
             child: Text(
-              "${''}",
+              "-20%",
               style: TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
           ),
