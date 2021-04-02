@@ -1,18 +1,22 @@
+import 'dart:convert';
+
+List<ProductsByStoreUuid> productsByStoreUuidFromJson(String str) => List<ProductsByStoreUuid>.from(json.decode(str).map((x) => ProductsByStoreUuid.fromJson(x)));
+
+String productsByStoreUuidToJson(List<ProductsByStoreUuid> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+
 class ProductsByStoreUuidData{
   List<ProductsByStoreUuid> productsByStoreUuidList;
 
-  ProductsByStoreUuidData( {
-    this.productsByStoreUuidList,
-  });
+  ProductsByStoreUuidData({this.productsByStoreUuidList,});
 
   factory ProductsByStoreUuidData.fromJson(List<dynamic> parsedJson){
-    List<ProductsByStoreUuid> productsList = null;
+    List<ProductsByStoreUuid> productsList;
     if(parsedJson != null){
       productsList = parsedJson.map((i) => ProductsByStoreUuid.fromJson(i)).toList();
     }
-
     return ProductsByStoreUuidData(
-      productsByStoreUuidList:productsList,
+      productsByStoreUuidList: productsList,
     );
   }
 }
@@ -128,6 +132,7 @@ class ProductsByStoreUuidMeta {
     this.description,
     this.composition,
     this.weight,
+    this.oldPrice,
     this.weightMeasurement,
     this.images,
     this.energyValue,
@@ -136,6 +141,7 @@ class ProductsByStoreUuidMeta {
   String description;
   String composition;
   int weight;
+  double oldPrice;
   String weightMeasurement;
   List<String> images;
   EnergyValue energyValue;
@@ -145,6 +151,7 @@ class ProductsByStoreUuidMeta {
     composition: json["composition"],
     weight: json["weight"],
     weightMeasurement: json["weight_measurement"],
+    oldPrice: json["old_price"],
     images: (json["images"] == null) ? null : List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
   );
@@ -153,6 +160,7 @@ class ProductsByStoreUuidMeta {
     "description": description,
     "composition": composition,
     "weight": weight,
+    "old_price": oldPrice,
     "weight_measurement": weightMeasurement,
     "images": List<dynamic>.from(images.map((x) => x)),
     "energy_value": energyValue.toJson(),

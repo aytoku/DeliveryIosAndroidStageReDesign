@@ -1199,7 +1199,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             initialData: null,
             builder: (BuildContext context,
                 AsyncSnapshot<ProductsByStoreUuidData> snapshot) {
-              print(snapshot.connectionState);
+              print(snapshot.data);
               if (snapshot.connectionState == ConnectionState.done) {
                 restaurantDataItems = snapshot.data;
                 return _buildScreen();
@@ -1262,3 +1262,4 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     return true;
   }
 }
+
