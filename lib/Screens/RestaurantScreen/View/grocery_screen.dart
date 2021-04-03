@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_categories_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductCategories/CategoryList.dart';
 import 'package:flutter_app/data/data.dart';
@@ -354,7 +355,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                            );
                          }else{
                            Navigator.push(context,
-                               MaterialPageRoute(builder: (context)=> ChildCategoriesScreen(
+                               MaterialPageRoute(builder: (context)=> GroceryCategoriesScreen(
                                    restaurant: restaurant,
                                    parentCategory: snapshot.data.filteredProductCategories[index],
                                    filteredProductCategoriesData: categoriesFilter
@@ -372,130 +373,6 @@ class GroceryScreenState extends State<GroceryScreen>{
             },
           ),
         ],
-      ),
-    );
-  }
-}
-
-
-class ChildCategoriesScreen extends StatefulWidget {
-
-  FilteredProductCategories parentCategory;
-  FilteredStores restaurant;
-  FilteredProductCategoriesData filteredProductCategoriesData;
-  ChildCategoriesScreen({Key key, this.parentCategory, this.restaurant, this.filteredProductCategoriesData}) : super(key: key);
-
-  @override
-  ChildCategoriesScreenState createState() {
-    return new ChildCategoriesScreenState(parentCategory, restaurant, filteredProductCategoriesData);
-  }
-}
-
-class ChildCategoriesScreenState extends State<ChildCategoriesScreen>{
-
-  FilteredProductCategories parentCategory;
-  FilteredStores restaurant;
-  FilteredProductCategoriesData filteredProductCategoriesData;
-  ChildCategoriesScreenState(this.parentCategory, this.restaurant, this.filteredProductCategoriesData);
-
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: InkWell(
-                hoverColor: AppColor.themeColor,
-                focusColor: AppColor.themeColor,
-                splashColor: AppColor.themeColor,
-                highlightColor: AppColor.themeColor,
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: EdgeInsets.only( top: 40),
-                  child: Container(
-                      height: 40,
-                      width: 60,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            top: 12, bottom: 12, right: 10),
-                        child: SvgPicture.asset(
-                            'assets/svg_images/arrow_left.svg'),
-                      )),),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Column(
-                  children: [
-                    Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: Text(parentCategory.name,
-                            style: TextStyle(
-                                fontSize: 24
-                            ),
-                          ),
-                        )
-                    ),
-                    Expanded(
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        children: List.generate(filteredProductCategoriesData.filteredProductCategories.length, (index){
-                          return InkWell(
-                            child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                                  child: Text(filteredProductCategoriesData.filteredProductCategories[index].name),
-                                )
-                            ),
-                            onTap: () async{
-                              var categoriesFilter = await getFilteredProductCategories(
-                                  restaurant.uuid,
-                                  filteredProductCategoriesData.filteredProductCategories[index].uuid,
-                                  necessaryDataForAuth.city.uuid);
-                              if(categoriesFilter.filteredProductCategories.isEmpty){
-                                selectedCategoriesUuid = filteredProductCategoriesData.filteredProductCategories[index].uuid;
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (_) {
-                                    return RestaurantScreen(restaurant: restaurant);
-                                  }),
-                                );
-                              }else{
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context)=> ChildCategoriesScreen(
-                                        restaurant: restaurant,
-                                        parentCategory: filteredProductCategoriesData.filteredProductCategories[index],
-                                        filteredProductCategoriesData: categoriesFilter
-                                    ))
-                                );
-                              }
-                            },
-                          );
-                        }),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
       ),
     );
   }

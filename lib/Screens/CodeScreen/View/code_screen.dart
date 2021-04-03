@@ -9,6 +9,8 @@ import 'package:flutter_app/Screens/CodeScreen/API/auth_code_data_pass.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_event.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_get_bloc.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_state.dart';
+import 'package:flutter_app/Screens/CodeScreen/Widgets/CodeButton.dart';
+import 'package:flutter_app/Screens/CodeScreen/Widgets/TimerCountDown.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/NameScreen/View/name_screen.dart';
@@ -31,10 +33,10 @@ class CodeScreen extends StatefulWidget {
   CodeScreen(this.authData, {this.source = AuthSources.Drawer, Key key}) : super(key: key);
 
   @override
-  _CodeScreenState createState() => _CodeScreenState(source, authData);
+  CodeScreenState createState() => CodeScreenState(source, authData);
 }
 
-class _CodeScreenState extends State<CodeScreen> {
+class CodeScreenState extends State<CodeScreen> {
   AuthSources source;
   AuthData authData;
   TextField code1;
@@ -50,9 +52,9 @@ class _CodeScreenState extends State<CodeScreen> {
   String temp2 = '';
   String temp3 = '';
   String temp4 = '';
-  GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
+  GlobalKey<CodeButtonState> buttonStateKey = new GlobalKey<CodeButtonState>();
   CodeGetBloc codeGetBloc;
-  _CodeScreenState(this.source, this.authData);
+  CodeScreenState(this.source, this.authData);
 
   void buttonColor() {
     String code = code1.controller.text +
@@ -404,7 +406,7 @@ class _CodeScreenState extends State<CodeScreen> {
                     child: Padding(
                       padding: EdgeInsets.only(
                           bottom: 20, left: 0, right: 0, top: 10),
-                      child: Button(
+                      child: CodeButton(
                         key: buttonStateKey,
                         color: Color(0xFFF3F3F3),
                         onTap: () async {
@@ -428,135 +430,5 @@ class _CodeScreenState extends State<CodeScreen> {
         ),
       ),
     );
-  }
-}
-
-class TimerCountDown extends StatefulWidget {
-  TimerCountDown({
-    Key key,
-    this.codeScreenState,
-  }) : super(key: key);
-  final _CodeScreenState codeScreenState;
-
-  @override
-  TimerCountDownState createState() {
-    return new TimerCountDownState(codeScreenState: codeScreenState);
-  }
-}
-
-class TimerCountDownState extends State<TimerCountDown> {
-  TimerCountDownState({this.codeScreenState});
-
-  final _CodeScreenState codeScreenState;
-  Timer _timer;
-  int _start = 60;
-
-  void startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-          (Timer timer) => setState(
-            () {
-          if (_start < 1) {
-            timer.cancel();
-            _timer.cancel();
-          } else {
-            _start = _start - 1;
-          }
-        },
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_start == 60) {
-      startTimer();
-    }
-    return _start != 0
-        ? Text('Получить новый код можно через $_start c',
-        style: TextStyle(
-          color: Color(0x97979797),
-          fontSize: 13.0,
-          letterSpacing: 1.2,
-        ))
-        : GestureDetector(
-      child: Text(
-        'Отправить код повторно',
-        style: TextStyle(),
-      ),
-      onTap: () {
-        codeScreenState.setState(() {});
-      },
-    );
-  }
-}
-
-class Button extends StatefulWidget {
-  Color color;
-  final AsyncCallback onTap;
-
-  Button({Key key, this.color, this.onTap}) : super(key: key);
-
-  @override
-  ButtonState createState() {
-    return new ButtonState(color, onTap);
-  }
-}
-
-class ButtonState extends State<Button> {
-  String error = '';
-  TextField code1;
-  TextField code2;
-  TextField code3;
-  TextField code4;
-  Color color;
-  final AsyncCallback onTap;
-
-  ButtonState(this.color, this.onTap);
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return GestureDetector(
-      child: Container(
-        width: 313,
-        height: 52,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Text('Далее',
-              style: TextStyle(
-                  fontSize: 18.0,
-                  color: AppColor.textColor)),
-        ),
-      ),
-      onTap: () async {
-        if (await Internet.checkConnection()) {
-          await onTap();
-        } else {
-          noConnection(context);
-        }
-      },
-    );
-  }
-
-  String validateMobile(String value) {
-    String pattern = r'(^(?:[+]?7)[0-9]{10}$)';
-    RegExp regExp = new RegExp(pattern);
-    if (value.length == 0) {
-      return 'Укажите норер';
-    } else if (!regExp.hasMatch(value)) {
-      return 'Указан неверный номер';
-    }
-    return null;
   }
 }
