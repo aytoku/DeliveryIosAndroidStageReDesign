@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class DiscountTapeWidget extends StatelessWidget {
-  // double price;
-  // double oldPrice;
-  //
-  // DiscountTapeWidget({this.price, this.oldPrice}) ;
+  final double price;
+  final oldPrice;
+
+  DiscountTapeWidget({this.price, this.oldPrice}) ;
 
   @override
   Widget build(BuildContext context) {
+    var discount = ((price * 100) / oldPrice);
+    discount = (discount.isInfinite) ? 0 : discount.round();
     return ClipPath(
       clipper: LinePathClass(),
       child: Container(
@@ -21,7 +23,7 @@ class DiscountTapeWidget extends StatelessWidget {
           child: RotationTransition(
             turns: new AlwaysStoppedAnimation(35 / 360),
             child: Text(
-              "-20%",
+              "-${discount}%",
               style: TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
           ),

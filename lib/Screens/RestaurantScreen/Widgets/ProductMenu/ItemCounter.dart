@@ -467,10 +467,27 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                         style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.w400,
-                            color: Colors.black),
+                            color: (foodRecords.meta.oldPrice == 0) ? Colors.black : Colors.red),
                         overflow: TextOverflow.ellipsis,
                       ),
                     )
+                ),
+                Visibility(
+                  visible: (foodRecords.meta.oldPrice == 0) ? false : true,
+                  child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 0, bottom: 5, top: 5, right: 5),
+                        child: Text(
+                          '${foodRecords.meta.oldPrice.toStringAsFixed(0)} \₽',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.lineThrough,
+                              color: Colors.black),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )
+                  ),
                 ),
               ],
             ),
@@ -490,10 +507,27 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                       style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.w400,
-                          color: Colors.black),
+                          color: (foodRecords.meta.oldPrice == 0) ? Colors.black : Colors.red),
                       overflow: TextOverflow.ellipsis,
                     ),
                   )
+              ),
+              Visibility(
+                visible: (foodRecords.meta.oldPrice == 0) ? false : true,
+                child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 0, bottom: 5, top: 5, right: 5),
+                      child: Text(
+                        '${foodRecords.meta.oldPrice.toStringAsFixed(0)} \₽',
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.lineThrough,
+                            color: Colors.black),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                ),
               ),
               SvgPicture.asset('assets/svg_images/rest_plus.svg'),
             ],

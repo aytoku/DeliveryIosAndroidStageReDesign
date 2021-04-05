@@ -203,8 +203,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                               ),
                             ),
                             Visibility(
-                              visible: true,
-                              child: DiscountTapeWidget(),
+                              visible: restaurantDataItems.meta.oldPrice == 0 ? false : true,
+                              child: DiscountTapeWidget(price: restaurantDataItems.price, oldPrice: restaurantDataItems.meta.oldPrice,),
                             ),
                           ],
                         ),
