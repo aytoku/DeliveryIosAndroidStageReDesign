@@ -43,6 +43,7 @@ import '../../../Preloader/device_id_screen.dart';
 import '../../../VersionControl/API/getCurrentVersion.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/Model/CartModel.dart';
+import '../../ChatScreen/View/chat_screen.dart';
 import '../../CityScreen/View/city_screen.dart';
 import '../../RestaurantScreen/API/get_filtered_product_categories.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
@@ -256,29 +257,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
         //     },
         //   ),
         // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
-        //   child: ListTile(
-        //     leading: SvgPicture.asset('assets/svg_images/service.svg'),
-        //     title: Text(
-        //       'Служба поддержки',
-        //       style: TextStyle(
-        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-        //     ),
-        //     onTap: () async {
-        //       if (await Internet.checkConnection()) {
-        //         Navigator.push(
-        //           context,
-        //           new MaterialPageRoute(
-        //             builder: (context) => new ServiceScreen(),
-        //           ),
-        //         );
-        //       } else {
-        //         noConnection(context);
-        //       }
-        //     },
-        //   ),
-        // ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: ListTile(
+            leading: SvgPicture.asset('assets/svg_images/service.svg'),
+            title: Text(
+              'Служба поддержки',
+              style: TextStyle(
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+            ),
+            onTap: () async {
+              if (await Internet.checkConnection()) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new ChatScreen(),
+                  ),
+                );
+              } else {
+                noConnection(context);
+              }
+            },
+          ),
+        ),
       ]);
       allSideBarItems.add(
         Padding(

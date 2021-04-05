@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
-import 'package:flutter_app/Screens/ChatScreen/View/chat_screen.dart';
+import 'package:flutter_app/Screens/ChatScreen/View/chat_screen_old_version.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/cancel_order.dart';

@@ -33,13 +33,6 @@ class GroceryScreenState extends State<GroceryScreen>{
   String parentUuid;
   GroceryScreenState(this.restaurant);
 
-  _buildFoodCategoryList() {
-    if(restaurant.productCategoriesUuid.length>0)
-      return categoryList;
-    else
-      return Container(height: 0);
-  }
-
   _restInfo() {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -185,7 +178,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                         (Route<dynamic> route) => false);
               },
               child: Padding(
-                padding: EdgeInsets.only( top: 40),
+                padding: EdgeInsets.only(top: 40),
                 child: Container(
                     height: 40,
                     width: 60,

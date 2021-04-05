@@ -12,6 +12,8 @@ import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+import '../../../data/api.dart';
+
 class SberAPI{
 
   static String sberToken = 'h1ed6cv2f93cm8teci2b63aeeg';
@@ -126,7 +128,7 @@ class SberAPI{
       'returnUrl': returnUrl,
       'failUrl': failUrl,
     });
-    var url = '${paymentUrl}googlepay/$uuid';
+    var url = '${apiUrl}googlepay/$uuid';
     var response = await http.post(url, body: request, headers: <String, String>{
       'Content-Type': 'application/json'
     });
@@ -150,7 +152,7 @@ class SberAPI{
       'orderNumber': orderNumber,
       'paymentToken': convert.base64Encode(utf8.encode(applePay['token'])),
     });
-    var url = '${paymentUrl}applepay/$uuid';
+    var url = '${apiUrl}applepay/$uuid';
     var response = await http.post(url, body: request, headers: <String, String>{
       'Content-Type': 'application/json'
     });
