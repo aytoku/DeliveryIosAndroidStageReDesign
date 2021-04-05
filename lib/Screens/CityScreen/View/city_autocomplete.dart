@@ -215,7 +215,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                 parent.controller.text = suggestions[index].name;
                 selectedCity = parent.selectedValue;
                 necessaryDataForAuth.city = selectedCity;
-                NecessaryDataForAuth.saveData();
+                await NecessaryDataForAuth.saveData();
                 Navigator.push(context,
                   new MaterialPageRoute(builder: (context) => new CityScreen()),
                 );
