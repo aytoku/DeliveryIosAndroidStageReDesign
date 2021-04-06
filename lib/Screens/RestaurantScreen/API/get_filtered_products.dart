@@ -7,7 +7,12 @@ import '../Model/ProductsByStoreUuid.dart';
 
 Future<ProductsByStoreUuidData> getFilteredProduct(String product_category_uuid, String store_uuid) async {
   ProductsByStoreUuidData productByStoreUuidData = null;
-  var url = '${apiUrl}products/filter?product_category_uuid=$product_category_uuid&store_uuid=$store_uuid';
+  var url;
+  if(product_category_uuid == ''){
+    url = '${apiUrl}products/filter?store_uuid=$store_uuid';
+  }else{
+    url = '${apiUrl}products/filter?product_category_uuid=$product_category_uuid&store_uuid=$store_uuid';
+  }
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json'

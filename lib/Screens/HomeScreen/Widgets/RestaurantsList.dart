@@ -46,8 +46,8 @@ class RestaurantsListState extends State<RestaurantsList>{
       available = true;
      bool open = restaurant.open != null ? restaurant.open : true;
       open = true;
-     if(restaurant.type == 'grocery'){
-       print(restaurant.uuid + 'GROCERY');
+     if(restaurant.name == 'НАШ'){
+       print(restaurant.uuid + "НАШ");
      }
       restaurantList.add(InkWell(
           hoverColor: AppColor.themeColor,
