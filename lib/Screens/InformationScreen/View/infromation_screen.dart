@@ -4,10 +4,9 @@ import 'package:flutter_app/Screens/AboutAppScreen/View/about_app_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_app/data/global_variables.dart';
-
 
 class InformationScreen extends StatefulWidget {
   @override
@@ -37,7 +36,7 @@ class InformationScreenState extends State<InformationScreen>{
                             padding: EdgeInsets.only(top: 12, bottom: 12, right: 15),
                             child: Center(
                                 child:SvgPicture.asset(
-                                    'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
+                                    'assets/svg_images/arrow_left.svg'),
                             ),
                           )
                       )
@@ -58,7 +57,7 @@ class InformationScreenState extends State<InformationScreen>{
               ),
               Padding(
                 padding: EdgeInsets.only(top: 30, left: 90, right: 15, bottom: 10),
-                child: Text('Информация',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColor.textColor)),
+                child: Text('Информация',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF424242))),
               ),
             ],
           ),
@@ -73,13 +72,13 @@ class InformationScreenState extends State<InformationScreen>{
                     children: <Widget>[
                       Text('О приложении',
                         style: TextStyle(
-                            color: AppColor.textColor,
+                            color: Color(0xFF424242),
                             fontSize: 17
                         ),
                       ),
                       GestureDetector(
                         child: SvgPicture.asset(
-                            'assets/svg_images/arrow_right.svg', color: AppColor.textColor),
+                            'assets/svg_images/arrow_right.svg'),
                       ),
                     ],
                   )

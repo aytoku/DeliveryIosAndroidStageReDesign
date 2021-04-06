@@ -1,6 +1,6 @@
 import 'package:flutter_app/Screens/CityScreen/Model/FilteredCities.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/data/data.dart';

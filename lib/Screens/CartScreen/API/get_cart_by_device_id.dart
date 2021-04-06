@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/data/api.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 

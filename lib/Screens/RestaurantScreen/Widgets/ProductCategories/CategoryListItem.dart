@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 
 import 'CategoryList.dart';
 
@@ -40,10 +40,10 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
           padding:
           EdgeInsets.only(left: 11, top: 5, bottom: 5),
           child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return ScaleTransition(child: child, scale: animation);
-            },
+            duration: const Duration(milliseconds: 100),
+            // transitionBuilder: (Widget child, Animation<double> animation) {
+            //   return ScaleTransition(child: child, scale: animation);
+            // },
             child: Container(
               key: ValueKey<bool>(value != categoryList.currentCategory),
               decoration: BoxDecoration(
@@ -58,8 +58,8 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
                       value.name[0].toUpperCase() + value.name.substring(1),
                       style: TextStyle(
                           color: (value != categoryList.currentCategory)
-                              ? AppColor.additionalTextColor
-                              : Colors.white,
+                              ? Color(0xFF424242)
+                              : AppColor.unselectedTextColor,
                           fontSize: 15),
                     ),
                   )),

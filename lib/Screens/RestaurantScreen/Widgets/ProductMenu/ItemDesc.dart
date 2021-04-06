@@ -12,8 +12,6 @@ import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_app/data/global_variables.dart';
-
 
 import '../../../../data/data.dart';
 import '../../Model/ProductsByStoreUuid.dart';
@@ -47,12 +45,17 @@ class MenuItemDescState extends State<MenuItemDesc> {
         padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
         child: Align(
           alignment: Alignment.topLeft,
-          child: Text(
-            '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
-            style: TextStyle(
-                fontSize: 10.0,
-                color: AppColor.additionalTextColor),
-            overflow: TextOverflow.ellipsis,
+          child: Container(
+            padding: EdgeInsets.only(right: 15),
+            child: Text(
+              foodRecords.meta.description,
+              style: TextStyle(
+                  fontSize: 10.0,
+                  color: Colors.grey),
+              maxLines: (parent.parent.restaurant.type == 'restaurant') ? 3 : 2,
+              overflow: TextOverflow.ellipsis,
+              //overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
       );
@@ -72,12 +75,15 @@ class MenuItemDescState extends State<MenuItemDesc> {
           padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
           child: Align(
             alignment: Alignment.topLeft,
-            child: Text(
-              '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
-              style: TextStyle(
-                  fontSize: 12.0,
-                  color: AppColor.additionalTextColor),
-              overflow: TextOverflow.ellipsis,
+            child: Container(
+              padding: EdgeInsets.only(right: 0),
+              child: Text(
+                '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
+                style: TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.grey),
+                textAlign: TextAlign.start,
+              ),
             ),
           ),
         ),

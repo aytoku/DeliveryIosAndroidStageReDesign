@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
+import 'package:flutter_app/VersionControl/Model/CurrentVersionModel.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_app/CoreColor/Model/color.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
 
 import '../Amplitude/amplitude.dart';
 import '../Config/config.dart';
@@ -23,17 +23,62 @@ class DeviceIdScreen extends StatefulWidget{
 class DeviceIdScreenState extends State<DeviceIdScreen> {
 
   GlobalKey<CityScreenState> cityScreenKey = new GlobalKey();
+
+
   Future<NecessaryDataForAuth> devId;
+  CurrentVersionModel currentVersionModel;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     devId = NecessaryDataForAuth.getData();
+    getVerData(context);
+
+  }
+
+  getVerData(BuildContext context) async {
+    await getCurrentVersion();
+  }
+
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 300),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Container(
+              height: 150,
+              width: 100,
+              child: Column(
+                children: [
+                  Center(
+                    child: Text("Вышло новое обновление"),
+                  ),
+                  Text('Не желаете обновить?'),
+                  Row(
+                    children: [
+                      Text('Да'),
+                      Text('Нет'),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    // if(currentVersionModel.version == '0.0.1'){
+    //   showAlertDialog(context);
+    // }
     return Container(
       color: Colors.white,
       child: FutureBuilder<NecessaryDataForAuth>(

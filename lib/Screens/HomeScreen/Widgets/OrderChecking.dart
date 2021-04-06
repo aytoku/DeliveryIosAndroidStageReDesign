@@ -3,7 +3,7 @@ import 'package:flutter_app/Screens/OrdersScreen/API/getClientsOrdersInProcess.d
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_details.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -64,10 +64,10 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
       return Container();
     }
     return InkWell(
-      hoverColor: Colors.white,
-      focusColor: Colors.white,
-      splashColor: Colors.white,
-      highlightColor: Colors.white,
+      hoverColor: AppColor.themeColor,
+      focusColor: AppColor.themeColor,
+      splashColor: AppColor.themeColor,
+      highlightColor: AppColor.themeColor,
       child: Container(
           width: MediaQuery.of(context).size.width * 0.89,
           margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -81,7 +81,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
               ],
               color: AppColor.themeColor,
               borderRadius: BorderRadius.circular(17.0),
-              border: Border.all(width: 1.0, color: AppColor.elementsColor)),
+              border: Border.all(width: 1.0, color: Colors.grey[200])),
           child: Column(
             children: <Widget>[
               Flexible(
@@ -104,7 +104,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                         ? ordersStoryModelItem.storeData.name
                                         : 'Пусто'),
                                 style: TextStyle(
-                                    fontSize: 16.0, fontWeight: FontWeight.bold, color: AppColor.textColor),
+                                    fontSize: 16.0, fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.start,
                               ),
                             ),
@@ -118,12 +118,12 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               decoration: BoxDecoration(
                                   borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
-                                  color: AppColor.subElementsColor),
+                                  color: Color(0xF6F6F6F6)),
                               child: Row(
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.only(left: 7, top: 7, bottom: 5),
-                                    child: SvgPicture.asset('assets/svg_images/i.svg', color: AppColor.textColor,),
+                                    child: SvgPicture.asset('assets/svg_images/i.svg'),
                                   ),
                                   Padding(
                                       padding: EdgeInsets.only(
@@ -131,7 +131,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                       child: Text(
                                         'Заказ',
                                         style: TextStyle(
-                                            color: AppColor.textColor, fontSize: 13),
+                                            color: Colors.black, fontSize: 13),
                                       )),
                                 ],
                               ),
@@ -177,7 +177,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                 padding: EdgeInsets.only(top: 5),
                                 child: Text('Обработка',
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColor.unselectedTextColor,
                                         fontSize: 10)),
                               )
                             ],
@@ -216,7 +216,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                   .contains(ordersStoryModelItem.state) ||
                                   in_the_way.contains(ordersStoryModelItem.state))
                                   ? AppColor.mainColor
-                                  : AppColor.subElementsColor),
+                                  : Color(0xF6F6F6F6)),
                           child: Column(
                             children: <Widget>[
                               Padding(
@@ -225,9 +225,9 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                     .contains(ordersStoryModelItem.state) ||
                                     in_the_way.contains(ordersStoryModelItem.state))
                                     ? SvgPicture.asset(
-                                    'assets/svg_images/white_bell.svg', color: AppColor.textColor,)
+                                    'assets/svg_images/white_bell.svg')
                                     : SvgPicture.asset(
-                                    'assets/svg_images/bell.svg', color: AppColor.textColor),
+                                    'assets/svg_images/bell.svg'),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
@@ -236,9 +236,9 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                         .contains(ordersStoryModelItem.state) ||
                                         in_the_way.contains(ordersStoryModelItem.state))
                                         ? TextStyle(
-                                        color: AppColor.textColor, fontSize: 10)
+                                        color: AppColor.unselectedTextColor, fontSize: 10)
                                         : TextStyle(
-                                        color: AppColor.textColor,
+                                        color: Color(0x42424242),
                                         fontSize: 10)),
                               )
                             ],
@@ -277,7 +277,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               color: (in_the_way
                                   .contains(ordersStoryModelItem.state))
                                   ? AppColor.mainColor
-                                  : AppColor.subElementsColor),
+                                  : Color(0xF6F6F6F6)),
                           child: Column(
                             children: <Widget>[
                               Padding(
@@ -285,9 +285,9 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                 child: (in_the_way
                                     .contains(ordersStoryModelItem.state))
                                     ? SvgPicture.asset(
-                                    'assets/svg_images/light_car.svg', color: AppColor.textColor,)
+                                    'assets/svg_images/light_car.svg')
                                     : SvgPicture.asset(
-                                    'assets/svg_images/car.svg', color: AppColor.textColor,),
+                                    'assets/svg_images/car.svg'),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
@@ -295,9 +295,9 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                     style: (in_the_way
                                         .contains(ordersStoryModelItem.state))
                                         ? TextStyle(
-                                        color: AppColor.textColor, fontSize: 10)
+                                        color: AppColor.unselectedTextColor, fontSize: 10)
                                         : TextStyle(
-                                        color: AppColor.textColor,
+                                        color: Color(0x42424242),
                                         fontSize: 10)),
                               ),
                             ],

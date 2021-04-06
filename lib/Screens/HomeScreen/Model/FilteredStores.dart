@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/AllStoreCategories.dart';
+import 'package:intl/intl.dart';
 
 class FilteredStoresData{
   static List<FilteredStores> filteredStoresCache;
@@ -93,8 +94,6 @@ class FilteredStores {
       store.productCategoriesUuid.forEach((element) {
         productCategoriesUuid.add(new CategoriesUuid(uuid: element));
       });
-    }else{
-      return null;
     }
 
 
@@ -102,6 +101,7 @@ class FilteredStores {
         name: store.name,
         uuid: store.uuid,
         address: store.address,
+      paymentTypes: store.paymentTypes,
       productCategoriesUuid: productCategoriesUuid
     );
   }
@@ -390,6 +390,37 @@ class WorkSchedule {
   final List<Standard> standard;
   final dynamic holiday;
 
+  bool isAvailable(){
+    DateTime now = DateTime.now();
+    DateTime currentTime = DateTime(1970, 1,1, now.hour, now.minute, now.second);
+
+    Standard currentStandard = getCurrentStandard();
+
+    if(currentStandard == null)
+      return false;
+
+    return currentStandard.isAvailable(currentTime);
+
+  }
+
+  Standard getCurrentStandard(){
+    DateTime now = DateTime.now();
+    int dayIndex  = now.weekday-1;
+    Standard currentStandard;
+
+    if(standard == null)
+      return null;
+
+    standard.forEach((Standard standardItem) {
+      if(standardItem.weekDays[dayIndex]){
+        currentStandard = standardItem;
+        return;
+      }
+    });
+
+    return currentStandard;
+  }
+
   factory WorkSchedule.fromJson(Map<String, dynamic> json) => WorkSchedule(
     timeZoneOffset: json["time_zone_offset"] == null ? null : json["time_zone_offset"],
     standard: json["standard"] == null ? null : List<Standard>.from(json["standard"].map((x) => Standard.fromJson(x))),
@@ -413,6 +444,12 @@ class Standard {
   final String beginningTime;
   final String endingTime;
   final List<bool> weekDays;
+
+  bool isAvailable(DateTime currentTime){ // currentTime (1970, 1, 1, now.hour, now.minute)
+    DateTime workBeginning = DateFormat('H:m').parse(beginningTime);
+    DateTime workEnding = DateFormat('H:m').parse(endingTime);
+    return currentTime.isAfter(workBeginning) && currentTime.isBefore(workEnding);
+  }
 
   factory Standard.fromJson(Map<String, dynamic> json) => Standard(
     beginningTime: json["beginning_time"] == null ? null : json["beginning_time"],

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_app/Screens/HomeScreen/Model/AllStoreCategories.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc/bloc.dart';
 import '../../../data/data.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/API/promo_code.dart';
 
 import '../../../data/data.dart';
 
@@ -117,7 +118,7 @@ class PromoTextState extends State<PromoText>{
                     child: Text('Применить',
                       style: TextStyle(
                           fontSize: 21,
-                          color: Colors.white
+                          color: AppColor.unselectedTextColor,
                       ),
                     ),
                   ),
@@ -125,8 +126,9 @@ class PromoTextState extends State<PromoText>{
               ),
               onTap: (){
                 Navigator.pop(context);
-                setState(() {
+                setState(() async {
                   title = promoCodeField.text;
+                  await sendPromo(title);
                 });
               },
             )
@@ -142,7 +144,7 @@ class PromoTextState extends State<PromoText>{
       padding: EdgeInsets.only(
           top: 10, left: 0, right: 0, bottom: 10),
       child: Align(
-        alignment: Alignment.bottomLeft,
+        alignment: Alignment.bottomRight,
         child: InkWell(
           child: Container(
             width: 160,
@@ -155,7 +157,7 @@ class PromoTextState extends State<PromoText>{
                       offset: Offset(0.0, 1)
                   )
                 ],
-                color: Colors.white,
+                color: AppColor.themeColor,
                 borderRadius: BorderRadius.circular(10.0),
                 border: Border.all(width: 1.0, color: Colors.grey[200])),
             child: Padding(

@@ -128,6 +128,7 @@ class ProductsByStoreUuidMeta {
     this.description,
     this.composition,
     this.weight,
+    this.oldPrice,
     this.weightMeasurement,
     this.images,
     this.energyValue,
@@ -135,6 +136,7 @@ class ProductsByStoreUuidMeta {
 
   String description;
   String composition;
+  var oldPrice;
   int weight;
   String weightMeasurement;
   List<String> images;
@@ -144,6 +146,7 @@ class ProductsByStoreUuidMeta {
     description: json["description"],
     composition: json["composition"],
     weight: json["weight"],
+    oldPrice: json["old_price"],
     weightMeasurement: json["weight_measurement"],
     images: (json["images"] == null) ? null : List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
@@ -153,6 +156,7 @@ class ProductsByStoreUuidMeta {
     "description": description,
     "composition": composition,
     "weight": weight,
+    "old_price": oldPrice,
     "weight_measurement": weightMeasurement,
     "images": List<dynamic>.from(images.map((x) => x)),
     "energy_value": energyValue.toJson(),

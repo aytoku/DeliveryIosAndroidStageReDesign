@@ -4,7 +4,7 @@ import 'package:flutter_app/Screens/CityScreen/API/getStreet.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/Cross.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -34,12 +34,21 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
   AsyncCallback onSelected;
   FocusNode node;
 
+  TextEditingController officeField;
+  TextEditingController intercomField;
+  TextEditingController entranceField;
+  TextEditingController floorField;
+
   @override
   void initState(){
     autocompleteList = AutocompleteList(suggestions, this, new GlobalKey(), initialValue);
     controller = new TextEditingController(text: (initialValue != null) ? initialValue :  '');
     suggestions = new List<InitialAddressModel>();
     node = new FocusNode();
+    officeField = new TextEditingController();
+    intercomField = new TextEditingController();
+    entranceField = new TextEditingController();
+    floorField = new TextEditingController();
     super.initState();
   }
 
@@ -49,6 +58,7 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
   }
 
   Widget build(BuildContext context) {
+    FocusNode focusNode;
     return Container(
       color: AppColor.themeColor,
       child: Column(
@@ -96,7 +106,7 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
                                   'Адрес',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      color: AppColor.textColor,
+                                      color: AppColor.additionalTextColor
                                   ),
                                 ),
                               ),
@@ -107,6 +117,107 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
                   ),
                 ],
               )
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                top: 20, left: 5, bottom: 10, right: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  width: 60,
+                  child: Padding(
+                      padding: EdgeInsets.only( bottom: 0, top: 5),
+                      child: Container(
+                        height: 20,
+                        child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
+                          controller: entranceField,
+                          maxLength: 3,
+                          keyboardType: TextInputType.number,
+                          focusNode: focusNode,
+                          decoration: new InputDecoration(
+                            hintText: 'Подъезд',
+                            hintStyle: TextStyle(
+                                color: Color(0xFFB0B0B0),
+                                fontSize: 13),
+                            border: InputBorder.none,
+                            counterText: '',
+                          ),
+                        ),
+                      )),
+                ),
+                Container(
+                  width: 60,
+                  child: Padding(
+                      padding: EdgeInsets.only( bottom: 0, top: 5),
+                      child: Container(
+                        height: 20,
+                        child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
+                          controller: floorField,
+                          keyboardType: TextInputType.number,
+                          focusNode: focusNode,
+                          maxLength: 2,
+                          decoration: new InputDecoration(
+                            hintText: 'Этаж',
+                            hintStyle: TextStyle(
+                                color: Color(0xFFB0B0B0),
+                                fontSize: 13),
+                            border: InputBorder.none,
+                            counterText: '',
+                          ),
+                        ),
+                      )),
+                ),
+                Container(
+                  width: 60,
+                  child: Padding(
+                      padding: EdgeInsets.only( bottom: 0, top: 5),
+                      child: Container(
+                        height: 20,
+                        child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
+                          controller: officeField,
+                          maxLength: 6,
+                          focusNode: focusNode,
+                          keyboardType: TextInputType.number,
+                          decoration: new InputDecoration(
+                            hintText: 'Кв./офис',
+                            hintStyle: TextStyle(
+                                color: Color(0xFFB0B0B0),
+                                fontSize: 13),
+                            border: InputBorder.none,
+                            counterText: '',
+                          ),
+                        ),
+                      )),
+                ),
+                Container(
+                  width: 80,
+                  child: Padding(
+                      padding: EdgeInsets.only( bottom: 0, top: 5),
+                      child: Container(
+                        height: 20,
+                        child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
+                          controller: intercomField,
+                          maxLength: 6,
+                          keyboardType: TextInputType.number,
+                          focusNode: focusNode,
+                          decoration: new InputDecoration(
+                            hintText: 'Домофон',
+                            hintStyle: TextStyle(
+                                color: Color(0xFFB0B0B0),
+                                fontSize: 13),
+                            border: InputBorder.none,
+                            counterText: '',
+                          ),
+                        ),
+                      )),
+                ),
+              ],
+            ),
           ),
           autocompleteList
         ],
@@ -182,7 +293,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                     children: [
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text(suggestions[index].value,
+                        child: Text(suggestions[index].unrestrictedValue,
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 16
@@ -200,7 +311,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
-                        child: Divider(color: AppColor.additionalTextColor,),
+                        child: Divider(color: Colors.grey,),
                       )
                     ],
                   ),
@@ -209,6 +320,7 @@ class AutocompleteListState extends State<AutocompleteList> {
               onTap: () async {
                 parent.selectedValue = suggestions[index];
                 parent.controller.text = suggestions[index].unrestrictedValue;
+
                 // Избегаем потери фокуса и ставим курсор в конец
                 parent.node.requestFocus();
                 parent.controller.selection = TextSelection.fromPosition(TextPosition(offset: parent.controller.text.length));
@@ -237,15 +349,6 @@ class AutocompleteListState extends State<AutocompleteList> {
             }
           }
           return Container();
-          return Padding(
-            padding: const EdgeInsets.only(top: 50),
-            child: Center(
-              child: SpinKitThreeBounce(
-                color: Colors.green,
-                size: 20.0,
-              ),
-            ),
-          );
         },
       );
     }

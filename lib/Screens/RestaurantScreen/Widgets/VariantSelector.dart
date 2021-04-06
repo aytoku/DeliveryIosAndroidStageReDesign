@@ -2,9 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
+import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_app/data/global_variables.dart';
-
 
 class VariantsSelector extends StatefulWidget {
   VariantGroup variantGroup;
@@ -79,7 +78,7 @@ class VariantsSelectorState extends State<VariantsSelector> {
           (error) ? Padding(
             padding: EdgeInsets.only(right: 15, top: 10, bottom: 15),
             child: Text((required) ? 'Обязательно' : 'Опционально',
-              style: TextStyle(color: AppColor.mainColor),
+              style: TextStyle(color: Colors.red),
             ),
           ) : Row(
             children: [
@@ -93,8 +92,8 @@ class VariantsSelectorState extends State<VariantsSelector> {
                   (required) ? 'Обязательно' : 'Опционально',
                   style: TextStyle(
                     color: (selectedVariants.isNotEmpty && required) ?
-                    AppColor.textColor :
-                    AppColor.additionalTextColor
+                    Colors.black :
+                    Color(0xFF7D7D7D)
                   ),
                 ),
               )
@@ -111,12 +110,12 @@ class VariantsSelectorState extends State<VariantsSelector> {
             child: Row(
               children: [
                 (selectedVariants.contains(element)) ? SvgPicture.asset('assets/svg_images/kitchen_selected.svg') :
-                SvgPicture.asset('assets/svg_images/kitchen_unselected.svg', color: AppColor.subElementsColor,),
+                SvgPicture.asset('assets/svg_images/kitchen_unselected.svg'),
                 Padding(
                   padding: EdgeInsets.only(left: 15),
                   child: Text(
                     element.name,
-                    style: TextStyle(color: AppColor.textColor, fontSize: 14),
+                    style: TextStyle(color: Color(0xff424242), fontSize: 14),
                   ),
                 ),
                 Padding(
@@ -168,8 +167,8 @@ class VariantsSelectorState extends State<VariantsSelector> {
                     Padding(
                       padding: EdgeInsets.only(left: 12.0),
                       child: Text(
-                        '+${element.price} \₽',
-                        style: TextStyle(color: AppColor.additionalTextColor, fontSize: 14),
+                        '${element.price} \₽',
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
                       ),
                     ),
                   ],

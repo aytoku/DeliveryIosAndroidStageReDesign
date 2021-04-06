@@ -10,12 +10,14 @@ import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/API/create_order.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/AddressSelector.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/DeliveryPrice.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/DestinationPointsAddressSelector.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/OrderSuccessScreen.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PaymentButton.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PromoText.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -23,6 +25,10 @@ import 'package:mad_pay/mad_pay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../data/data.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
 
 class AddressScreen extends StatefulWidget {
   MyFavouriteAddressesModel addedAddress;
@@ -30,22 +36,27 @@ class AddressScreen extends StatefulWidget {
   bool isTakeAwayOrderConfirmation;
 
   AddressScreen(
-      {Key key, this.restaurant, this.addedAddress, this.myAddressesModelList, this.isTakeAwayOrderConfirmation})
+      {Key key,
+      this.restaurant,
+      this.addedAddress,
+      this.myAddressesModelList,
+      this.isTakeAwayOrderConfirmation})
       : super(key: key);
   final FilteredStores restaurant;
 
   @override
   AddressScreenState createState() =>
-      AddressScreenState(restaurant, addedAddress, isTakeAwayOrderConfirmation, myAddressesModelList: myAddressesModelList);
+      AddressScreenState(restaurant, addedAddress, isTakeAwayOrderConfirmation,
+          myAddressesModelList: myAddressesModelList);
 }
 
 class AddressScreenState extends State<AddressScreen>
     with AutomaticKeepAliveClientMixin {
-
   InitialAddressModel selectedAddress; // Последний выбранный адрес
   final FilteredStores restaurant;
   GlobalKey<DestinationPointsSelectorState> destinationPointsSelectorStateKey;
   bool isTakeAwayOrderConfirmation;
+
   //CreateOrder createOrder;
   GlobalKey<CartPageState> cartPageKey;
 
@@ -55,30 +66,31 @@ class AddressScreenState extends State<AddressScreen>
   String card_image;
   String cash;
   String card;
-  int selectedPaymentId = 0;
+  String selectedPaymentName = '';
   List<Map<String, String>> paymentMethods;
-
 
   bool eatInStore = false;
   GlobalKey<ScaffoldState> _scaffoldStateKey;
   TextEditingController commentField;
-  TextEditingController officeField;
-  TextEditingController intercomField;
-  TextEditingController entranceField;
-  TextEditingController floorField;
   GlobalKey<AddressSelectorState> addressSelectorKey;
   GlobalKey<PromoTextState> promoTextKey;
+  GlobalKey<PaymentButtonState> paymentButtonKey;
 
   TextEditingController phoneNumberController;
   TextEditingController nameController;
   TextEditingController addressValueController;
 
+  bool isAddressSelected = false;
+
   MyFavouriteAddressesModel addedAddress;
 
   double initHeight = 200;
+  int paymentsMethodCount = 0;
+  int paymentIndex = 0;
 
-
-  AddressScreenState(this.restaurant, this.addedAddress, this.isTakeAwayOrderConfirmation, {this.myAddressesModelList});
+  AddressScreenState(
+      this.restaurant, this.addedAddress, this.isTakeAwayOrderConfirmation,
+      {this.myAddressesModelList});
 
   @override
   bool get wantKeepAlive => true;
@@ -94,10 +106,6 @@ class AddressScreenState extends State<AddressScreen>
     card = 'Картой';
     _scaffoldStateKey = GlobalKey();
     commentField = new TextEditingController();
-    officeField = new TextEditingController();
-    intercomField = new TextEditingController();
-    entranceField = new TextEditingController();
-    floorField = new TextEditingController();
     addressSelectorKey = new GlobalKey();
     promoTextKey = new GlobalKey();
     phoneNumberController = new TextEditingController();
@@ -105,19 +113,26 @@ class AddressScreenState extends State<AddressScreen>
     paymentMethods = [
       {
         "name": "Наличными",
-        "image": "assets/svg_images/dollar_bills.svg"
+        "image": "assets/svg_images/dollar_bills.svg",
+        "tag": "cash",
+        "outputTag": "cash"
       },
       {
         "name": (Platform.isIOS) ? "ApplePay" : "GooglePay",
-        "image": "assets/svg_images/visa.svg"
+        "image": (Platform.isIOS)
+            ? "assets/svg_images/apple_pay.svg"
+            : "assets/svg_images/google_pay.svg",
+        "tag": "virtualCardPayment",
+        "outputTag": "card"
       },
     ];
+    selectedPaymentName = necessaryDataForAuth.selectedPaymentName;
     // addressValueController = TextEditingController(text: restaurant.destination_points[0].street + ' ' + restaurant.destination_points[0].house);
     // selectedAddress = restaurant.address[0];
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
   }
 
@@ -152,9 +167,9 @@ class AddressScreenState extends State<AddressScreen>
         backgroundColor: Colors.transparent,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(20),
-              topRight: const Radius.circular(20),
-            )),
+          topLeft: const Radius.circular(20),
+          topRight: const Radius.circular(20),
+        )),
         context: context,
         builder: (context) {
           return Container(
@@ -174,45 +189,49 @@ class AddressScreenState extends State<AddressScreen>
     return Container(
       height: 130,
       child: ListView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.zero,
-        children: List.generate(
-            paymentMethods.length, (index){
-              return InkWell(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        SvgPicture.asset(paymentMethods[index]['image']),
-                        Padding(
-                          padding: EdgeInsets.only(left: 15),
-                          child: Text(
-                            paymentMethods[index]['name'],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.zero,
+          children: List.generate(paymentMethods.length, (index) {
+            if (!restaurant.paymentTypes
+                .contains(paymentMethods[index]['outputTag'])) {
+              return Container();
+            }
+            return InkWell(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SvgPicture.asset(paymentMethods[index]['image']),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Text(
+                          paymentMethods[index]['name'],
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 15),
+                            child: (selectedPaymentName !=
+                                    paymentMethods[index]['tag'])
+                                ? SvgPicture.asset(
+                                    'assets/svg_images/pay_circle.svg')
+                                : SvgPicture.asset(
+                                    'assets/svg_images/address_screen_selector.svg'),
                           ),
                         ),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 15),
-                              child: (selectedPaymentId != index) ?
-                              SvgPicture.asset('assets/svg_images/pay_circle.svg') :
-                              SvgPicture.asset('assets/svg_images/address_screen_selector.svg'),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                  onTap: ()=>_selectItem(index)
-              );
-        })
-      ),
+                ),
+                onTap: () => _selectItem(paymentMethods[index]['tag']));
+          })),
     );
   }
 
@@ -231,14 +250,15 @@ class AddressScreenState extends State<AddressScreen>
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 10, top: 20, bottom: 20, right: 10),
+                      padding: EdgeInsets.only(
+                          left: 10, top: 20, bottom: 20, right: 10),
                       child: Text(
                         'Отправляем ваш заказ в систему',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            color: AppColor.textColor),
+                            color: Color(0xFF424242)),
                       ),
                     ),
                     Center(
@@ -255,10 +275,10 @@ class AddressScreenState extends State<AddressScreen>
     );
   }
 
-  void _selectItem(int index) {
+  void _selectItem(String tag) {
     Navigator.pop(context);
     setState(() {
-      selectedPaymentId = index;
+      selectedPaymentName = tag;
     });
   }
 
@@ -268,9 +288,9 @@ class AddressScreenState extends State<AddressScreen>
         backgroundColor: Colors.transparent,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(20),
-              topRight: const Radius.circular(20),
-            )),
+          topLeft: const Radius.circular(20),
+          topRight: const Radius.circular(20),
+        )),
         context: context,
         builder: (context) {
           return Container(
@@ -289,7 +309,7 @@ class AddressScreenState extends State<AddressScreen>
   _buildDispatchAddressBottomNavigationMenu() {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.themeColor,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(20),
             topRight: const Radius.circular(20),
@@ -300,11 +320,9 @@ class AddressScreenState extends State<AddressScreen>
             alignment: Alignment.topLeft,
             child: Padding(
               padding: const EdgeInsets.only(left: 15, top: 30, bottom: 35),
-              child: Text('Адрес отправки',
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold
-                ),
+              child: Text(
+                'Адрес отправки',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -315,28 +333,30 @@ class AddressScreenState extends State<AddressScreen>
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(left:15, right: 15, top: 15),
+              padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
               child: InkWell(
                 child: Container(
                   width: 380,
                   height: 60,
                   decoration: BoxDecoration(
                       color: AppColor.mainColor,
-                      borderRadius: BorderRadius.circular(10)
-                  ),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Center(
-                    child: Text('Готово',
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white
-                      ),
+                    child: Text(
+                      'Готово',
+                      style: TextStyle(fontSize: 24, color: AppColor.textColor),
                     ),
                   ),
                 ),
-                onTap: (){
-                  addressValueController.text = destinationPointsSelectorStateKey.currentState.selectedDestinationPoint.street + ' ' +
-                      destinationPointsSelectorStateKey.currentState.selectedDestinationPoint.house;
-                  selectedAddress = destinationPointsSelectorStateKey.currentState.selectedDestinationPoint;
+                onTap: () {
+                  addressValueController.text =
+                      destinationPointsSelectorStateKey
+                              .currentState.selectedDestinationPoint.street +
+                          ' ' +
+                          destinationPointsSelectorStateKey
+                              .currentState.selectedDestinationPoint.house;
+                  selectedAddress = destinationPointsSelectorStateKey
+                      .currentState.selectedDestinationPoint;
                   Navigator.pop(context);
                 },
               ),
@@ -347,8 +367,8 @@ class AddressScreenState extends State<AddressScreen>
     );
   }
 
-  Widget buildAddressesList(){
-    if(myAddressesModelList != null){
+  Widget buildAddressesList() {
+    if (myAddressesModelList != null) {
       return Container(
           height: 120,
           child: Column(
@@ -361,22 +381,20 @@ class AddressScreenState extends State<AddressScreen>
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColor.textColor),),
+                          color: Color(0xFF424242))),
                 ),
               ),
               buildAddressesListSelector(),
             ],
-          )
-      );
-    }else{
+          ));
+    } else {
       return FutureBuilder<List<MyFavouriteAddressesModel>>(
         future: MyFavouriteAddressesModel.getAddresses(),
         builder: (BuildContext context,
             AsyncSnapshot<List<MyFavouriteAddressesModel>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             myAddressesModelList = snapshot.data;
-            myAddressesModelList
-                .add(new MyFavouriteAddressesModel(type: null));
+            myAddressesModelList.add(new MyFavouriteAddressesModel(type: null));
             return Container(
               height: 120,
               // height: initHeight + 15 * myAddressesModelList.length,
@@ -390,7 +408,7 @@ class AddressScreenState extends State<AddressScreen>
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppColor.textColor)),
+                              color: Color(0xFF424242))),
                     ),
                   ),
                   buildAddressesListSelector()
@@ -408,7 +426,7 @@ class AddressScreenState extends State<AddressScreen>
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: AppColor.textColor)),
+                            color: Color(0xFF424242))),
                   ),
                 ),
                 Center(
@@ -425,31 +443,49 @@ class AddressScreenState extends State<AddressScreen>
     }
   }
 
-  Widget buildAddressesListSelector(){
+  Widget buildAddressesListSelector() {
     return Expanded(
-      child: AddressSelector(myFavouriteAddressList: myAddressesModelList, parent:  this, addressSelectorKey: addressSelectorKey),
+      child: AddressSelector(
+          myFavouriteAddressList: myAddressesModelList,
+          parent: this,
+          addressSelectorKey: addressSelectorKey),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    addressSelectorKey = new GlobalKey();
+    paymentButtonKey = new GlobalKey();
     FocusNode focusNode;
-    double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
+    paymentsMethodCount = 0;
+    double totalPrice = currentUser.cartModel.totalPrice +
+        currentUser.cartModel.deliveryPrice * 1.0;
+    paymentIndex = paymentMethods.indexWhere((element) {
+      return element['tag'] == selectedPaymentName;
+    });
+    if (paymentIndex == -1) {
+      paymentIndex = 0;
+    }
+    paymentMethods.forEach((element) {
+      if (restaurant.paymentTypes.contains(element['outputTag'])) {
+        paymentsMethodCount++;
+      }
+    });
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-          statusBarColor: AppColor.textColor,
-          statusBarBrightness: Brightness.light
-      ),
+          statusBarColor: Colors.white, statusBarBrightness: Brightness.light),
       child: Scaffold(
         key: _scaffoldStateKey,
         resizeToAvoidBottomPadding: false,
-        body:  GestureDetector(
+        body: GestureDetector(
           child: Container(
               color: AppColor.themeColor,
-              child:  Column(
+              child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05, bottom: 10),
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.05,
+                        bottom: 10),
                     child: Stack(
                       children: <Widget>[
                         Align(
@@ -457,10 +493,10 @@ class AddressScreenState extends State<AddressScreen>
                           child: Padding(
                             padding: EdgeInsets.only(left: 0),
                             child: InkWell(
-                              hoverColor: Colors.white,
-                              focusColor: Colors.white,
-                              splashColor: Colors.white,
-                              highlightColor: Colors.white,
+                              hoverColor: AppColor.themeColor,
+                              focusColor: AppColor.themeColor,
+                              splashColor: AppColor.themeColor,
+                              highlightColor: AppColor.themeColor,
                               onTap: () => Navigator.pop(context),
                               child: Padding(
                                   padding: EdgeInsets.only(right: 0),
@@ -471,7 +507,7 @@ class AddressScreenState extends State<AddressScreen>
                                         padding: EdgeInsets.only(
                                             top: 12, bottom: 12, right: 20),
                                         child: SvgPicture.asset(
-                                            'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
+                                            'assets/svg_images/arrow_left.svg'),
                                       ))),
                             ),
                           ),
@@ -485,7 +521,7 @@ class AddressScreenState extends State<AddressScreen>
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColor.textColor),
+                                  color: Color(0xFF000000)),
                             ),
                           ),
                         )
@@ -705,130 +741,34 @@ class AddressScreenState extends State<AddressScreen>
                         //     _dispatchAddress();
                         //   },
                         // ),
-                        (isTakeAwayOrderConfirmation) ? Container() : buildAddressesList(),
-                        (isTakeAwayOrderConfirmation) ? Container() : Padding(
-                          padding: EdgeInsets.only(
-                              top: 15, left: 20, bottom: 10, right: 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                width: 60,
-                                child: Padding(
-                                    padding: EdgeInsets.only( bottom: 0, top: 5),
-                                    child: Container(
-                                      height: 20,
-                                      child: TextField(
-                                        textCapitalization: TextCapitalization.sentences,
-                                        controller: entranceField,
-                                        maxLength: 3,
-                                        keyboardType: TextInputType.number,
-                                        focusNode: focusNode,
-                                        decoration: new InputDecoration(
-                                          hintText: 'Подъезд',
-                                          hintStyle: TextStyle(
-                                              color: AppColor.additionalTextColor,
-                                              fontSize: 13),
-                                          border: InputBorder.none,
-                                          counterText: '',
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                              Container(
-                                width: 60,
-                                child: Padding(
-                                    padding: EdgeInsets.only( bottom: 0, top: 5),
-                                    child: Container(
-                                      height: 20,
-                                      child: TextField(
-                                        textCapitalization: TextCapitalization.sentences,
-                                        controller: floorField,
-                                        keyboardType: TextInputType.number,
-                                        focusNode: focusNode,
-                                        maxLength: 2,
-                                        decoration: new InputDecoration(
-                                          hintText: 'Этаж',
-                                          hintStyle: TextStyle(
-                                              color: AppColor.additionalTextColor,
-                                              fontSize: 13),
-                                          border: InputBorder.none,
-                                          counterText: '',
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                              Container(
-                                width: 60,
-                                child: Padding(
-                                    padding: EdgeInsets.only( bottom: 0, top: 5),
-                                    child: Container(
-                                      height: 20,
-                                      child: TextField(
-                                        textCapitalization: TextCapitalization.sentences,
-                                        controller: officeField,
-                                        maxLength: 6,
-                                        focusNode: focusNode,
-                                        keyboardType: TextInputType.number,
-                                        decoration: new InputDecoration(
-                                          hintText: 'Кв./офис',
-                                          hintStyle: TextStyle(
-                                              color: AppColor.additionalTextColor,
-                                              fontSize: 13),
-                                          border: InputBorder.none,
-                                          counterText: '',
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                              Container(
-                                width: 80,
-                                child: Padding(
-                                    padding: EdgeInsets.only( bottom: 0, top: 5),
-                                    child: Container(
-                                      height: 20,
-                                      child: TextField(
-                                        textCapitalization: TextCapitalization.sentences,
-                                        controller: intercomField,
-                                        maxLength: 6,
-                                        keyboardType: TextInputType.number,
-                                        focusNode: focusNode,
-                                        decoration: new InputDecoration(
-                                          hintText: 'Домофон',
-                                          hintStyle: TextStyle(
-                                              color: AppColor.additionalTextColor,
-                                              fontSize: 13),
-                                          border: InputBorder.none,
-                                          counterText: '',
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                            ],
-                          ),
-                        ),
+                        (isTakeAwayOrderConfirmation)
+                            ? Container()
+                            : buildAddressesList(),
                         Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 15, top: 10),
                           child: Stack(
                             children: [
                               Container(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
                                   controller: commentField,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.only(left: 15),
                                     hintText: 'Оставить комментарий',
-                                    hintStyle: TextStyle(
-                                        color: Color(0xFFE6E6E6)
-                                    ),
-                                    enabledBorder:  OutlineInputBorder(
+                                    hintStyle:
+                                        TextStyle(color: Color(0xFFE6E6E6)),
+                                    enabledBorder: OutlineInputBorder(
                                       // width: 0.0 produces a thin "hairline" border
-                                      borderSide: BorderSide(color: AppColor.additionalTextColor),
+                                      borderSide:
+                                          BorderSide(color: Colors.black26),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10)),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
                                   ),
                                 ),
                               ),
@@ -843,19 +783,17 @@ class AddressScreenState extends State<AddressScreen>
                                         child: Text(
                                           'Комментарий',
                                           style: TextStyle(
-                                              fontSize: 12,
-                                              color: AppColor.additionalTextColor
-                                          ),
+                                              fontSize: 12, color: Colors.grey),
                                         ),
                                       ),
                                     ),
-                                  )
-                              ),
+                                  )),
                             ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
+                          padding: const EdgeInsets.only(
+                              top: 10.0, left: 15, right: 15),
                           child: Divider(color: Colors.grey),
                         ),
                         Padding(
@@ -867,75 +805,79 @@ class AddressScreenState extends State<AddressScreen>
                               Text(
                                 'Стоимость',
                                 style: TextStyle(
-                                    color: AppColor.textColor,
-                                    fontSize: 14),
+                                    color: Colors.black, fontSize: 14),
                               ),
                               Text(
                                 '${currentUser.cartModel.totalPrice.toStringAsFixed(0)} \₽',
                                 style: TextStyle(
-                                    color: AppColor.textColor,
-                                    fontSize: 14),
+                                    color: Colors.black, fontSize: 14),
                               )
                             ],
                           ),
                         ),
-                        (isTakeAwayOrderConfirmation) ? Container() : Padding(
-                          padding: EdgeInsets.only(
-                              top: 17, left: 18, bottom: 5, right: 17),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
+                        (isTakeAwayOrderConfirmation)
+                            ? Container()
+                            : Padding(
+                                padding: EdgeInsets.only(
+                                    top: 17, left: 18, bottom: 5, right: 17),
                                 child: Row(
-                                  children: [
-                                    Text(
-                                      'Доставка',
-                                      style: TextStyle(
-                                          color: AppColor.textColor,
-                                          fontSize: 14),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        '30-50 мин.',
-                                        style: TextStyle(
-                                            color: AppColor.textColor,
-                                            fontSize: 12),
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'Доставка',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              '30-50 мин.',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 12),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
+                                    (isAddressSelected == true)
+                                        ? DeliveryPrice()
+                                        : Text(
+                                            '0 \₽',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14),
+                                          )
                                   ],
                                 ),
                               ),
+                        // (promoTextKey.currentState== null && promoTextKey.currentState.title.length == null) ?
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: 15, left: 17, bottom: 5, right: 17),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
                               Text(
-                                '${currentUser.cartModel.deliveryPrice} \₽',
-                                style: TextStyle(
-                                    color: AppColor.textColor,
-                                    fontSize: 14),
+                                'Скидка',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 14),
+                              ),
+                              Text(
+                                '-150 \₽',
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 14),
                               )
                             ],
                           ),
                         ),
-                        // (promoTextKey.currentState!= null && promoTextKey.currentState.title.length != null) ? Padding(
-                        //   padding: EdgeInsets.only(
-                        //       top: 15, left: 17, bottom: 5, right: 17),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //     children: <Widget>[
-                        //       Text(
-                        //         'Скидка',
-                        //         style: TextStyle(
-                        //             color: Colors.red,
-                        //             fontSize: 14),
-                        //       ),
-                        //       Text(
-                        //         '-150 \₽',
-                        //         style: TextStyle(
-                        //             color: Colors.red,
-                        //             fontSize: 14),
-                        //       )
-                        //     ],
-                        //   ),
-                        // ) : Container(),
+                        // : Container(),
                         Padding(
                           padding: EdgeInsets.only(
                               top: 15, left: 17, bottom: 5, right: 17),
@@ -945,75 +887,76 @@ class AddressScreenState extends State<AddressScreen>
                               Text(
                                 'Итого',
                                 style: TextStyle(
-                                    color: AppColor.textColor,
-                                    fontSize: 22),
+                                    color: Colors.black, fontSize: 22),
                               ),
                               Text(
                                 '${(totalPrice).toStringAsFixed(0)} \₽',
                                 style: TextStyle(
-                                    color: AppColor.textColor,
-                                    fontSize: 22),
-                              )
+                                    color: Colors.black, fontSize: 22),
+                              ),
                             ],
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: Divider(color: AppColor.textColor),
+                          child: Divider(color: Colors.grey),
                         ),
                         // Container(
                         //   height: 10,
                         //   color: Color(0xFAFAFAFA),
                         // ),
-                        (isTakeAwayOrderConfirmation) ? Padding(
-                          padding: EdgeInsets.only(
-                              top: 10, left: 15, right: 15, bottom: 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 4.0, // soften the shadow
-                                    spreadRadius: 1.0, //extend the shadow
-                                  )
-                                ],
-                                color: AppColor.themeColor,
-                                borderRadius: BorderRadius.circular(10.0),
-                                border: Border.all(width: 1.0, color: Colors.grey[200])),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    'Поем в заведении',
-                                    style: TextStyle(
-                                        color: AppColor.textColor,
-                                        fontSize: 15),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 0),
-                                    child: FlutterSwitch(
-                                      width: 55.0,
-                                      height: 25.0,
-                                      inactiveColor: Color(0xD6D6D6D6),
-                                      activeColor: AppColor.mainColor,
-                                      valueFontSize: 12.0,
-                                      toggleSize: 18.0,
-                                      value: eatInStore,
-                                      onToggle: (value) {
-                                        setState(() {
-                                          eatInStore = value;
-                                        });
-                                      },
+                        (isTakeAwayOrderConfirmation)
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10, left: 15, right: 15, bottom: 10),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          blurRadius: 4.0, // soften the shadow
+                                          spreadRadius: 1.0, //extend the shadow
+                                        )
+                                      ],
+                                      color: AppColor.themeColor,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      border: Border.all(
+                                          width: 1.0, color: Colors.grey[200])),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          'Поем в заведении',
+                                          style: TextStyle(
+                                              color: Color(0xFF3F3F3F),
+                                              fontSize: 15),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 0),
+                                          child: FlutterSwitch(
+                                            width: 55.0,
+                                            height: 25.0,
+                                            inactiveColor: Color(0xD6D6D6D6),
+                                            activeColor: AppColor.mainColor,
+                                            valueFontSize: 12.0,
+                                            toggleSize: 18.0,
+                                            value: eatInStore,
+                                            onToggle: (value) {
+                                              setState(() {
+                                                eatInStore = value;
+                                              });
+                                            },
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ) : Container(),
+                                  ),
+                                ),
+                              )
+                            : Container(),
                         // (isTakeAwayOrderConfirmation) ? Container() : Padding(
                         //   padding: EdgeInsets.only(
                         //       top: 10, left: 15, right: 15, bottom: 10),
@@ -1063,322 +1006,271 @@ class AddressScreenState extends State<AddressScreen>
                         //     ),
                         //   ),
                         // ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30, right: 10),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10, left: 0, right: 15, bottom: 10),
-                                child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: GestureDetector(
-                                    child: Container(
-                                      width: 160,
-                                      height: 64,
-                                      // decoration: BoxDecoration(
-                                      //     boxShadow: [
-                                      //       BoxShadow(
-                                      //           color: Colors.black12,
-                                      //           blurRadius: 2.0,
-                                      //           offset: Offset(0.0, 1)
-                                      //       )
-                                      //     ],
-                                      //     color: Colors.white,
-                                      //     borderRadius: BorderRadius.circular(10.0),
-                                      //     border: Border.all(width: 1.0, color: Colors.grey[200])),
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 0, left: 0, right: 20, bottom: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Column(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(bottom: 8.0, left: 15),
-                                                  child: Text(
-                                                    "Способ оплаты",
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: AppColor.textColor),
+                        (paymentsMethodCount == 1)
+                            ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(top: 10, left: 15),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Способ оплаты',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color:
+                                                    AppColor.additionalTextColor),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5, right: 8),
+                                            child: Text('Налинчыми'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: PromoText(
+                                    key: promoTextKey,
+                                  ),
+                                ),
+                              ],
+                            )
+                            : Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 30, right: 10),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 10,
+                                          left: 15,
+                                          right: 15,
+                                          bottom: 10),
+                                      child: Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: GestureDetector(
+                                          child: Container(
+                                            width: 160,
+                                            height: 64,
+                                            decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.black12,
+                                                      blurRadius: 2.0,
+                                                      offset: Offset(0.0, 1))
+                                                ],
+                                                color: AppColor.themeColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                border: Border.all(
+                                                    width: 1.0,
+                                                    color: Colors.grey[200])),
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 0,
+                                                  left: 0,
+                                                  right: 20,
+                                                  bottom: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 8.0,
+                                                                left: 15,
+                                                                top: 10),
+                                                        child: Text(
+                                                          "Способ оплаты",
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Color(
+                                                                  0xFFB8B8B8)),
+                                                        ),
+                                                      ),
+                                                      Align(
+                                                        alignment: Alignment
+                                                            .bottomLeft,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 17),
+                                                          child: Text(
+                                                            paymentMethods[
+                                                                    paymentIndex]
+                                                                ['name'],
+                                                            style: TextStyle(
+                                                                fontSize: 16,
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 17),
-                                                  child: Text(
-                                                    'Наличными',
-                                                    // (selectedPaymentId == 1) ? card : cash,
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: AppColor.textColor),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10, top: 12),
+                                                    child: SvgPicture.asset(
+                                                        'assets/svg_images/arrow_down.svg'),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                            // Padding(
-                                            //   padding: EdgeInsets.only(left: 10),
-                                            //   child: SvgPicture.asset(
-                                            //       'assets/svg_images/arrow_down.svg'),
-                                            // ),
-                                          ],
+                                          ),
+                                          onTap: () async {
+                                            _payment();
+                                          },
                                         ),
                                       ),
                                     ),
-                                    onTap: () async {
-                                      // _payment();
-                                    },
-                                  ),
+
+                                  ],
                                 ),
                               ),
-                              // Padding(
-                              //   padding: const EdgeInsets.only(right: 0),
-                              //   child: PromoText(key: promoTextKey,),
-                              // )
-                            ],
-                          ),
-                        ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(bottom: 30, right: 10),
-                        //   child: Row(
-                        //     children: [
-                        //       Padding(
-                        //         padding: EdgeInsets.only(
-                        //             top: 10, left: 15, right: 15, bottom: 10),
-                        //         child: Align(
-                        //           alignment: Alignment.bottomLeft,
-                        //           child: GestureDetector(
-                        //             child: Container(
-                        //               width: 160,
-                        //               height: 64,
-                        //               decoration: BoxDecoration(
-                        //                   boxShadow: [
-                        //                     BoxShadow(
-                        //                         color: Colors.black12,
-                        //                         blurRadius: 2.0,
-                        //                         offset: Offset(0.0, 1)
-                        //                     )
-                        //                   ],
-                        //                   color: Colors.white,
-                        //                   borderRadius: BorderRadius.circular(10.0),
-                        //                   border: Border.all(width: 1.0, color: Colors.grey[200])),
-                        //               child: Padding(
-                        //                 padding: EdgeInsets.only(
-                        //                     top: 0, left: 0, right: 20, bottom: 10),
-                        //                 child: Row(
-                        //                   mainAxisAlignment:
-                        //                   MainAxisAlignment.spaceBetween,
-                        //                   children: <Widget>[
-                        //                     Column(
-                        //                       children: [
-                        //                         Padding(
-                        //                           padding: const EdgeInsets.only(bottom: 8.0, left: 15, top: 10),
-                        //                           child: Text(
-                        //                             "Способ оплаты",
-                        //                             style: TextStyle(
-                        //                                 fontSize: 12,
-                        //                                 color: AppColor.textColor),
-                        //                           ),
-                        //                         ),
-                        //                         Align(
-                        //                           alignment: Alignment.bottomLeft,
-                        //                           child: Padding(
-                        //                             padding: const EdgeInsets.only(left: 17),
-                        //                             child: Text(
-                        //                               paymentMethods[selectedPaymentId]['name'],
-                        //                               style: TextStyle(
-                        //                                   fontSize: 16,
-                        //                                   color: AppColor.textColor),
-                        //                             ),
-                        //                           ),
-                        //                         ),
-                        //                       ],
-                        //                     ),
-                        //                     Padding(
-                        //                       padding: EdgeInsets.only(left: 10, top: 12),
-                        //                       child: SvgPicture.asset(
-                        //                           'assets/svg_images/arrow_down.svg'),
-                        //                     ),
-                        //                   ],
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             onTap: () async {
-                        //                _payment();
-                        //             },
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       // Padding(
-                        //       //   padding: const EdgeInsets.only(right: 0),
-                        //       //   child: PromoText(key: promoTextKey,),
-                        //       // )
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
                   Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 5.0,
-                              offset: Offset(0.0, 1)
-                          )
-                        ],
-                        color: AppColor.themeColor,),
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 15, left: 50, right: 20, top: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                    '${(totalPrice).toStringAsFixed(0)} \₽',
-                                    style: TextStyle(
-                                        fontSize: 18.0,
-                                        color: AppColor.textColor)),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 3),
-                                  child: Text(
-                                    (currentUser.cartModel.cookingTime != null)
-                                        ? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин'
-                                        : '',
-                                    style: TextStyle(
-                                      fontSize: 12.0,
-                                      color: AppColor.textColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              child: Container(
-                                height: 52,
-                                width: 168,
-                                decoration: BoxDecoration(
-                                  color: AppColor.mainColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text('Заказать',
-                                      style: TextStyle(
-                                          fontSize: 18.0,
-                                          color: Colors.white)),
-                                ),
-                              ),
-                              onTap: () async {
-                                if (await Internet.checkConnection()) {
-                                  if(isTakeAwayOrderConfirmation){
-                                    showAlertDialog(context);
-                                    await createOrder(
-                                        currentUser.cartModel.uuid,
-                                        isTakeAwayOrderConfirmation,
-                                        false,
-                                        eatInStore,
-                                        null,
-                                        commentField.text
-                                    );
-                                  } else {
-                                    if(addressSelectorKey.currentState.myFavouriteAddressesModel.address == null
-                                        && !isTakeAwayOrderConfirmation){
-                                      emptyAddress(context);
-                                      return;
-                                    }
-                                    showAlertDialog(context);
-                                    await createOrder(
-                                        currentUser.cartModel.uuid,
-                                        false,
-                                        false,
-                                        false,
-                                        addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-                                        commentField.text
-                                    );
-                                  }
+                      alignment: Alignment.bottomCenter,
+                      child: PaymentButton(
+                        parent: this,
+                        key: paymentButtonKey,
+                        onTap: () async {
+                          if (await Internet.checkConnection()) {
+                            if (isTakeAwayOrderConfirmation) {
+                              showAlertDialog(context);
+                              await createOrder(
+                                  currentUser.cartModel.uuid,
+                                  isTakeAwayOrderConfirmation,
+                                  false,
+                                  eatInStore,
+                                  null,
+                                  '',
+                                  '',
+                                  '',
+                                  '',
+                                  commentField.text);
+                            } else {
+                              if (addressSelectorKey.currentState
+                                          .myFavouriteAddressesModel.address ==
+                                      null &&
+                                  !isTakeAwayOrderConfirmation) {
+                                emptyAddress(context);
+                                return;
+                              }
+                              showAlertDialog(context);
+                              await createOrder(
+                                  currentUser.cartModel.uuid,
+                                  false,
+                                  false,
+                                  false,
+                                  addressSelectorKey.currentState
+                                      .myFavouriteAddressesModel.address,
+                                  addressSelectorKey.currentState
+                                      .myFavouriteAddressesModel.entranceField,
+                                  addressSelectorKey.currentState
+                                      .myFavouriteAddressesModel.floorField,
+                                  addressSelectorKey.currentState
+                                      .myFavouriteAddressesModel.officeField,
+                                  addressSelectorKey.currentState
+                                      .myFavouriteAddressesModel.intercomField,
+                                  commentField.text);
+                            }
 
-                                  if(selectedPaymentId == 0) // если наличка
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-                                            (Route<dynamic> route) => false);
-                                  else{ // если не наличка
-                                    await makePayment();
-                                  }
-                                } else {
-                                  noConnection(context);
-                                }
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
+                            if (selectedPaymentName ==
+                                paymentMethods[paymentIndex]
+                                    ['tag']) // если наличка
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => OrderSuccessScreen(
+                                          name: necessaryDataForAuth.name)),
+                                  (Route<dynamic> route) => false);
+                            else {
+                              // если не наличка
+                              await makePayment();
+                            }
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => OrderSuccessScreen(
+                                        name: necessaryDataForAuth.name)),
+                                (Route<dynamic> route) => false);
+                          } else {
+                            noConnection(context);
+                          }
+                        },
+                      ))
                 ],
-              )
-          ),
-          onTap: (){
+              )),
+          onTap: () {
             FocusScope.of(context).requestFocus(new FocusNode());
           },
-        ),),
+        ),
+      ),
     );
   }
 
-  Future<bool> makePayment() async{
-    if(Platform.isAndroid){
+  Future<bool> makePayment() async {
+    if (Platform.isAndroid) {
       SberAPI.amount = (currentUser.cartModel.totalPrice * 100).round();
     }
-     SberAPI.orderNumber = currentUser.cartModel.id;
+    SberAPI.orderNumber = currentUser.cartModel.id;
 
     Map<String, String> req = await madPayment();
     var result;
-    if(Platform.isIOS){
-     result  = await SberAPI.applePay(req);
-    }else{
-      result = await SberAPI.googlePay(req);
+    if (Platform.isIOS) {
+      result = await SberAPI.applePay(req, currentUser.cartModel.uuid);
+    } else {
+      result = await SberAPI.googlePay(req, currentUser.cartModel.uuid);
     }
-    if(result.success){
-      if(result.data.acsUrl != null){
-        Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) => WebView(
+    if (result.success) {
+      if (result.data.acsUrl != null) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => WebView(
                   onPageFinished: (String url) {
                     print(url);
-                    if(url == "https://3dsec.sberbank.ru/payment/merchants/root/errors_ru.html"){ // здесь когда-нибудь вставить саксес и еррор урлы
+                    if (url ==
+                        "https://3dsec.sberbank.ru/payment/merchants/root/errors_ru.html") {
+                      // здесь когда-нибудь вставить саксес и еррор урлы
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                              builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-                              (Route<dynamic> route) => false);
+                              builder: (context) => OrderSuccessScreen(
+                                  name: necessaryDataForAuth.name)),
+                          (Route<dynamic> route) => false);
                     }
                   },
                   initialUrl: new Uri.dataFromString(
-                      _loadHTML(result.data.acsUrl,
-                          result.data.paReq,
-                          result.data.termUrl
-                      ), mimeType: 'text/html').toString(),
+                          _loadHTML(result.data.acsUrl, result.data.paReq,
+                              result.data.termUrl),
+                          mimeType: 'text/html')
+                      .toString(),
                   javascriptMode: JavascriptMode.unrestricted,
-                  onWebViewCreated: (WebViewController webController){
-                  },
-                ))
-        );
+                  onWebViewCreated: (WebViewController webController) {},
+                )));
         return result.success;
       }
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-              builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-              (Route<dynamic> route) => false);
-
+              builder: (context) =>
+                  OrderSuccessScreen(name: necessaryDataForAuth.name)),
+          (Route<dynamic> route) => false);
     }
     return result.success;
   }
 
-  Future<Map<String, String>> madPayment() async{
+  Future<Map<String, String>> madPayment() async {
     final MadPay pay = MadPay();
     await pay.checkPayments();
     await pay.checkActiveCard(
@@ -1390,13 +1282,13 @@ class AddressScreenState extends State<AddressScreen>
 
     List<PaymentItem> paymentItems = [];
     currentUser.cartModel.items.forEach((item) {
-      paymentItems.add(PaymentItem(name: item.product.name, price: item.totalItemPrice));
+      paymentItems.add(
+          PaymentItem(name: item.product.name, price: item.totalItemPrice));
     });
-    paymentItems.add(PaymentItem(name: "Доставка", price: currentUser.cartModel.deliveryPrice + 1));
+    paymentItems.add(PaymentItem(
+        name: "Доставка", price: currentUser.cartModel.deliveryPrice + 1));
 
-
-    final Map<String, String> req =
-        await pay.processingPayment(
+    final Map<String, String> req = await pay.processingPayment(
       google: GoogleParameters(
         gatewayName: 'sberbank',
         gatewayMerchantId: 'T1513081007',
@@ -1416,7 +1308,7 @@ class AddressScreenState extends State<AddressScreen>
     return req;
   }
 
-  String _loadHTML(String acsUrl, String paReq, String termUrl){
+  String _loadHTML(String acsUrl, String paReq, String termUrl) {
     return '''
       <html>
         <body onload="document.form.submit()" >

@@ -14,10 +14,11 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemDesc.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/DiscountTape.dart';
 
 import '../../../../data/data.dart';
 import 'ItemCounter.dart';
@@ -39,6 +40,7 @@ class MenuItem extends StatefulWidget {
     });
     return result;
   }
+
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     if(restaurantDataItems.productCategories != null && restaurantDataItems.productCategories.isNotEmpty)
@@ -52,7 +54,6 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   final ProductsByStoreUuid restaurantDataItems;
   final RestaurantScreenState parent;
   bool cartBottomPadding = false;
-
 
   MenuItemState(this.restaurantDataItems, this.parent);
 
@@ -80,7 +81,6 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
       },
     );
   }
-
 
   @override
   bool get wantKeepAlive => true;
@@ -138,7 +138,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                 alignment: Alignment.topLeft,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: AppColor.themeColor,
+                                    color: Color(0xFFFFFFFF),
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(15),
                                         bottomLeft: Radius.circular(15),
@@ -158,7 +158,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                   restaurantDataItems.name,
                                                   maxLines: 3,
                                                   style: TextStyle(
-                                                      fontSize: 16.0, color: AppColor.textColor, fontWeight: FontWeight.w700),
+                                                      fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
                                                   textAlign: TextAlign.start,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
@@ -176,29 +176,48 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                             ),
                           ),
                         ),
-                        Align(
+                        Stack(
                           alignment: Alignment.topRight,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(15),
-                                bottomRight: Radius.circular(15)),
-                            child: Image.network(
-                              getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
-                              fit: BoxFit.cover,
-                              height: MediaQuery.of(context).size.height,
-                              width: 168,
-                            ),),
-                        )
+                          children: [
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(15),
+                                    bottomRight: Radius.circular(15)),
+                                child: Stack(
+                                  children: [
+                                    Image.network(
+                                      getImage((restaurantDataItems
+                                                  .meta.images !=
+                                              null)
+                                          ? restaurantDataItems.meta.images[0]
+                                          : ''),
+                                      fit: BoxFit.cover,
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      width: 168,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Visibility(
+                              visible: restaurantDataItems.meta.oldPrice == 0 ? false : true,
+                              child: DiscountTapeWidget(price: restaurantDataItems.price, oldPrice: restaurantDataItems.meta.oldPrice,),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ))),
         ),
       );
-    }else {
+    } else {
       return GestureDetector(
         child: Container(
           margin: EdgeInsets.only(left: 10, right: 10),
-          height: 250,
+          height: 270,
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -207,14 +226,14 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                 spreadRadius: 1.0, //extend the shadow
               )
             ],
-            color: Colors.white,
+            color: AppColor.themeColor,
             border: Border.all(width: 1.0, color: Colors.grey[200]),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
             children: [
               Container(
-                height: 140,
+                height: 150,
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(10),
@@ -226,7 +245,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   ),),
               ),
               Container(
-                height: 110,
+                height: 118,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
@@ -250,12 +269,14 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                       ),
                     ),
                     MenuItemDesc(foodRecords: restaurantDataItems, parent: this),
-                    Padding(
-                      padding: EdgeInsets.only(top: 0),
-                      child: MenuItemCounter(
-                          foodRecords: restaurantDataItems,
-                          menuItemCounterKey: menuItemCounterKey,
-                          parent: this),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: MenuItemCounter(
+                            foodRecords: restaurantDataItems,
+                            menuItemCounterKey: menuItemCounterKey,
+                            parent: this),
+                      ),
                     )
                   ],
                 ),
@@ -386,7 +407,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                   child: Text(
                                     restaurantDataItems.meta.description,
                                     style: TextStyle(
-                                        color: AppColor.additionalTextColor, fontSize: 13),
+                                        color: Color(0xFFB0B0B0), fontSize: 13),
                                   ),
                                 ),
                               )
@@ -528,7 +549,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                   TextSpan(text: restaurantDataItems.name,
                                                                     style: TextStyle(
                                                                         fontSize: 15.0,
-                                                                        color: AppColor.textColor),),
+                                                                        color: Color(0xFF000000)),),
                                                                 ]
                                                             )
                                                             ),
@@ -574,10 +595,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                     child: Center(
                                                                       child: Text(
                                                                         "Добавить",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                AppColor.unselectedTextColor,
-                                                                            fontSize: 18),
+                                                                        style:
+                                                                        TextStyle(color: AppColor.unselectedTextColor, fontSize: 18),
                                                                       ),
                                                                     ),
                                                                   ),

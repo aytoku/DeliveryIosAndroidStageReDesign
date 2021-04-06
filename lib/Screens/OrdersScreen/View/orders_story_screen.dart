@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/getClientStoryOrders.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
-import 'package:flutter_app/data/global_variables.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -54,7 +53,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                   spreadRadius: 1.0, //extend the shadow
                 )
               ],
-              color: AppColor.elementsColor,
+              color: AppColor.themeColor,
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(width: 1.0, color: Colors.grey[200])),
           child: InkWell(
@@ -68,12 +67,12 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                     children: [
                       Text(ordersStoryModelItem.storeData.name,
                           textAlign: TextAlign.start,
-                          style: TextStyle(fontSize: 18, color: AppColor.textColor)),
+                          style: TextStyle(fontSize: 18, color: Color(0xFF000000))),
                       Text(
                         '${ordersStoryModelItem.totalPrice.toStringAsFixed(0)} \₽',
                         style: TextStyle(
                           fontSize: 18,
-                          color: AppColor.textColor,
+                          color: Colors.black,
                         ),
                       ),
                     ],
@@ -89,11 +88,11 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(bottom: 2.0),
-                              child: SvgPicture.asset('assets/svg_images/clock.svg', color:  AppColor.additionalTextColor),
+                              child: SvgPicture.asset('assets/svg_images/clock.svg'),
                             ),
                             Text(
                               format.format(ordersStoryModelItem.createdAt),
-                              style: TextStyle(fontSize: 12, color: AppColor.additionalTextColor),
+                              style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                             ),
                           ],
                         ),
@@ -102,7 +101,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                         children: [
                           Text('Доставлен',
                             style: TextStyle(
-                                color: AppColor.textColor,
+                                color: Colors.black,
                                 fontSize: 14
                             ),
                           ),
@@ -115,7 +114,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                         children: [
                           Text('Отменен',
                             style: TextStyle(
-                                color: AppColor.textColor,
+                                color: Colors.black,
                                 fontSize: 14
                             ),
                           ),

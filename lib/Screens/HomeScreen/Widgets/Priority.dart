@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../data/data.dart';
@@ -93,7 +93,7 @@ class PriorityScreenState extends State<PriorityScreen>{
                 child: Text('Готово',
                     style: TextStyle(
                         fontSize: 18.0,
-                        color: Colors.white)),
+                        color: AppColor.textColor)),
                 color: (haveSelectedItems()) ? AppColor.mainColor : Color(0xF3F3F3F3),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),

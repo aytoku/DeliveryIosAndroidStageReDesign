@@ -123,6 +123,7 @@ class ProductMeta {
     this.description,
     this.composition,
     this.weight,
+    this.oldPrice,
     this.weightMeasurement,
     this.images,
     this.energyValue,
@@ -131,6 +132,7 @@ class ProductMeta {
   String description;
   String composition;
   int weight;
+  var oldPrice;
   String weightMeasurement;
   List<String> images;
   EnergyValue energyValue;
@@ -139,6 +141,7 @@ class ProductMeta {
     description: json["description"],
     composition: json["composition"],
     weight: json["weight"],
+    oldPrice: json["old_price"] == null ? null : json["old_price"],
     weightMeasurement: json["weight_measurement"],
     images: (json["images"] == null) ? null :  List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
@@ -148,6 +151,7 @@ class ProductMeta {
     "description": description,
     "composition": composition,
     "weight": weight,
+    "old_price": oldPrice == null ? null : oldPrice,
     "weight_measurement": weightMeasurement,
     "images": (images != null) ? List<dynamic>.from(images.map((x) => x)) : null,
     "energy_value": energyValue.toJson(),

@@ -3,8 +3,6 @@ import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:flutter_app/data/global_variables.dart';
-
 
 import 'CategoryListItem.dart';
 
@@ -66,7 +64,7 @@ class CategoryListState extends State<CategoryList> {
             height: 400,
             child: _buildCategoryBottomNavigationMenu(),
             decoration: BoxDecoration(
-                color: AppColor.themeColor,
+                color: Theme.of(context).canvasColor,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(20),
                   topRight: const Radius.circular(20),
@@ -106,7 +104,7 @@ class CategoryListState extends State<CategoryList> {
                       child: Text(itemCount.toString(),
                         style: TextStyle(
                           fontSize: 18,
-                          color: AppColor.additionalTextColor,
+                          color: Colors.grey,
                         ),
                         textAlign: TextAlign.start,
                       ),
@@ -165,7 +163,7 @@ class CategoryListState extends State<CategoryList> {
                   highlightColor: Colors.white,
                   child: SvgPicture.asset(
                     'assets/svg_images/rest_menu.svg',
-                    color: AppColor.textColor,
+                    color: Colors.black,
                   ),
                   onTap: (){
                     _category();

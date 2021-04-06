@@ -17,7 +17,7 @@ class CartButtonCounterState extends State<CartButtonCounter> {
 
     return Text('${totalPrice.toStringAsFixed(0)} \₽',
         style: TextStyle(
-            fontSize: 18.0, color: Colors.white));
+            fontSize: 18.0, color: AppColor.unselectedTextColor));
   }
 
   void refresh() {

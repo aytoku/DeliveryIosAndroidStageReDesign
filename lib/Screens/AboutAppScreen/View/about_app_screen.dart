@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_app/data/global_variables.dart';
-
+import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
+import 'package:flutter_app/VersionControl/Model/CurrentVersionModel.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class AboutAppScreen extends StatefulWidget {
   @override
@@ -17,7 +19,6 @@ class AboutAppScreenState extends State<AboutAppScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      backgroundColor: AppColor.themeColor,
         body: Container(
           color: AppColor.themeColor,
           child: Stack(
@@ -33,23 +34,45 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         Center(
                           child: Padding(
                               padding: EdgeInsets.only(top: 20, bottom: 10),
-                              child: Image.asset('assets/images/Fermer.png', width: 200, height: 200,)
+                              child: Image.asset('assets/images/Fermer.png')
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 25),
                           child: Center(
-                            child: Text(
-                              'Версия 7.0.0 от 29 мар. 2021 г.\nсборка 1',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: AppColor.textColor, fontSize: 15),
-                            ),
+                              child: Text(
+                                'Версия ${CheckVersion.updateVersion} от 26 апр. 2021 г.\nсборка 2',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Color(0x97979797), fontSize: 15),
+                              )
                           ),
+                          // FutureBuilder<CurrentVersionModel>(
+                          //   future: getCurrentVersion(authCodeData.token),
+                          //   builder: (context, AsyncSnapshot<CurrentVersionModel> snapshot) {
+                          //     return Center(
+                          //       child: (snapshot.connectionState == ConnectionState.done && snapshot.data != null) ? Text(
+                          //         'Версия ${CheckVersion.updateVersion} от 27 мар. 2021 г.\nсборка 19',
+                          //         textAlign: TextAlign.center,
+                          //         style: TextStyle(color: Color(0x97979797), fontSize: 15),
+                          //       ) : Center(
+                          //         child: SpinKitThreeBounce(
+                          //           color: AppColor.mainColor,
+                          //           size: 20.0,
+                          //         ),
+                          //       ),
+                          //       // Text(
+                          //       //   'Версия 1.0.10 от 27 мар. 2021 г.\nсборка 19',
+                          //       //   textAlign: TextAlign.center,
+                          //       //   style: TextStyle(color: Color(0x97979797), fontSize: 15),
+                          //       // ),
+                          //     );
+                          //   }
+                          // ),
                         ),
-                        // Container(
-                        //   height: 0.3,
-                        //   color: Color(0xFFF9F9F9),
-                        // ),
+                          // Container(
+                          //   height: 30,
+                          //   color: Color(0xFFF9F9F9),
+                          // ),
                         // Align(
                         //   alignment: Alignment.centerLeft,
                         //   child: InkWell(
@@ -61,10 +84,10 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         //         children: <Widget>[
                         //           Text('Лицензионное соглашение',
                         //               style:
-                        //               TextStyle(fontSize: 17, color: AppColor.textColor)),
+                        //               TextStyle(fontSize: 17, color: Color(0xFF424242))),
                         //           GestureDetector(
                         //             child:
-                        //             SvgPicture.asset('assets/svg_images/arrow_right.svg', color: AppColor.textColor,),
+                        //             SvgPicture.asset('assets/svg_images/arrow_right.svg'),
                         //           )
                         //         ],
                         //       ),
@@ -92,10 +115,10 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         //         children: <Widget>[
                         //           Text('Политика конфиденцальности',
                         //               style:
-                        //               TextStyle(fontSize: 17, color: AppColor.textColor)),
+                        //               TextStyle(fontSize: 17, color: Color(0xFF424242))),
                         //           GestureDetector(
                         //             child:
-                        //             SvgPicture.asset('assets/svg_images/arrow_right.svg', color: AppColor.textColor,),
+                        //             SvgPicture.asset('assets/svg_images/arrow_right.svg'),
                         //           )
                         //         ],
                         //       ),
@@ -122,7 +145,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
               //   child: Padding(
               //     padding: EdgeInsets.only(bottom: 20, left: 15),
               //     child: Text(
-              //       '@ 2011-2021 ООО «ФАЕМ ТЕХНОЛОГИИ»',
+              //       '@ 2011-2020 ООО «ФАЕМ ТЕХНОЛОГИИ»',
               //       style: TextStyle(color: Color(0x97979797), fontSize: 15),
               //     ),
               //   ),

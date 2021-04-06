@@ -4,7 +4,7 @@ import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.d
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/add_address_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddressSelector extends StatefulWidget {
@@ -176,12 +176,12 @@ class AddressSelectorState extends State<AddressSelector> with AutomaticKeepAliv
                           contentPadding: EdgeInsets.only(left: 15),
                           hintText: 'Указать адрес',
                           hintStyle: TextStyle(
-                              color: AppColor.additionalTextColor
+                              color: Color(0xFFE6E6E6)
                           ),
                           enabledBorder:  OutlineInputBorder(
                             // width: 0.0 produces a thin "hairline" border
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: (notFavouriteAddressController.text != '') ? BorderSide(color: AppColor.mainColor) : BorderSide(color: AppColor.additionalTextColor),
+                            borderSide: (notFavouriteAddressController.text != '') ? BorderSide(color: AppColor.mainColor) : BorderSide(color: Colors.black26),
                           ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10)),
