@@ -8,6 +8,7 @@ import 'package:flutter_app/Screens/CodeScreen/Bloc/code_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,8 +16,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../data/data.dart';
 import '../../../data/data.dart';
 import '../../CodeScreen/View/code_screen.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 class AuthScreen extends StatefulWidget {
   AuthSources source;
@@ -98,10 +97,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: Row(
                       children: <Widget>[
                         InkWell(
-                          hoverColor: Colors.white,
-                          focusColor: Colors.white,
-                          splashColor: Colors.white,
-                          highlightColor: Colors.white,
+                          hoverColor: AppColor.themeColor,
+                          focusColor: AppColor.themeColor,
+                          splashColor: AppColor.themeColor,
+                          highlightColor: AppColor.themeColor,
                           onTap: () {
                             Navigator.pop(context);
                           },
@@ -114,9 +113,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                     padding: EdgeInsets.only(
                                         top: 12, bottom: 12, right: 10),
                                     child: SvgPicture.asset(
-                                        'assets/svg_images/arrow_left.svg',
-                                    color: AppColor.textColor,),
-                                  ),),),
+                                        'assets/svg_images/arrow_left.svg'),
+                                  )),),
                         ),
                       ],
                     ),
@@ -132,13 +130,12 @@ class _AuthScreenState extends State<AuthScreen> {
                             width: 313,
                             decoration: BoxDecoration(
                               color: AppColor.mainColor,
-                              // border: Border.all(
-                              //   color: mainColor,
-                              // ),
+                              border: Border.all(
+                                color: AppColor.mainColor,
+                              ),
                               borderRadius: const BorderRadius.all(
                                 const Radius.circular(10.0),
                               ),
-                              border: Border.all(color: AppColor.mainColor),
                             ),
                             child: Column(
                               children: [
@@ -148,7 +145,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     'Укажите ваш номер телефона',
                                     style: TextStyle(
                                         fontSize: 18,
-                                        color: Colors.white
+                                        color: AppColor.unselectedTextColor
                                     ),
                                   ),
                                 ),
@@ -157,7 +154,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     child: TextField(
                                       autofocus: true,
                                       controller: controller,
-                                      style: TextStyle(fontSize: 18, color: AppColor.textColor),
+                                      style: TextStyle(fontSize: 18),
                                       textAlign: TextAlign.start,
                                       maxLength: 16,
                                       keyboardType: TextInputType.number,
@@ -170,7 +167,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                           ),
                                         ),
                                         filled: true,
-                                        fillColor: AppColor.fieldColor,
+                                        fillColor: AppColor.themeColor,
                                         counterText: '',
                                         contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.21),
                                         hintStyle: TextStyle(
@@ -192,13 +189,17 @@ class _AuthScreenState extends State<AuthScreen> {
                                           buttonStateKey.currentState.setState(() {
                                             buttonStateKey.currentState.color =
                                                 AppColor.mainColor;
+                                            buttonStateKey.currentState.buttonColor =
+                                                AppColor.unselectedTextColor;
                                           });
                                         } else if (value.length == 0 &&
                                             buttonStateKey.currentState.color !=
-                                                AppColor.fieldColor) {
+                                                Color(0xF3F3F3F3)) {
                                           buttonStateKey.currentState.setState(() {
                                             buttonStateKey.currentState.color =
-                                                AppColor.fieldColor;
+                                                Color(0xF3F3F3F3);
+                                            buttonStateKey.currentState.buttonColor =
+                                                AppColor.textColor;
                                           });
                                         }
                                       },
@@ -278,7 +279,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
-                        child: Button(key: buttonStateKey, color: AppColor.subElementsColor, source: source, authGetBloc: authGetBloc)
+                        child: Button(key: buttonStateKey, color: Color(0xF3F3F3F3), source: source, authGetBloc: authGetBloc)
                     ),
                   ),
                 ],
@@ -292,24 +293,26 @@ class _AuthScreenState extends State<AuthScreen> {
 
 class Button extends StatefulWidget {
   Color color;
+  Color buttonColor;
   AuthSources source;
   AuthGetBloc authGetBloc;
 
-  Button({Key key, this.color, this.source, this.authGetBloc}) : super(key: key);
+  Button({Key key, this.color, this.source, this.buttonColor, this.authGetBloc}) : super(key: key);
 
   @override
   ButtonState createState() {
-    return new ButtonState(color, source, authGetBloc);
+    return new ButtonState(color, source, authGetBloc, buttonColor);
   }
 }
 
 class ButtonState extends State<Button> {
   String error = '';
-  Color color = AppColor.mainColor;
+  Color color = Color(0xFFF3F3F3);
   AuthSources source;
+  Color buttonColor = AppColor.textColor;
   AuthGetBloc authGetBloc;
 
-  ButtonState(this.color, this.source, this.authGetBloc);
+  ButtonState(this.color, this.source, this.authGetBloc, this.buttonColor);
 
   String validateMobile(String value) {
     String pattern = r'(^(?:[+]?7)[0-9]{10}$)';
@@ -338,7 +341,7 @@ class ButtonState extends State<Button> {
           child: Text('Далее',
               style: TextStyle(
                   fontSize: 18.0,
-                  color: AppColor.themeColor)),
+                  color: buttonColor)),
         ),
 
       ),

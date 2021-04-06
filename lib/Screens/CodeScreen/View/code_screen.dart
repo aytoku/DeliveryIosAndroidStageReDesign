@@ -14,14 +14,12 @@ import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/NameScreen/View/name_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'dart:async';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
-
 
 import '../../../Amplitude/amplitude.dart';
 import '../../../Centrifugo/centrifugo.dart';
@@ -155,8 +153,9 @@ class _CodeScreenState extends State<CodeScreen> {
               );
             }else if(state.goToHomeScreen){
               if(source == AuthSources.Cart){
-                for(int i = 0; i < 2; i++)
+                for(int i = 0; i<2;i++)
                   Navigator.pop(context);
+
                 return;
               }
               homeScreenKey =
@@ -166,8 +165,8 @@ class _CodeScreenState extends State<CodeScreen> {
                     builder: (context) => BlocProvider(
                       create: (context) => RestaurantGetBloc(),
                       child: new HomeScreen(),
-                    ),
-                  ), (Route<dynamic> route) => false);
+                    ),),
+                      (Route<dynamic> route) => false);
             }
           }
         },
@@ -180,10 +179,10 @@ class _CodeScreenState extends State<CodeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      hoverColor: Colors.white,
-                      focusColor: Colors.white,
-                      splashColor: Colors.white,
-                      highlightColor: Colors.white,
+                      hoverColor: AppColor.themeColor,
+                      focusColor: AppColor.themeColor,
+                      splashColor: AppColor.themeColor,
+                      highlightColor: AppColor.themeColor,
                       child: Padding(
                           padding: EdgeInsets.only(left: 20, top: 40),
                           child: Container(
@@ -197,10 +196,10 @@ class _CodeScreenState extends State<CodeScreen> {
                       onTap: () => Navigator.pop(context),
                     ),
                     InkWell(
-                      hoverColor: Colors.white,
-                      focusColor: Colors.white,
-                      splashColor: Colors.white,
-                      highlightColor: Colors.white,
+                      hoverColor: AppColor.themeColor,
+                      focusColor: AppColor.themeColor,
+                      splashColor: AppColor.themeColor,
+                      highlightColor: AppColor.themeColor,
                       child:  Padding(
                           padding: EdgeInsets.only(right: 24, top: 40),
                           child: Container(
@@ -230,7 +229,6 @@ class _CodeScreenState extends State<CodeScreen> {
                         borderRadius: const BorderRadius.all(
                           const Radius.circular(10.0),
                         ),
-                        border: Border.all(color: AppColor.mainColor),
                       ),
                       child: Column(
                         children: [
@@ -248,14 +246,15 @@ class _CodeScreenState extends State<CodeScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 12.0),
+                            padding: const EdgeInsets.only(top: 14.0),
                             child: Container(
                               height: 80.0,
                               decoration: BoxDecoration(
+                                border: Border.all(color: AppColor.mainColor),
                                   borderRadius: BorderRadius.only(
                                       bottomRight: Radius.circular(10),
                                       bottomLeft: Radius.circular(10)),
-                                  color: AppColor.fieldColor),
+                                  color: AppColor.fieldColor,),
                               child: Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Padding(
@@ -460,7 +459,7 @@ class ButtonState extends State<Button> {
           child: Text('Далее',
               style: TextStyle(
                   fontSize: 18.0,
-                  color: Colors.white)),
+                  color: AppColor.unselectedTextColor)),
         ),
       ),
       onTap: () async {

@@ -1,8 +1,8 @@
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_app/data/refreshToken.dart';
+import 'package:flutter_app/data/data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-
 
 
 Future<String> getCentrifugoToken() async {

@@ -5,8 +5,7 @@ import 'package:flutter_app/Screens/CartScreen/View/empty_cart_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 
 import 'CartButtonCounter.dart';
 
@@ -83,7 +82,7 @@ class CartButtonState extends State<CartButton> {
             //   ),
             // ),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 10),
               child: GestureDetector(
                 child: Container(
                   padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
@@ -96,13 +95,13 @@ class CartButtonState extends State<CartButton> {
                       //   (currentUser.cartModel.cookingTime != null)? '~ ${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
                       //   style: TextStyle(
                       //     fontSize: 12.0,
-                      //     color: Colors.white,
+                      //     color: AppColor.textColor,
                       //   ),
                       // ),
                       Text('Корзина',
                           style: TextStyle(
                               fontSize: 18.0,
-                              color: Colors.white)),
+                              color: AppColor.unselectedTextColor)),
                       CartButtonCounter(
                         key: buttonCounterKey,
                       ),

@@ -12,8 +12,7 @@ import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:io' show Platform;
@@ -106,7 +105,7 @@ class CartPageState extends State<CartPageScreen> {
         child: Scaffold(
           resizeToAvoidBottomPadding: false,
           body: Container(
-            color: Colors.white,
+            color: AppColor.themeColor,
             child: Column(
               children: [
                 Padding(
@@ -116,10 +115,10 @@ class CartPageState extends State<CartPageScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                        InkWell(
-                           hoverColor: Colors.white,
-                           focusColor: Colors.white,
-                           splashColor: Colors.white,
-                           highlightColor: Colors.white,
+                           hoverColor: AppColor.themeColor,
+                           focusColor: AppColor.themeColor,
+                           splashColor: AppColor.themeColor,
+                           highlightColor: AppColor.themeColor,
                            onTap: (){
                              if(source == CartSources.Home){
                                homeScreenKey = new GlobalKey<HomeScreenState>();
@@ -316,13 +315,13 @@ class CartPageState extends State<CartPageScreen> {
                                     color: AppColor.mainColor,
                                     width: 0.5
                                 ),
-                                color: (selectedPageId == 0) ? AppColor.mainColor : Colors.white,
+                                color: (selectedPageId == 0) ? AppColor.mainColor : AppColor.themeColor,
                               ),
                               child: Center(
                                 child: Text(
                                   'Доставка',
                                   style: TextStyle(
-                                      color: (selectedPageId == 0) ? Colors.white : AppColor.mainColor, fontSize: 15),
+                                      color: (selectedPageId == 0) ? AppColor.unselectedTextColor : AppColor.mainColor, fontSize: 15),
                                 ),
                               ),
                             ),
@@ -352,13 +351,13 @@ class CartPageState extends State<CartPageScreen> {
                                     color: AppColor.mainColor,
                                     width: 0.5
                                 ),
-                                color: (selectedPageId == 1) ? AppColor.mainColor : Colors.white,
+                                color: (selectedPageId == 1) ? AppColor.mainColor : AppColor.themeColor,
                               ),
                               child: Center(
                                 child: Text(
                                   'Самовывоз',
                                   style: TextStyle(
-                                      color: (selectedPageId == 1) ? Colors.white : AppColor.mainColor, fontSize: 15),
+                                      color: (selectedPageId == 1) ? AppColor.textColor : AppColor.mainColor, fontSize: 15),
                                 ),
                               ),
                             ),
@@ -395,7 +394,7 @@ class CartPageState extends State<CartPageScreen> {
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColor.themeColor,
                         boxShadow: [
                           BoxShadow(
                               color: Colors.black12,
@@ -442,7 +441,7 @@ class CartPageState extends State<CartPageScreen> {
                                 child: Text('Далее',
                                     style: TextStyle(
                                         fontSize: 18.0,
-                                        color: Colors.white)),
+                                        color: AppColor.unselectedTextColor)),
                               ),
                             ),
                             onTap: () async {

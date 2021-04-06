@@ -8,8 +8,7 @@ import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -22,6 +21,28 @@ class PaymentScreenState extends State<PaymentScreen> {
 
   bool isSelected = false;
   bool change = false;
+  List<Map<String, String>> paymentMethods;
+  String selectedPaymentName;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    paymentMethods = [
+      {
+        "name": "Наличными",
+        "image": "assets/svg_images/dollar_bills.svg",
+        "tag": "cash"
+      },
+      {
+        "name": (Platform.isIOS) ? "ApplePay" : "GooglePay",
+        "image": (Platform.isIOS) ? "assets/svg_images/apple_pay.svg"
+            : "assets/svg_images/google_pay.svg",
+        "tag": "virtualCardPayment"
+      },
+    ];
+    selectedPaymentName = necessaryDataForAuth.selectedPaymentName;
+  }
 
   void addPaymentCard() {
     showModalBottomSheet(
@@ -50,7 +71,7 @@ class PaymentScreenState extends State<PaymentScreen> {
   buildAddPaymentCardBottomNavigationMenu() {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.themeColor,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(20),
             topRight: const Radius.circular(20),
@@ -70,7 +91,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                       spreadRadius: 1.0, //extend the shadow
                     )
                   ],
-                  color: Colors.white,
+                  color: AppColor.themeColor,
                   borderRadius: BorderRadius.circular(10.0),
                   border: Border.all(width: 1.0, color: Colors.grey[200])),
               child: Column(
@@ -81,7 +102,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                       padding: const EdgeInsets.only(top: 30, left: 15, bottom: 5),
                       child: Text('Номер карты',
                         style: TextStyle(
-                            color: Colors.grey,
+                            color: AppColor.additionalTextColor,
                             fontSize: 14
                         ),
                       ),
@@ -157,7 +178,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                     padding: const EdgeInsets.only(top: 30, right: 60, bottom: 5),
                                     child: Text('CVV',
                                       style: TextStyle(
-                                          color: Colors.grey,
+                                          color: AppColor.additionalTextColor,
                                           fontSize: 14
                                       ),
                                     ),
@@ -213,7 +234,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                       child: Text('Добавить карту',
                         style: TextStyle(
                             fontSize: 16,
-                            color: Colors.white
+                            color: AppColor.textColor
                         ),
                       ),
                     ),
@@ -242,7 +263,7 @@ class PaymentScreenState extends State<PaymentScreen> {
               height: 88,
               padding: EdgeInsets.only(top: 40),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColor.themeColor,
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black12,
@@ -300,24 +321,24 @@ class PaymentScreenState extends State<PaymentScreen> {
                           fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: InkWell(
-                        child: Text(
-                          (!change) ? "Изменить" : "Готово",
-                          style: TextStyle(
-                              fontSize: 14),
-                        ),
-                        onTap: (){
-                          setState(() {
-                            change = !change;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 20),
+                  //   child: Align(
+                  //     alignment: Alignment.centerRight,
+                  //     child: InkWell(
+                  //       child: Text(
+                  //         (!change) ? "Изменить" : "Готово",
+                  //         style: TextStyle(
+                  //             fontSize: 14),
+                  //       ),
+                  //       onTap: (){
+                  //         setState(() {
+                  //           change = !change;
+                  //         });
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -334,200 +355,90 @@ class PaymentScreenState extends State<PaymentScreen> {
                           spreadRadius: 1.0, //extend the shadow
                         )
                       ],
-                      color: Colors.white,
+                      color: AppColor.themeColor,
                       borderRadius: BorderRadius.circular(10.0),
                       border: Border.all(width: 1.0, color: Colors.grey[200])),
                   child: Column(
                     children: [
-                      InkWell(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(
-                            children: [
-                              Flexible(
-                                  flex: 1,
-                                  child: SvgPicture.asset('assets/svg_images/visa.svg')),
-                              Flexible(
-                                flex: 7,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: Text((Platform.isIOS) ? 'Apple Pay' : 'Google Pay'),
+                      Container(
+                        height: 110,
+                        child: ListView(
+                          physics: BouncingScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          children: List.generate(paymentMethods.length, (index){
+                            return Column(
+                              children: [
+                                InkWell(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      children: [
+                                        Flexible(
+                                            flex: 1,
+                                            child: SvgPicture.asset(paymentMethods[index]['image'])),
+                                        Flexible(
+                                          flex: 7,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 20),
+                                                child: Text(paymentMethods[index]['name']),
+                                              ),
+                                              (selectedPaymentName == paymentMethods[index]['tag']) ?
+                                              SvgPicture.asset('assets/svg_images/home_selected_item.svg')
+                                                  :
+                                              SvgPicture.asset('assets/svg_images/home_unselected_item.svg'),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    (isSelected) ?
-                                    SvgPicture.asset('assets/svg_images/home_selected_item.svg')
-                                    : (change) ?
-                                    InkWell(
-                                        child: SvgPicture.asset("assets/svg_images/delete_cross.svg"),
-                                      onTap: (){
-                                        if(Platform.isIOS){
-                                          return showDialog(
-                                              context: context,
-                                              builder: (BuildContext context){
-                                                return Padding(
-                                                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.75),
-                                                  child: CupertinoActionSheet(
-                                                    actions: [
-                                                      CupertinoActionSheetAction(
-                                                        child: Text("Удалить карту",
-                                                          style: TextStyle(
-                                                              color: Color(0xFFFF3B30),
-                                                              fontSize: 20
-                                                          ),
-                                                        ),
-                                                        onPressed: () async {
-
-                                                        },
-                                                      ),
-                                                    ],
-                                                    cancelButton: CupertinoActionSheetAction(
-                                                      child: Text("Отмена",
-                                                        style: TextStyle(
-                                                            color: Color(0xFF007AFF),
-                                                            fontSize: 20
-                                                        ),
-                                                      ),
-                                                      onPressed: (){
-                                                        Navigator.pop(context);
-                                                      },
-                                                    ),
-                                                  ),
-                                                );
-                                              }
-                                          );
-                                        }else{
-                                          return showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return Padding(
-                                                padding: EdgeInsets.only(bottom: 0),
-                                                child: Dialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                                                  child: Container(
-                                                      height: 130,
-                                                      width: 300,
-                                                      child: Column(
-                                                        children: <Widget>[
-                                                          InkWell(
-                                                            child: Container(
-                                                              padding: EdgeInsets.only(top: 20, bottom: 20),
-                                                              child: Center(
-                                                                child: Text("Удалить карту",
-                                                                  style: TextStyle(
-                                                                      color: Color(0xFFFF3B30),
-                                                                      fontSize: 20
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            onTap: () async {
-
-                                                            },
-                                                          ),
-                                                          Divider(
-                                                            height: 1,
-                                                            color: Colors.grey,
-                                                          ),
-                                                          InkWell(
-                                                            child: Container(
-                                                              padding: EdgeInsets.only(top: 20, bottom: 20),
-                                                              child: Center(
-                                                                child: Text("Отмена",
-                                                                  style: TextStyle(
-                                                                      color: Color(0xFF007AFF),
-                                                                      fontSize: 20
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            onTap: (){
-                                                              Navigator.pop(context);
-                                                            },
-                                                          ),
-                                                        ],
-                                                      )),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        }
-                                      },
-                                    ) :
-                                    SvgPicture.asset('assets/svg_images/home_unselected_item.svg'),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        onTap: (){
-                          setState(() {
-                            isSelected = !isSelected;
-                            change = !change;
-                          });
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, left: 60),
-                        child: Divider(color: Color(0xFFC4C4C4), height: 1,),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Row(
-                          children: [
-                            Flexible(
-                                flex: 1,
-                                child: SvgPicture.asset('assets/svg_images/dollar_bills.svg')),
-                            Flexible(
-                              flex: 7,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child: Text('Наличными'),
                                   ),
-                                  SvgPicture.asset('assets/svg_images/home_unselected_item.svg'),
-                                ],
-                              ),
-                            ),
-                          ],
+                                  onTap: () async{
+                                    setState(() {
+                                      selectedPaymentName = paymentMethods[index]['tag'];
+                                    });
+                                    necessaryDataForAuth.selectedPaymentName = selectedPaymentName;
+                                    await NecessaryDataForAuth.saveData();
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20, left: 60, bottom: 20),
+                                  child: Divider(color: Color(0xFFC4C4C4), height: 1,),
+                                ),
+                              ],
+                            );
+                          }),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, left: 60),
-                        child: Divider(color: Color(0xFFC4C4C4), height: 1,),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 30),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: GestureDetector(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 48,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color(0xFF09B44D)
-                              ),
-                              child: Center(
-                                  child: Text('Добавить карту',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16
-                                    ),
-                                  )
-                              ),
-                            ),
-                            onTap: (){
-                              addPaymentCard();
-                            },
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 30),
+                      //   child: Align(
+                      //     alignment: Alignment.bottomCenter,
+                      //     child: GestureDetector(
+                      //       child: Container(
+                      //         width: MediaQuery.of(context).size.width,
+                      //         height: 48,
+                      //         decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.circular(10),
+                      //             color: Color(0xFF09B44D)
+                      //         ),
+                      //         child: Center(
+                      //             child: Text('Добавить карту',
+                      //               style: TextStyle(
+                      //                   color: AppColor.textColor,
+                      //                   fontSize: 16
+                      //               ),
+                      //             )
+                      //         ),
+                      //       ),
+                      //       onTap: (){
+                      //         addPaymentCard();
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   )
               ),

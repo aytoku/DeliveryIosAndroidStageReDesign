@@ -3,10 +3,9 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/autocolplete_field_list.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/svg.dart';
 import 'my_addresses_screen.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
 
 // ignore: must_be_immutable
 class AddMyAddressScreen extends StatefulWidget {
@@ -54,7 +53,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
     commentField.text = myAddressesModel.description;
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.themeColor,
       resizeToAvoidBottomPadding: false,
       body: GestureDetector(
         child: Stack(
@@ -127,7 +126,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                color: Colors.white,
+                color: AppColor.themeColor,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 10),
                   child: FlatButton(
@@ -135,7 +134,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
                       "Добавить адрес",
                         style: TextStyle(
                             fontSize: 16.0,
-                            color: Colors.white)
+                            color: AppColor.textColor)
                     ),
                     color: AppColor.mainColor,
                     shape: RoundedRectangleBorder(

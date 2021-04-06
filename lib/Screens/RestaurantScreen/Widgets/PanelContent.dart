@@ -11,8 +11,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/Item.da
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemCounter.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -133,9 +132,7 @@ class PanelContentState extends State<PanelContent>{
                                         topLeft: const Radius.circular(12),
                                         topRight: const Radius.circular(12),
                                       )),
-                                  child:
-
-                                  Stack(
+                                  child: Stack(
                                     children: <Widget>[
                                       Align(
                                         alignment: Alignment.bottomCenter,
@@ -310,10 +307,9 @@ class PanelContentState extends State<PanelContent>{
                                       TextSpan(text: restaurantDataItems.name,
                                         style: TextStyle(
                                             fontSize: 15.0,
-                                            color: AppColor.themeColor),
-                                      ),
+                                            color: Color(0xFF000000)),),
                                     ]
-                                  ),
+                                )
                                 ),
                               ),
                             )),
@@ -358,7 +354,7 @@ class PanelContentState extends State<PanelContent>{
                                           child: Text(
                                             "Добавить",
                                             style:
-                                            TextStyle(color: Colors.white, fontSize: 18),
+                                            TextStyle(color: AppColor.textColor, fontSize: 18),
                                           ),
                                         ),
                                       ),

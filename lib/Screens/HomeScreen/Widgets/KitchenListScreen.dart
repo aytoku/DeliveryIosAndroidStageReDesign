@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/AllStoreCategories.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../data/data.dart';
@@ -40,7 +39,7 @@ class KitchenListScreenState extends State<KitchenListScreen>{
               child: Text(
                 'Кухни',
                 style: TextStyle(
-                    color: AppColor.textColor,
+                    color: Color(0xFF000000),
                     fontSize: 20,
                     fontWeight: FontWeight.bold
                 ),
@@ -62,10 +61,11 @@ class KitchenListScreenState extends State<KitchenListScreen>{
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                categories[index].name,
-                                style:
-                                    TextStyle(color: AppColor.textColor, fontSize: 18),
+                              child: Text(categories[index].name,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18
+                                ),
                               ),
                             )
                           ],
@@ -108,8 +108,8 @@ class KitchenListScreenState extends State<KitchenListScreen>{
                 child: Text('Применить',
                     style: TextStyle(
                         fontSize: 18.0,
-                        color: Colors.white)),
-                color: (hasSelectedItems()) ? AppColor.mainColor : AppColor.elementsColor,
+                        color: AppColor.textColor)),
+                color: (hasSelectedItems()) ? AppColor.mainColor : Color(0xF3F3F3F3),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

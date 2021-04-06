@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_app/data/global_variables.dart';
 
 class DestinationPointsSelector extends StatefulWidget {
   final List<DestinationPoints> destinationPoints;

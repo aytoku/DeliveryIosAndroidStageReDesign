@@ -16,6 +16,11 @@ class MyFavouriteAddressesModel{
   String type;
   bool favorite;
 
+  // еще 3 (4) поля для создания заказа
+  String entranceField;
+  String floorField;
+  String officeField;
+  String intercomField;
 
   // useless
   String name;

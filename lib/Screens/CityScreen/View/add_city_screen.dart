@@ -5,9 +5,6 @@ import 'package:flutter_app/Screens/CityScreen/View/city_autocomplete.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
-import 'package:flutter_app/data/global_variables.dart';
-
 
 import '../../../data/data.dart';
 import '../../../data/data.dart';
@@ -20,7 +17,8 @@ class AddCityScreen extends StatefulWidget {
   AddCityScreen({Key key, this.parent}) : super(key: key);
 
   @override
-  AddCityScreenState createState() => AddCityScreenState(parent);
+  AddCityScreenState createState() =>
+      AddCityScreenState(parent);
 }
 
 class AddCityScreenState extends State<AddCityScreen> {
@@ -30,9 +28,10 @@ class AddCityScreenState extends State<AddCityScreen> {
   AddressScreenState parent;
   TextEditingController nameField;
   TextEditingController commentField;
-  GlobalKey<CartPageState> cartPageKey;
+  GlobalKey<CartPageState>cartPageKey;
 
   AddCityScreenState(this.parent);
+
 
   @override
   void initState() {
@@ -54,7 +53,7 @@ class AddCityScreenState extends State<AddCityScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      backgroundColor: AppColor.elementsColor,
+      backgroundColor: AppColor.themeColor,
       resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
@@ -63,26 +62,22 @@ class AddCityScreenState extends State<AddCityScreen> {
             children: <Widget>[
               InkWell(
                 child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 30, bottom: 25),
-                    child: Container(
-                      height: 40,
-                      width: 60,
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(top: 12, bottom: 12, right: 10),
-                        child: SvgPicture.asset(
-                          'assets/svg_images/arrow_left.svg',
-                          color: AppColor.textColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 30, bottom: 25),
+                        child: Container(
+                            height: 40,
+                            width: 60,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 12, bottom: 12, right: 10),
+                              child:SvgPicture.asset(
+                                  'assets/svg_images/arrow_left.svg'),
+                            )))),
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CityScreen()));
+                   Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CityScreen())
+                   );
                 },
               ),
             ],
@@ -93,15 +88,14 @@ class AddCityScreenState extends State<AddCityScreen> {
                 padding: EdgeInsets.only(top: 80, left: 20),
                 child: Column(
                   children: <Widget>[
-                    CityAutocomplete(
-                      autoCompleteFieldKey,
-                      onSelected: () {
-                        return;
-                      },
-                    )
+                    CityAutocomplete(autoCompleteFieldKey, onSelected: (){
+                      return;
+                    },
+                   )
                   ],
                 ),
-              )),
+              )
+          ),
           // Align(
           //   alignment: Alignment.bottomCenter,
           //   child: Container(

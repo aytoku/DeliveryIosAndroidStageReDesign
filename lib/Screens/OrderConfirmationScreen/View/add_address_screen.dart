@@ -4,7 +4,7 @@ import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/autocolplete_field_list.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/svg.dart';
 import 'address_screen.dart';
 
@@ -135,6 +135,14 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         if(myAddressesModel.address == null){
                           return;
                         }
+                        parent.isAddressSelected = true;
+
+                        // поля для
+                        myAddressesModel.entranceField = autoCompleteFieldKey.currentState.entranceField.text;
+                        myAddressesModel.floorField = autoCompleteFieldKey.currentState.floorField.text;
+                        myAddressesModel.officeField = autoCompleteFieldKey.currentState.officeField.text;
+                        myAddressesModel.intercomField = autoCompleteFieldKey.currentState.intercomField.text;
+
                         myAddressesModel.name = nameField.text;
                         myAddressesModel.description = commentField.text;
                         //Navigator.pop(context);

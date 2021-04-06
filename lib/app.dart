@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Localization/app_localizations.dart';
 import 'package:flutter_app/Preloader/device_id_screen.dart';
 import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'Preloader/device_id_screen.dart';

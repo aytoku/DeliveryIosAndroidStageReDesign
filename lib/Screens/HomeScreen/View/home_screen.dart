@@ -22,6 +22,8 @@ import 'package:flutter_app/Screens/HomeScreen/Widgets/RestaurantsList.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/TemporaryOrderChecking.dart';
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.dart';
+import 'package:flutter_app/Screens/NameScreen/API/set_client_name.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/API/get_delivery_tariff.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
 import 'package:flutter_app/Screens/PaymentScreen/Model/GooglePay.dart';
@@ -30,23 +32,20 @@ import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mad_pay/mad_pay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:string_to_hex/string_to_hex.dart';
 
 import '../../../Preloader/device_id_screen.dart';
+import '../../../VersionControl/API/getCurrentVersion.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/Model/CartModel.dart';
 import '../../CityScreen/View/city_screen.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import '../Model/FilteredStores.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
-import 'package:flutter_app/CoreColor/Model/color.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -80,6 +79,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    Future.delayed(Duration.zero, () {
+        checkVer(context);
+    });
     orderList = new List<OrderChecking>();
     recordsItems = new List<FilteredStores>();
     _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -127,7 +129,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           title: Text(
             'Информация',
             style: TextStyle(
-                fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {
@@ -156,13 +158,13 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                 title: Text(
                   necessaryDataForAuth.name ?? ' ',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: AppColor.unselectedTextColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 17),
                 ),
                 subtitle: Text(
                   necessaryDataForAuth.phone_number ?? ' ',
-                  style: TextStyle(color: Colors.white, fontSize: 14),
+                  style: TextStyle(color: AppColor.unselectedTextColor, fontSize: 14),
                 ),
                 trailing: GestureDetector(
                   child: SvgPicture.asset(
@@ -184,32 +186,32 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
-        //   child: ListTile(
-        //     leading: Padding(
-        //       padding: const EdgeInsets.only(top: 5.0),
-        //       child: SvgPicture.asset('assets/svg_images/pay.svg',),
-        //     ),
-        //     title: Text(
-        //       'Способы оплаты',
-        //       style: TextStyle(
-        //           fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
-        //     ),
-        //     onTap: () async {
-        //       if (await Internet.checkConnection()) {
-        //         Navigator.push(
-        //           context,
-        //           new MaterialPageRoute(
-        //             builder: (context) => new PaymentScreen(),
-        //           ),
-        //         );
-        //       } else {
-        //         noConnection(context);
-        //       }
-        //     },
-        //   ),
-        // ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: ListTile(
+            leading: Transform(
+              transform: Matrix4.translationValues(0, 5, 0),
+                child: SvgPicture.asset('assets/svg_images/pay.svg'),
+            ),
+            title: Text(
+              'Способы оплаты',
+              style: TextStyle(
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+            ),
+            onTap: () async {
+              if (await Internet.checkConnection()) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new PaymentScreen(),
+                  ),
+                );
+              } else {
+                noConnection(context);
+              }
+            },
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 10),
           child: ListTile(
@@ -220,7 +222,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             title: Text(
               'История заказов',
               style: TextStyle(
-                  fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
             ),
             onTap: () async {
               if (await Internet.checkConnection()) {
@@ -259,29 +261,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
         //     },
         //   ),
         // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
-        //   child: ListTile(
-        //     leading: SvgPicture.asset('assets/svg_images/service.svg'),
-        //     title: Text(
-        //       'Служба поддержки',
-        //       style: TextStyle(
-        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-        //     ),
-        //     onTap: () async {
-        //       if (await Internet.checkConnection()) {
-        //         Navigator.push(
-        //           context,
-        //           new MaterialPageRoute(
-        //             builder: (context) => new ServiceScreen(),
-        //           ),
-        //         );
-        //       } else {
-        //         noConnection(context);
-        //       }
-        //     },
-        //   ),
-        // ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: ListTile(
+            leading: SvgPicture.asset('assets/svg_images/service.svg'),
+            title: Text(
+              'Служба поддержки',
+              style: TextStyle(
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+            ),
+            onTap: () async {
+              if (await Internet.checkConnection()) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new ServiceScreen(),
+                  ),
+                );
+              } else {
+                noConnection(context);
+              }
+            },
+          ),
+        ),
       ]);
       allSideBarItems.add(
         Padding(
@@ -291,7 +293,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             title: Text(
               'Выход',
               style: TextStyle(
-                  fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
             ),
             onTap: () async {
               if (await Internet.checkConnection()) {
@@ -317,32 +319,32 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             padding: EdgeInsets.only(top: 0),
             child: ListTile(
                 title: InkWell(
-              child: Padding(
-                padding: EdgeInsets.only(top: 0, bottom: 20),
-                child: Text(
-                  'Авторизоваться',
-                  style: TextStyle(
-                      fontSize: 17,
-                      color: AppColor.textColor,
-                      letterSpacing: 0.45),
-                ),
-              ),
-              onTap: () async {
-                if (await Internet.checkConnection()) {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                        create: (context) => AuthGetBloc(),
-                        child: AuthScreen(),
-                      ),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 0, bottom: 20),
+                    child: Text(
+                      'Авторизоваться',
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Color(0xFF424242),
+                          letterSpacing: 0.45),
                     ),
-                  );
-                } else {
-                  noConnection(context);
-                }
-              },
-            )),
+                  ),
+                  onTap: () async {
+                    if (await Internet.checkConnection()) {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context)=> AuthGetBloc(),
+                            child: AuthScreen(),
+                          ),
+                        ),
+                      );
+                    } else {
+                      noConnection(context);
+                    }
+                  },
+                )),
           ));
     }
     return allSideBarItems;
@@ -416,7 +418,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
                                   'assets/svg_images/home_menu.svg',
-                                  color: AppColor.textColor,
+                                  color: Colors.black,
                                 ),
                               ),
                               onTap: () {
@@ -437,7 +439,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 child: Center(
                                   child: Text(selectedCity.name,
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColor.unselectedTextColor,
                                         fontSize: 13
                                     ),
                                   ),
@@ -550,45 +552,17 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     child: Text('sdf'),
                           //   ),
                           //   onTap: () async {
-                          //
-                          //     final MadPay pay = MadPay();
-                          //     await pay.checkPayments();
-                          //     await pay.checkActiveCard(
-                          //       paymentNetworks: <PaymentNetwork>[
-                          //         PaymentNetwork.visa,
-                          //         PaymentNetwork.mastercard,
-                          //       ],
-                          //     );
-                          //
-                          //     var req = await pay.processingPayment(
-                          //       google: GoogleParameters(
-                          //         gatewayName: 'sberbank',
-                          //         gatewayMerchantId: 'T1513081007',
-                          //       ),
-                          //       apple: AppleParameters(
-                          //         merchantIdentifier: 'merchant.eda.com',
-                          //       ),
-                          //       currencyCode: 'RUB',
-                          //       countryCode: 'RU',
-                          //       paymentItems: <PaymentItem>[
-                          //         PaymentItem(name: 'T-Shirt', price: 1.14),
-                          //       ],
-                          //       paymentNetworks: <PaymentNetwork>[
-                          //         PaymentNetwork.visa,
-                          //         PaymentNetwork.mastercard,
-                          //         PaymentNetwork.maestro
-                          //       ],
-                          //     );
-                          //     print(req);
+                          //     getCurrentVersion();
                           //   },
                           // ),
                           Padding(
                             padding:
                             EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text('Рестораны',
+                            child: Text('Рестораны', // нужно добавить цвет для текста
+                                // в некоторых прилагах и черный и белый текст
                                 style: TextStyle(
                                   fontSize: 28,
-                                  color: AppColor.textColor,
+                                  color: Color(0xFF3F3F3F),
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1.2,
                                 )),
@@ -636,17 +610,18 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           Padding(
                             padding: EdgeInsets.only(left: 0, top: 0),
                             child: InkWell(
-                              hoverColor: Colors.white,
-                              focusColor: Colors.white,
-                              splashColor: Colors.white,
-                              highlightColor: Colors.white,
+                              hoverColor: AppColor.themeColor,
+                              focusColor: AppColor.themeColor,
+                              splashColor: AppColor.themeColor,
+                              highlightColor: AppColor.themeColor,
                               child: Container(
                                 height: 40,
                                 width: 40,
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
+                                  // добавить цвет для картинок 
                                   'assets/svg_images/home_menu.svg',
-                                  color: AppColor.textColor,
+                                  color: Colors.black,
                                 ),
                               ),
                               onTap: () {
@@ -668,7 +643,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                   child: Text(selectedCity.name,
                                     style: TextStyle(
                                         color: AppColor.textColor,
-                                        fontSize: 13),
+                                        fontSize: 13
+                                    ),
                                   ),
                                 ),
                               ),

@@ -7,8 +7,7 @@ import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/Counter.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../Amplitude/amplitude.dart';
@@ -102,7 +101,7 @@ class CartScreenState extends State<CartScreen> {
               },
               direction: DismissDirection.endToStart,
               child: Container(
-                color: Colors.white,
+                color: AppColor.themeColor,
                 width: MediaQuery.of(context).size.width,
                 child: _buildCartItem(order, index),
               ),
@@ -127,49 +126,50 @@ class CartScreenState extends State<CartScreen> {
                         ),
                       ),
                     ),
-                  ) : Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              Text(
-                                'Доставка',
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Color(0xFF000000)),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 5),
-                                child: Text(
-                                  (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            (currentUser.cartModel.deliveryPrice != null)? '~' + '${currentUser.cartModel.deliveryPrice} \₽' : '',
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                color: Color(0xFF000000)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
+                  ) : Container(),
+                  // Container(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(top: 5),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: <Widget>[
+                  //         Row(
+                  //           children: [
+                  //             Text(
+                  //               'Доставка',
+                  //               style: TextStyle(
+                  //                   fontSize: 18.0,
+                  //                   color: Color(0xFF000000)),
+                  //             ),
+                  //             Padding(
+                  //               padding: const EdgeInsets.only(left: 8.0, top: 5),
+                  //               child: Text(
+                  //                 (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
+                  //                 style: TextStyle(
+                  //                   fontSize: 12.0,
+                  //                   color: Colors.black,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         Text(
+                  //           (currentUser.cartModel.deliveryPrice != null)? '~' + '${currentUser.cartModel.deliveryPrice} \₽' : '',
+                  //           style: TextStyle(
+                  //               fontSize: 18.0,
+                  //               color: Color(0xFF000000)),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  (isTakeAwayScreen) ? Padding(
                     padding: EdgeInsets.only(bottom: 20, top: 20),
                     child: Divider(
                       height: 1,
                       color: Color(0xFFE6E6E6),
                     ),
-                  ),
+                  ) : Container(),
                   Padding(
                     padding: const EdgeInsets.only(top: 0),
                     child: Row(
@@ -272,7 +272,7 @@ class CartScreenState extends State<CartScreen> {
                                         padding: const EdgeInsets.only(bottom: 0.0),
                                         child: Text(order.variantGroups[index].variants[variantsIndex].name,
                                           style: TextStyle(
-                                            color: Colors.grey,
+                                            color: AppColor.additionalTextColor,
                                             fontSize: 10
                                           ),
                                         ),
@@ -489,7 +489,7 @@ class CartScreenState extends State<CartScreen> {
       child: new Scaffold(
         key: _scaffoldStateKey,
         body: Container(
-            color: Colors.white,
+            color: AppColor.themeColor,
             child: Column(
               children: <Widget>[
                 _buildList(),

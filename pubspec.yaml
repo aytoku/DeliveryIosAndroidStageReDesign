@@ -48,14 +48,15 @@ dependencies:
   animated_widgets: ^1.0.6
   mad_pay: 1.0.0
   flutter_staggered_grid_view: ^0.3.4
-
+  pub_semver: ^1.4.4
+  launch_review: ^2.0.0
+  package_info: ^0.4.3+4
   bloc: ^4.0.0
   flutter_bloc: ^4.0.0
   equatable: ^1.0.0
   rxdart: ^0.24.0
   meta: ^1.1.6
   change_app_package_name: ^0.1.2
-  string_to_hex: ^0.2.1+30
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -70,8 +71,6 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/Siria.png"
-
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

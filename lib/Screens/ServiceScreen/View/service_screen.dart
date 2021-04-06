@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/API/getTicketByFilter.dart';
 import 'package:flutter_app/Screens/ServiceScreen/Model/TicketModel.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -9,9 +10,6 @@ import '../../../Internet/check_internet.dart';
 import '../../../data/data.dart';
 import 'service_orders_story.dart';
 import 'tickets_chat_screen.dart';
-import 'package:flutter_app/data/global_variables.dart';
-import 'package:flutter_app/CoreColor/API/get_colors.dart';
-
 
 class ServiceScreen extends StatefulWidget {
   @override
@@ -360,7 +358,7 @@ class ServiceScreenState extends State<ServiceScreen> {
                             padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.13),
                             child: Center(
                               child: SpinKitFadingCircle(
-                                color: Colors.green,
+                                color: AppColor.mainColor,
                                 size: 50.0,
                               ),
                             ),
