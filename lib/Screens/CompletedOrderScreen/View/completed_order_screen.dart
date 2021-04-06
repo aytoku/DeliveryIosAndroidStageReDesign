@@ -113,6 +113,7 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                     EdgeInsets.only(left: 110, top: 20, right: 110, bottom: 20),
                     onPressed: () async {
                       if (await Internet.checkConnection()) {
+                        homeScreenKey = new GlobalKey();
                         Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(

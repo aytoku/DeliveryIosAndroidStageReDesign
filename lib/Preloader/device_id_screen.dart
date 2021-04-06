@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Centrifugo/centrifugo.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
@@ -108,6 +109,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
             AmplitudeAnalytics.initialize(necessaryDataForAuth.phone_number).then((value){
               AmplitudeAnalytics.analytics.logEvent('open_app');
             });
+            Centrifugo.connectToServer();
             if(necessaryDataForAuth.city == null){
               return CityScreen();
             }else{

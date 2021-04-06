@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/ChatScreen/API/create_message.dart';
+import 'package:flutter_app/Screens/ChatScreen/API/get_filtered_messages.dart';
+import 'package:flutter_app/Screens/ChatScreen/Model/CreateMessage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -23,11 +26,13 @@ class ChatScreenState extends State<ChatScreen> {
 
   ChatScreenState();
   TextEditingController messageField = new TextEditingController();
+  GlobalKey<ChatContentState> chatContentKey;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    chatContentKey = GlobalKey();
   }
 
   @override
@@ -117,17 +122,7 @@ class ChatScreenState extends State<ChatScreen> {
                 ),
               ),
             ),
-            InkWell(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-
-                ),
-              ),
-              onTap: (){
-                FocusScope.of(context).unfocus();
-              },
-            ),
+            ChatContent(key: chatContentKey),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -158,8 +153,9 @@ class ChatScreenState extends State<ChatScreen> {
                                 : 'assets/svg_images/send_message.svg',
                             ),
                           ),
-                          onTap: (){
-                            setState(() {
+                          onTap: () async{
+                            await createMessage(messageField.text);
+                            chatContentKey.currentState.setState(() {
 
                             });
                           },
@@ -181,6 +177,64 @@ class ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+
+
+class ChatContent extends StatefulWidget {
+  ChatContent({Key key}) : super(key: key);
+  @override
+  ChatContentState createState() => ChatContentState();
+}
+
+class ChatContentState extends State<ChatContent> {
+  ChatData chatData;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  buildChatBody(){
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: List.generate(chatData.chat.length, (index){
+        return Text(chatData.chat[index].msg);
+      })
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+        child: Expanded(
+          child: FutureBuilder<ChatData>(
+            future: getFilteredMessage(),
+            builder: (BuildContext context,
+                AsyncSnapshot<ChatData> snapshot) {
+              if (snapshot.connectionState ==
+                  ConnectionState.done &&
+                  snapshot.data != null) {
+                chatData = snapshot.data;
+                return buildChatBody();
+              } else {
+                return Container(
+                  height: 0,
+                );
+              }
+            },
+          ),
+        )
     );
   }
 }

@@ -40,6 +40,8 @@ var DeliveryStates = [
   'on_place',
   'waiting_for_confirmation',
   'on_the_way',
+  'delivery',
+  'ready',
   'order_payment'
 ];
 

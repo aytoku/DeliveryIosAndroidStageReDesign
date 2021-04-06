@@ -71,7 +71,6 @@ class NecessaryDataForAuth{
     _necessaryDataForAuth = result;
     if(refresh_token != null){
       result.token = authCodeData.token;
-      await Centrifugo.connectToServer();
       await saveData();
     }
 
