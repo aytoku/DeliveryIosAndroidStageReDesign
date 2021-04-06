@@ -1,5 +1,3 @@
-import 'package:flutter_app/Screens/RestaurantScreen/Model/FilteredProductCategories.dart';
-import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;

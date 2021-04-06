@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert' as convert;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,7 @@ import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
-import 'package:flutter_app/Screens/HomeScreen/API/getFilteredStores.dart';
+import 'package:flutter_app/Screens/ChatScreen/API/create_message.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
@@ -21,31 +20,20 @@ import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/RestaurantsList.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/TemporaryOrderChecking.dart';
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
-import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.dart';
-import 'package:flutter_app/Screens/NameScreen/API/set_client_name.dart';
-import 'package:flutter_app/Screens/OrderConfirmationScreen/API/get_delivery_tariff.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
-import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
-import 'package:flutter_app/Screens/PaymentScreen/Model/GooglePay.dart';
-import 'package:flutter_app/Screens/PaymentScreen/Model/SberGooglePayment.dart';
 import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
-import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mad_pay/mad_pay.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../Preloader/device_id_screen.dart';
-import '../../../VersionControl/API/getCurrentVersion.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/Model/CartModel.dart';
 import '../../ChatScreen/View/chat_screen.dart';
 import '../../CityScreen/View/city_screen.dart';
-import '../../RestaurantScreen/API/get_filtered_product_categories.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import '../Model/FilteredStores.dart';
 
@@ -469,45 +457,45 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         physics: BouncingScrollPhysics(),
                         padding: EdgeInsets.zero,
                         children: <Widget>[
-                          TemporaryOrderChecking(
-                              orderList: orderList,
-                              key: temporaryOrderCheckingKey
-                          ),
-                          // (!currentUser.isLoggedIn) ? Container() :
-                          // FutureBuilder<List<OrderChecking>>(
-                          //   future: OrderChecking.getActiveOrder(),
-                          //   builder: (BuildContext context,
-                          //       AsyncSnapshot<List<OrderChecking>> snapshot) {
-                          //     if (snapshot.connectionState ==
-                          //         ConnectionState.done &&
-                          //         snapshot.data != null &&
-                          //         snapshot.data.length > 0) {
-                          //       orderList = snapshot.data;
-                          //       return (currentUser.isLoggedIn)
-                          //           ? Padding(
-                          //         padding: const EdgeInsets.only(top: 15),
-                          //         child: Container(
-                          //           height: 230,
-                          //           child: (snapshot.data.length > 1) ? ListView(
-                          //             children: snapshot.data,
-                          //             scrollDirection: Axis.horizontal,
-                          //           ) : Center(
-                          //             child: Row(
-                          //               children: snapshot.data,
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ) : Container(
-                          //         height: 0,
-                          //       );
-                          //     } else {
-                          //       orderList = null;
-                          //       return Container(
-                          //         height: 0,
-                          //       );
-                          //     }
-                          //   },
+                          // TemporaryOrderChecking(
+                          //     orderList: orderList,
+                          //     key: temporaryOrderCheckingKey
                           // ),
+                          (!currentUser.isLoggedIn) ? Container() :
+                          FutureBuilder<List<OrderChecking>>(
+                            future: OrderChecking.getActiveOrder(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<List<OrderChecking>> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                                  snapshot.data != null &&
+                                  snapshot.data.length > 0) {
+                                orderList = snapshot.data;
+                                return (currentUser.isLoggedIn)
+                                    ? Padding(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  child: Container(
+                                    height: 230,
+                                    child: (snapshot.data.length > 1) ? ListView(
+                                      children: snapshot.data,
+                                      scrollDirection: Axis.horizontal,
+                                    ) : Center(
+                                      child: Row(
+                                        children: snapshot.data,
+                                      ),
+                                    ),
+                                  ),
+                                ) : Container(
+                                  height: 0,
+                                );
+                              } else {
+                                orderList = null;
+                                return Container(
+                                  height: 0,
+                                );
+                              }
+                            },
+                          ),
                           // Padding(
                           //   padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
                           //   child: Row(
@@ -548,10 +536,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     child: Text('sdf'),
                           //   ),
                           //   onTap: () async {
-                          //     getFilteredProductCategories(
-                          //         '843c7634-272e-4592-89aa-dfee1f0dadb7',
-                          //         '00826a6e-f3c2-4b66-8f83-ce758898f4d5',
-                          //         '988a1afb-f5a0-475f-9927-bcbc5fc04e09');
+                          //     createMessage('halo');
                           //   },
                           // ),
                           Padding(
