@@ -11,7 +11,7 @@ import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
-import 'package:flutter_app/Screens/HomeScreen/API/getFilteredStores.dart';
+import 'package:flutter_app/Screens/ChatScreen/API/create_message.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
@@ -36,13 +36,13 @@ import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mad_pay/mad_pay.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../../Preloader/device_id_screen.dart';
 import '../../../VersionControl/API/getCurrentVersion.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/Model/CartModel.dart';
+import '../../ChatScreen/View/chat_screen.dart';
 import '../../CityScreen/View/city_screen.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import '../Model/FilteredStores.dart';
@@ -275,7 +275,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                 Navigator.push(
                   context,
                   new MaterialPageRoute(
-                    builder: (context) => new ServiceScreen(),
+                    builder: (context) => new ChatScreen(),
                   ),
                 );
               } else {
@@ -473,45 +473,45 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         physics: BouncingScrollPhysics(),
                         padding: EdgeInsets.zero,
                         children: <Widget>[
-                          TemporaryOrderChecking(
-                              orderList: orderList,
-                              key: temporaryOrderCheckingKey
-                          ),
-                          // (!currentUser.isLoggedIn) ? Container() :
-                          // FutureBuilder<List<OrderChecking>>(
-                          //   future: OrderChecking.getActiveOrder(),
-                          //   builder: (BuildContext context,
-                          //       AsyncSnapshot<List<OrderChecking>> snapshot) {
-                          //     if (snapshot.connectionState ==
-                          //         ConnectionState.done &&
-                          //         snapshot.data != null &&
-                          //         snapshot.data.length > 0) {
-                          //       orderList = snapshot.data;
-                          //       return (currentUser.isLoggedIn)
-                          //           ? Padding(
-                          //         padding: const EdgeInsets.only(top: 15),
-                          //         child: Container(
-                          //           height: 230,
-                          //           child: (snapshot.data.length > 1) ? ListView(
-                          //             children: snapshot.data,
-                          //             scrollDirection: Axis.horizontal,
-                          //           ) : Center(
-                          //             child: Row(
-                          //               children: snapshot.data,
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ) : Container(
-                          //         height: 0,
-                          //       );
-                          //     } else {
-                          //       orderList = null;
-                          //       return Container(
-                          //         height: 0,
-                          //       );
-                          //     }
-                          //   },
+                          // TemporaryOrderChecking(
+                          //     orderList: orderList,
+                          //     key: temporaryOrderCheckingKey
                           // ),
+                          (!currentUser.isLoggedIn) ? Container() :
+                          FutureBuilder<List<OrderChecking>>(
+                            future: OrderChecking.getActiveOrder(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<List<OrderChecking>> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                                  snapshot.data != null &&
+                                  snapshot.data.length > 0) {
+                                orderList = snapshot.data;
+                                return (currentUser.isLoggedIn)
+                                    ? Padding(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  child: Container(
+                                    height: 230,
+                                    child: (snapshot.data.length > 1) ? ListView(
+                                      children: snapshot.data,
+                                      scrollDirection: Axis.horizontal,
+                                    ) : Center(
+                                      child: Row(
+                                        children: snapshot.data,
+                                      ),
+                                    ),
+                                  ),
+                                ) : Container(
+                                  height: 0,
+                                );
+                              } else {
+                                orderList = null;
+                                return Container(
+                                  height: 0,
+                                );
+                              }
+                            },
+                          ),
                           // Padding(
                           //   padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
                           //   child: Row(
@@ -552,7 +552,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     child: Text('sdf'),
                           //   ),
                           //   onTap: () async {
-                          //     getCurrentVersion();
+                          //     createMessage('ka');
                           //   },
                           // ),
                           Padding(

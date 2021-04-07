@@ -27,7 +27,7 @@ class PaymentButtonState extends State<PaymentButton>{
   @override
   Widget build(BuildContext context) {
     double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
-    if(parent.selectedPaymentName == parent.paymentMethods[parent.paymentIndex]['tag']){
+    if(parent.selectedPaymentName == parent.paymentMethods[0]['tag']){
       return Container(
         decoration: BoxDecoration(
           boxShadow: [

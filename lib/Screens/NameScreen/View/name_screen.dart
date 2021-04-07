@@ -3,6 +3,7 @@ import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
+import 'package:flutter_app/Screens/NameScreen/Widgets/NameButton.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class NameScreen extends StatefulWidget {
 }
 
 class NameScreenState extends State<NameScreen> {
-  GlobalKey<ButtonState> buttonStateKey;
+  GlobalKey<NameButtonState> buttonStateKey;
   TextEditingController nameFieldController;
   AuthSources source;
   NameScreenState(this.source);
@@ -35,7 +36,7 @@ class NameScreenState extends State<NameScreen> {
   @override
   void initState() {
     super.initState();
-    buttonStateKey = new GlobalKey<ButtonState>();
+    buttonStateKey = new GlobalKey<NameButtonState>();
     nameFieldController = new TextEditingController();
   }
 
@@ -140,7 +141,7 @@ class NameScreenState extends State<NameScreen> {
                           Padding(
                             padding: EdgeInsets.only(
                                 bottom: 20),
-                            child: Button(
+                            child: NameButton(
                               key: buttonStateKey,
                               color: AppColor.mainColor,
                               onTap: () async {

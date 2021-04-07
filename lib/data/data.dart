@@ -63,6 +63,8 @@ var DeliveryStates = [
   'on_place',
   'waiting_for_confirmation',
   'on_the_way',
+  'delivery',
+  'ready',
   'order_payment'
 ];
 
@@ -125,7 +127,7 @@ class AppColor {
 class CheckVersion {
   CheckVersion._();
 
-  static String updateVersion = '1.0.0';
+  static String updateVersion = CheckVersion.updateVersion;
   static bool updateRequire = false;
 
   static fromJson(Map<String, dynamic> json) {
