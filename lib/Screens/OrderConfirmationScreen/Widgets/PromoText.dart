@@ -131,6 +131,7 @@ class PromoTextState extends State<PromoText>{
                   uuid = widget.uuid;
                 });
                 await sendPromo(title, uuid);
+                Navigator.pop(context);
               },
             )
           ],

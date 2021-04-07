@@ -7,9 +7,9 @@ import 'dart:async';
 
 Future<CartModel> sendPromo(String code, String uuid) async {
   CartModel cartModel;
-  var url = '${apiUrl}promotion/apply?uuid=$uuid&code=$code';
+  var url = '${apiUrl}promotions/apply?uuid=$uuid&code=$code';
 
-  var response = await http.get(url, headers: <String, String>{
+  var response = await http.post(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     // 'Authorization':'Bearer ' + authCodeData.token
   });
