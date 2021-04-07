@@ -144,6 +144,7 @@ class ChatScreenState extends State<ChatScreen> {
                     child: TextField(
                       cursorColor: Colors.grey,
                       controller: messageField,
+                      maxLines: 5,
                       decoration: new InputDecoration(
                         suffixIcon: InkWell(
                           child: Container(
@@ -158,10 +159,11 @@ class ChatScreenState extends State<ChatScreen> {
                             chatContentKey.currentState.setState(() {
 
                             });
+                            messageField.clear();
                           },
                         ),
                         hintText: 'Сообщение ...',
-                        contentPadding: EdgeInsets.only(left: 20, right: 10),
+                        contentPadding: EdgeInsets.only(left: 20, right: 10, top: 30),
                         enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide.none
                         ),
@@ -208,7 +210,24 @@ class ChatContentState extends State<ChatContent> {
     return ListView(
       scrollDirection: Axis.vertical,
       children: List.generate(chatData.chat.length, (index){
-        return Text(chatData.chat[index].msg);
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 15, left: 50, right: 15),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Color(0xFF7D7D7D)
+                ),
+                padding: EdgeInsets.only(left: 16, right: 16, top: 9, bottom: 9),
+                child: Text(chatData.chat[index].msg,
+                  style: TextStyle(
+                      color: AppColor.textColor
+                  ),
+                )
+            ),
+          ),
+        );
       })
     );
   }
@@ -216,25 +235,23 @@ class ChatContentState extends State<ChatContent> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-        child: Expanded(
-          child: FutureBuilder<ChatData>(
-            future: getFilteredMessage(),
-            builder: (BuildContext context,
-                AsyncSnapshot<ChatData> snapshot) {
-              if (snapshot.connectionState ==
-                  ConnectionState.done &&
-                  snapshot.data != null) {
-                chatData = snapshot.data;
-                return buildChatBody();
-              } else {
-                return Container(
-                  height: 0,
-                );
-              }
-            },
-          ),
-        )
+    return Expanded(
+      child: FutureBuilder<ChatData>(
+        future: getFilteredMessage(),
+        builder: (BuildContext context,
+            AsyncSnapshot<ChatData> snapshot) {
+          if (snapshot.connectionState ==
+              ConnectionState.done &&
+              snapshot.data != null) {
+            chatData = snapshot.data;
+            return buildChatBody();
+          } else {
+            return Container(
+              height: 0,
+            );
+          }
+        },
+      ),
     );
   }
 }

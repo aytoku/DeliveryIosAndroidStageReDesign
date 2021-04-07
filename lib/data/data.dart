@@ -32,6 +32,7 @@ String getImage(String imgJson) {
 
 var DeliveryStates = [
   'cooking',
+  'created',
   'offer_offered',
   'smart_distribution',
   'finding_driver',

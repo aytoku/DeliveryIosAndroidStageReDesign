@@ -1193,7 +1193,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         _buildScreen()
             :
         FutureBuilder<ProductsByStoreUuidData>(
-            future: getFilteredProduct((restaurant.type == 'grocery') ? selectedCategoriesUuid : '', restaurant.uuid),
+            future: (restaurant.type == 'grocery')
+                ? getFilteredProduct(selectedCategoriesUuid, '')
+                : getFilteredProduct('', restaurant.uuid),
             initialData: null,
             builder: (BuildContext context,
                 AsyncSnapshot<ProductsByStoreUuidData> snapshot) {
