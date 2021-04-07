@@ -857,27 +857,27 @@ class AddressScreenState extends State<AddressScreen>
                                   ],
                                 ),
                               ),
-                        // (promoTextKey.currentState== null && promoTextKey.currentState.title.length == null) ?
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 15, left: 17, bottom: 5, right: 17),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Скидка',
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 14),
-                              ),
-                              Text(
-                                '-150 \₽',
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 14),
-                              )
-                            ],
-                          ),
-                        ),
-                        // : Container(),
+                        // // (promoTextKey.currentState== null && promoTextKey.currentState.title.length == null) ?
+                        // Padding(
+                        //   padding: EdgeInsets.only(
+                        //       top: 15, left: 17, bottom: 5, right: 17),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: <Widget>[
+                        //       Text(
+                        //         'Скидка',
+                        //         style:
+                        //             TextStyle(color: Colors.red, fontSize: 14),
+                        //       ),
+                        //       Text(
+                        //         '-150 \₽',
+                        //         style:
+                        //             TextStyle(color: Colors.red, fontSize: 14),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
+                        // // : Container(),
                         Padding(
                           padding: EdgeInsets.only(
                               top: 15, left: 17, bottom: 5, right: 17),
@@ -1037,6 +1037,7 @@ class AddressScreenState extends State<AddressScreen>
                                   padding: const EdgeInsets.only(right: 20),
                                   child: PromoText(
                                     key: promoTextKey,
+                                    uuid: currentUser.cartModel.uuid,
                                   ),
                                 ),
                               ],
