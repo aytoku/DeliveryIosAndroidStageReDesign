@@ -207,28 +207,53 @@ class ChatContentState extends State<ChatContent> {
   }
 
   buildChatBody(){
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: List.generate(chatData.chat.length, (index){
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 15, left: 50, right: 15),
-          child: Align(
-            alignment: Alignment.topRight,
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        scrollDirection: Axis.vertical,
+        children: List.generate(chatData.chat.length, (index){
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 15, left: 50, right: 15),
             child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Color(0xFF7D7D7D)
-                ),
-                padding: EdgeInsets.only(left: 16, right: 16, top: 9, bottom: 9),
-                child: Text(chatData.chat[index].msg,
-                  style: TextStyle(
-                      color: AppColor.textColor
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Column(
+                      children: [
+                        Text(chatData.chat[index].createdAt.hour.toString()
+                            + ' ' +
+                            chatData.chat[index].createdAt.minute.toString()),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: SvgPicture.asset('assets/svg_images/unread_message.svg'),
+                        )
+                      ],
+                    ),
                   ),
-                )
+                  Flexible(
+                    child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0xFF7D7D7D)
+                        ),
+                        padding: EdgeInsets.only(left: 16, right: 16, top: 9, bottom: 9),
+                        child: Text(chatData.chat[index].msg,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              color: AppColor.textColor
+                          ),
+                        )
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      })
+          );
+        })
+      ),
     );
   }
 

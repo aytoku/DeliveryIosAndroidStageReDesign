@@ -43,9 +43,6 @@ class RestaurantsListState extends State<RestaurantsList>{
      bool isScheduleAvailable = restaurant.workSchedule.isAvailable();
      Standard standard = restaurant.workSchedule.getCurrentStandard();
      bool available = restaurant.available.flag != null ? restaurant.available.flag : true;
-      available = true;
-     bool open = restaurant.open != null ? restaurant.open : true;
-      open = true;
      if(restaurant.name == 'НАШ'){
        print(restaurant.uuid + "НАШ");
      }
@@ -109,7 +106,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                          child: Center(
                            child: Padding(
                              padding: const EdgeInsets.only(left: 8.0, right: 8),
-                             child: (!available || !open) ? Text(
+                             child: (!available) ? Text(
                                restaurant.available.reason,
                                style: TextStyle(
                                    fontSize: 12.0,
