@@ -354,7 +354,7 @@ class PanelContentState extends State<PanelContent>{
                                           child: Text(
                                             "Добавить",
                                             style:
-                                            TextStyle(color: AppColor.textColor, fontSize: 18),
+                                            TextStyle(color: AppColor.unselectedTextColor, fontSize: 18),
                                           ),
                                         ),
                                       ),

@@ -7,10 +7,12 @@ import '../../../data/data.dart';
 class PromoText extends StatefulWidget {
   PromoText({
     this.key,
+    this.uuid,
     this.title
   }) : super(key: key);
   final GlobalKey<PromoTextState> key;
   String title;
+  String uuid;
 
   @override
   PromoTextState createState() {
@@ -22,6 +24,7 @@ class PromoTextState extends State<PromoText>{
 
   String title = '  Введите\nпромокод';
   TextEditingController promoCodeField;
+  String uuid = '';
   PromoTextState(title);
 
   @override
@@ -84,8 +87,6 @@ class PromoTextState extends State<PromoText>{
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                   autofocus: true,
-                  maxLength: 4,
-                  keyboardType: TextInputType.number,
                   decoration: new InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10),),
@@ -124,12 +125,13 @@ class PromoTextState extends State<PromoText>{
                   ),
                 ),
               ),
-              onTap: (){
-                Navigator.pop(context);
-                setState(() async {
+              onTap: () async {
+                setState(() {
                   title = promoCodeField.text;
-                  await sendPromo(title);
+                  uuid = widget.uuid;
                 });
+                await sendPromo(title, uuid);
+                Navigator.pop(context);
               },
             )
           ],

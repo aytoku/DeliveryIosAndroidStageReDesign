@@ -97,13 +97,13 @@ class CityScreenState extends State<CityScreen>{
                     height: 41,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: AppColor.themeColor
+                        color: AppColor.mainColor
                     ),
                     child: Center(
                       child: Text('Войти',
                         style: TextStyle(
                             fontSize: 18,
-                            color: AppColor.mainColor
+                            color: AppColor.unselectedTextColor
                         ),
                       ),
                     ),

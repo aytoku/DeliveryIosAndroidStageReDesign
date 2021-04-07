@@ -4,20 +4,20 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
-Future<CartModel> sendPromo(String code) async {
+Future<CartModel> sendPromo(String code, String uuid) async {
   CartModel cartModel;
-  var url = '${apiUrl}promotion/$code/apply';
-  var jsonRequest = ({
-    ''
-  });
-  var response = await http.post(url, body: jsonRequest, headers: <String, String>{
+  var url = '${apiUrl}promotions/apply?uuid=$uuid&code=$code';
+
+  var response = await http.post(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   });
   if (response.statusCode == 200) {
     var jsonResponse = json.decode(response.body);
     cartModel = new CartModel.fromJson(jsonResponse);
+    print("PROMO: ${response.body}");
   } else {
-    print('Request failed with status: ${response.statusCode}.');
+    print(response.body);
+    print('Request promo failed with status: ${response.statusCode}.');
   }
   return cartModel;
 }
