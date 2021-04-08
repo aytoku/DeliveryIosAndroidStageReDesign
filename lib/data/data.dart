@@ -7,7 +7,12 @@ import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_app/data/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:launch_review/launch_review.dart';
 import 'dart:convert' as convert;
+
+import 'package:package_info/package_info.dart';
+import 'package:pub_semver/pub_semver.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 String getImage(String imgJson) {
@@ -72,6 +77,100 @@ class AppColor {
     subElementsColor = (json['sub_elements_color'] == null || json['sub_elements_color'] == '') ? subElementsColor : Color(int.parse(json['sub_elements_color']));
     borderFieldColor = (json['border_field_color'] == null || json['border_field_color'] == '') ? borderFieldColor : Color(int.parse(json['border_field_color']));
     unselectedBorderFieldColor = (json['unselected_border_field_color'] == null || json['unselected_border_field_color'] == '') ? unselectedBorderFieldColor : Color(int.parse(json['unselected_border_field_color']));
+  }
+}
+
+  String version;
+
+  getAppInfo() async {
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      // String appName = packageInfo.appName;
+      // String packageName = packageInfo.packageName;
+      version = packageInfo.version;
+      // String buildNumber = packageInfo.buildNumber;
+    });
+  }
+
+class CheckVersion {
+  CheckVersion._();
+
+  static String updateVersion = '1.0.0';
+  static bool updateRequire = false;
+
+  static fromJson(Map<String, dynamic> json) {
+    updateVersion = (json['version'] == null || json['version'] == '')
+        ? updateVersion
+        : json['version'];
+    updateRequire = (json['require'] == null || json['require'] == '')
+        ? updateRequire
+        : json['require'];
+  }
+}
+
+checkVer(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  print('version $version');
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+      LaunchReview.launch(
+          androidAppId: "ru.faem.client", iOSAppId: "1480946104");
+    },
+  );
+
+  Widget denyButton = FlatButton(
+    child: Text("Позже"),
+    onPressed: () {
+      prefs.setString('deniedVersion', CheckVersion.updateVersion);
+      Navigator.pop(context);
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog criticalAlert = AlertDialog(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.0),
+    ),
+    title: Text("Критическое обновление"),
+    content: Text("Для дальнейшей работы необходимо обновить приложение."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  AlertDialog alert = AlertDialog(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.0),
+    ),
+    title: Text("Доступно обновление"),
+    content: Text("Обновить приложение?"),
+    actions: [okButton, denyButton],
+  );
+
+  // print(
+  //     'VERSION: $version //////////////////////////////////////////////////////////////////////////////');
+  if (Version.parse(CheckVersion.updateVersion) > Version.parse(version) &&
+      CheckVersion.updateRequire == true) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: criticalAlert,
+          );
+        });
+  } else if ((Version.parse(CheckVersion.updateVersion) >
+      Version.parse(version) &&
+      prefs.get('deniedVersion') == null) ||
+      (Version.parse(CheckVersion.updateVersion) >
+          Version.parse(prefs.get('deniedVersion')))) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: alert,
+          );
+        });
   }
 }
 

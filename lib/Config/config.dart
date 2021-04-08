@@ -3,6 +3,7 @@ import 'package:device_id/device_id.dart';
 import 'package:flutter_app/Application/API/get_color_scheme.dart';
 import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Model/PaymentMethod.dart';
+import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,7 +47,8 @@ class NecessaryDataForAuth{
     String selectedPaymentMethodJSON = prefs.getString('selected_payment_method') ?? jsonEncode({
       "name": "Наличными",
       "image": "assets/svg_images/dollar_bills.svg",
-      "tag": "cash"
+      "tag": "cash",
+      "outputTag": "cash"
     });
     String token = prefs.getString('token');
 
@@ -63,6 +65,7 @@ class NecessaryDataForAuth{
     }
 
      await getColorScheme(header);
+    await getAppInfo();
 
 
     NecessaryDataForAuth result = new NecessaryDataForAuth(

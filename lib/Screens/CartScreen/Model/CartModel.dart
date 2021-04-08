@@ -62,6 +62,7 @@ class CartModel {
     this.cancelReason,
     this.cancelComment,
     this.createdAt,
+    this.promotion
   });
 
   final String uuid;
@@ -92,6 +93,7 @@ class CartModel {
   final String cancelReason;
   final String cancelComment;
   final DateTime createdAt;
+  final Promotion promotion;
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
     uuid: json["uuid"] == null ? null : json["uuid"],
@@ -122,6 +124,7 @@ class CartModel {
     cancelReason: json["cancel_reason"] == null ? null : json["cancel_reason"],
     cancelComment: json["cancel_comment"] == null ? null : json["cancel_comment"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    promotion: json["promotion"] == null ? null : Promotion.fromJson(json["promotion"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -153,6 +156,7 @@ class CartModel {
     "cancel_reason": cancelReason == null ? null : cancelReason,
     "cancel_comment": cancelComment == null ? null : cancelComment,
     "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+    "promotion": promotion == null ? null : promotion.toJson(),
   };
 
   Item findCartItem(ProductsByStoreUuid product){
@@ -644,5 +648,33 @@ class StoreDataMeta {
     "description": description == null ? null : description,
     "confirmation_time": confirmationTime == null ? null : confirmationTime,
     "cooking_time": cookingTime == null ? null : cookingTime,
+  };
+}
+
+class Promotion {
+  Promotion({
+    this.uuid,
+    this.billingAccountUUID,
+    this.amount,
+    this.promoCode,
+  });
+
+  final String uuid;
+  final String billingAccountUUID;
+  final dynamic amount;
+  final String promoCode;
+
+  factory Promotion.fromJson(Map<String, dynamic> json) => Promotion(
+    uuid: json["uuid"] == null ? null : json["uuid"],
+    billingAccountUUID: json["billing_account_uuid"] == null ? null : json["billing_account_uuid"],
+    amount: json["amount"] == null ? null : json["amount"],
+    promoCode: json["promo_code"] == null ? null : json["promo_code"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "uuid": uuid == null ? null : uuid,
+    "billing_account_uuid": billingAccountUUID == null ? null : billingAccountUUID,
+    "amount": amount == null ? null : amount,
+    "promo_code": promoCode == null ? null : promoCode,
   };
 }

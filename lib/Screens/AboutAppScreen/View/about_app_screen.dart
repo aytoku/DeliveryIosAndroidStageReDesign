@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
+import 'package:flutter_app/VersionControl/Model/CurrentVersionModel.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -35,12 +38,22 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 25),
-                          child: Center(
-                            child: Text(
-                              'Версия 1.0.10 от 8 апр. 2021 г.\nсборка 19',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Color(0x97979797), fontSize: 15),
-                            ),
+                          child: FutureBuilder<CurrentVersionModel>(
+                              future: getCurrentVersion(),
+                              builder: (context, AsyncSnapshot<CurrentVersionModel> snapshot) {
+                                return Center(
+                                  child: (snapshot.connectionState == ConnectionState.done && snapshot.data != null) ? Text(
+                                    'Версия ${snapshot.data.version} от 27 мар. 2021 г.\nсборка 19',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Color(0x97979797), fontSize: 15),
+                                  ) : Center(
+                                    child: SpinKitThreeBounce(
+                                      color: AppColor.mainColor,
+                                      size: 20.0,
+                                    ),
+                                  ),
+                                );
+                              }
                           ),
                         ),
                         Container(

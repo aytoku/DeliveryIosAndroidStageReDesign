@@ -10,6 +10,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/API/getProductData.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/DiscountType.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemDesc.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
@@ -176,19 +177,38 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                             ),
                           ),
                         ),
-                        Align(
+                        Stack(
                           alignment: Alignment.topRight,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(15),
-                                bottomRight: Radius.circular(15)),
-                            child: Image.network(
-                              getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
-                              fit: BoxFit.cover,
-                              height: MediaQuery.of(context).size.height,
-                              width: 168,
-                            ),),
-                        )
+                          children: [
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(15),
+                                    bottomRight: Radius.circular(15)),
+                                child: Stack(
+                                  children: [
+                                    Image.network(
+                                      getImage((restaurantDataItems
+                                          .meta.images !=
+                                          null)
+                                          ? restaurantDataItems.meta.images[0]
+                                          : ''),
+                                      fit: BoxFit.cover,
+                                      height:
+                                      MediaQuery.of(context).size.height,
+                                      width: 168,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Visibility(
+                              visible: restaurantDataItems.meta.oldPrice == 0 ? false : true,
+                              child: DiscountTapeWidget(price: restaurantDataItems.price, oldPrice: restaurantDataItems.meta.oldPrice,),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ))),

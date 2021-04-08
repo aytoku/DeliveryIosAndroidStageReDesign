@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/data/globalVariables.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/API/promo_code.dart';
 
 import '../../../data/data.dart';
 
@@ -83,8 +85,6 @@ class PromoTextState extends State<PromoText>{
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                   autofocus: true,
-                  maxLength: 4,
-                  keyboardType: TextInputType.number,
                   decoration: new InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10),),
@@ -116,17 +116,20 @@ class PromoTextState extends State<PromoText>{
                   child: Center(
                     child: Text('Применить',
                       style: TextStyle(
-                          fontSize: 21,
-                          color: AppColor.textColor
+                        fontSize: 21,
+                        color: AppColor.unselectedTextColor,
                       ),
                     ),
                   ),
                 ),
               ),
-              onTap: (){
+              onTap: () async {
+                title = promoCodeField.text;
+                CartModel tempCartModel = await sendPromo(title, currentUser.cartModel.uuid);
+                currentUser.cartModel = tempCartModel ?? currentUser.cartModel;
                 Navigator.pop(context);
                 setState(() {
-                  title = promoCodeField.text;
+
                 });
               },
             )
@@ -142,11 +145,11 @@ class PromoTextState extends State<PromoText>{
       padding: EdgeInsets.only(
           top: 10, left: 0, right: 0, bottom: 10),
       child: Align(
-        alignment: Alignment.bottomLeft,
+        alignment: Alignment.bottomRight,
         child: InkWell(
           child: Container(
             width: 160,
-            height: 64,
+
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(

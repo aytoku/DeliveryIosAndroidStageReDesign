@@ -11,13 +11,16 @@ import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/ChatScreen/API/create_message.dart';
+import 'package:flutter_app/Screens/HomeScreen/API/getStocks.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/Stock.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/RestaurantsList.dart';
+import 'package:flutter_app/Screens/HomeScreen/Widgets/StockList.dart';
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
@@ -68,6 +71,11 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    Future.delayed(Duration.zero, () {
+
+      checkVer(context);
+
+    });
     orderList = new List<OrderChecking>();
     recordsItems = new List<FilteredStores>();
     _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -441,6 +449,18 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         ],
                       ),
                     ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 10, left: 16, right: 15, bottom: 10),
+                    //   child: FutureBuilder<StockData>(
+                    //       future: getStocks(necessaryDataForAuth.city.uuid),
+                    //       builder: (BuildContext context, AsyncSnapshot<StockData> snapshot) {
+                    //         return Container(
+                    //           height: 100,
+                    //           child: StocksList(stocks: snapshot.data.stockList,),
+                    //         );
+                    //       }
+                    //   ),
+                    // ),
                     Expanded(
                       child: ListView(
                         physics: BouncingScrollPhysics(),

@@ -71,8 +71,8 @@ class AddressScreenState extends State<AddressScreen>
   GlobalKey<PromoTextState> promoTextKey;
   GlobalKey<PaymentButtonState> paymentButtonKey;
 
-  TextEditingController phoneNumberController;
-  TextEditingController nameController;
+  // TextEditingController phoneNumberController;
+  // TextEditingController nameController;
   TextEditingController addressValueController;
 
   bool isAddressSelected = false;
@@ -81,7 +81,6 @@ class AddressScreenState extends State<AddressScreen>
 
   double initHeight = 200;
   int paymentsMethodCount = 0;
-  int paymentIndex = 0;
 
 
   AddressScreenState(this.restaurant, this.addedAddress, this.isTakeAwayOrderConfirmation, {this.myAddressesModelList});
@@ -100,10 +99,11 @@ class AddressScreenState extends State<AddressScreen>
     card = 'Картой';
     _scaffoldStateKey = GlobalKey();
     commentField = new TextEditingController();
+    addressValueController = new TextEditingController();
     addressSelectorKey = new GlobalKey();
     promoTextKey = new GlobalKey();
-    phoneNumberController = new TextEditingController();
-    nameController = new TextEditingController();
+    // phoneNumberController = new TextEditingController();
+    // nameController = new TextEditingController();
     paymentMethods = [
       PaymentMethod(
           name: "Наличными",
@@ -119,15 +119,22 @@ class AddressScreenState extends State<AddressScreen>
           outputTag: "card"
       ),
     ];
+
+    // получение либо дефолтного способа оплаты, либо замена его на
+    // альтернативный
     selectedPaymentMethod = necessaryDataForAuth.selectedPaymentMethod;
+    if(restaurant.paymentTypes.isNotEmpty){
+      bool isDefaultMethodAvailable = restaurant.paymentTypes.indexWhere((element) => element == selectedPaymentMethod.outputTag) != -1;
+      if(!isDefaultMethodAvailable){ // если дефолтный метод не доступен
+        int newPaymentMethodIndex = paymentMethods.indexWhere((element) => element.outputTag == restaurant.paymentTypes[0]); // находим доступный
+        if(newPaymentMethodIndex != -1)
+          selectedPaymentMethod = paymentMethods[newPaymentMethodIndex];
+      }
+    }
     // addressValueController = TextEditingController(text: restaurant.destination_points[0].street + ' ' + restaurant.destination_points[0].house);
     // selectedAddress = restaurant.address[0];
   }
 
-  @override
-  void dispose(){
-    super.dispose();
-  }
 
   emptyAddress(BuildContext context) {
     showDialog(
@@ -345,10 +352,10 @@ class AddressScreenState extends State<AddressScreen>
                   ),
                 ),
                 onTap: (){
-                  addressValueController.text = destinationPointsSelectorStateKey.currentState.selectedDestinationPoint.street + ' ' +
+                  /*addressValueController.text = destinationPointsSelectorStateKey.currentState.selectedDestinationPoint.street + ' ' +
                       destinationPointsSelectorStateKey.currentState.selectedDestinationPoint.house;
                   selectedAddress = destinationPointsSelectorStateKey.currentState.selectedDestinationPoint;
-                  Navigator.pop(context);
+                  Navigator.pop(context);*/
                 },
               ),
             ),
@@ -449,18 +456,13 @@ class AddressScreenState extends State<AddressScreen>
     addressSelectorKey = new GlobalKey();
     paymentButtonKey = new GlobalKey();
     FocusNode focusNode;
+    // количество доступных методов оплаты
     paymentsMethodCount = 0;
-    paymentIndex = paymentMethods.indexWhere((element){
-      return element == selectedPaymentMethod;
-    });
-    if(paymentIndex == -1){
-     paymentIndex = 0;
-    }
     paymentMethods.forEach((element) {
-      if(restaurant.paymentTypes.contains(element.outputTag)){
+      if(restaurant.paymentTypes.contains(element.outputTag))
         paymentsMethodCount++;
-      }
     });
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
           statusBarColor: Colors.white,
@@ -809,27 +811,28 @@ class AddressScreenState extends State<AddressScreen>
                               top: 17, left: 18, bottom: 5, right: 17),
                           child: DeliveryInfo(parent: this,)
                         ),
-                        // (promoTextKey.currentState!= null && promoTextKey.currentState.title.length != null) ? Padding(
-                        //   padding: EdgeInsets.only(
-                        //       top: 15, left: 17, bottom: 5, right: 17),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //     children: <Widget>[
-                        //       Text(
-                        //         'Скидка',
-                        //         style: TextStyle(
-                        //             color: Colors.red,
-                        //             fontSize: 14),
-                        //       ),
-                        //       Text(
-                        //         '-150 \₽',
-                        //         style: TextStyle(
-                        //             color: Colors.red,
-                        //             fontSize: 14),
-                        //       )
-                        //     ],
-                        //   ),
-                        // ) : Container(),
+                        Visibility(
+                          visible: (currentUser.cartModel.promotion.uuid == '') ? false : true,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 15, left: 17, bottom: 5, right: 17),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Скидка',
+                                  style:
+                                  TextStyle(color: Colors.red, fontSize: 14),
+                                ),
+                                Text(
+                                  (currentUser.cartModel.promotion == null) ? '' : '-${currentUser.cartModel.promotion.amount}%',
+                                  style:
+                                  TextStyle(color: Colors.red, fontSize: 14),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(
                               top: 15, left: 17, bottom: 5, right: 17),
@@ -958,16 +961,27 @@ class AddressScreenState extends State<AddressScreen>
                           alignment: Alignment.topLeft,
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10, left: 15),
-                            child: Column(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Способ оплаты',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColor.additionalTextColor),
+                                Column(
+                                  children: [
+                                    Text('Способ оплаты',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: AppColor.additionalTextColor),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5, right: 8),
+                                      child: Text(selectedPaymentMethod.name),
+                                    ),
+                                  ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 5, right: 8),
-                                  child: Text('Налинчыми'),
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: PromoText(
+                                    key: promoTextKey,
+                                  ),
                                 ),
                               ],
                             ),
@@ -1021,7 +1035,7 @@ class AddressScreenState extends State<AddressScreen>
                                                   child: Padding(
                                                     padding: const EdgeInsets.only(left: 17),
                                                     child: Text(
-                                                      paymentMethods[paymentIndex].name,
+                                                      selectedPaymentMethod.name,
                                                       style: TextStyle(
                                                           fontSize: 16,
                                                           color: Colors.black),
@@ -1046,10 +1060,12 @@ class AddressScreenState extends State<AddressScreen>
                                   ),
                                 ),
                               ),
-                              // Padding(
-                              //   padding: const EdgeInsets.only(right: 0),
-                              //   child: PromoText(key: promoTextKey,),
-                              // )
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child: PromoText(
+                                  key: promoTextKey,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -1088,7 +1104,7 @@ class AddressScreenState extends State<AddressScreen>
                                 currentUser.cartModel.uuid,
                                 false,
                                 false,
-                                false,
+                                eatInStore,
                                 addressSelectorKey.currentState.myFavouriteAddressesModel.address,
                                 addressSelectorKey.currentState.myFavouriteAddressesModel.entranceField,
                                 addressSelectorKey.currentState.myFavouriteAddressesModel.floorField,
@@ -1106,10 +1122,6 @@ class AddressScreenState extends State<AddressScreen>
                           }else{ // если не наличка
                             await makePayment();
                           }
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-                                  (Route<dynamic> route) => false);
 
                         } else {
                           noConnection(context);
@@ -1140,38 +1152,38 @@ class AddressScreenState extends State<AddressScreen>
     }else{
       result = await SberAPI.googlePay(req, currentUser.cartModel.uuid);
     }
-    if(result.success){
-      if(result.data.acsUrl != null){
-        Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) => WebView(
-                  onPageFinished: (String url) {
-                    print(url);
-                    if(url == "https://3dsec.sberbank.ru/payment/merchants/root/errors_ru.html"){ // здесь когда-нибудь вставить саксес и еррор урлы
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-                              (Route<dynamic> route) => false);
-                    }
-                  },
-                  initialUrl: new Uri.dataFromString(
-                      _loadHTML(result.data.acsUrl,
-                          result.data.paReq,
-                          result.data.termUrl
-                      ), mimeType: 'text/html').toString(),
-                  javascriptMode: JavascriptMode.unrestricted,
-                  onWebViewCreated: (WebViewController webController){
-                  },
-                ))
-        );
-        return result.success;
-      }
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-              (Route<dynamic> route) => false);
-
-    }
+    // if(result.success){
+    //   // if(result.data.acsUrl != null){
+    //   //   Navigator.of(context).push(
+    //   //       MaterialPageRoute(
+    //   //           builder: (context) => WebView(
+    //   //             onPageFinished: (String url) {
+    //   //               print(url);
+    //   //               if(url == "https://3dsec.sberbank.ru/payment/merchants/root/errors_ru.html"){ // здесь когда-нибудь вставить саксес и еррор урлы
+    //   //                 Navigator.of(context).pushAndRemoveUntil(
+    //   //                     MaterialPageRoute(
+    //   //                         builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+    //   //                         (Route<dynamic> route) => false);
+    //   //               }
+    //   //             },
+    //   //             initialUrl: new Uri.dataFromString(
+    //   //                 _loadHTML(result.data.acsUrl,
+    //   //                     result.data.paReq,
+    //   //                     result.data.termUrl
+    //   //                 ), mimeType: 'text/html').toString(),
+    //   //             javascriptMode: JavascriptMode.unrestricted,
+    //   //             onWebViewCreated: (WebViewController webController){
+    //   //             },
+    //   //           ))
+    //   //   );
+    //   //   return result.success;
+    //   // }
+    //   Navigator.of(context).pushAndRemoveUntil(
+    //       MaterialPageRoute(
+    //           builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+    //           (Route<dynamic> route) => false);
+    //
+    // }
     return result.success;
   }
 
@@ -1213,16 +1225,16 @@ class AddressScreenState extends State<AddressScreen>
     return req;
   }
 
-  String _loadHTML(String acsUrl, String paReq, String termUrl){
-    return '''
-      <html>
-        <body onload="document.form.submit()" >
-          <form name="form" action="$acsUrl" method="post" >
-              <input type="hidden" name="TermUrl" value="$termUrl" >
-              <input type="hidden" name="PaReq" value="$paReq" >
-          </form>
-        </body>
-      </html>
-    ''';
-  }
+  // String _loadHTML(String acsUrl, String paReq, String termUrl){
+  //   return '''
+  //     <html>
+  //       <body onload="document.form.submit()" >
+  //         <form name="form" action="$acsUrl" method="post" >
+  //             <input type="hidden" name="TermUrl" value="$termUrl" >
+  //             <input type="hidden" name="PaReq" value="$paReq" >
+  //         </form>
+  //       </body>
+  //     </html>
+  //   ''';
+  // }
 }

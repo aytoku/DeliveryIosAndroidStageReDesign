@@ -45,11 +45,6 @@ class AddAddressScreenState extends State<AddAddressScreen> {
     cartPageKey = new GlobalKey();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
