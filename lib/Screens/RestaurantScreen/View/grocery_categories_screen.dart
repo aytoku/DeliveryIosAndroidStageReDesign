@@ -99,7 +99,7 @@ class GroceryCategoriesScreenState extends State<GroceryCategoriesScreen>{
                                   filteredProductCategoriesData.filteredProductCategories[index].uuid,
                                   necessaryDataForAuth.city.uuid);
                               if(categoriesFilter.filteredProductCategories.isEmpty){
-                                selectedCategoriesUuid = filteredProductCategoriesData.filteredProductCategories[index].uuid;
+                                selectedCategoriesUuid = filteredProductCategoriesData.filteredProductCategories[index];
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (_) {

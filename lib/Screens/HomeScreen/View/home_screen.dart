@@ -18,7 +18,6 @@ import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/RestaurantsList.dart';
-import 'package:flutter_app/Screens/HomeScreen/Widgets/TemporaryOrderChecking.dart';
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
@@ -50,7 +49,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   List<OrderChecking> orderList;
   List<FilteredStores> recordsItems;
   GlobalKey<ScaffoldState> _scaffoldKey;
-  GlobalKey<TemporaryOrderCheckingState> temporaryOrderCheckingKey;
   GlobalKey<CartButtonState> basketButtonStateKey;
   Filter filter;
   RestaurantsList restaurantsList;
@@ -77,15 +75,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     cityScreenKey = new GlobalKey<CityScreenState>();
     restaurantGetBloc = BlocProvider.of<RestaurantGetBloc>(context);
     restaurantGetBloc.add(InitialLoad());
-    temporaryOrderCheckingKey = new GlobalKey();
-    // временное решение(убрать когда будет центрифуга)
-    timer = Timer.periodic(Duration(seconds: 100), (timer) {
-      if(temporaryOrderCheckingKey.currentState != null){
-        temporaryOrderCheckingKey.currentState.setState(() {
-
-        });
-      }
-    });
   }
 
   @override
@@ -95,7 +84,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitDown,
     ]);
     WidgetsBinding.instance.removeObserver(this);
-    timer.cancel();
     super.dispose();
   }
 

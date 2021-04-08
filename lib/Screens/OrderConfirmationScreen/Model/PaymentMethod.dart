@@ -1,4 +1,6 @@
-class PaymentMethod {
+import 'package:equatable/equatable.dart';
+
+class PaymentMethod extends Equatable{
   PaymentMethod({
     this.name,
     this.image,
@@ -10,6 +12,9 @@ class PaymentMethod {
   final String name;
   final String tag;
   final String outputTag;
+
+  @override
+  List<Object> get props => [name, image, tag, outputTag];
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
     image: json["image"] == null ? null : json["image"],

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 
 List<OrderDetailsModelItem> orderDetailsModelFromJson(String str) => List<OrderDetailsModelItem>.from(json.decode(str).map((x) => OrderDetailsModelItem.fromJson(x)));
 
@@ -438,7 +439,7 @@ class StoreData {
   String parentUuid;
   Available available;
   String type;
-  dynamic workSchedule;
+  WorkSchedule workSchedule;
   dynamic holidayWorkSchedule;
   Address address;
   dynamic contacts;
@@ -449,26 +450,31 @@ class StoreData {
   String url;
   StoreDataMeta meta;
 
-  factory StoreData.fromJson(Map<String, dynamic> json) => StoreData(
-    uuid: json["uuid"],
-    name: json["name"],
-    paymentTypes: List<String>.from(json["payment_types"].map((x) => x)),
-    cityUuid: json["city_uuid"],
-    legalEntityUuid: json["legal_entity_uuid"],
-    parentUuid: json["parent_uuid"],
-    available: Available.fromJson(json["available"]),
-    type: json["type"],
-    workSchedule: json["work_schedule"],
-    holidayWorkSchedule: json["holiday_work_schedule"],
-    address: Address.fromJson(json["address"]),
-    contacts: json["contacts"],
-    priority: json["priority"],
-    lat: json["lat"],
-    lon: json["lon"],
-    ownDelivery: json["own_delivery"],
-    url: json["url"],
-    meta: StoreDataMeta.fromJson(json["meta"]),
-  );
+  factory StoreData.fromJson(Map<String, dynamic> json){
+    if(json == null){
+      return null;
+    }
+    return StoreData(
+      uuid: json["uuid"],
+      name: json["name"],
+      paymentTypes: List<String>.from(json["payment_types"].map((x) => x)),
+      cityUuid: json["city_uuid"],
+      legalEntityUuid: json["legal_entity_uuid"],
+      parentUuid: json["parent_uuid"],
+      available: Available.fromJson(json["available"]),
+      type: json["type"],
+      workSchedule: json["work_schedule"] == null ? null : WorkSchedule.fromJson(json["work_schedule"]),
+      holidayWorkSchedule: json["holiday_work_schedule"],
+      address: Address.fromJson(json["address"]),
+      contacts: json["contacts"],
+      priority: json["priority"],
+      lat: json["lat"],
+      lon: json["lon"],
+      ownDelivery: json["own_delivery"],
+      url: json["url"],
+      meta: StoreDataMeta.fromJson(json["meta"]),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "uuid": uuid,

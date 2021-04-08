@@ -339,7 +339,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                              snapshot.data.filteredProductCategories[index].uuid,
                               necessaryDataForAuth.city.uuid);
                          if(categoriesFilter.filteredProductCategories.isEmpty){
-                           selectedCategoriesUuid = snapshot.data.filteredProductCategories[index].uuid;
+                           selectedCategoriesUuid = snapshot.data.filteredProductCategories[index];
                            Navigator.push(
                              context,
                              MaterialPageRoute(builder: (_) {

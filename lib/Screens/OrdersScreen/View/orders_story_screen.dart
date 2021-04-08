@@ -91,7 +91,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                               child: SvgPicture.asset('assets/svg_images/clock.svg'),
                             ),
                             Text(
-                              format.format(ordersStoryModelItem.createdAt),
+                              format.format(ordersStoryModelItem.createdAt.add(Duration(hours: ordersStoryModelItem.storeData.workSchedule.timeZoneOffset))),
                               style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                             ),
                           ],

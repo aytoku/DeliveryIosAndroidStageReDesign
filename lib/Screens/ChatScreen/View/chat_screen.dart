@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/ChatScreen/API/create_message.dart';
 import 'package:flutter_app/Screens/ChatScreen/API/get_filtered_messages.dart';
 import 'package:flutter_app/Screens/ChatScreen/Model/CreateMessage.dart';
+import 'package:flutter_app/Screens/ChatScreen/Widgets/ChatFieldButton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -123,10 +124,9 @@ class ChatScreenState extends State<ChatScreen> {
               ),
             ),
             ChatContent(key: chatContentKey),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
                   padding: EdgeInsets.only(bottom: 20),
                   child: Container(
                     height: 62,
@@ -135,9 +135,9 @@ class ChatScreenState extends State<ChatScreen> {
                       color: Color(0xFFF9F9F9),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 1,
-                          offset: Offset(0,-1)
+                            color: Colors.black12,
+                            blurRadius: 1,
+                            offset: Offset(0,-1)
                         )
                       ],
                     ),
@@ -149,10 +149,7 @@ class ChatScreenState extends State<ChatScreen> {
                         suffixIcon: InkWell(
                           child: Container(
                             padding: EdgeInsets.all(6),
-                            child: SvgPicture.asset((messageField.text.length == 0)
-                                ? 'assets/svg_images/inactive_message_button.svg'
-                                : 'assets/svg_images/send_message.svg',
-                            ),
+                            child: ChatFieldButton(parent: this),
                           ),
                           onTap: () async{
                             await createMessage(messageField.text);
@@ -173,7 +170,6 @@ class ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                   )
-                ),
               ),
             ),
           ],
@@ -210,6 +206,7 @@ class ChatContentState extends State<ChatContent> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: ListView(
+        physics: BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
         scrollDirection: Axis.vertical,
         children: List.generate(chatData.chat.length, (index){

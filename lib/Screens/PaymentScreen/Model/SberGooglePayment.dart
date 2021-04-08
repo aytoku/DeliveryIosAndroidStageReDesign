@@ -15,6 +15,12 @@ class SberGooglePayment {
     error: json["error"] != null ? Error.fromJson(json["error"]) : null,
   );
 
+  factory SberGooglePayment.fromString(String state) => SberGooglePayment(
+    success: state == 'successfully payment',
+    data: Data(),
+    error: Error()
+  );
+
   Map<String, dynamic> toJson() => {
     "success": success,
     "data": data != null ? data.toJson() : null,

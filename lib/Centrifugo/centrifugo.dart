@@ -56,18 +56,18 @@ class Centrifugo{
     if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null
         && !DeliveryStates.contains(order_state)){
       homeScreenKey.currentState.orderList.removeWhere((element) => element.ordersDetailsItem.uuid == order_uuid);
-      if(homeScreenKey.currentState.orderList.length == 0)
-        homeScreenKey.currentState.setState(() { });
-      Navigator.push(
-        homeScreenKey.currentContext,
-        MaterialPageRoute(builder: (_) {
-          return CompletedOrderScreen();
-        }),
-      );
+      // if(homeScreenKey.currentState.orderList.length == 0)
+      //   homeScreenKey.currentState.setState(() { });
+      // Navigator.push(
+      //   homeScreenKey.currentContext,
+      //   MaterialPageRoute(builder: (_) {
+      //     return CompletedOrderScreen();
+      //   }),
+      // );
     }
     if(orderCheckingStates.containsKey(order_uuid)) {
       if(orderCheckingStates[order_uuid].currentState != null) {
-        orderCheckingStates[order_uuid].currentState.ordersStoryModelItem = OrderDetailsModelItem.fromJson(data['payload']);
+        orderCheckingStates[order_uuid].currentState.ordersStoryModelItem = OrderDetailsModelItem.fromJson(data['payload']['order']);
         orderCheckingStates[order_uuid].currentState.setState(() {
 //          orderCheckingStates[order_uuid].currentState.ordersStoryModelItem
 //              .state = order_state;
@@ -76,7 +76,7 @@ class Centrifugo{
         if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null) {
           homeScreenKey.currentState.orderList.forEach((element) async {
             if(element.ordersDetailsItem.uuid == order_uuid) {
-              element.ordersDetailsItem =OrderDetailsModelItem.fromJson(data['payload']);
+              element.ordersDetailsItem =OrderDetailsModelItem.fromJson(data['payload']['order']);
 //              element.ordersStoryModelItem.state = order_state;
               return;
             }
@@ -109,8 +109,8 @@ class Centrifugo{
     if(data.containsKey('tag')) {
       switch (data['tag']){
         case 'order-state' :
-          String order_state = data['message'].split('/')[1];
-          String order_uuid = data['title'].split('/')[1];
+          String order_state = data['payload']['state'];
+          String order_uuid = data['payload']['order']['uuid'];
           OrderCheckingUpdater(order_uuid, order_state, data);
           break;
 
@@ -174,7 +174,6 @@ class Centrifugo{
       importance: Importance.Max,
       priority: Priority.High,
       playSound: true,
-      timeoutAfter: 5000,
       styleInformation: DefaultStyleInformation(true, true),
     );
     var iosChannelSpecifics = IOSNotificationDetails();

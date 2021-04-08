@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Model/DeliveryTariff.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/address_screen.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/AddressSelector.dart';
 import 'package:flutter_app/data/data.dart';
@@ -26,8 +27,15 @@ class PaymentButtonState extends State<PaymentButton>{
   PaymentButtonState(this.onTap, this.parent);
   @override
   Widget build(BuildContext context) {
-    double totalPrice = currentUser.cartModel.totalPrice + currentUser.cartModel.deliveryPrice * 1.0;
-    if(parent.selectedPaymentName == parent.paymentMethods[0]['tag']){
+    var deliveryTariff;
+    if(parent.addressSelectorKey.currentState != null
+        && parent.addressSelectorKey.currentState.myFavouriteAddressesModel.deliveryTariff != null){
+      deliveryTariff = parent.addressSelectorKey.currentState.myFavouriteAddressesModel.deliveryTariff;
+    }else{
+      deliveryTariff = new DeliveryTariff(price: 0, estimatedTime: 0);
+    }
+    double totalPrice = currentUser.cartModel.totalPrice + deliveryTariff.price;
+    if(parent.selectedPaymentMethod == parent.paymentMethods[0]){
       return Container(
         decoration: BoxDecoration(
           boxShadow: [
@@ -53,9 +61,7 @@ class PaymentButtonState extends State<PaymentButton>{
                   Padding(
                     padding: const EdgeInsets.only(right: 3),
                     child: Text(
-                      (currentUser.cartModel.cookingTime != null)
-                          ? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин'
-                          : '',
+                      (deliveryTariff.estimatedTime / 60).toString() + ' мин.',
                       style: TextStyle(
                         fontSize: 12.0,
                         color: Colors.black,

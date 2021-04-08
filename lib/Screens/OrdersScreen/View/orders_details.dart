@@ -189,7 +189,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         Padding(
                           padding: EdgeInsets.only(bottom: 0, top: 0, right: 15),
                           child: Text(
-                            format.format(ordersDetailsModelItem.createdAt),
+                            format.format(ordersDetailsModelItem.createdAt.add(Duration(hours: ordersDetailsModelItem.storeData.workSchedule.timeZoneOffset))),
                             style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                           ),
                         ),

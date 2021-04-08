@@ -1021,7 +1021,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(right: 30),
                         child: Text(
-                          this.restaurant.name,
+                          selectedCategoriesUuid.name,
                           style: TextStyle(
                             fontSize: 18,),
                         ),
@@ -1095,11 +1095,11 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.24,
+                      left: 30,
                       top: 40
                   ),
                   child: Text(
-                    restaurant.name,
+                    selectedCategoriesUuid.name,
                     style: TextStyle(
                       fontSize: 18,),
                   ),
@@ -1194,7 +1194,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             :
         FutureBuilder<ProductsByStoreUuidData>(
             future: (restaurant.type == 'grocery')
-                ? getFilteredProduct(selectedCategoriesUuid, '')
+                ? getFilteredProduct(selectedCategoriesUuid.uuid, '')
                 : getFilteredProduct('', restaurant.uuid),
             initialData: null,
             builder: (BuildContext context,
