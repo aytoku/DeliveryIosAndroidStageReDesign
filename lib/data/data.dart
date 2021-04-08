@@ -94,7 +94,7 @@ class AppColor {
 class CheckVersion {
   CheckVersion._();
 
-  static String updateVersion = '1.0.0';
+  static String updateVersion = '2.0.0';
   static bool updateRequire = false;
 
   static fromJson(Map<String, dynamic> json) {

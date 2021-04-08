@@ -857,55 +857,55 @@ class AddressScreenState extends State<AddressScreen>
                         //   height: 10,
                         //   color: Color(0xFAFAFAFA),
                         // ),
-                        (isTakeAwayOrderConfirmation) ? Padding(
-                          padding: EdgeInsets.only(
-                              top: 10, left: 15, right: 15, bottom: 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 4.0, // soften the shadow
-                                    spreadRadius: 1.0, //extend the shadow
-                                  )
-                                ],
-                                color: AppColor.themeColor,
-                                borderRadius: BorderRadius.circular(10.0),
-                                border: Border.all(width: 1.0, color: Colors.grey[200])),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    'Поем в заведении',
-                                    style: TextStyle(
-                                        color: Color(0xFF3F3F3F),
-                                        fontSize: 15),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 0),
-                                    child: FlutterSwitch(
-                                      width: 55.0,
-                                      height: 25.0,
-                                      inactiveColor: Color(0xD6D6D6D6),
-                                      activeColor: Colors.green,
-                                      valueFontSize: 12.0,
-                                      toggleSize: 18.0,
-                                      value: eatInStore,
-                                      onToggle: (value) {
-                                        setState(() {
-                                          eatInStore = value;
-                                        });
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ) : Container(),
+                        // (isTakeAwayOrderConfirmation) ? Padding(
+                        //   padding: EdgeInsets.only(
+                        //       top: 10, left: 15, right: 15, bottom: 10),
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //         boxShadow: [
+                        //           BoxShadow(
+                        //             color: Colors.black12,
+                        //             blurRadius: 4.0, // soften the shadow
+                        //             spreadRadius: 1.0, //extend the shadow
+                        //           )
+                        //         ],
+                        //         color: AppColor.themeColor,
+                        //         borderRadius: BorderRadius.circular(10.0),
+                        //         border: Border.all(width: 1.0, color: Colors.grey[200])),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.all(10.0),
+                        //       child: Row(
+                        //         mainAxisAlignment:
+                        //         MainAxisAlignment.spaceBetween,
+                        //         children: <Widget>[
+                        //           Text(
+                        //             'Поем в заведении',
+                        //             style: TextStyle(
+                        //                 color: Color(0xFF3F3F3F),
+                        //                 fontSize: 15),
+                        //           ),
+                        //           Padding(
+                        //             padding: EdgeInsets.only(right: 0),
+                        //             child: FlutterSwitch(
+                        //               width: 55.0,
+                        //               height: 25.0,
+                        //               inactiveColor: Color(0xD6D6D6D6),
+                        //               activeColor: Colors.green,
+                        //               valueFontSize: 12.0,
+                        //               toggleSize: 18.0,
+                        //               value: eatInStore,
+                        //               onToggle: (value) {
+                        //                 setState(() {
+                        //                   eatInStore = value;
+                        //                 });
+                        //               },
+                        //             ),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ) : Container(),
                         // (isTakeAwayOrderConfirmation) ? Container() : Padding(
                         //   padding: EdgeInsets.only(
                         //       top: 10, left: 15, right: 15, bottom: 10),
