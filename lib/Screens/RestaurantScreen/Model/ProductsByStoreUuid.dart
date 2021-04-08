@@ -126,6 +126,7 @@ class ProductsByStoreUuid {
 class ProductsByStoreUuidMeta {
   ProductsByStoreUuidMeta({
     this.description,
+    this.shortDescription,
     this.composition,
     this.weight,
     this.oldPrice,
@@ -135,6 +136,7 @@ class ProductsByStoreUuidMeta {
   });
 
   String description;
+  String shortDescription;
   String composition;
   var oldPrice;
   int weight;
@@ -145,6 +147,7 @@ class ProductsByStoreUuidMeta {
   factory ProductsByStoreUuidMeta.fromJson(Map<String, dynamic> json) => ProductsByStoreUuidMeta(
     description: json["description"],
     composition: json["composition"],
+    shortDescription: json["short_description"],
     weight: json["weight"],
     oldPrice: json["old_price"],
     weightMeasurement: json["weight_measurement"],
@@ -154,6 +157,7 @@ class ProductsByStoreUuidMeta {
 
   Map<String, dynamic> toJson() => {
     "description": description,
+    "short_description": shortDescription,
     "composition": composition,
     "weight": weight,
     "old_price": oldPrice,

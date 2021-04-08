@@ -858,23 +858,26 @@ class AddressScreenState extends State<AddressScreen>
                                 ),
                               ),
                         // (promoTextKey.currentState== null && promoTextKey.currentState.title.length == null) ?
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 15, left: 17, bottom: 5, right: 17),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Скидка',
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 14),
-                              ),
-                              Text(
-                                '-150 \₽',
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 14),
-                              )
-                            ],
+                        Visibility(
+                          visible: (currentUser.cartModel.promotion == null) ? false : null,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 15, left: 17, bottom: 5, right: 17),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Скидка',
+                                  style:
+                                      TextStyle(color: Colors.red, fontSize: 14),
+                                ),
+                                Text(
+                                  (currentUser.cartModel.promotion == null) ? '' : '-${currentUser.cartModel.promotion.amount}%',
+                                  style:
+                                      TextStyle(color: Colors.red, fontSize: 14),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         // : Container(),

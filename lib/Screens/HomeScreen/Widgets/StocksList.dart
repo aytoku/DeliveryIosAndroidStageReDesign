@@ -49,7 +49,8 @@ class StocksListState extends State<StocksList>
                     width: MediaQuery.of(context).size.width,
                     fit: BoxFit.cover,
                   ),
-                )
+                ),
+
               ],
             ),
           ),
@@ -66,9 +67,10 @@ class StocksListState extends State<StocksList>
         child: Container(
           height: 150,
           child: ListView(
+
             controller: stocksScrollController,
             scrollDirection: Axis.horizontal,
-            children: [],
+            children: _buildStockList(),
           ),
         ),
       );

@@ -164,6 +164,20 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                 ),
                                               ),
                                             ),
+                                            // Padding(
+                                            //   padding: const EdgeInsets.only(top: 10.0, left: 15, bottom: 5),
+                                            //   child: Align(
+                                            //     alignment: Alignment.topLeft,
+                                            //     child: Text(
+                                            //       restaurantDataItems.meta.shortDescription,
+                                            //       maxLines: 3,
+                                            //       style: TextStyle(
+                                            //           fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
+                                            //       textAlign: TextAlign.start,
+                                            //       overflow: TextOverflow.ellipsis,
+                                            //     ),
+                                            //   ),
+                                            // ),
                                             MenuItemDesc(foodRecords: restaurantDataItems, parent: this)
                                           ],
                                         ),

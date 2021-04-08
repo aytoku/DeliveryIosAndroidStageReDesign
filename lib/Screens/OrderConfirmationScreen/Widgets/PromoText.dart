@@ -150,7 +150,7 @@ class PromoTextState extends State<PromoText>{
         child: InkWell(
           child: Container(
             width: 160,
-            height: 64,
+
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
