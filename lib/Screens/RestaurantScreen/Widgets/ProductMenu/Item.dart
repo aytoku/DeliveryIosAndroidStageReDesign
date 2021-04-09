@@ -246,7 +246,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   ),),
               ),
               Container(
-                height: 118,
+                height: 148,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
@@ -269,7 +269,22 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                         ),
                       ),
                     ),
-                    MenuItemDesc(foodRecords: restaurantDataItems, parent: this),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          padding: EdgeInsets.only(right: 0),
+                          child: Text(
+                            '${restaurantDataItems.weight.toStringAsFixed(0)}' + '' + restaurantDataItems.weightMeasurement,
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.grey),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                      ),
+                    ),
                     Expanded(
                       child: Align(
                         alignment: Alignment.bottomCenter,

@@ -383,10 +383,11 @@ class CodeScreenState extends State<CodeScreen> {
                     ),
                   ),
                 ),
-                (state is SearchStateError) ? Center(
+                (state is SearchStateError) ? Align(
+                  alignment: Alignment.topCenter,
                   child: Padding(
                     padding: EdgeInsets.only(
-                        top: 10, bottom: 60, left: 0),
+                        top: MediaQuery.of(context).size.height * 0.3, ),
                     child: Text(
                       state.error,
                       style: TextStyle(

@@ -331,20 +331,24 @@ class GroceryScreenState extends State<GroceryScreen>{
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                  height: 70,
-                                  width: 50,
-                                  padding: EdgeInsets.only(top: 8, bottom: 8),
-                                  child: Image.network(
-                                    snapshot.data.filteredProductCategories[index].meta.images[0],
-                                    fit: BoxFit.cover,
-                                  )
-                              ),
-                              Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: Text(snapshot.data.filteredProductCategories[index].name),
-                                  )
+                              Row(
+                                children: [
+                                  Container(
+                                      height: 70,
+                                      width: 50,
+                                      padding: EdgeInsets.only(top: 8, bottom: 8),
+                                      child: Image.network(
+                                        snapshot.data.filteredProductCategories[index].meta.images[0],
+                                        fit: BoxFit.cover,
+                                      )
+                                  ),
+                                  Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: Text(snapshot.data.filteredProductCategories[index].name),
+                                      )
+                                  ),
+                                ],
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),

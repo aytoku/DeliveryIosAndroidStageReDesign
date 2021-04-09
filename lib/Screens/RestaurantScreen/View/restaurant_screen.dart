@@ -1054,7 +1054,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 0, top: 0),
+            padding: EdgeInsets.only(top: 15),
             child: Row(
               children: [
                 InkWell(
@@ -1108,7 +1108,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 100),
+            padding: const EdgeInsets.only(top: 120),
             child: StaggeredGridView.countBuilder(
               physics: BouncingScrollPhysics(),
               padding: EdgeInsets.zero,
@@ -1119,7 +1119,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 if (menuWithTitles[index] is MenuItemTitle) {
                   return StaggeredTile.extent(2, 50);
                 }
-                return StaggeredTile.extent(1, 270);
+                return StaggeredTile.extent(1, 300);
               },
               mainAxisSpacing: 10.0,
               crossAxisSpacing: 0.0,
