@@ -787,7 +787,8 @@ class AddressScreenState extends State<AddressScreen>
                                         ),
                                       ),
                                     ),
-                                  )),
+                                  ),
+                              ),
                             ],
                           ),
                         ),
@@ -859,7 +860,7 @@ class AddressScreenState extends State<AddressScreen>
                               ),
                         // (promoTextKey.currentState== null && promoTextKey.currentState.title.length == null) ?
                         Visibility(
-                          visible: (currentUser.cartModel.promotion == null) ? false : null,
+                          visible: (currentUser.cartModel.promotion == null) ? false : true,
                           child: Padding(
                             padding: EdgeInsets.only(
                                 top: 15, left: 17, bottom: 5, right: 17),
@@ -893,7 +894,8 @@ class AddressScreenState extends State<AddressScreen>
                                     color: Colors.black, fontSize: 22),
                               ),
                               Text(
-                                '${(totalPrice).toStringAsFixed(0)} \₽',
+                                '${(currentUser.cartModel.totalPrice +
+                                    currentUser.cartModel.deliveryPrice * 1.0).toStringAsFixed(0)} \₽',
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 22),
                               ),
@@ -1030,7 +1032,7 @@ class AddressScreenState extends State<AddressScreen>
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 5, right: 8),
-                                            child: Text('Налинчыми'),
+                                            child: Text('Наличными'),
                                           ),
                                         ],
                                       ),
@@ -1040,6 +1042,7 @@ class AddressScreenState extends State<AddressScreen>
                                   padding: const EdgeInsets.only(right: 20),
                                   child: PromoText(
                                     key: promoTextKey,
+                                    uuid: currentUser.cartModel.uuid,
                                   ),
                                 ),
                               ],

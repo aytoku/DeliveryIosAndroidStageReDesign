@@ -11,6 +11,7 @@ Future<CartModel> sendPromo(String code, String uuid) async {
   var response = await http.post(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   });
+  print("URL $url");
   if (response.statusCode == 200) {
     var jsonResponse = json.decode(response.body);
     cartModel = new CartModel.fromJson(jsonResponse);

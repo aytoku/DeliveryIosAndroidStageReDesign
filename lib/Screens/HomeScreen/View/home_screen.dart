@@ -471,18 +471,18 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, left: 16, right: 15, bottom: 10),
-                      child: FutureBuilder<StockData>(
-                        future: getStocks(necessaryDataForAuth.city.uuid),
-                        builder: (BuildContext context, AsyncSnapshot<StockData> snapshot) {
-                          return Container(
-                            height: 100,
-                            child: StocksList(),
-                          );
-                        }
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 10, left: 16, right: 15, bottom: 10),
+                    //   child: FutureBuilder<StockData>(
+                    //     future: getStocks(necessaryDataForAuth.city.uuid),
+                    //     builder: (BuildContext context, AsyncSnapshot<StockData> snapshot) {
+                    //       return Container(
+                    //         height: 100,
+                    //         child: StocksList(),
+                    //       );
+                    //     }
+                    //   ),
+                    // ),
                     Expanded(
                       child: ListView(
                         physics: BouncingScrollPhysics(),

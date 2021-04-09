@@ -72,8 +72,8 @@ class AppColor {
   AppColor._();
 
   static Color mainColor = Color(0xFFF7CB46);
-  static Color textColor = Color(0xFF000000);
-  static Color unselectedTextColor = Color(0xFFFFFFFF);
+  static Color textColor = Color(0xFF313131);
+  static Color unselectedTextColor = Color(0xFF313131);
   static Color additionalTextColor = Color(0xFF9E9E9E);
   static Color themeColor = Color(0xFFFFFFFF);
   static Color fieldColor = Color(0xFFFFFFFF);
@@ -212,6 +212,7 @@ final currentUser = User(
   cartModel: null,
   name: '',
 );
+
 //checking on internet connection
 noConnection(BuildContext context) {
   showDialog(

@@ -77,9 +77,6 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // if(currentVersionModel.version == '0.0.1'){
-    //   showAlertDialog(context);
-    // }
     return Container(
       color: AppColor.mainColor,
       child: FutureBuilder<NecessaryDataForAuth>(
@@ -131,7 +128,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
           } else {
             return Center(
               child: Image(
-                image: AssetImage('assets/images/Fermer.png'),
+                image: AssetImage('assets/gif/preloader_fermer.gif'),
               )
             );
           }

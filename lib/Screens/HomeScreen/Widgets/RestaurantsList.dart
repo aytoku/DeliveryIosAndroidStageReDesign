@@ -141,11 +141,16 @@ class RestaurantsListState extends State<RestaurantsList>{
                             topRight: Radius.circular(15),
                             bottomLeft: Radius.circular(0),
                             bottomRight: Radius.circular(0)),
-                        child:  Image.network(
-                          getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
-                          height: 200.0,
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.cover,
+                        child:  Stack(
+                          children: [
+                            Center(child: Image.asset('assets/images/food.png')),
+                            Image.network(
+                              getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
+                              height: 200.0,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
                         )),
                   ],
                 )),
@@ -184,11 +189,11 @@ class RestaurantsListState extends State<RestaurantsList>{
                                 child: Row(
                                   children: [
                                     SvgPicture.asset('assets/svg_images/rest_star.svg',
-                                      color: Colors.white,
+                                      color: AppColor.textColor,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 3.0),
-                                      child: Text(restaurant.meta.rating.toString(),
+                                      child: Text("5.0",
                                         style: TextStyle(
                                             color: AppColor.unselectedTextColor
                                         ),
