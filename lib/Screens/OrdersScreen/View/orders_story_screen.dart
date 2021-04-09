@@ -172,7 +172,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
       child: Scaffold(
           body: Column(
             children: [
-              ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'История зазказов',),
+              ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'История заказов',),
               Divider(height: 1.0, color: Colors.grey),
               FutureBuilder<OrderDetailsModel>(
                   future: getClientStoryOrders(),

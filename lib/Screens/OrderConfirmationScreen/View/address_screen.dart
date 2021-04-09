@@ -1091,7 +1091,7 @@ class AddressScreenState extends State<AddressScreen>
                                 '',
                                 '',
                                 '',
-                                commentField.text
+                                commentField.text,
                             );
                           } else {
                             if(addressSelectorKey.currentState.myFavouriteAddressesModel.address == null

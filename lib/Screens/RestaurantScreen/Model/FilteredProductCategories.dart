@@ -41,7 +41,7 @@ class FilteredProductCategories {
     name: json["name"] == null ? null : json["name"],
     priority: json["priority"] == null ? null : json["priority"],
     parentUuid: json["parent_uuid"] == null ? null : json["parent_uuid"],
-    count: json["count"] == null ? null : json["count"],
+    count: json["products_count"] == null ? null : json["products_count"],
     meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
   );
 
@@ -50,17 +50,22 @@ class FilteredProductCategories {
     "name": name == null ? null : name,
     "priority": priority == null ? null : priority,
     "parent_uuid": parentUuid == null ? null : parentUuid,
-    "count": count == null ? null : count,
+    "products_count": count == null ? null : count,
     "meta": meta == null ? null : meta.toJson(),
   };
 }
 
 class Meta {
-  Meta();
+  Meta({
+    this.images,
+  });
+  List<String> images;
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
+    images: (json["images"] == null) ? null :  List<String>.from(json["images"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {
+    "images": (images != null) ? List<dynamic>.from(images.map((x) => x)) : null,
   };
 }

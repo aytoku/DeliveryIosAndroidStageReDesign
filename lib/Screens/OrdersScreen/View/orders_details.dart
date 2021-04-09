@@ -480,7 +480,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 Padding(
                   padding: EdgeInsets.only(),
                   child: Text(
-                    (ordersDetailsModelItem.deliveryPrice.toStringAsFixed(0)).toString() + ' \₽',
+                    (ordersDetailsModelItem.deliveryTariff.price).toString() + ' \₽',
                     style: TextStyle(
                         color: Colors.black, fontSize: 18),
                   ),

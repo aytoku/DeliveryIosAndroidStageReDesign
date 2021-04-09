@@ -170,29 +170,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: ListTile(
-            leading: SvgPicture.asset('assets/svg_images/pay.svg'),
-            title: Text(
-              'Способы оплаты',
-              style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-            ),
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => new PaymentScreen(),
-                  ),
-                );
-              } else {
-                noConnection(context);
-              }
-            },
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
+        //   child: ListTile(
+        //     leading: SvgPicture.asset('assets/svg_images/pay.svg'),
+        //     title: Text(
+        //       'Способы оплаты',
+        //       style: TextStyle(
+        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+        //     ),
+        //     onTap: () async {
+        //       if (await Internet.checkConnection()) {
+        //         Navigator.push(
+        //           context,
+        //           new MaterialPageRoute(
+        //             builder: (context) => new PaymentScreen(),
+        //           ),
+        //         );
+        //       } else {
+        //         noConnection(context);
+        //       }
+        //     },
+        //   ),
+        // ),
         Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 10),
           child: ListTile(
@@ -332,8 +332,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   }
 
 
+
   @override
   Widget build(BuildContext context) {
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
           statusBarColor: Colors.white,
@@ -370,13 +372,14 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             bloc: BlocProvider.of<RestaurantGetBloc>(context),
             builder: (BuildContext context,
                 RestaurantGetState state) {
-              if(state is RestaurantGetStateLoading)
+              if(state is RestaurantGetStateLoading){
                 return Center(
                   child: SpinKitFadingCircle(
                     color: AppColor.mainColor,
                     size: 50.0,
                   ),
                 );
+              }
               else if(state is RestaurantGetStateSuccess){
                 recordsItems.clear();
                 recordsItems.addAll(state.items);

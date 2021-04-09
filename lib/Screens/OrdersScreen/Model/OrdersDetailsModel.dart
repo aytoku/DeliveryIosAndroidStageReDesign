@@ -48,6 +48,7 @@ class OrderDetailsModelItem {
     this.eatInStore,
     this.deliveryType,
     this.deliveryPrice,
+    this.deliveryTariff,
     this.deliveryAddress,
     this.cookingTime,
     this.cookingTimeFinish,
@@ -65,6 +66,7 @@ class OrderDetailsModelItem {
   String deviceId;
   String clientUuid;
   ClientData clientData;
+  DeliveryTariff deliveryTariff;
   String source;
   String state;
   String callbackPhone;
@@ -94,6 +96,7 @@ class OrderDetailsModelItem {
     deviceId: json["device_id"],
     clientUuid: json["client_uuid"],
     clientData: ClientData.fromJson(json["client_data"]),
+    deliveryTariff: json["delivery_tariff"] == null ? null : DeliveryTariff.fromJson(json["delivery_tariff"]),
     source: json["source"],
     state: json["state"],
     callbackPhone: json["callback_phone"],
@@ -126,6 +129,7 @@ class OrderDetailsModelItem {
     "client_data": clientData.toJson(),
     "source": source,
     "state": state,
+    "delivery_tariff": deliveryTariff == null ? null : deliveryTariff.toJson(),
     "callback_phone": callbackPhone,
     "comment": comment,
     "items": List<dynamic>.from(items.map((x) => x.toJson())),
@@ -551,5 +555,53 @@ class StoreDataMeta {
     "avg_delivery_time": avgDeliveryTime == null ? null : avgDeliveryTime,
     "avg_delivery_price": avgDeliveryPrice == null ? null : avgDeliveryPrice,
     "confirmation_time": confirmationTime == null ? null : confirmationTime,
+  };
+}
+
+class DeliveryAddressDetails {
+  DeliveryAddressDetails({
+    this.entrance,
+    this.floor,
+    this.apartment,
+    this.intercom,
+  });
+
+  final String entrance;
+  final String floor;
+  final String apartment;
+  final String intercom;
+
+  factory DeliveryAddressDetails.fromJson(Map<String, dynamic> json) => DeliveryAddressDetails(
+    entrance: json["entrance"] == null ? null : json["entrance"],
+    floor: json["floor"] == null ? null : json["floor"],
+    apartment: json["apartment"] == null ? null : json["apartment"],
+    intercom: json["intercom"] == null ? null : json["intercom"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "entrance": entrance == null ? null : entrance,
+    "floor": floor == null ? null : floor,
+    "apartment": apartment == null ? null : apartment,
+    "intercom": intercom == null ? null : intercom,
+  };
+}
+
+class DeliveryTariff {
+  DeliveryTariff({
+    this.price,
+    this.estimatedTime,
+  });
+
+  final int price;
+  final int estimatedTime;
+
+  factory DeliveryTariff.fromJson(Map<String, dynamic> json) => DeliveryTariff(
+    price: json["price"] == null ? null : json["price"],
+    estimatedTime: json["estimated_time"] == null ? null : json["estimated_time"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "price": price == null ? null : price,
+    "estimated_time": estimatedTime == null ? null : estimatedTime,
   };
 }

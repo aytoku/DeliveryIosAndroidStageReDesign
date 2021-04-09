@@ -326,12 +326,40 @@ class GroceryScreenState extends State<GroceryScreen>{
                     padding: EdgeInsets.zero,
                     children: List.generate(snapshot.data.filteredProductCategories.length, (index){
                       return InkWell(
-                        child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Text(snapshot.data.filteredProductCategories[index].name),
-                            )
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                  height: 70,
+                                  width: 50,
+                                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                                  child: Image.network(
+                                    snapshot.data.filteredProductCategories[index].meta.images[0],
+                                    fit: BoxFit.cover,
+                                  )
+                              ),
+                              Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Text(snapshot.data.filteredProductCategories[index].name),
+                                  )
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFEEEEEE),
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                  child: Text(
+                                      snapshot.data.filteredProductCategories[index].count.toString(),
+                                    style: TextStyle(
+                                      color: Color(0xFF4D9D46)
+                                    ),
+                                  ))
+                            ],
+                          ),
                         ),
                         onTap: () async{
                          var categoriesFilter = await getFilteredProductCategories(
