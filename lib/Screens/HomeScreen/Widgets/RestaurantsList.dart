@@ -138,11 +138,16 @@ class RestaurantsListState extends State<RestaurantsList>{
                             topRight: Radius.circular(15),
                             bottomLeft: Radius.circular(0),
                             bottomRight: Radius.circular(0)),
-                        child:  Image.network(
-                          getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
-                          height: 200.0,
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.cover,
+                        child:  Stack(
+                          children: [
+                            Center(child: Image.asset('assets/images/food.png')),
+                            Image.network(
+                              getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
+                              height: 200.0,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
                         )),
                   ],
                 )),

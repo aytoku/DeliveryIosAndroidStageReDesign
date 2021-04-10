@@ -718,6 +718,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       child: ClipRRect(
                           child: Stack(
                             children: <Widget>[
+                              Image.asset('assets/images/fermer.png', fit: BoxFit.fill,),
                               Image.network(
                                 getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
                                 fit: BoxFit.cover,
