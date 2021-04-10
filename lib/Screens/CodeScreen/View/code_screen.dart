@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/AuthScreen/API/auth_data_pass.dart';
+import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/Model/Auth.dart';
 import 'package:flutter_app/Screens/CodeScreen/API/auth_code_data_pass.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_event.dart';
@@ -17,13 +18,7 @@ import 'package:flutter_app/Screens/NameScreen/View/name_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'dart:async';
-
-import '../../../Amplitude/amplitude.dart';
-import '../../../Centrifugo/centrifugo.dart';
-import '../../../data/data.dart';
 import '../../../data/data.dart';
 import '../../AuthScreen/View/auth_screen.dart';
 
@@ -265,6 +260,7 @@ class CodeScreenState extends State<CodeScreen> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 28),
                                           keyboardType: TextInputType.number,
+                                          cursorColor: AppColor.mainColor,
                                           maxLength: 2,
                                           decoration: new InputDecoration(
                                             enabledBorder:
@@ -293,6 +289,7 @@ class CodeScreenState extends State<CodeScreen> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 28),
                                           keyboardType: TextInputType.number,
+                                          cursorColor: AppColor.mainColor,
                                           maxLength: 2,
                                           decoration: new InputDecoration(
                                             enabledBorder:
@@ -324,6 +321,7 @@ class CodeScreenState extends State<CodeScreen> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 28),
                                           keyboardType: TextInputType.number,
+                                          cursorColor: AppColor.mainColor,
                                           maxLength: 2,
                                           decoration: new InputDecoration(
                                             enabledBorder:
@@ -363,11 +361,12 @@ class CodeScreenState extends State<CodeScreen> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(fontSize: 28),
                                         keyboardType: TextInputType.number,
+                                        cursorColor: AppColor.mainColor,
                                         maxLength: 2,
                                         decoration: new InputDecoration(
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                                color: AppColor.mainColor),
+                                                color: AppColor.mainColor,width: 1),
                                           ),
                                           counterText: '',
                                         ),
@@ -387,7 +386,7 @@ class CodeScreenState extends State<CodeScreen> {
                   alignment: Alignment.topCenter,
                   child: Padding(
                     padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.3, ),
+                        top: MediaQuery.of(context).size.height * 0.4, ),
                     child: Text(
                       state.error,
                       style: TextStyle(
@@ -399,7 +398,10 @@ class CodeScreenState extends State<CodeScreen> {
                   alignment: Alignment.bottomCenter,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 90, top: 15),
-                    child: new TimerCountDown(codeScreenState: this),
+                    child: BlocProvider(
+                      create: (context)=> AuthGetBloc(),
+                      child: new TimerCountDown(codeScreenState: this),
+                    )
                   ),
                 ),
                 Align(

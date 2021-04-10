@@ -25,6 +25,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/Sl
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverText.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/sliverAppBar.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ItemsPadding.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +39,7 @@ import '../../../data/data.dart';
 import '../../../data/globalVariables.dart';
 import '../../CartScreen/API/clear_cart.dart';
 import '../API/add_variant_to_cart.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ItemsPadding.dart';
 import '../API/get_filtered_product_categories.dart';
 import '../Model/FilteredProductCategories.dart';
 import '../Model/ProductDataModel.dart';
@@ -66,6 +68,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   GlobalKey<ProductDescCounterState> counterKey;
   GlobalKey<CartButtonState> basketButtonStateKey;
   GlobalKey<SliverShadowState> sliverShadowKey;
+  GlobalKey<ItemsPaddingState> itemsPaddingKey;
   bool isLoading = true;
 
   GlobalKey<ScaffoldState> _scaffoldStateKey;
@@ -91,6 +94,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     basketButtonStateKey = new GlobalKey<CartButtonState>();
     _scaffoldStateKey = GlobalKey();
     sliverAppBarKey = GlobalKey();
+    itemsPaddingKey = GlobalKey();
     sliverScrollController = new ScrollController();
 
     // Инициализируем список категорий
@@ -718,7 +722,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       child: ClipRRect(
                           child: Stack(
                             children: <Widget>[
-                              Image.asset('assets/images/fermer.png', fit: BoxFit.fill,),
+                              Image.asset('assets/images/food.png', fit: BoxFit.fill,),
                               Image.network(
                                 getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
                                 fit: BoxFit.cover,
@@ -932,7 +936,12 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 color: AppColor.themeColor
                             ),
                             child: Column(
-                                children: sliverChildren
+                              children: [
+                                Column(
+                                    children: sliverChildren,
+                                ),
+                                ItemsPadding(key: itemsPaddingKey,)
+                              ],
                             ),
                           ),
                         );
@@ -1114,13 +1123,17 @@ class RestaurantScreenState extends State<RestaurantScreen> {
               physics: BouncingScrollPhysics(),
               padding: EdgeInsets.zero,
               crossAxisCount: 2,
-              itemCount: menuWithTitles.length,
-              itemBuilder: (BuildContext context, int index) => menuWithTitles[index],
+              itemCount: menuWithTitles.length+1,
+              itemBuilder: (BuildContext context, int index) => (index == menuWithTitles.length) ? ItemsPadding(key: itemsPaddingKey,) : menuWithTitles[index],
               staggeredTileBuilder: (int index) {
+                if(index == menuWithTitles.length)
+                  return StaggeredTile.extent(2, 80);
+
                 if (menuWithTitles[index] is MenuItemTitle) {
                   return StaggeredTile.extent(2, 50);
                 }
                 return StaggeredTile.extent(1, 300);
+
               },
               mainAxisSpacing: 10.0,
               crossAxisSpacing: 0.0,
@@ -1207,7 +1220,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
               } else {
                 return Center(
                   child: SpinKitFadingCircle(
-                    color: Colors.green,
+                    color: AppColor.mainColor,
                     size: 50.0,
                   ),
                 );

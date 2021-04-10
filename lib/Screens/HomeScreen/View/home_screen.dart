@@ -25,6 +25,7 @@ import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.da
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +53,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   List<OrderChecking> orderList;
   List<FilteredStores> recordsItems;
   GlobalKey<ScaffoldState> _scaffoldKey;
+  List<Widget> stocksItems;
+  ScrollController stocksScrollController;
   GlobalKey<CartButtonState> basketButtonStateKey;
   Filter filter;
   RestaurantsList restaurantsList;
@@ -71,6 +74,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    stocksScrollController = new ScrollController();
     Future.delayed(Duration.zero, () {
 
       checkVer(context);
@@ -91,6 +95,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    stocksScrollController.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -242,29 +247,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
         //     },
         //   ),
         // ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: ListTile(
-            leading: SvgPicture.asset('assets/svg_images/service.svg'),
-            title: Text(
-              'Служба поддержки',
-              style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-            ),
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => new ChatScreen(),
-                  ),
-                );
-              } else {
-                noConnection(context);
-              }
-            },
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
+        //   child: ListTile(
+        //     leading: SvgPicture.asset('assets/svg_images/service.svg'),
+        //     title: Text(
+        //       'Служба поддержки',
+        //       style: TextStyle(
+        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+        //     ),
+        //     onTap: () async {
+        //       if (await Internet.checkConnection()) {
+        //         Navigator.push(
+        //           context,
+        //           new MaterialPageRoute(
+        //             builder: (context) => new ChatScreen(),
+        //           ),
+        //         );
+        //       } else {
+        //         noConnection(context);
+        //       }
+        //     },
+        //   ),
+        // ),
       ]);
       allSideBarItems.add(
         Padding(
@@ -353,10 +358,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                     padding: const EdgeInsets.only(top: 60),
                     child: Center(
                       child: Image(
-                        height: 97,
-                        width: 142,
-                        image: AssetImage('assets/images/faem.png'),
-                      ),
+                        image: AssetImage('assets/images/fermer_logo.png'),
+                      )
                     ),
                   ),
                   Expanded(
@@ -373,10 +376,21 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             builder: (BuildContext context,
                 RestaurantGetState state) {
               if(state is RestaurantGetStateLoading){
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: AppColor.mainColor
+                  ),
+                  child: Center(
+                    child: Image(
+                      image: assetImage
+                    ),
+                  ),
+                );
                 return Center(
-                  child: SpinKitFadingCircle(
-                    color: AppColor.mainColor,
-                    size: 50.0,
+                  child: Image(
+                    image: AssetImage('assets/images/fermer.png'),
                   ),
                 );
               }
@@ -452,18 +466,75 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 10, left: 16, right: 15, bottom: 10),
-                    //   child: FutureBuilder<StockData>(
-                    //       future: getStocks(necessaryDataForAuth.city.uuid),
-                    //       builder: (BuildContext context, AsyncSnapshot<StockData> snapshot) {
-                    //         return Container(
-                    //           height: 100,
-                    //           child: StocksList(stocks: snapshot.data.stockList,),
-                    //         );
-                    //       }
-                    //   ),
-                    // ),
+                    FutureBuilder<List<Stock>>(
+                        future: getStocks(necessaryDataForAuth.city.uuid),
+                        builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
+                          return (snapshot.connectionState == ConnectionState.done) ? Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Акции и новинки',
+                                      style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, left: 16, right: 15, bottom: 10),
+                                  child: Container(
+                                    height: 100,
+                                    child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        shrinkWrap: false,
+                                        scrollDirection: Axis.horizontal,
+                                        controller: stocksScrollController,
+                                        itemCount: snapshot.data.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            child: Card(
+                                              child: Container(
+                                                width: 180,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                ),
+                                                child: Image.network(snapshot.data[index].image, fit: BoxFit.cover,),
+                                              ),
+                                            ),
+                                            onTap: (){
+                                              var stock = snapshot.data[index];
+                                              if(stock.storesUuid != null && stock.storesUuid.isNotEmpty){
+
+                                                int restIndex = recordsItems.indexWhere((element) {
+                                                  return element.uuid == stock.storesUuid[0];
+                                                });
+
+                                                if(restIndex == -1)
+                                                  return;
+
+                                                Navigator.push(
+                                                  context,
+                                                  new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                    new RestaurantScreen(restaurant: recordsItems[restIndex]),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          );
+                                        }),
+                                  )
+                              ),
+                            ],
+                          ) : Container();
+                        }
+                    ),
                     Expanded(
                       child: ListView(
                         physics: BouncingScrollPhysics(),
@@ -551,18 +622,18 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     createMessage('ka');
                           //   },
                           // ),
-                          Padding(
-                            padding:
-                            EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text('Рестораны', // нужно добавить цвет для текста
-                                // в некоторых прилагах и черный и белый текст
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  color: Color(0xFF3F3F3F),
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.2,
-                                )),
-                          ),
+                          // Padding(
+                          //   padding:
+                          //   EdgeInsets.symmetric(horizontal: 20.0),
+                          //   child: Text('Рестораны', // нужно добавить цвет для текста
+                          //       // в некоторых прилагах и черный и белый текст
+                          //       style: TextStyle(
+                          //         fontSize: 28,
+                          //         color: Color(0xFF3F3F3F),
+                          //         fontWeight: FontWeight.bold,
+                          //         letterSpacing: 1.2,
+                          //       )),
+                          // ),
                           filter = Filter(this),
                           (recordsItems.isEmpty) ?  Center(
                             child: Container(),

@@ -52,7 +52,6 @@ class MenuItem extends StatefulWidget {
 class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   final ProductsByStoreUuid restaurantDataItems;
   final RestaurantScreenState parent;
-  bool cartBottomPadding = false;
 
 
   MenuItemState(this.restaurantDataItems, this.parent);
@@ -103,7 +102,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
         color: AppColor.themeColor,
         child: Padding(
           padding: EdgeInsets.only(top: 15.0, left: 15, right: 15,
-              bottom: (cartBottomPadding) ? 110 : 15),
+              bottom:  15),
           child: Center(
               child: GestureDetector(
                   onTap: () async {
@@ -188,6 +187,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                     bottomRight: Radius.circular(15)),
                                 child: Stack(
                                   children: [
+                                    Image.asset('assets/images/food.png', fit: BoxFit.fill,),
                                     Image.network(
                                       getImage((restaurantDataItems
                                           .meta.images !=
@@ -239,10 +239,15 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(10),
                       topLeft: Radius.circular(10)),
-                  child: Image.network(
-                    getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Image.asset('assets/images/food.png', fit: BoxFit.fill,),
+                      Image.network(
+                        getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ],
                   ),),
               ),
               Container(
@@ -650,6 +655,14 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                       setState(() {
 
                                                                       });
+
+                                                                      // Добавляем паддинг в конец
+                                                                      if(parent.itemsPaddingKey.currentState != null){
+                                                                        parent.itemsPaddingKey.currentState.setState(() {
+
+                                                                        });
+                                                                      }
+
                                                                       parent.showAlertDialog(context);
                                                                       if(parent.basketButtonStateKey.currentState != null){
                                                                         parent.basketButtonStateKey.currentState.refresh();

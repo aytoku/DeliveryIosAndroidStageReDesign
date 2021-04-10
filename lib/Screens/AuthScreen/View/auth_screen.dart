@@ -158,6 +158,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                       style: TextStyle(fontSize: 18),
                                       textAlign: TextAlign.start,
                                       maxLength: 16,
+                                      cursorColor: AppColor.mainColor,
                                       keyboardType: TextInputType.number,
                                       decoration: new InputDecoration(
                                         border: OutlineInputBorder(

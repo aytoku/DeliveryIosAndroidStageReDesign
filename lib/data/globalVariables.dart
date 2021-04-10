@@ -22,6 +22,7 @@ String FCMToken = '';
 int code = 0;
 NecessaryDataForAuth necessaryDataForAuth = new NecessaryDataForAuth(phone_number: null, refresh_token: null, device_id: null, name: null);
 FilteredCities selectedCity;
-String header = 'eda/faem';
+String header = 'eda/fermer-market';
 FilteredProductCategories selectedCategoriesUuid;
 String tempClientUuid = '';
+AssetImage assetImage = AssetImage('assets/gif/preloader_fermer.gif');

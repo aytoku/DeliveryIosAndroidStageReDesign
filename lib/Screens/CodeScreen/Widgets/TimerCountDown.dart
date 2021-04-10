@@ -1,6 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_event.dart';
+import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
+import 'package:flutter_app/Screens/CodeScreen/Bloc/code_event.dart';
+import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../View/code_screen.dart';
 
@@ -20,9 +25,20 @@ class TimerCountDown extends StatefulWidget {
 class TimerCountDownState extends State<TimerCountDown> {
   TimerCountDownState({this.codeScreenState});
 
+
   final CodeScreenState codeScreenState;
+  AuthGetBloc authGetBloc;
   Timer _timer;
   int _start = 60;
+
+
+  @override
+  void initState() {
+
+    authGetBloc = BlocProvider.of<AuthGetBloc>(context);
+
+    super.initState();
+  }
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -65,7 +81,8 @@ class TimerCountDownState extends State<TimerCountDown> {
         style: TextStyle(),
       ),
       onTap: () {
-        codeScreenState.setState(() {});
+        authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone));
+        //codeScreenState.setState(() {});
       },
     );
   }
