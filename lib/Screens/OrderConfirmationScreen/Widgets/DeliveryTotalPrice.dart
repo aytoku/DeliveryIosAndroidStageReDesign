@@ -28,7 +28,7 @@ class DeliveryTotalPriceState extends State<DeliveryTotalPrice>{
     }else{
       deliveryTariff = new DeliveryTariff(price: 0);
     }
-    double totalPrice = currentUser.cartModel.totalPrice + deliveryTariff.price;
+    double totalPrice = currentUser.cartModel.totalPrice + deliveryTariff.price - currentUser.cartModel.promotion.amount;
     // TODO: implement build
 
     return Text(

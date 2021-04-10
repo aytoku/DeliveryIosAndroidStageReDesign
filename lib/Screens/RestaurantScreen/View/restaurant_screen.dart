@@ -1209,7 +1209,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         FutureBuilder<ProductsByStoreUuidData>(
             future: (restaurant.type == 'grocery')
                 ? getFilteredProduct(selectedCategoriesUuid.uuid, '')
-                : getFilteredProduct('', restaurant.uuid),
+                : getSortedProductsByStoreUuid('', restaurant),
             initialData: null,
             builder: (BuildContext context,
                 AsyncSnapshot<ProductsByStoreUuidData> snapshot) {

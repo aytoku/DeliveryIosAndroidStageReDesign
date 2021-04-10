@@ -20,6 +20,7 @@ import 'package:flutter_app/Screens/HomeScreen/Model/Stock.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/RestaurantsList.dart';
+import 'package:flutter_app/Screens/HomeScreen/View/promo_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/StockList.dart';
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
@@ -467,76 +468,66 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         ],
                       ),
                     ),
-                    // FutureBuilder<List<Stock>>(
-                    //     future: getStocks(necessaryDataForAuth.city.uuid),
-                    //     builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
-                    //       return (snapshot.connectionState == ConnectionState.done) ? Column(
-                    //         children: [
-                    //           Padding(
-                    //             padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
-                    //             child: Row(
-                    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //               children: [
-                    //                 Text('Акции и новинки',
-                    //                   style: TextStyle(
-                    //                       fontSize: 28,
-                    //                       fontWeight: FontWeight.bold
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //           Padding(
-                    //               padding: const EdgeInsets.only(
-                    //                   top: 10, left: 16, right: 15, bottom: 10),
-                    //               child: Container(
-                    //                 height: 100,
-                    //                 child: ListView.builder(
-                    //                     physics: BouncingScrollPhysics(),
-                    //                     shrinkWrap: false,
-                    //                     scrollDirection: Axis.horizontal,
-                    //                     controller: stocksScrollController,
-                    //                     itemCount: snapshot.data.length,
-                    //                     itemBuilder: (context, index) {
-                    //                       return InkWell(
-                    //                         child: Card(
-                    //                           child: Container(
-                    //                             width: 180,
-                    //                             decoration: BoxDecoration(
-                    //                               borderRadius: BorderRadius.circular(5.0),
-                    //                             ),
-                    //                             child: Image.network(snapshot.data[index].image, fit: BoxFit.cover,),
-                    //                           ),
-                    //                         ),
-                    //                         onTap: (){
-                    //                           var stock = snapshot.data[index];
-                    //                           if(stock.stores != null && stock.stores.isNotEmpty){
-                    //                             var  restaurant = stock.stores[0];
-                    //                             if(restaurant.type == 'restaurant'){
-                    //                               Navigator.push(
-                    //                                 context,
-                    //                                 MaterialPageRoute(builder: (_) {
-                    //                                   return RestaurantScreen(restaurant: restaurant);
-                    //                                 }),
-                    //                               );
-                    //                             }else{
-                    //                               Navigator.push(
-                    //                                 context,
-                    //                                 MaterialPageRoute(builder: (_) {
-                    //                                   return GroceryScreen(restaurant: restaurant);
-                    //                                 }),
-                    //                               );
-                    //                             }
-                    //                           }
-                    //                         },
-                    //                       );
-                    //                     }),
-                    //               )
-                    //           ),
-                    //         ],
-                    //       ) : Container();
-                    //     }
-                    // ),
+                    FutureBuilder<List<Stock>>(
+                        future: getStocks(necessaryDataForAuth.city.uuid),
+                        builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
+                          return (snapshot.connectionState == ConnectionState.done) ? Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Акции и новинки',
+                                      style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, left: 16, right: 15, bottom: 10),
+                                  child: Container(
+                                    height: 100,
+                                    child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        shrinkWrap: false,
+                                        scrollDirection: Axis.horizontal,
+                                        controller: stocksScrollController,
+                                        itemCount: snapshot.data.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            child: Card(
+                                              child: Container(
+                                                width: 180,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                ),
+                                                child: Image.network(snapshot.data[index].image, fit: BoxFit.cover,),
+                                              ),
+                                            ),
+                                            onTap: (){
+                                              var stock = snapshot.data[index];
+                                              if(stock.stores != null && stock.stores.isNotEmpty){
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (_) {
+                                                    return PromoScreen(stock: stock,);
+                                                  }),
+                                                );
+                                              }
+                                            },
+                                          );
+                                        }),
+                                  )
+                              ),
+                            ],
+                          ) : Container();
+                        }
+                    ),
                     Expanded(
                       child: ListView(
                         physics: BouncingScrollPhysics(),

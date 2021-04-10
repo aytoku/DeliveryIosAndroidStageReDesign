@@ -38,9 +38,6 @@ class PromoTextState extends State<PromoText>{
   }
 
   promoCodeAlert(BuildContext context) {
-    Future.delayed(Duration(seconds: 1), () {
-      Navigator.of(context).pop(true);
-    });
     showDialog(
       context: context,
       builder: (BuildContext context) {

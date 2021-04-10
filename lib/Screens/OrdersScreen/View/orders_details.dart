@@ -129,7 +129,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
 
 
   List<Widget> _buildListItems(){
-    double totalPrice = ordersDetailsModelItem.totalPrice.toDouble();
+    double totalPrice = ordersDetailsModelItem.totalPrice.toDouble() - ordersDetailsModelItem.promotion.amount;
     var format = new DateFormat('  HH:mm    dd.MM.yyyy');
     List<Widget> result = new List<Widget>();
     if(ordersDetailsModelItem == null || ordersDetailsModelItem.items == null){
@@ -165,7 +165,8 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     style: TextStyle(fontSize: 18, color: Color(0xFF000000)),
                   ),
                   Text(
-                    '${ordersDetailsModelItem.totalPrice.toStringAsFixed(0)} \₽',
+                    '${ordersDetailsModelItem.promotion == null ? ordersDetailsModelItem.totalPrice.toStringAsFixed(0):
+                    (ordersDetailsModelItem.totalPrice - ordersDetailsModelItem.promotion.amount).toStringAsFixed(0) } \₽',
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -487,6 +488,29 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 ),
               ],
             )
+        ),
+        Visibility(
+          visible: (ordersDetailsModelItem.promotion == null
+          || ordersDetailsModelItem.promotion.amount == 0) ? false : true,
+          child: Padding(
+            padding: EdgeInsets.only(
+                top: 15, left: 17, bottom: 5, right: 17),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Скидка',
+                  style:
+                  TextStyle(color: Colors.red, fontSize: 14),
+                ),
+                Text(
+                  (ordersDetailsModelItem.promotion == null) ? '' : '-${ordersDetailsModelItem.promotion.amount} \₽',
+                  style:
+                  TextStyle(color: Colors.red, fontSize: 14),
+                )
+              ],
+            ),
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -812,7 +812,8 @@ class AddressScreenState extends State<AddressScreen>
                           child: DeliveryInfo(parent: this,)
                         ),
                         Visibility(
-                          visible: (currentUser.cartModel.promotion.uuid == '') ? false : true,
+                          visible: (currentUser.cartModel.promotion == null ||
+                          currentUser.cartModel.promotion.uuid == '') ? false : true,
                           child: Padding(
                             padding: EdgeInsets.only(
                                 top: 15, left: 17, bottom: 5, right: 17),
@@ -825,7 +826,7 @@ class AddressScreenState extends State<AddressScreen>
                                   TextStyle(color: Colors.red, fontSize: 14),
                                 ),
                                 Text(
-                                  (currentUser.cartModel.promotion == null) ? '' : '-${currentUser.cartModel.promotion.amount}%',
+                                  (currentUser.cartModel.promotion == null) ? '' : '-${currentUser.cartModel.promotion.amount} \₽',
                                   style:
                                   TextStyle(color: Colors.red, fontSize: 14),
                                 )

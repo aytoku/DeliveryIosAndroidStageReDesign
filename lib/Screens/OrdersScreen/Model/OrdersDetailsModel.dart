@@ -57,6 +57,7 @@ class OrderDetailsModelItem {
     this.cancelReason,
     this.cancelComment,
     this.createdAt,
+    this.promotion
   });
 
   String uuid;
@@ -87,6 +88,7 @@ class OrderDetailsModelItem {
   String cancelReason;
   String cancelComment;
   DateTime createdAt;
+  Promotion promotion;
 
   factory OrderDetailsModelItem.fromJson(Map<String, dynamic> json) => OrderDetailsModelItem(
     uuid: json["uuid"],
@@ -117,6 +119,7 @@ class OrderDetailsModelItem {
     cancelReason: json["cancel_reason"],
     cancelComment: json["cancel_comment"],
     createdAt: DateTime.parse(json["created_at"]),
+    promotion: json["promotion"] == null ? null : Promotion.fromJson(json["promotion"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -148,6 +151,7 @@ class OrderDetailsModelItem {
     "cancel_reason": cancelReason,
     "cancel_comment": cancelComment,
     "created_at": createdAt.toIso8601String(),
+    "promotion": promotion == null ? null : promotion.toJson(),
   };
 }
 

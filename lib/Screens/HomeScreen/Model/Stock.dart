@@ -36,7 +36,7 @@ class Stock {
   factory Stock.fromJson(Map<String, dynamic> json) => Stock(
     uuid: json["uuid"] == null ? null : json["uuid"],
     name: json["name"] == null ? null : json["name"],
-    stores: json["stores_uuid"] == null ? null : List<FilteredStores>.from(json["stores_uuid"].map((x) => FilteredStores.fromJson(x))),
+    stores: json["stores"] == null ? null : List<FilteredStores>.from(json["stores"].map((x) => FilteredStores.fromJson(x))),
     image: json["image"] == null ? null : json["image"],
   );
 

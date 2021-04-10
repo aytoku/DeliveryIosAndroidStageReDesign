@@ -69,7 +69,9 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                           textAlign: TextAlign.start,
                           style: TextStyle(fontSize: 18, color: Color(0xFF000000))),
                       Text(
-                        '${ordersStoryModelItem.totalPrice.toStringAsFixed(0)} \₽',
+                        '${(ordersStoryModelItem.promotion == null) ?
+                        ordersStoryModelItem.totalPrice.toStringAsFixed(0):
+                        (ordersStoryModelItem.totalPrice - ordersStoryModelItem.promotion.amount).toStringAsFixed(0)} \₽',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
