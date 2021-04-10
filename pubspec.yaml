@@ -51,6 +51,7 @@ dependencies:
   pub_semver: ^1.4.4
   launch_review: ^2.0.0
   package_info: ^0.4.3+4
+  change_app_package_name: ^0.1.2
 
   bloc: ^4.0.0
   flutter_bloc: ^4.0.0
@@ -70,7 +71,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/tuk_tuk_logo.png"
+  image_path: "assets/images/fermer_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -37,6 +37,34 @@ class PromoTextState extends State<PromoText>{
     promoCodeField.dispose();
   }
 
+  promoCodeAlert(BuildContext context) {
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.of(context).pop(true);
+    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Padding(
+          padding: EdgeInsets.only(bottom: 500),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Промокод не действителен"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   _promoCode() {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -129,7 +157,10 @@ class PromoTextState extends State<PromoText>{
                 currentUser.cartModel = tempCartModel ?? currentUser.cartModel;
                 Navigator.pop(context);
                 setState(() {
-
+                  if(tempCartModel==null){
+                    promoCodeAlert(context);
+                    title = '  Введите\nпромокод';
+                  }
                 });
               },
             )
@@ -149,7 +180,7 @@ class PromoTextState extends State<PromoText>{
         child: InkWell(
           child: Container(
             width: 160,
-
+            height: 64,
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -166,10 +197,10 @@ class PromoTextState extends State<PromoText>{
                   top: 10, left: 15, right: 15, bottom: 10),
               child: Column(
                 children: [
-                  (promoCodeField.text != '') ? Text('Промокод применен',
+                  (title != '  Введите\nпромокод') ? Text('Промокод применен',
                     style: TextStyle(
                         color: Color(0xFFB8B8B8), fontSize: 12),) : Container(),
-                  (promoCodeField.text != '') ? Align(
+                  (title != '  Введите\nпромокод') ? Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 3, top: 10),

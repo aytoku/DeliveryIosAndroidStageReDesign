@@ -250,7 +250,7 @@ class AutocompleteListState extends State<AutocompleteList> {
             padding: const EdgeInsets.only(top: 50),
             child: Center(
               child: SpinKitThreeBounce(
-                color: Colors.green,
+                color: AppColor.mainColor,
                 size: 20.0,
               ),
             ),

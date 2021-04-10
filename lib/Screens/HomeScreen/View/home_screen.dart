@@ -25,6 +25,7 @@ import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.da
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
 import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
@@ -466,75 +467,76 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         ],
                       ),
                     ),
-                    FutureBuilder<List<Stock>>(
-                        future: getStocks(necessaryDataForAuth.city.uuid),
-                        builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
-                          return (snapshot.connectionState == ConnectionState.done) ? Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Акции и новинки',
-                                      style: TextStyle(
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, left: 16, right: 15, bottom: 10),
-                                  child: Container(
-                                    height: 100,
-                                    child: ListView.builder(
-                                        physics: BouncingScrollPhysics(),
-                                        shrinkWrap: false,
-                                        scrollDirection: Axis.horizontal,
-                                        controller: stocksScrollController,
-                                        itemCount: snapshot.data.length,
-                                        itemBuilder: (context, index) {
-                                          return InkWell(
-                                            child: Card(
-                                              child: Container(
-                                                width: 180,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(5.0),
-                                                ),
-                                                child: Image.network(snapshot.data[index].image, fit: BoxFit.cover,),
-                                              ),
-                                            ),
-                                            onTap: (){
-                                              var stock = snapshot.data[index];
-                                              if(stock.storesUuid != null && stock.storesUuid.isNotEmpty){
-
-                                                int restIndex = recordsItems.indexWhere((element) {
-                                                  return element.uuid == stock.storesUuid[0];
-                                                });
-
-                                                if(restIndex == -1)
-                                                  return;
-
-                                                Navigator.push(
-                                                  context,
-                                                  new MaterialPageRoute(
-                                                    builder: (context) =>
-                                                    new RestaurantScreen(restaurant: recordsItems[restIndex]),
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                          );
-                                        }),
-                                  )
-                              ),
-                            ],
-                          ) : Container();
-                        }
-                    ),
+                    // FutureBuilder<List<Stock>>(
+                    //     future: getStocks(necessaryDataForAuth.city.uuid),
+                    //     builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
+                    //       return (snapshot.connectionState == ConnectionState.done) ? Column(
+                    //         children: [
+                    //           Padding(
+                    //             padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
+                    //             child: Row(
+                    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //               children: [
+                    //                 Text('Акции и новинки',
+                    //                   style: TextStyle(
+                    //                       fontSize: 28,
+                    //                       fontWeight: FontWeight.bold
+                    //                   ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //           Padding(
+                    //               padding: const EdgeInsets.only(
+                    //                   top: 10, left: 16, right: 15, bottom: 10),
+                    //               child: Container(
+                    //                 height: 100,
+                    //                 child: ListView.builder(
+                    //                     physics: BouncingScrollPhysics(),
+                    //                     shrinkWrap: false,
+                    //                     scrollDirection: Axis.horizontal,
+                    //                     controller: stocksScrollController,
+                    //                     itemCount: snapshot.data.length,
+                    //                     itemBuilder: (context, index) {
+                    //                       return InkWell(
+                    //                         child: Card(
+                    //                           child: Container(
+                    //                             width: 180,
+                    //                             decoration: BoxDecoration(
+                    //                               borderRadius: BorderRadius.circular(5.0),
+                    //                             ),
+                    //                             child: Image.network(snapshot.data[index].image, fit: BoxFit.cover,),
+                    //                           ),
+                    //                         ),
+                    //                         onTap: (){
+                    //                           var stock = snapshot.data[index];
+                    //                           if(stock.stores != null && stock.stores.isNotEmpty){
+                    //                             var  restaurant = stock.stores[0];
+                    //                             if(restaurant.type == 'restaurant'){
+                    //                               Navigator.push(
+                    //                                 context,
+                    //                                 MaterialPageRoute(builder: (_) {
+                    //                                   return RestaurantScreen(restaurant: restaurant);
+                    //                                 }),
+                    //                               );
+                    //                             }else{
+                    //                               Navigator.push(
+                    //                                 context,
+                    //                                 MaterialPageRoute(builder: (_) {
+                    //                                   return GroceryScreen(restaurant: restaurant);
+                    //                                 }),
+                    //                               );
+                    //                             }
+                    //                           }
+                    //                         },
+                    //                       );
+                    //                     }),
+                    //               )
+                    //           ),
+                    //         ],
+                    //       ) : Container();
+                    //     }
+                    // ),
                     Expanded(
                       child: ListView(
                         physics: BouncingScrollPhysics(),

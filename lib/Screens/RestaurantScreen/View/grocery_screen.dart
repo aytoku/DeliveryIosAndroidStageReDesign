@@ -337,8 +337,9 @@ class GroceryScreenState extends State<GroceryScreen>{
                                       height: 70,
                                       width: 50,
                                       padding: EdgeInsets.only(top: 8, bottom: 8),
-                                      child: Image.network(
-                                        snapshot.data.filteredProductCategories[index].meta.images[0],
+                                      child: Image.network((snapshot.data.filteredProductCategories[index].meta.images != null &&
+                                          snapshot.data.filteredProductCategories[index].meta.images[0] != null) ?
+                                        snapshot.data.filteredProductCategories[index].meta.images[0] : '',
                                         fit: BoxFit.cover,
                                       )
                                   ),
