@@ -25,7 +25,7 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         body: Column(
           children: <Widget>[
             Expanded(

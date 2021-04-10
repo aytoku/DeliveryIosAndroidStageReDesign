@@ -37,7 +37,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     nameField.text = necessaryDataForAuth.name;
     // TODO: implement build
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         body: Column(
           children: <Widget>[
             Align(

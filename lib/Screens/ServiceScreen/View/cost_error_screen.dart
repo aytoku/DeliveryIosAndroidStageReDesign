@@ -57,7 +57,7 @@ class CostErrorScreenState extends State<CostErrorScreen> {
     descField.text = ticketModel.description;
     // TODO: implement build
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
             Align(

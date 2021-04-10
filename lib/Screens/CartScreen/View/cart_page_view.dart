@@ -103,7 +103,7 @@ class CartPageState extends State<CartPageScreen> {
       ),
       child: WillPopScope(
         child: Scaffold(
-          resizeToAvoidBottomPadding: false,
+          resizeToAvoidBottomInset: false,
           body: Container(
             color: AppColor.themeColor,
             child: Column(

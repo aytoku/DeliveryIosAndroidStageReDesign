@@ -26,7 +26,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         body: Container(
           color: AppColor.themeColor,
           child: Column(

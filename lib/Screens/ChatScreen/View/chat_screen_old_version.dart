@@ -65,7 +65,7 @@ class ChatScreenOldVersionState extends State<ChatScreenOldVersion> with Widgets
     }
     return Scaffold(
         key: _scaffoldKey,
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Padding(

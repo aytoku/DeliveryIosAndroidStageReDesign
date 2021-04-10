@@ -55,7 +55,7 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
     return Scaffold(
       backgroundColor: Colors.white,
         key: _scaffoldKey,
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Align(

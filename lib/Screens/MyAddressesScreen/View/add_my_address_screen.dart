@@ -54,7 +54,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
     // TODO: implement build
     return Scaffold(
       backgroundColor: AppColor.themeColor,
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: GestureDetector(
         child: Stack(
           children: <Widget>[
