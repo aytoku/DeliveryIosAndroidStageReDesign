@@ -4,6 +4,7 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_event.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_state.dart';
+import 'package:flutter_app/Screens/AuthScreen/Widgets/AuthButton.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
@@ -29,7 +30,7 @@ class _AuthScreenState extends State<AuthScreen> {
   AuthSources source;
   var controller;
   AuthGetBloc authGetBloc;
-  GlobalKey<ButtonState> buttonStateKey;
+  GlobalKey<AuthButtonState> buttonStateKey;
   _AuthScreenState(this.source);
 
   @override
@@ -37,7 +38,7 @@ class _AuthScreenState extends State<AuthScreen> {
     super.initState();
     authGetBloc = BlocProvider.of<AuthGetBloc>(context); // инициализация bloc
     controller = new MaskedTextController(mask: '+7 000 000-00-00');
-    buttonStateKey = new GlobalKey<ButtonState>();
+    buttonStateKey = new GlobalKey<AuthButtonState>();
     controller.afterChange = (String previous, String next){
       if(next.length > previous.length){
         controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
@@ -145,7 +146,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     'Укажите ваш номер телефона',
                                     style: TextStyle(
                                         fontSize: 18,
-                                        color: AppColor.unselectedTextColor
+                                        color: AppColor.textColor
                                     ),
                                   ),
                                 ),
@@ -157,6 +158,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                       style: TextStyle(fontSize: 18),
                                       textAlign: TextAlign.start,
                                       maxLength: 16,
+                                      cursorColor: AppColor.mainColor,
                                       keyboardType: TextInputType.number,
                                       decoration: new InputDecoration(
                                         border: OutlineInputBorder(
@@ -189,8 +191,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                           buttonStateKey.currentState.setState(() {
                                             buttonStateKey.currentState.color =
                                                 AppColor.mainColor;
-                                            buttonStateKey.currentState.buttonColor =
-                                                AppColor.unselectedTextColor;
                                           });
                                         } else if (value.length == 0 &&
                                             buttonStateKey.currentState.color !=
@@ -198,8 +198,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                           buttonStateKey.currentState.setState(() {
                                             buttonStateKey.currentState.color =
                                                 Color(0xF3F3F3F3);
-                                            buttonStateKey.currentState.buttonColor =
-                                                AppColor.textColor;
                                           });
                                         }
                                       },

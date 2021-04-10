@@ -69,7 +69,7 @@ class ProductsByStoreUuid {
     if(cats.isEmpty){
       cats.add(new ProductCategory(
           uuid: ' ',
-          name: 'Олег',
+          name: 'Категория',
           comment: ' ',
           priority: -1,
           url: ' '
@@ -146,10 +146,10 @@ class ProductsByStoreUuidMeta {
 
   factory ProductsByStoreUuidMeta.fromJson(Map<String, dynamic> json) => ProductsByStoreUuidMeta(
     description: json["description"],
-    composition: json["composition"],
     shortDescription: json["short_description"],
-    weight: json["weight"],
+    composition: json["composition"],
     oldPrice: json["old_price"],
+    weight: json["weight"],
     weightMeasurement: json["weight_measurement"],
     images: (json["images"] == null) ? null : List<String>.from(json["images"].map((x) => x)),
     energyValue: EnergyValue.fromJson(json["energy_value"]),
@@ -159,8 +159,8 @@ class ProductsByStoreUuidMeta {
     "description": description,
     "short_description": shortDescription,
     "composition": composition,
-    "weight": weight,
     "old_price": oldPrice,
+    "weight": weight,
     "weight_measurement": weightMeasurement,
     "images": List<dynamic>.from(images.map((x) => x)),
     "energy_value": energyValue.toJson(),

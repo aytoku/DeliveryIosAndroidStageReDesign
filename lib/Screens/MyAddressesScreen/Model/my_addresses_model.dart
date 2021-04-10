@@ -3,6 +3,7 @@ import 'package:flutter_app/Screens/MyAddressesScreen/API/delete_address_by_uuid
 import 'package:flutter_app/Screens/MyAddressesScreen/API/get_client_addresses.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/AddressesModel.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/InitialAddressModel.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Model/DeliveryTariff.dart';
 import '../../../data/refreshToken.dart';
 
 class MyFavouriteAddressesModel{
@@ -21,6 +22,7 @@ class MyFavouriteAddressesModel{
   String floorField;
   String officeField;
   String intercomField;
+  DeliveryTariff deliveryTariff;
 
   // useless
   String name;

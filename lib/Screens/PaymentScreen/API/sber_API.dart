@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import '../../../data/api.dart';
+import '../../../data/globalVariables.dart';
 
 class SberAPI{
 
@@ -130,7 +131,8 @@ class SberAPI{
     });
     var url = '${apiUrl}googlepay/$uuid';
     var response = await http.post(url, body: request, headers: <String, String>{
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization':'Bearer ' + authCodeData.token
     });
     print(response.body);
     if (response.statusCode == 200) {
@@ -154,7 +156,8 @@ class SberAPI{
     });
     var url = '${apiUrl}applepay/$uuid';
     var response = await http.post(url, body: request, headers: <String, String>{
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization':'Bearer ' + authCodeData.token
     });
     print(response.body);
     if (response.statusCode == 200) {

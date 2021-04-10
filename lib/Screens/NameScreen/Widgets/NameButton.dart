@@ -39,7 +39,7 @@ class NameButtonState extends State<NameButton> {
             child: Text('Далее',
                 style: TextStyle(
                     fontSize: 18.0,
-                    color: AppColor.unselectedTextColor)),
+                    color: AppColor.textColor)),
           ),
         ),
       ),

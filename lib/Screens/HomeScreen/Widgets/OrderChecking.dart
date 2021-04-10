@@ -177,7 +177,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                 padding: EdgeInsets.only(top: 5),
                                 child: Text('Обработка',
                                     style: TextStyle(
-                                        color: AppColor.unselectedTextColor,
+                                        color: AppColor.textColor,
                                         fontSize: 10)),
                               )
                             ],
@@ -236,7 +236,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                         .contains(ordersStoryModelItem.state) ||
                                         in_the_way.contains(ordersStoryModelItem.state))
                                         ? TextStyle(
-                                        color: AppColor.unselectedTextColor, fontSize: 10)
+                                        color: AppColor.textColor, fontSize: 10)
                                         : TextStyle(
                                         color: Color(0x42424242),
                                         fontSize: 10)),
@@ -267,7 +267,43 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                           ),
                         ],
                       ),
-                      (ordersStoryModelItem.withoutDelivery) ? Container() : Padding(
+                      (ordersStoryModelItem.withoutDelivery) ? Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              color: (in_the_way
+                                  .contains(ordersStoryModelItem.state))
+                                  ? AppColor.mainColor
+                                  : Color(0xF6F6F6F6)),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(top: 18),
+                                child: (in_the_way
+                                    .contains(ordersStoryModelItem.state))
+                                    ? SvgPicture.asset(
+                                    'assets/svg_images/white_ready.svg')
+                                    : SvgPicture.asset(
+                                    'assets/svg_images/ready.svg'),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 5),
+                                child: Text('Заберите',
+                                    style: (in_the_way
+                                        .contains(ordersStoryModelItem.state))
+                                        ? TextStyle(
+                                        color: AppColor.textColor, fontSize: 10)
+                                        : TextStyle(
+                                        color: Color(0x42424242),
+                                        fontSize: 10)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ) : Padding(
                         padding: EdgeInsets.only(left: 5),
                         child: Container(
                           height: 70,
@@ -295,7 +331,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                     style: (in_the_way
                                         .contains(ordersStoryModelItem.state))
                                         ? TextStyle(
-                                        color: AppColor.unselectedTextColor, fontSize: 10)
+                                        color: AppColor.textColor, fontSize: 10)
                                         : TextStyle(
                                         color: Color(0x42424242),
                                         fontSize: 10)),

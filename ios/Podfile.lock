@@ -73,6 +73,8 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.7.2):
     - GoogleUtilities/Logger
+  - launch_review (0.0.1):
+    - Flutter
   - mad_pay (0.0.1):
     - Flutter
     - SwiftProtobuf (~> 1.15)
@@ -81,6 +83,8 @@ PODS:
     - nanopb/encode (= 1.30905.0)
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
+  - package_info (0.0.1):
+    - Flutter
   - PromisesObjC (1.2.10)
   - shared_preferences (0.0.1):
     - Flutter
@@ -97,7 +101,9 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_pay (from `.symlinks/plugins/flutter_pay/ios`)
+  - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - mad_pay (from `.symlinks/plugins/mad_pay/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
@@ -131,8 +137,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_pay:
     :path: ".symlinks/plugins/flutter_pay/ios"
+  launch_review:
+    :path: ".symlinks/plugins/launch_review/ios"
   mad_pay:
     :path: ".symlinks/plugins/mad_pay/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   url_launcher:
@@ -157,8 +167,10 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 67458367830514fb20fd9e233496f1eef9d90185
   GoogleDataTransport: 672fb0ce96fe7f7f31d43672fca62ad2c9c86f7b
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
+  launch_review: 75d5a956ba8eaa493e9c9d4bf4c05e505e8d5ed0
   mad_pay: cbcb4ea59160be84bb0d7c53ad4db1d2f7e376c2
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   SwiftProtobuf: 3320217e9d8fb75f36b40282e78c482640fd75dd

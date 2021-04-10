@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/API/promo_code.dart';
 
@@ -7,12 +8,10 @@ import '../../../data/data.dart';
 class PromoText extends StatefulWidget {
   PromoText({
     this.key,
-    this.uuid,
     this.title
   }) : super(key: key);
   final GlobalKey<PromoTextState> key;
   String title;
-  String uuid;
 
   @override
   PromoTextState createState() {
@@ -24,7 +23,6 @@ class PromoTextState extends State<PromoText>{
 
   String title = '  Введите\nпромокод';
   TextEditingController promoCodeField;
-  String uuid = '';
   PromoTextState(title);
 
   @override
@@ -37,6 +35,31 @@ class PromoTextState extends State<PromoText>{
   void dispose(){
     super.dispose();
     promoCodeField.dispose();
+  }
+
+  promoCodeAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Padding(
+          padding: EdgeInsets.only(bottom: 500),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Промокод не действителен"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   _promoCode() {
@@ -118,21 +141,24 @@ class PromoTextState extends State<PromoText>{
                   child: Center(
                     child: Text('Применить',
                       style: TextStyle(
-                          fontSize: 21,
-                          color: AppColor.unselectedTextColor,
+                        fontSize: 21,
+                        color: AppColor.unselectedTextColor,
                       ),
                     ),
                   ),
                 ),
               ),
               onTap: () async {
-                setState(() {
-                  title = promoCodeField.text;
-                  uuid = widget.uuid;
-                });
-                await sendPromo(title, widget.uuid);
+                title = promoCodeField.text;
+                CartModel tempCartModel = await sendPromo(title, currentUser.cartModel.uuid);
+                currentUser.cartModel = tempCartModel ?? currentUser.cartModel;
                 Navigator.pop(context);
-                setState(() {});
+                setState(() {
+                  if(tempCartModel==null){
+                    promoCodeAlert(context);
+                    title = '  Введите\nпромокод';
+                  }
+                });
               },
             )
           ],
@@ -151,7 +177,7 @@ class PromoTextState extends State<PromoText>{
         child: InkWell(
           child: Container(
             width: 160,
-
+            height: 64,
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -168,10 +194,10 @@ class PromoTextState extends State<PromoText>{
                   top: 10, left: 15, right: 15, bottom: 10),
               child: Column(
                 children: [
-                  (promoCodeField.text != '') ? Text('Промокод применен',
+                  (title != '  Введите\nпромокод') ? Text('Промокод применен',
                     style: TextStyle(
                         color: Color(0xFFB8B8B8), fontSize: 12),) : Container(),
-                  (promoCodeField.text != '') ? Align(
+                  (title != '  Введите\nпромокод') ? Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 3, top: 10),

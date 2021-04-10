@@ -43,7 +43,7 @@ Future<CartModel> createOrder(
   var url = '${apiUrl}orders/${order_uuid}';
   var response = await http.put(url, body: json_request, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
-    'Authorization':'Bearer ' + authCodeData.token
+    'Authorization':'Bearer ' + authCodeData.token,
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);

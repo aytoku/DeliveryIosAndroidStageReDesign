@@ -10,6 +10,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/API/getProductData.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/DiscountType.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemDesc.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
@@ -18,7 +19,6 @@ import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:flutter_app/Screens/RestaurantScreen/Widgets/DiscountTape.dart';
 
 import '../../../../data/data.dart';
 import 'ItemCounter.dart';
@@ -40,7 +40,6 @@ class MenuItem extends StatefulWidget {
     });
     return result;
   }
-
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     if(restaurantDataItems.productCategories != null && restaurantDataItems.productCategories.isNotEmpty)
@@ -53,7 +52,7 @@ class MenuItem extends StatefulWidget {
 class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   final ProductsByStoreUuid restaurantDataItems;
   final RestaurantScreenState parent;
-  bool cartBottomPadding = false;
+
 
   MenuItemState(this.restaurantDataItems, this.parent);
 
@@ -82,6 +81,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
     );
   }
 
+
   @override
   bool get wantKeepAlive => true;
 
@@ -102,7 +102,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
         color: AppColor.themeColor,
         child: Padding(
           padding: EdgeInsets.only(top: 15.0, left: 15, right: 15,
-              bottom: (cartBottomPadding) ? MediaQuery.of(context).size.height * 0.15 : 15),
+              bottom:  15),
           child: Center(
               child: GestureDetector(
                   onTap: () async {
@@ -164,20 +164,6 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                 ),
                                               ),
                                             ),
-                                            // Padding(
-                                            //   padding: const EdgeInsets.only(top: 10.0, left: 15, bottom: 5),
-                                            //   child: Align(
-                                            //     alignment: Alignment.topLeft,
-                                            //     child: Text(
-                                            //       restaurantDataItems.meta.shortDescription,
-                                            //       maxLines: 3,
-                                            //       style: TextStyle(
-                                            //           fontSize: 16.0, color: Color(0xFF3F3F3F), fontWeight: FontWeight.w700),
-                                            //       textAlign: TextAlign.start,
-                                            //       overflow: TextOverflow.ellipsis,
-                                            //     ),
-                                            //   ),
-                                            // ),
                                             MenuItemDesc(foodRecords: restaurantDataItems, parent: this)
                                           ],
                                         ),
@@ -201,16 +187,21 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                     bottomRight: Radius.circular(15)),
                                 child: Stack(
                                   children: [
-                                    Image.asset('assets/images/food.png', fit: BoxFit.fill,),
+                                    Image.asset(
+                                      (restaurantDataItems
+                                          .meta.images !=
+                                          null) ? 'assets/images/food.png' : 'assets/images/food.png',
+                                      fit: BoxFit.fill,
+                                    ),
                                     Image.network(
                                       getImage((restaurantDataItems
-                                                  .meta.images !=
-                                              null)
+                                          .meta.images !=
+                                          null)
                                           ? restaurantDataItems.meta.images[0]
                                           : ''),
                                       fit: BoxFit.cover,
                                       height:
-                                          MediaQuery.of(context).size.height,
+                                      MediaQuery.of(context).size.height,
                                       width: 168,
                                     ),
                                   ],
@@ -228,7 +219,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   ))),
         ),
       );
-    } else {
+    }else {
       return GestureDetector(
         child: Container(
           margin: EdgeInsets.only(left: 10, right: 10),
@@ -253,14 +244,27 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(10),
                       topLeft: Radius.circular(10)),
-                  child: Image.network(
-                    getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Image.asset(
+                          (restaurantDataItems.meta.images != null)
+                              ? 'assets/images/food.png'
+                              : 'assets/images/food.png',
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      Image.network(
+                        getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ],
                   ),),
               ),
               Container(
-                height: 118,
+                height: 148,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
@@ -283,7 +287,22 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                         ),
                       ),
                     ),
-                    MenuItemDesc(foodRecords: restaurantDataItems, parent: this),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          padding: EdgeInsets.only(right: 0),
+                          child: Text(
+                            '${restaurantDataItems.meta.description}',
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.grey),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                      ),
+                    ),
                     Expanded(
                       child: Align(
                         alignment: Alignment.bottomCenter,
@@ -378,10 +397,11 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                 bottomRight: Radius.circular(0)),
                             child: Stack(
                               children: <Widget>[
+                                Center(child: Image.asset('assets/images/food.png')),
                                 Image.network(
                                   getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
                                   fit: BoxFit.fill,
-                                  height:300,
+                                  // height: 300,
                                   width: MediaQuery.of(context).size.width,
                                 ),
                                 // Align(
@@ -611,7 +631,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                       child: Text(
                                                                         "Добавить",
                                                                         style:
-                                                                        TextStyle(color: AppColor.unselectedTextColor, fontSize: 18),
+                                                                        TextStyle(color: AppColor.textColor, fontSize: 18),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -649,6 +669,14 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                       setState(() {
 
                                                                       });
+
+                                                                      // Добавляем паддинг в конец
+                                                                      if(parent.itemsPaddingKey.currentState != null){
+                                                                        parent.itemsPaddingKey.currentState.setState(() {
+
+                                                                        });
+                                                                      }
+
                                                                       parent.showAlertDialog(context);
                                                                       if(parent.basketButtonStateKey.currentState != null){
                                                                         parent.basketButtonStateKey.currentState.refresh();

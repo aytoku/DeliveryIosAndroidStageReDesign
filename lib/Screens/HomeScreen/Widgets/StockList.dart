@@ -5,17 +5,19 @@ import 'package:flutter_app/data/data.dart';
 
 class StocksList extends StatefulWidget {
   GlobalKey<StocksListState> key;
+  List<Stock> stocks;
 
-  StocksList({this.key}) : super(key: key);
+  StocksList({this.key, this.stocks}) : super(key: key);
 
   @override
-  StocksListState createState() => StocksListState();
+  StocksListState createState() => StocksListState(stocks);
 }
 
 class StocksListState extends State<StocksList>
     with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   List<Stock> stocks;
   ScrollController stocksScrollController;
+  StocksListState(this.stocks);
 
   @override
   bool get wantKeepAlive => true;
@@ -50,12 +52,14 @@ class StocksListState extends State<StocksList>
                     fit: BoxFit.cover,
                   ),
                 ),
+
               ],
             ),
           ),
         ),
       );
     });
+    return result;
   }
 
   @override
@@ -66,6 +70,7 @@ class StocksListState extends State<StocksList>
         child: Container(
           height: 150,
           child: ListView(
+
             controller: stocksScrollController,
             scrollDirection: Axis.horizontal,
             children: _buildStockList(),

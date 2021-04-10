@@ -109,7 +109,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                          child: Center(
                            child: Padding(
                              padding: const EdgeInsets.only(left: 8.0, right: 8),
-                             child: (!available || !open) ? Text(
+                             child: (!available) ? Text(
                                restaurant.available.reason,
                                style: TextStyle(
                                    fontSize: 12.0,
@@ -195,7 +195,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                                       padding: const EdgeInsets.only(left: 3.0),
                                       child: Text("5.0",
                                         style: TextStyle(
-                                            color: AppColor.unselectedTextColor
+                                            color: AppColor.textColor
                                         ),
                                       ),
                                     )

@@ -7,6 +7,7 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Model/PaymentMethod.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,27 +22,42 @@ class PaymentScreenState extends State<PaymentScreen> {
 
   bool isSelected = false;
   bool change = false;
-  List<Map<String, String>> paymentMethods;
-  String selectedPaymentName;
+  List<PaymentMethod> paymentMethods;
+  PaymentMethod selectedPaymentMethod;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     paymentMethods = [
-      {
-        "name": "Наличными",
-        "image": "assets/svg_images/dollar_bills.svg",
-        "tag": "cash"
-      },
-      {
-        "name": (Platform.isIOS) ? "ApplePay" : "GooglePay",
-        "image": (Platform.isIOS) ? "assets/svg_images/apple_pay.svg"
-            : "assets/svg_images/google_pay.svg",
-        "tag": "virtualCardPayment"
-      },
+      PaymentMethod(
+        name: "Наличными",
+        image: "assets/svg_images/dollar_bills.svg",
+        tag: "cash",
+        outputTag: "cash"
+      ),
+      PaymentMethod(
+          name: (Platform.isIOS) ? "ApplePay" : "GooglePay",
+          image: (Platform.isIOS) ? "assets/svg_images/apple_pay.svg"
+          : "assets/svg_images/google_pay.svg",
+          tag: "virtualCardPayment",
+          outputTag: "card"
+      ),
     ];
-    selectedPaymentName = necessaryDataForAuth.selectedPaymentName;
+    // paymentMethods = [
+    //   {
+    //     "name": "Наличными",
+    //     "image": "assets/svg_images/dollar_bills.svg",
+    //     "tag": "cash"
+    //   },
+    //   {
+    //     "name": (Platform.isIOS) ? "ApplePay" : "GooglePay",
+    //     "image": (Platform.isIOS) ? "assets/svg_images/apple_pay.svg"
+    //         : "assets/svg_images/google_pay.svg",
+    //     "tag": "virtualCardPayment"
+    //   },
+    // ];
+    selectedPaymentMethod = necessaryDataForAuth.selectedPaymentMethod;
   }
 
   void addPaymentCard() {
@@ -375,7 +391,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                                       children: [
                                         Flexible(
                                             flex: 1,
-                                            child: SvgPicture.asset(paymentMethods[index]['image'])),
+                                            child: SvgPicture.asset(paymentMethods[index].image)),
                                         Flexible(
                                           flex: 7,
                                           child: Row(
@@ -383,9 +399,9 @@ class PaymentScreenState extends State<PaymentScreen> {
                                             children: [
                                               Padding(
                                                 padding: const EdgeInsets.only(left: 20),
-                                                child: Text(paymentMethods[index]['name']),
+                                                child: Text(paymentMethods[index].name),
                                               ),
-                                              (selectedPaymentName == paymentMethods[index]['tag']) ?
+                                              (selectedPaymentMethod == paymentMethods[index]) ?
                                               SvgPicture.asset('assets/svg_images/home_selected_item.svg')
                                                   :
                                               SvgPicture.asset('assets/svg_images/home_unselected_item.svg'),
@@ -397,9 +413,9 @@ class PaymentScreenState extends State<PaymentScreen> {
                                   ),
                                   onTap: () async{
                                     setState(() {
-                                      selectedPaymentName = paymentMethods[index]['tag'];
+                                      selectedPaymentMethod = paymentMethods[index];
                                     });
-                                    necessaryDataForAuth.selectedPaymentName = selectedPaymentName;
+                                    necessaryDataForAuth.selectedPaymentMethod = selectedPaymentMethod;
                                     await NecessaryDataForAuth.saveData();
                                   },
                                 ),

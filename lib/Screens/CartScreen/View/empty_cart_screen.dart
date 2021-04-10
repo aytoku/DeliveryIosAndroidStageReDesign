@@ -155,7 +155,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                             'Вернуться на главную',
                               style: TextStyle(
                                   fontSize: 18.0,
-                                  color: AppColor.unselectedTextColor)
+                                  color: AppColor.textColor)
                           ),
                         ),
                         onTap: () {

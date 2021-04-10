@@ -59,7 +59,7 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
                       style: TextStyle(
                           color: (value != categoryList.currentCategory)
                               ? Color(0xFF424242)
-                              : AppColor.unselectedTextColor,
+                              : AppColor.textColor,
                           fontSize: 15),
                     ),
                   )),

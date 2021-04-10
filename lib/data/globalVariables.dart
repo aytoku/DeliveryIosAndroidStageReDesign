@@ -8,6 +8,7 @@ import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Model/FilteredProductCategories.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/tickets_chat_screen.dart';
 
 Map<String,GlobalKey<OrderCheckingState>> orderCheckingStates = new Map<String,GlobalKey<OrderCheckingState>>();
@@ -22,5 +23,6 @@ int code = 0;
 NecessaryDataForAuth necessaryDataForAuth = new NecessaryDataForAuth(phone_number: null, refresh_token: null, device_id: null, name: null);
 FilteredCities selectedCity;
 String header = 'eda/fermer-market';
-String selectedCategoriesUuid;
+FilteredProductCategories selectedCategoriesUuid;
 String tempClientUuid = '';
+AssetImage assetImage = AssetImage('assets/gif/preloader_fermer.gif');

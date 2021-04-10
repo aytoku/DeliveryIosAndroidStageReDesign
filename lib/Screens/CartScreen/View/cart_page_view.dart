@@ -321,7 +321,7 @@ class CartPageState extends State<CartPageScreen> {
                                 child: Text(
                                   'Доставка',
                                   style: TextStyle(
-                                      color: (selectedPageId == 0) ? AppColor.unselectedTextColor : AppColor.mainColor, fontSize: 15),
+                                      color: (selectedPageId == 0) ? AppColor.textColor : AppColor.mainColor, fontSize: 15),
                                 ),
                               ),
                             ),
@@ -357,7 +357,7 @@ class CartPageState extends State<CartPageScreen> {
                                 child: Text(
                                   'Самовывоз',
                                   style: TextStyle(
-                                      color: (selectedPageId == 1) ? AppColor.unselectedTextColor : AppColor.mainColor, fontSize: 15),
+                                      color: (selectedPageId == 1) ? AppColor.textColor : AppColor.mainColor, fontSize: 15),
                                 ),
                               ),
                             ),
@@ -441,7 +441,7 @@ class CartPageState extends State<CartPageScreen> {
                                 child: Text('Далее',
                                     style: TextStyle(
                                         fontSize: 18.0,
-                                        color: AppColor.unselectedTextColor)),
+                                        color: AppColor.textColor)),
                               ),
                             ),
                             onTap: () async {

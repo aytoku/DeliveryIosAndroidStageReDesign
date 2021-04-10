@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/ChatScreen/API/create_message.dart';
 import 'package:flutter_app/Screens/ChatScreen/API/get_filtered_messages.dart';
 import 'package:flutter_app/Screens/ChatScreen/Model/CreateMessage.dart';
+import 'package:flutter_app/Screens/ChatScreen/Widgets/ChatFieldButton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -13,7 +14,6 @@ import '../../HomeScreen/Bloc/restaurant_get_bloc.dart';
 import '../../HomeScreen/View/home_screen.dart';
 
 class ChatScreen extends StatefulWidget {
-
   ChatScreen({Key key}) : super(key: key);
 
   @override
@@ -23,8 +23,8 @@ class ChatScreen extends StatefulWidget {
 }
 
 class ChatScreenState extends State<ChatScreen> {
-
   ChatScreenState();
+
   TextEditingController messageField = new TextEditingController();
   GlobalKey<ChatContentState> chatContentKey;
 
@@ -58,8 +58,7 @@ class ChatScreenState extends State<ChatScreen> {
                     BoxShadow(
                         color: Colors.black12,
                         blurRadius: 1,
-                        offset: Offset(0,2)
-                    )
+                        offset: Offset(0, 2))
                   ],
                 ),
                 child: Row(
@@ -69,16 +68,16 @@ class ChatScreenState extends State<ChatScreen> {
                         focusColor: AppColor.themeColor,
                         splashColor: AppColor.themeColor,
                         highlightColor: AppColor.themeColor,
-                        onTap: (){
+                        onTap: () {
                           homeScreenKey = new GlobalKey<HomeScreenState>();
-                          Navigator.pushReplacement(context,
+                          Navigator.pushReplacement(
+                              context,
                               new MaterialPageRoute(
                                   builder: (context) => BlocProvider(
-                                    create: (context) => RestaurantGetBloc(),
-                                    child: new HomeScreen(),
-                                  )
-                              )
-                          );
+                                        create: (context) =>
+                                            RestaurantGetBloc(),
+                                        child: new HomeScreen(),
+                                      )));
                         },
                         child: Container(
                             height: 40,
@@ -107,11 +106,11 @@ class ChatScreenState extends State<ChatScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 32),
-                              child: Text('Мы рядом 24/7',
+                              child: Text(
+                                'Мы рядом 24/7',
                                 style: TextStyle(
                                     color: AppColor.additionalTextColor,
-                                    fontSize: 12
-                                ),
+                                    fontSize: 12),
                               ),
                             ),
                           ],
@@ -123,10 +122,9 @@ class ChatScreenState extends State<ChatScreen> {
               ),
             ),
             ChatContent(key: chatContentKey),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
                   padding: EdgeInsets.only(bottom: 20),
                   child: Container(
                     height: 62,
@@ -135,44 +133,37 @@ class ChatScreenState extends State<ChatScreen> {
                       color: Color(0xFFF9F9F9),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 1,
-                          offset: Offset(0,-1)
-                        )
+                            color: Colors.black12,
+                            blurRadius: 1,
+                            offset: Offset(0, -1))
                       ],
                     ),
                     child: TextField(
                       cursorColor: Colors.grey,
                       controller: messageField,
+                      maxLines: 5,
                       decoration: new InputDecoration(
                         suffixIcon: InkWell(
                           child: Container(
                             padding: EdgeInsets.all(6),
-                            child: SvgPicture.asset((messageField.text.length == 0)
-                                ? 'assets/svg_images/inactive_message_button.svg'
-                                : 'assets/svg_images/send_message.svg',
-                            ),
+                            child: ChatFieldButton(parent: this),
                           ),
-                          onTap: () async{
+                          onTap: () async {
                             await createMessage(messageField.text);
-                            chatContentKey.currentState.setState(() {
-
-                            });
+                            chatContentKey.currentState.setState(() {});
+                            messageField.clear();
                           },
                         ),
                         hintText: 'Сообщение ...',
-                        contentPadding: EdgeInsets.only(left: 20, right: 10),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none
-                        ),
-                        border: new OutlineInputBorder(
-                            borderSide: BorderSide.none
-                        ),
+                        contentPadding:
+                            EdgeInsets.only(left: 20, right: 10, top: 30),
+                        enabledBorder:
+                            OutlineInputBorder(borderSide: BorderSide.none),
+                        border:
+                            new OutlineInputBorder(borderSide: BorderSide.none),
                       ),
                     ),
-                  )
-                ),
-              ),
+                  )),
             ),
           ],
         ),
@@ -181,10 +172,9 @@ class ChatScreenState extends State<ChatScreen> {
   }
 }
 
-
-
 class ChatContent extends StatefulWidget {
   ChatContent({Key key}) : super(key: key);
+
   @override
   ChatContentState createState() => ChatContentState();
 }
@@ -204,37 +194,74 @@ class ChatContentState extends State<ChatContent> {
     super.dispose();
   }
 
-  buildChatBody(){
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: List.generate(chatData.chat.length, (index){
-        return Text(chatData.chat[index].msg);
-      })
+  buildChatBody() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: ListView(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.zero,
+          scrollDirection: Axis.vertical,
+          children: List.generate(chatData.chat.length, (index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 15, left: 50, right: 15),
+              child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Column(
+                        children: [
+                          Text(chatData.chat[index].createdAt.hour.toString() +
+                              ' ' +
+                              chatData.chat[index].createdAt.minute.toString()),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: SvgPicture.asset(
+                                'assets/svg_images/unread_message.svg'),
+                          )
+                        ],
+                      ),
+                    ),
+                    Flexible(
+                      child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Color(0xFF7D7D7D)),
+                          padding: EdgeInsets.only(
+                              left: 16, right: 16, top: 9, bottom: 9),
+                          child: Text(
+                            chatData.chat[index].msg,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(color: AppColor.textColor),
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          })),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-        child: Expanded(
-          child: FutureBuilder<ChatData>(
-            future: getFilteredMessage(),
-            builder: (BuildContext context,
-                AsyncSnapshot<ChatData> snapshot) {
-              if (snapshot.connectionState ==
-                  ConnectionState.done &&
-                  snapshot.data != null) {
-                chatData = snapshot.data;
-                return buildChatBody();
-              } else {
-                return Container(
-                  height: 0,
-                );
-              }
-            },
-          ),
-        )
+    return Expanded(
+      child: FutureBuilder<ChatData>(
+        future: getFilteredMessage(),
+        builder: (BuildContext context, AsyncSnapshot<ChatData> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data != null) {
+            chatData = snapshot.data;
+            return buildChatBody();
+          } else {
+            return Container(
+              height: 0,
+            );
+          }
+        },
+      ),
     );
   }
 }

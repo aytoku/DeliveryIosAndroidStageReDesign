@@ -5,7 +5,6 @@ import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_app/data/data.dart';
 
-import '../../data/api.dart';
 
 Future<CurrentVersionModel> getCurrentVersion() async {
   CurrentVersionModel currentVersion;

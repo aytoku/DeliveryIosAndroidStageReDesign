@@ -21,13 +21,16 @@ class AuthCodeData {
   final RefreshToken refreshToken;
   String userUUID;
 
-  factory AuthCodeData.fromJson(Map<String, dynamic> json) => AuthCodeData(
+  factory AuthCodeData.fromJson(Map<String, dynamic> json){
+
+    return AuthCodeData(
       clientUuid: json["client_uuid"] == null ? null : json["client_uuid"],
       token: json["token"] == null ? null : json["token"],
       service: json["service"] == null ? null : json["service"],
       refreshToken: json["refresh_token"] == null ? null : RefreshToken.fromJson(json["refresh_token"]),
       userUUID: json["token"] == null ? null : JwtDecoder.decode(json["token"])['uuid']
-  );
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "client_uuid": clientUuid == null ? null : clientUuid,

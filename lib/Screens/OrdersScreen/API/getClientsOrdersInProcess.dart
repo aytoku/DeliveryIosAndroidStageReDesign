@@ -13,7 +13,8 @@ Future<OrderDetailsModel> getClientsOrdersInProcess() async {
   var url = '${apiUrl}orders/current';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
-    'Authorization':'Bearer ' + authCodeData.token
+    'Authorization':'Bearer ' + authCodeData.token,
+    'Application': header
   });
   print(response.body + 'vai');
   if (response.statusCode == 200) {

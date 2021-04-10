@@ -48,7 +48,7 @@ class MenuItemDescState extends State<MenuItemDesc> {
           child: Container(
             padding: EdgeInsets.only(right: 15),
             child: Text(
-              foodRecords.meta.shortDescription,
+              foodRecords.meta.description,
               style: TextStyle(
                   fontSize: 10.0,
                   color: Colors.grey),

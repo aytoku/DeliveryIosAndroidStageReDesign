@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert' as convert;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,27 +12,22 @@ import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/ChatScreen/API/create_message.dart';
 import 'package:flutter_app/Screens/HomeScreen/API/getStocks.dart';
-import 'package:flutter_app/Screens/HomeScreen/Model/Stock.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/Stock.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/RestaurantsList.dart';
-import 'package:flutter_app/Screens/HomeScreen/Widgets/StocksList.dart';
-import 'package:flutter_app/Screens/HomeScreen/Widgets/TemporaryOrderChecking.dart';
+import 'package:flutter_app/Screens/HomeScreen/View/promo_screen.dart';
+import 'package:flutter_app/Screens/HomeScreen/Widgets/StockList.dart';
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
-import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.dart';
-import 'package:flutter_app/Screens/NameScreen/API/set_client_name.dart';
-import 'package:flutter_app/Screens/OrderConfirmationScreen/API/get_delivery_tariff.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
-import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
-import 'package:flutter_app/Screens/PaymentScreen/Model/GooglePay.dart';
-import 'package:flutter_app/Screens/PaymentScreen/Model/SberGooglePayment.dart';
 import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
-import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +36,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../../Preloader/device_id_screen.dart';
-import '../../../VersionControl/API/getCurrentVersion.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/Model/CartModel.dart';
 import '../../ChatScreen/View/chat_screen.dart';
@@ -61,14 +54,13 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   List<OrderChecking> orderList;
   List<FilteredStores> recordsItems;
-  List<Widget> stocksItems;
   GlobalKey<ScaffoldState> _scaffoldKey;
-  GlobalKey<TemporaryOrderCheckingState> temporaryOrderCheckingKey;
+  List<Widget> stocksItems;
+  ScrollController stocksScrollController;
   GlobalKey<CartButtonState> basketButtonStateKey;
   Filter filter;
   RestaurantsList restaurantsList;
   GlobalKey<CityScreenState> cityScreenKey;
-  ScrollController stocksScrollController;
   RestaurantGetBloc restaurantGetBloc;
   CartButton cartButton;
   Timer timer;
@@ -84,10 +76,12 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    Future.delayed(Duration.zero, () {
-        checkVer(context);
-    });
     stocksScrollController = new ScrollController();
+    Future.delayed(Duration.zero, () {
+
+      checkVer(context);
+
+    });
     orderList = new List<OrderChecking>();
     recordsItems = new List<FilteredStores>();
     _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -95,15 +89,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     cityScreenKey = new GlobalKey<CityScreenState>();
     restaurantGetBloc = BlocProvider.of<RestaurantGetBloc>(context);
     restaurantGetBloc.add(InitialLoad());
-    temporaryOrderCheckingKey = new GlobalKey();
-    // временное решение(убрать когда будет центрифуга)
-    timer = Timer.periodic(Duration(seconds: 100), (timer) {
-      if(temporaryOrderCheckingKey.currentState != null){
-        temporaryOrderCheckingKey.currentState.setState(() {
-
-        });
-      }
-    });
   }
 
   @override
@@ -112,9 +97,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    WidgetsBinding.instance.removeObserver(this);
-    timer.cancel();
     stocksScrollController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -165,13 +149,13 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                 title: Text(
                   necessaryDataForAuth.name ?? ' ',
                   style: TextStyle(
-                      color: AppColor.unselectedTextColor,
+                      color: AppColor.textColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 17),
                 ),
                 subtitle: Text(
                   necessaryDataForAuth.phone_number ?? ' ',
-                  style: TextStyle(color: AppColor.unselectedTextColor, fontSize: 14),
+                  style: TextStyle(color: AppColor.textColor, fontSize: 14),
                 ),
                 trailing: GestureDetector(
                   child: SvgPicture.asset(
@@ -193,32 +177,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: ListTile(
-            leading: Transform(
-              transform: Matrix4.translationValues(0, 5, 0),
-                child: SvgPicture.asset('assets/svg_images/pay.svg'),
-            ),
-            title: Text(
-              'Способы оплаты',
-              style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-            ),
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => new PaymentScreen(),
-                  ),
-                );
-              } else {
-                noConnection(context);
-              }
-            },
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
+        //   child: ListTile(
+        //     leading: SvgPicture.asset('assets/svg_images/pay.svg'),
+        //     title: Text(
+        //       'Способы оплаты',
+        //       style: TextStyle(
+        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+        //     ),
+        //     onTap: () async {
+        //       if (await Internet.checkConnection()) {
+        //         Navigator.push(
+        //           context,
+        //           new MaterialPageRoute(
+        //             builder: (context) => new PaymentScreen(),
+        //           ),
+        //         );
+        //       } else {
+        //         noConnection(context);
+        //       }
+        //     },
+        //   ),
+        // ),
         Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 10),
           child: ListTile(
@@ -268,29 +249,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
         //     },
         //   ),
         // ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: ListTile(
-            leading: SvgPicture.asset('assets/svg_images/service.svg'),
-            title: Text(
-              'Служба поддержки',
-              style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-            ),
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => new ChatScreen(),
-                  ),
-                );
-              } else {
-                noConnection(context);
-              }
-            },
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
+        //   child: ListTile(
+        //     leading: SvgPicture.asset('assets/svg_images/service.svg'),
+        //     title: Text(
+        //       'Служба поддержки',
+        //       style: TextStyle(
+        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+        //     ),
+        //     onTap: () async {
+        //       if (await Internet.checkConnection()) {
+        //         Navigator.push(
+        //           context,
+        //           new MaterialPageRoute(
+        //             builder: (context) => new ChatScreen(),
+        //           ),
+        //         );
+        //       } else {
+        //         noConnection(context);
+        //       }
+        //     },
+        //   ),
+        // ),
       ]);
       allSideBarItems.add(
         Padding(
@@ -358,8 +339,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   }
 
 
+
   @override
   Widget build(BuildContext context) {
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
           statusBarColor: Colors.white,
@@ -396,13 +379,25 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             bloc: BlocProvider.of<RestaurantGetBloc>(context),
             builder: (BuildContext context,
                 RestaurantGetState state) {
-              if(state is RestaurantGetStateLoading)
-                return Center(
-                  child: SpinKitFadingCircle(
-                    color: AppColor.mainColor,
-                    size: 50.0,
+              if(state is RestaurantGetStateLoading){
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: AppColor.mainColor
+                  ),
+                  child: Center(
+                    child: Image(
+                      image: assetImage
+                    ),
                   ),
                 );
+                return Center(
+                  child: Image(
+                    image: AssetImage('assets/images/fermer.png'),
+                  ),
+                );
+              }
               else if(state is RestaurantGetStateSuccess){
                 recordsItems.clear();
                 recordsItems.addAll(state.items);
@@ -446,7 +441,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 child: Center(
                                   child: Text(selectedCity.name,
                                     style: TextStyle(
-                                        color: AppColor.unselectedTextColor,
+                                        color: AppColor.textColor,
                                         fontSize: 13
                                     ),
                                   ),
@@ -474,6 +469,66 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           // ),
                         ],
                       ),
+                    ),
+                    FutureBuilder<List<Stock>>(
+                        future: getStocks(necessaryDataForAuth.city.uuid),
+                        builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
+                          return (snapshot.connectionState == ConnectionState.done) ? Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Акции и новинки',
+                                      style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, left: 16, right: 15, bottom: 10),
+                                  child: Container(
+                                    height: 100,
+                                    child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        shrinkWrap: false,
+                                        scrollDirection: Axis.horizontal,
+                                        controller: stocksScrollController,
+                                        itemCount: snapshot.data.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            child: Card(
+                                              child: Container(
+                                                width: 180,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                ),
+                                                child: Image.network(snapshot.data[index].image, fit: BoxFit.cover,),
+                                              ),
+                                            ),
+                                            onTap: (){
+                                              var stock = snapshot.data[index];
+                                              if(stock.stores != null && stock.stores.isNotEmpty){
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (_) {
+                                                    return PromoScreen(stock: stock,);
+                                                  }),
+                                                );
+                                              }
+                                            },
+                                          );
+                                        }),
+                                  )
+                              ),
+                            ],
+                          ) : Container();
+                        }
                     ),
                     Expanded(
                       child: ListView(
@@ -519,68 +574,37 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                               }
                             },
                           ),
-                          FutureBuilder<List<Stock>>(
-                          future: getStocks(necessaryDataForAuth.city.uuid),
-                          builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
-                              return (snapshot.connectionState == ConnectionState.done) ? Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Акции и новинки',
-                                          style: TextStyle(
-                                              fontSize: 28,
-                                              fontWeight: FontWeight.bold
-                                          ),
-                                        ),
-                                        // Row(
-                                        //   children: [
-                                        //     Padding(
-                                        //       padding: const EdgeInsets.only(top: 0, right: 10),
-                                        //       child: Text('Все',
-                                        //         style: TextStyle(
-                                        //           fontSize: 14,
-                                        //           color: Colors.grey,
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //     SvgPicture.asset('assets/svg_images/arrow_right.svg',
-                                        //       color: Colors.grey,
-                                        //     )
-                                        //   ],
-                                        // )
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 10, left: 16, right: 15, bottom: 10),
-                                    child: Container(
-                                          height: 100,
-                                          child: ListView.builder(
-                                              shrinkWrap: false,
-                                              scrollDirection: Axis.horizontal,
-                                              controller: stocksScrollController,
-                                              itemCount: 2,
-                                              itemBuilder: (context, index) {
-                                                return Card(
-                                                  child: Container(
-                                                    width: 180,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(5.0),
-                                                    ),
-                                                    child: Image.network(snapshot.data[index].image, fit: BoxFit.cover,),
-                                                  ),
-                                                );
-                                              }),
-                                        )
-                                  ),
-                                ],
-                              ) : Container();
-                            }
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Text('Акции и новинки',
+                          //         style: TextStyle(
+                          //             fontSize: 28,
+                          //             fontWeight: FontWeight.bold
+                          //         ),
+                          //       ),
+                          //       Row(
+                          //         children: [
+                          //           Padding(
+                          //             padding: const EdgeInsets.only(top: 0, right: 10),
+                          //             child: Text('Все',
+                          //               style: TextStyle(
+                          //                 fontSize: 14,
+                          //                 color: Colors.grey,
+                          //               ),
+                          //             ),
+                          //           ),
+                          //           SvgPicture.asset('assets/svg_images/arrow_right.svg',
+                          //             color: Colors.grey,
+                          //           )
+                          //         ],
+                          //       )
+                          //     ],
+                          //   ),
+                          // ),
+                          // Promotion(),
                           SizedBox(
                             height: 10,
                           ),
@@ -593,19 +617,19 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     createMessage('ka');
                           //   },
                           // ),
-                          Padding(
-                            padding:
-                            EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text('Рестораны', // нужно добавить цвет для текста
-                                // в некоторых прилагах и черный и белый текст
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  color: Color(0xFF3F3F3F),
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.2,
-                                )),
-                          ),
-                          // filter = Filter(this),
+                          // Padding(
+                          //   padding:
+                          //   EdgeInsets.symmetric(horizontal: 20.0),
+                          //   child: Text('Рестораны', // нужно добавить цвет для текста
+                          //       // в некоторых прилагах и черный и белый текст
+                          //       style: TextStyle(
+                          //         fontSize: 28,
+                          //         color: Color(0xFF3F3F3F),
+                          //         fontWeight: FontWeight.bold,
+                          //         letterSpacing: 1.2,
+                          //       )),
+                          // ),
+                          filter = Filter(this),
                           (recordsItems.isEmpty) ?  Center(
                             child: Container(),
                           ) : restaurantsList = RestaurantsList(List.from(recordsItems), this, key: GlobalKey())

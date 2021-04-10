@@ -32,9 +32,9 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                 alignment: Alignment.center,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 40),
-                  child: (necessaryDataForAuth.name == ''|| necessaryDataForAuth.name == null) ? Text('Ваш заказ принят!', style: TextStyle(
+                  child: (necessaryDataForAuth.name == '') ? Text('Ваш заказ принят!', style: TextStyle(
                       fontSize: 24
-                  ),) : Text('$name, ' + 'ваш заказ принят! ',
+                  ),) : Text(name + ', ваш заказ принят! ',
                     style: TextStyle(
                         fontSize: 24
                     ),
@@ -63,7 +63,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                     child: FlatButton(
                       child: Text(
                         'Продолжить',
-                        style: TextStyle(color: AppColor.unselectedTextColor, fontSize: 18),
+                        style: TextStyle(color: AppColor.textColor, fontSize: 18),
                       ),
                       color: AppColor.mainColor,
                       shape: RoundedRectangleBorder(

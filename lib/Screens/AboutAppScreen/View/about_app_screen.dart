@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
+import 'package:flutter_app/VersionControl/Model/CurrentVersionModel.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/globalVariables.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
@@ -41,7 +43,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                           padding: EdgeInsets.only(bottom: 25),
                           child: Center(
                               child: Text(
-                                'Версия $version от 8 апр. 2021 г.\nсборка 8',
+                                'Версия $version от 10 апр. 2021 г.\nсборка 9',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(color: Color(0x97979797), fontSize: 15),
                               )

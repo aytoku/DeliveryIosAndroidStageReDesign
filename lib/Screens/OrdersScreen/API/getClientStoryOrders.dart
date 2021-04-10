@@ -15,7 +15,8 @@ Future<OrderDetailsModel> getClientStoryOrders() async {
   var url = '${apiUrl}orders/history';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
-    'Authorization':'Bearer ' + authCodeData.token
+    'Authorization':'Bearer ' + authCodeData.token,
+    'Application': header
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
