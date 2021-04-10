@@ -61,12 +61,14 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   List<OrderChecking> orderList;
   List<FilteredStores> recordsItems;
+  List<Widget> stocksItems;
   GlobalKey<ScaffoldState> _scaffoldKey;
   GlobalKey<TemporaryOrderCheckingState> temporaryOrderCheckingKey;
   GlobalKey<CartButtonState> basketButtonStateKey;
   Filter filter;
   RestaurantsList restaurantsList;
   GlobalKey<CityScreenState> cityScreenKey;
+  ScrollController stocksScrollController;
   RestaurantGetBloc restaurantGetBloc;
   CartButton cartButton;
   Timer timer;
@@ -85,6 +87,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     Future.delayed(Duration.zero, () {
         checkVer(context);
     });
+    stocksScrollController = new ScrollController();
     orderList = new List<OrderChecking>();
     recordsItems = new List<FilteredStores>();
     _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -111,6 +114,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     ]);
     WidgetsBinding.instance.removeObserver(this);
     timer.cancel();
+    stocksScrollController.dispose();
     super.dispose();
   }
 
@@ -471,18 +475,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 10, left: 16, right: 15, bottom: 10),
-                    //   child: FutureBuilder<StockData>(
-                    //     future: getStocks(necessaryDataForAuth.city.uuid),
-                    //     builder: (BuildContext context, AsyncSnapshot<StockData> snapshot) {
-                    //       return Container(
-                    //         height: 100,
-                    //         child: StocksList(),
-                    //       );
-                    //     }
-                    //   ),
-                    // ),
                     Expanded(
                       child: ListView(
                         physics: BouncingScrollPhysics(),
@@ -527,37 +519,68 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                               }
                             },
                           ),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //     children: [
-                          //       Text('Акции и новинки',
-                          //         style: TextStyle(
-                          //             fontSize: 28,
-                          //             fontWeight: FontWeight.bold
-                          //         ),
-                          //       ),
-                          //       Row(
-                          //         children: [
-                          //           Padding(
-                          //             padding: const EdgeInsets.only(top: 0, right: 10),
-                          //             child: Text('Все',
-                          //               style: TextStyle(
-                          //                 fontSize: 14,
-                          //                 color: Colors.grey,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //           SvgPicture.asset('assets/svg_images/arrow_right.svg',
-                          //             color: Colors.grey,
-                          //           )
-                          //         ],
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
-                          // Promotion(),
+                          FutureBuilder<List<Stock>>(
+                          future: getStocks(necessaryDataForAuth.city.uuid),
+                          builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
+                              return (snapshot.connectionState == ConnectionState.done) ? Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Акции и новинки',
+                                          style: TextStyle(
+                                              fontSize: 28,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                        // Row(
+                                        //   children: [
+                                        //     Padding(
+                                        //       padding: const EdgeInsets.only(top: 0, right: 10),
+                                        //       child: Text('Все',
+                                        //         style: TextStyle(
+                                        //           fontSize: 14,
+                                        //           color: Colors.grey,
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //     SvgPicture.asset('assets/svg_images/arrow_right.svg',
+                                        //       color: Colors.grey,
+                                        //     )
+                                        //   ],
+                                        // )
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10, left: 16, right: 15, bottom: 10),
+                                    child: Container(
+                                          height: 100,
+                                          child: ListView.builder(
+                                              shrinkWrap: false,
+                                              scrollDirection: Axis.horizontal,
+                                              controller: stocksScrollController,
+                                              itemCount: 2,
+                                              itemBuilder: (context, index) {
+                                                return Card(
+                                                  child: Container(
+                                                    width: 180,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                    ),
+                                                    child: Image.network(snapshot.data[index].image, fit: BoxFit.cover,),
+                                                  ),
+                                                );
+                                              }),
+                                        )
+                                  ),
+                                ],
+                              ) : Container();
+                            }
+                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -582,7 +605,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                   letterSpacing: 1.2,
                                 )),
                           ),
-                          filter = Filter(this),
+                          // filter = Filter(this),
                           (recordsItems.isEmpty) ?  Center(
                             child: Container(),
                           ) : restaurantsList = RestaurantsList(List.from(recordsItems), this, key: GlobalKey())

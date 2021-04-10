@@ -71,7 +71,7 @@ var DeliveryStates = [
 class AppColor {
   AppColor._();
 
-  static Color mainColor = Color(0xFFF7CB46);
+  static Color mainColor = Color(0xFFFDCA02);
   static Color textColor = Color(0xFF313131);
   static Color unselectedTextColor = Color(0xFF313131);
   static Color additionalTextColor = Color(0xFF9E9E9E);
@@ -79,7 +79,7 @@ class AppColor {
   static Color fieldColor = Color(0xFFFFFFFF);
   static Color elementsColor = Color(0xFFEFEFEF);
   static Color subElementsColor = Color(0xFFEFEFEF);
-  static Color borderFieldColor = Color(0xFFF7CB46);
+  static Color borderFieldColor = Color(0xFFFDCA02);
   static Color unselectedBorderFieldColor = Color(0xFF9E9E9E);
 
   static fromJson(Map<String, dynamic> json) {

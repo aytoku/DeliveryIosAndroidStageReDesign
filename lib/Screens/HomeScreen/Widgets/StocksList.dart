@@ -50,7 +50,6 @@ class StocksListState extends State<StocksList>
                     fit: BoxFit.cover,
                   ),
                 ),
-
               ],
             ),
           ),
@@ -67,7 +66,6 @@ class StocksListState extends State<StocksList>
         child: Container(
           height: 150,
           child: ListView(
-
             controller: stocksScrollController,
             scrollDirection: Axis.horizontal,
             children: _buildStockList(),
