@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
+import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/add_variant_to_cart.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/getProductData.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
@@ -16,8 +19,10 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemDes
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../../data/data.dart';
@@ -93,8 +98,94 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
       return "В итеме каты нал";
   }
 
+
+  _dayOff() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(20),
+              topRight: const Radius.circular(20),
+            )),
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 300,
+            child: _dayOffBottomNavigationMenu(parent.restaurant),
+            decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(20),
+                  topRight: const Radius.circular(20),
+                )),
+          );
+        });
+  }
+
+
+  _dayOffBottomNavigationMenu(FilteredStores restaurant) {
+    return Container(
+      decoration: BoxDecoration(
+          color: AppColor.themeColor,
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(12),
+            topRight: const Radius.circular(12),
+          )),
+      child: Stack(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: Align(
+                alignment: Alignment.topCenter,
+                child: Text('К сожалению, доставка не доступна.',
+                  style: TextStyle(
+                      fontSize: 16
+                  ),
+                  textAlign: TextAlign.center,
+                )
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 25),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FlatButton(
+                  child: Text(
+                    "Далее",
+                    style:
+                    TextStyle(color: AppColor.textColor, fontSize: 16),
+                  ),
+                  color: AppColor.mainColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.only(
+                      left: 110, top: 20, right: 110, bottom: 20),
+                  onPressed: () async {
+                    homeScreenKey = new GlobalKey<HomeScreenState>();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => BlocProvider(
+                              create: (context) => RestaurantGetBloc(),
+                              child: new HomeScreen(),
+                            )),
+                            (Route<dynamic> route) => false);
+                  },
+                )
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    bool isScheduleAvailable = parent.restaurant.workSchedule.isAvailable();
+    Standard standard = parent.restaurant.workSchedule.getCurrentStandard();
+    bool available = parent.restaurant.available.flag != null ? parent.restaurant.available.flag : true;
     super.build(context);
     GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();
     if(parent.restaurant.type == 'restaurant'){
@@ -107,6 +198,9 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
               child: GestureDetector(
                   onTap: () async {
                     if (await Internet.checkConnection()) {
+                      if(!available || !isScheduleAvailable){
+                        _dayOff();
+                      }
                       onPressedButton(restaurantDataItems, menuItemCounterKey);
                       // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
                     } else {
@@ -187,7 +281,12 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                     bottomRight: Radius.circular(15)),
                                 child: Stack(
                                   children: [
-                                    Image.asset('assets/images/food.png', fit: BoxFit.fill,),
+                                    Image.asset('assets/images/food.png',
+                                      fit: BoxFit.cover,
+                                      height:
+                                      MediaQuery.of(context).size.height,
+                                      width: 168,
+                                    ),
                                     Image.network(
                                       getImage((restaurantDataItems
                                           .meta.images !=
@@ -241,7 +340,12 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                       topLeft: Radius.circular(10)),
                   child: Stack(
                     children: [
-                      Image.asset('assets/images/food.png', fit: BoxFit.fill,),
+                      Image.asset('assets/images/food.png',
+                        fit: BoxFit.cover,
+                        height:
+                        MediaQuery.of(context).size.height,
+                        width: 168,
+                      ),
                       Image.network(
                         getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
                         fit: BoxFit.cover,
@@ -307,6 +411,9 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
         ),
         onTap: () async {
           if (await Internet.checkConnection()) {
+            if(!available || !isScheduleAvailable){
+              _dayOff();
+            }
             onPressedButton(restaurantDataItems, menuItemCounterKey);
             // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
           } else {
@@ -320,19 +427,18 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 
   void onPressedButton(ProductsByStoreUuid food, GlobalKey<MenuItemCounterState> menuItemCounterKey) {
 
-    DateTime now = DateTime.now();
-    int currentTime = now.hour*60+now.minute;
-    int dayNumber  = now.weekday-1;
 
-//    int work_beginning = parent.restaurant.work_schedule[dayNumber].work_beginning;
-//    int work_ending = parent.restaurant.work_schedule[dayNumber].work_ending;
-//    bool day_off = parent.restaurant.work_schedule[dayNumber].day_off;
-//    bool available = parent.restaurant.available != null ? parent.restaurant.available : true;
+    bool isScheduleAvailable = parent.restaurant.workSchedule.isAvailable();
+    Standard standard = parent.restaurant.workSchedule.getCurrentStandard();
+    bool available = parent.restaurant.available.flag != null ? parent.restaurant.available.flag : true;
 
 
     GlobalKey<PriceFieldState> priceFieldKey =
     new GlobalKey<PriceFieldState>();
 
+    if(!available || !isScheduleAvailable){
+      _dayOff();
+    }
 
     if(restaurantDataItems.type == 'single'){
       if(parent.panelContentKey.currentState != null)
@@ -624,49 +730,54 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                 ),
                                                                 onTap: () async {
                                                                   if (await Internet.checkConnection()) {
-                                                                    ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
-                                                                    bool hasErrors = false;
-                                                                    cartProduct.variantGroups = new List<VariantGroup>();
-                                                                    variantsSelectors.forEach((variantGroupSelector) {
-                                                                      if(variantGroupSelector.key.currentState.hasSelectedVariants()){
-                                                                        cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
-                                                                        cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
-                                                                      } else if(variantGroupSelector.key.currentState.required) {
-                                                                        hasErrors = true;
-                                                                        variantGroupSelector.key.currentState.setState(() {
-                                                                          variantGroupSelector.key.currentState.error = true;
-                                                                        });
-                                                                      }
-                                                                    });
-
-                                                                    if(hasErrors){
-                                                                      return;
-                                                                    }
-
-                                                                    if(currentUser.cartModel != null && currentUser.cartModel.items != null
-                                                                        && currentUser.cartModel.items.length > 0
-                                                                        && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
-                                                                      print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
-                                                                      parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, this);
-                                                                    } else {
-                                                                      currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
-                                                                      menuItemCounterKey.currentState.refresh();
-                                                                      Navigator.pop(context);
-                                                                      setState(() {
-
+                                                                    try{
+                                                                      ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
+                                                                      bool hasErrors = false;
+                                                                      cartProduct.variantGroups = new List<VariantGroup>();
+                                                                      variantsSelectors.forEach((variantGroupSelector) {
+                                                                        if(variantGroupSelector.key.currentState.hasSelectedVariants()){
+                                                                          cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
+                                                                          cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
+                                                                        } else if(variantGroupSelector.key.currentState.required) {
+                                                                          hasErrors = true;
+                                                                          variantGroupSelector.key.currentState.setState(() {
+                                                                            variantGroupSelector.key.currentState.error = true;
+                                                                          });
+                                                                        }
                                                                       });
 
-                                                                      // Добавляем паддинг в конец
-                                                                      if(parent.itemsPaddingKey.currentState != null){
-                                                                        parent.itemsPaddingKey.currentState.setState(() {
+                                                                      if(hasErrors){
+                                                                        return;
+                                                                      }
+
+                                                                      if(currentUser.cartModel != null && currentUser.cartModel.items != null
+                                                                          && currentUser.cartModel.items.length > 0
+                                                                          && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
+                                                                        print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
+                                                                        parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, this);
+                                                                      } else {
+                                                                        currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
+                                                                        menuItemCounterKey.currentState.refresh();
+                                                                        Navigator.pop(context);
+                                                                        setState(() {
 
                                                                         });
-                                                                      }
 
-                                                                      parent.showAlertDialog(context);
-                                                                      if(parent.basketButtonStateKey.currentState != null){
-                                                                        parent.basketButtonStateKey.currentState.refresh();
+                                                                        // Добавляем паддинг в конец
+                                                                        if(parent.itemsPaddingKey.currentState != null){
+                                                                          parent.itemsPaddingKey.currentState.setState(() {
+
+                                                                          });
+                                                                        }
+
+                                                                        parent.showAlertDialog(context);
+                                                                        if(parent.basketButtonStateKey.currentState != null){
+                                                                          parent.basketButtonStateKey.currentState.refresh();
+                                                                        }
                                                                       }
+                                                                    }finally{
+                                                                      lock = false;
+                                                                      await Vibrate.canVibrate;
                                                                     }
                                                                   } else {
                                                                     noConnection(context);

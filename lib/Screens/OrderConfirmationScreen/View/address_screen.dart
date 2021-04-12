@@ -1153,38 +1153,38 @@ class AddressScreenState extends State<AddressScreen>
     }else{
       result = await SberAPI.googlePay(req, currentUser.cartModel.uuid);
     }
-    // if(result.success){
-    //   // if(result.data.acsUrl != null){
-    //   //   Navigator.of(context).push(
-    //   //       MaterialPageRoute(
-    //   //           builder: (context) => WebView(
-    //   //             onPageFinished: (String url) {
-    //   //               print(url);
-    //   //               if(url == "https://3dsec.sberbank.ru/payment/merchants/root/errors_ru.html"){ // здесь когда-нибудь вставить саксес и еррор урлы
-    //   //                 Navigator.of(context).pushAndRemoveUntil(
-    //   //                     MaterialPageRoute(
-    //   //                         builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-    //   //                         (Route<dynamic> route) => false);
-    //   //               }
-    //   //             },
-    //   //             initialUrl: new Uri.dataFromString(
-    //   //                 _loadHTML(result.data.acsUrl,
-    //   //                     result.data.paReq,
-    //   //                     result.data.termUrl
-    //   //                 ), mimeType: 'text/html').toString(),
-    //   //             javascriptMode: JavascriptMode.unrestricted,
-    //   //             onWebViewCreated: (WebViewController webController){
-    //   //             },
-    //   //           ))
-    //   //   );
-    //   //   return result.success;
-    //   // }
-    //   Navigator.of(context).pushAndRemoveUntil(
-    //       MaterialPageRoute(
-    //           builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-    //           (Route<dynamic> route) => false);
-    //
-    // }
+    if(result.success){
+      // if(result.data.acsUrl != null){
+      //   Navigator.of(context).push(
+      //       MaterialPageRoute(
+      //           builder: (context) => WebView(
+      //             onPageFinished: (String url) {
+      //               print(url);
+      //               if(url == "https://3dsec.sberbank.ru/payment/merchants/root/errors_ru.html"){ // здесь когда-нибудь вставить саксес и еррор урлы
+      //                 Navigator.of(context).pushAndRemoveUntil(
+      //                     MaterialPageRoute(
+      //                         builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+      //                         (Route<dynamic> route) => false);
+      //               }
+      //             },
+      //             initialUrl: new Uri.dataFromString(
+      //                 _loadHTML(result.data.acsUrl,
+      //                     result.data.paReq,
+      //                     result.data.termUrl
+      //                 ), mimeType: 'text/html').toString(),
+      //             javascriptMode: JavascriptMode.unrestricted,
+      //             onWebViewCreated: (WebViewController webController){
+      //             },
+      //           ))
+      //   );
+      //   return result.success;
+      // }
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+              (Route<dynamic> route) => false);
+
+    }
     return result.success;
   }
 

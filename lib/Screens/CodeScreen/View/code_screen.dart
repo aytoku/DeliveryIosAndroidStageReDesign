@@ -19,6 +19,7 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 import '../../../data/data.dart';
 import '../../AuthScreen/View/auth_screen.dart';
 
@@ -263,10 +264,14 @@ class CodeScreenState extends State<CodeScreen> {
                                           cursorColor: AppColor.mainColor,
                                           maxLength: 2,
                                           decoration: new InputDecoration(
+                                            focusedBorder:UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: AppColor.mainColor),
+                                            ),
                                             enabledBorder:
                                             UnderlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: AppColor.mainColor),
+                                                  color: Colors.grey),
                                             ),
                                             counterText: '',
                                           ),
@@ -292,10 +297,14 @@ class CodeScreenState extends State<CodeScreen> {
                                           cursorColor: AppColor.mainColor,
                                           maxLength: 2,
                                           decoration: new InputDecoration(
+                                            focusedBorder:UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: AppColor.mainColor),
+                                            ),
                                             enabledBorder:
                                             UnderlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: AppColor.mainColor),
+                                                  color: Colors.grey),
                                             ),
                                             counterText: '',
                                           ),
@@ -324,10 +333,14 @@ class CodeScreenState extends State<CodeScreen> {
                                           cursorColor: AppColor.mainColor,
                                           maxLength: 2,
                                           decoration: new InputDecoration(
+                                            focusedBorder:UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: AppColor.mainColor),
+                                            ),
                                             enabledBorder:
                                             UnderlineInputBorder(
                                               borderSide: BorderSide(
-                                                  color: AppColor.mainColor),
+                                                  color: Colors.grey),
                                             ),
                                             counterText: '',
                                           ),
@@ -364,9 +377,13 @@ class CodeScreenState extends State<CodeScreen> {
                                         cursorColor: AppColor.mainColor,
                                         maxLength: 2,
                                         decoration: new InputDecoration(
+                                          focusedBorder:UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColor.mainColor),
+                                          ),
                                           enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
-                                                color: AppColor.mainColor,width: 1),
+                                                color: Colors.grey,width: 1),
                                           ),
                                           counterText: '',
                                         ),
@@ -414,12 +431,17 @@ class CodeScreenState extends State<CodeScreen> {
                         color: Color(0xFFF3F3F3),
                         onTap: () async {
                           if (await Internet.checkConnection()) {
-                            String temp = '';
-                            temp = code1.controller.text +
-                                code2.controller.text +
-                                code3.controller.text +
-                                code4.controller.text;
-                            codeGetBloc.add(SendCode(code: int.parse(temp)));
+                            try{
+                              String temp = '';
+                              temp = code1.controller.text +
+                                  code2.controller.text +
+                                  code3.controller.text +
+                                  code4.controller.text;
+                              codeGetBloc.add(SendCode(code: int.parse(temp)));
+                            }finally{
+                              lock = false;
+                              await Vibrate.canVibrate;
+                            }
                           } else {
                             noConnection(context);
                           }

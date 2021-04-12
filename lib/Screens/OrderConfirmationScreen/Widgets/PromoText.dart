@@ -87,81 +87,84 @@ class PromoTextState extends State<PromoText>{
   }
 
   _buildPromoCodeBottomNavigationMenu() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 60, bottom: 315),
-      child: Container(
-        height: 40,
-        width: 300,
-        decoration: BoxDecoration(
-          color: AppColor.mainColor,
-          border: Border.all(
+    return Container(
+      height: 500,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 60, bottom: 315),
+        child: Container(
+          height: 40,
+          width: 300,
+          decoration: BoxDecoration(
             color: AppColor.mainColor,
-          ),
-          borderRadius: const BorderRadius.all(
-            const Radius.circular(10.0),
-          ),
-        ),
-        child: Column(
-          children: [
-            Padding(
-                padding: EdgeInsets.only(top: 0),
-                child: TextField(
-                  controller: promoCodeField,
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10),),
-                      borderSide: BorderSide(
-                        width: 0,
-                        style: BorderStyle.none,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    counterText: '',
-                    hintStyle: TextStyle(
-                        color: Color(0xFFC0BFC6),
-                        fontSize: 14
-                    ),
-                    hintText: 'Введите промокод',
-                  ),
-                )
+            border: Border.all(
+              color: AppColor.mainColor,
             ),
-            GestureDetector(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Container(
-                  width: 280,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10),),
-                  ),
-                  child: Center(
-                    child: Text('Применить',
-                      style: TextStyle(
-                        fontSize: 21,
-                        color: AppColor.unselectedTextColor,
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(10.0),
+            ),
+          ),
+          child: Column(
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(top: 0),
+                  child: TextField(
+                    controller: promoCodeField,
+                    style: TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                    autofocus: true,
+                    decoration: new InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10),),
+                        borderSide: BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      counterText: '',
+                      hintStyle: TextStyle(
+                          color: Color(0xFFC0BFC6),
+                          fontSize: 14
+                      ),
+                      hintText: 'Введите промокод',
+                    ),
+                  )
+              ),
+              InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10),),
+                    ),
+                    child: Center(
+                      child: Text('Применить',
+                        style: TextStyle(
+                          fontSize: 21,
+                          color: AppColor.unselectedTextColor,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              onTap: () async {
-                title = promoCodeField.text;
-                CartModel tempCartModel = await sendPromo(title, currentUser.cartModel.uuid);
-                currentUser.cartModel = tempCartModel ?? currentUser.cartModel;
-                Navigator.pop(context);
-                setState(() {
-                  if(tempCartModel==null){
-                    promoCodeAlert(context);
-                    title = '  Введите\nпромокод';
-                  }
-                });
-              },
-            )
-          ],
+                onTap: () async {
+                  title = promoCodeField.text;
+                  CartModel tempCartModel = await sendPromo(title, currentUser.cartModel.uuid);
+                  currentUser.cartModel = tempCartModel ?? currentUser.cartModel;
+                   Navigator.pop(context);
+                  setState(() {
+                    if(tempCartModel==null){
+                      promoCodeAlert(context);
+                      title = '  Введите\nпромокод';
+                    }
+                  });
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

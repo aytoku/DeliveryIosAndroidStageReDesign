@@ -113,12 +113,32 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   }
 
 
-  _dayOff(ProductsByStoreUuid restaurantDataItems,
-      GlobalKey<MenuItemCounterState> menuItemCounterKey) {
-    bool isScheduleAvailable = restaurant.workSchedule.isAvailable();
-    Standard standard = restaurant.workSchedule.getCurrentStandard();
-    bool available = restaurant.available != null ? restaurant.available : true;
-    bool open = restaurant.open != null ? restaurant.open : true;
+  _dayOff() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(20),
+              topRight: const Radius.circular(20),
+            )),
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 300,
+            child: _dayOffBottomNavigationMenu(restaurant),
+            decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(20),
+                  topRight: const Radius.circular(20),
+                )),
+          );
+        });
+  }
+
+
+  _dayOffBottomNavigationMenu(FilteredStores restaurant) {
     return Container(
       decoration: BoxDecoration(
           color: AppColor.themeColor,
@@ -128,18 +148,18 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           )),
       child: Stack(
         children: <Widget>[
-         Padding(
-           padding: EdgeInsets.only(top: 30),
-           child: Align(
-               alignment: Alignment.topCenter,
-               child: Text('К сожалению, доставка не доступна.',
-                 style: TextStyle(
-                     fontSize: 16
-                 ),
-                 textAlign: TextAlign.center,
-               )
-           ),
-         ),
+          Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: Align(
+                alignment: Alignment.topCenter,
+                child: Text('К сожалению, доставка не доступна.',
+                  style: TextStyle(
+                      fontSize: 16
+                  ),
+                  textAlign: TextAlign.center,
+                )
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 25),
             child: Align(
@@ -173,6 +193,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       ),
     );
   }
+
 
   showAlertDialog(BuildContext context) {
     showDialog(
@@ -251,6 +272,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                           menuItem.setState(() {
 
                           });
+
 
                           if(productDataModel.product.type == "variable"){
                             Navigator.pop(context);

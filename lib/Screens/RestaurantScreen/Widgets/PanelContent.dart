@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
+import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/add_variant_to_cart.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/getProductData.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
@@ -12,8 +15,10 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemCou
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class PanelContent extends StatefulWidget {
   RestaurantScreenState parent;
@@ -42,6 +47,7 @@ class PanelContentState extends State<PanelContent>{
   new GlobalKey<PriceFieldState>();
   ProductsDataModel productsDescription;
   List<VariantsSelector> variantsSelectors;
+
 
   @override
   Widget build(BuildContext context) {
@@ -361,48 +367,53 @@ class PanelContentState extends State<PanelContent>{
                                     ),
                                     onTap: () async {
                                       if (await Internet.checkConnection()) {
-                                        ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
-                                        bool hasErrors = false;
-                                        cartProduct.variantGroups = new List<VariantGroup>();
-                                        variantsSelectors.forEach((variantGroupSelector) {
-                                          if(variantGroupSelector.key.currentState.hasSelectedVariants()){
-                                            cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
-                                            cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
-                                          } else if(variantGroupSelector.key.currentState.required) {
-                                            hasErrors = true;
-                                            variantGroupSelector.key.currentState.setState(() {
-                                              variantGroupSelector.key.currentState.error = true;
-                                            });
-                                          }
-                                        });
-
-                                        if(hasErrors){
-                                          return;
-                                        }
-
-                                        if(currentUser.cartModel != null && currentUser.cartModel.items != null
-                                            && currentUser.cartModel.items.length > 0
-                                            && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
-                                          print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
-                                          parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, menuItem);
-                                        } else {
-                                          currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
-                                          parent.panelController.close();
-                                          menuItem.setState(() {
-
+                                        try{
+                                          ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
+                                          bool hasErrors = false;
+                                          cartProduct.variantGroups = new List<VariantGroup>();
+                                          variantsSelectors.forEach((variantGroupSelector) {
+                                            if(variantGroupSelector.key.currentState.hasSelectedVariants()){
+                                              cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
+                                              cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
+                                            } else if(variantGroupSelector.key.currentState.required) {
+                                              hasErrors = true;
+                                              variantGroupSelector.key.currentState.setState(() {
+                                                variantGroupSelector.key.currentState.error = true;
+                                              });
+                                            }
                                           });
 
-                                          // Добавляем паддинг в конец
-                                          if(parent.itemsPaddingKey.currentState != null){
-                                            parent.itemsPaddingKey.currentState.setState(() {
+                                          if(hasErrors){
+                                            return;
+                                          }
+
+                                          if(currentUser.cartModel != null && currentUser.cartModel.items != null
+                                              && currentUser.cartModel.items.length > 0
+                                              && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
+                                            print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
+                                            parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, menuItem);
+                                          } else {
+                                            currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
+                                            parent.panelController.close();
+                                            menuItem.setState(() {
 
                                             });
-                                          }
 
-                                          parent.showAlertDialog(context);
-                                          if(parent.basketButtonStateKey.currentState != null){
-                                            parent.basketButtonStateKey.currentState.refresh();
+                                            // Добавляем паддинг в конец
+                                            if(parent.itemsPaddingKey.currentState != null){
+                                              parent.itemsPaddingKey.currentState.setState(() {
+
+                                              });
+                                            }
+
+                                            parent.showAlertDialog(context);
+                                            if(parent.basketButtonStateKey.currentState != null){
+                                              parent.basketButtonStateKey.currentState.refresh();
+                                            }
                                           }
+                                        }finally{
+                                          lock = false;
+                                          await Vibrate.canVibrate;
                                         }
                                       } else {
                                         noConnection(context);

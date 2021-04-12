@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 
 import '../../../Internet/check_internet.dart';
 import '../../../data/data.dart';
 import '../Bloc/phone_number_event.dart';
 import '../Bloc/phone_number_get_bloc.dart';
 import '../View/auth_screen.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class AuthButton extends StatefulWidget {
   Color color;
@@ -63,16 +65,21 @@ class AuthButtonState extends State<AuthButton> {
       ),
       onTap: () async {
         if (await Internet.checkConnection()) {
-          currentUser.phone = currentUser.phone.replaceAll('-', '');
-          currentUser.phone = currentUser.phone.replaceAll(' ', '');
-          print(currentUser.phone);
-          if (validateMobile(currentUser.phone) == null) {
-            if (currentUser.phone[0] != '+') {
-              currentUser.phone = '+' + currentUser.phone;
+          try{
+            currentUser.phone = currentUser.phone.replaceAll('-', '');
+            currentUser.phone = currentUser.phone.replaceAll(' ', '');
+            print(currentUser.phone);
+            if (validateMobile(currentUser.phone) == null) {
+              if (currentUser.phone[0] != '+') {
+                currentUser.phone = '+' + currentUser.phone;
+              }
+              authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone)); // отправка события в bloc
+            } else {
+              authGetBloc.add(SetError('Указан неверный номер')); // отправка события в bloc
             }
-            authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone)); // отправка события в bloc
-          } else {
-            authGetBloc.add(SetError('Указан неверный номер')); // отправка события в bloc
+          }finally{
+            lock = false;
+            await Vibrate.canVibrate;
           }
         } else {
           noConnection(context);

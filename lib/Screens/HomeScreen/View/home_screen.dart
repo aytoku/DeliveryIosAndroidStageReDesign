@@ -382,7 +382,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: AppColor.mainColor
+                    color: Color(0xFFFDCA02),
                   ),
                   child: Center(
                     child: Image(

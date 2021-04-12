@@ -9,6 +9,7 @@ import 'package:flutter_app/VersionControl/Model/CurrentVersionModel.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../Amplitude/amplitude.dart';
 import '../Config/config.dart';
@@ -80,7 +81,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFF7CB46),
+      color: Color(0xFFFDCA02),
       child: FutureBuilder<NecessaryDataForAuth>(
         future: devId,
         builder:
@@ -140,11 +141,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
               });
 
           } else {
-            return Center(
-              child: Image(
-                image: new AssetImage('assets/gif/preloader_fermer.gif'),
-              )
-            );
+            return Container();
           }
         },
       ),
