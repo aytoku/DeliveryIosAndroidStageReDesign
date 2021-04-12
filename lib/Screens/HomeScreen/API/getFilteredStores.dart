@@ -20,6 +20,6 @@ Future<FilteredStoresData> getFilteredStores(String city_uuid, bool only_parents
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
-  print(response.body);
+  print("HOME" + response.body);
   return filteredStores;
 }

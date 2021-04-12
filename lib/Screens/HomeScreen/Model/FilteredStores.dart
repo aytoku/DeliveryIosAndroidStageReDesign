@@ -405,7 +405,7 @@ class WorkSchedule {
 
   Standard getCurrentStandard(){
     DateTime now = DateTime.now();
-    int dayIndex  = now.weekday-1;
+    int dayIndex = now.weekday-1;
     Standard currentStandard;
 
     if(standard == null)
@@ -442,12 +442,12 @@ class Standard {
   });
 
   final String beginningTime;
-  final String endingTime;
+  String endingTime;
   final List<bool> weekDays;
 
   bool isAvailable(DateTime currentTime){ // currentTime (1970, 1, 1, now.hour, now.minute)
-    DateTime workBeginning = DateFormat('H:m').parse(beginningTime);
-    DateTime workEnding = DateFormat('H:m').parse(endingTime);
+    DateTime workBeginning = DateFormat('HH:mm').parse(beginningTime);
+    DateTime workEnding = DateFormat('HH:mm').parse(endingTime);
     return currentTime.isAfter(workBeginning) && currentTime.isBefore(workEnding);
   }
 

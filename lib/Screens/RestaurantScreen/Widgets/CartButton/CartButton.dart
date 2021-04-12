@@ -101,7 +101,7 @@ class CartButtonState extends State<CartButton> {
                       Text('Корзина',
                           style: TextStyle(
                               fontSize: 18.0,
-                              color: AppColor.unselectedTextColor)),
+                              color: AppColor.textColor)),
                       CartButtonCounter(
                         key: buttonCounterKey,
                       ),

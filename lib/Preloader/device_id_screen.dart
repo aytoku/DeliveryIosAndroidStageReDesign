@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Centrifugo/centrifugo.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
+import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
 import 'package:flutter_app/VersionControl/Model/CurrentVersionModel.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
@@ -27,12 +30,14 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
 
   Future<NecessaryDataForAuth> devId;
   CurrentVersionModel currentVersionModel;
+  Future<bool> animationDelay;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     devId = NecessaryDataForAuth.getData();
+    animationDelay = Future.delayed(Duration(seconds: 3), () => true);
     getVerData(context);
 
   }
@@ -76,11 +81,8 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // if(currentVersionModel.version == '0.0.1'){
-    //   showAlertDialog(context);
-    // }
     return Container(
-      color: Colors.white,
+      color: AppColor.mainColor,
       child: FutureBuilder<NecessaryDataForAuth>(
         future: devId,
         builder:
@@ -90,46 +92,59 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
             //   currentUser.cartModel = value;
             //   print('Cnjbn');
             // });
-            necessaryDataForAuth = snapshot.data;
-            if (necessaryDataForAuth.refresh_token == null ||
-                necessaryDataForAuth.phone_number == null ||
-                necessaryDataForAuth.name == null) {
-              currentUser.isLoggedIn = false;
+            return FutureBuilder<bool>(
+              future: animationDelay,
+              builder: (BuildContext context, AsyncSnapshot<bool> animationSnapshot){
+                if(animationSnapshot.connectionState != ConnectionState.done)
+                  return Center(
+                      child: Image(
+                        image: new AssetImage('assets/gif/preloader_fermer.gif'),
+                      )
+                  );
 
-              AmplitudeAnalytics.initialize(necessaryDataForAuth.device_id).then((value){
-                AmplitudeAnalytics.analytics.logEvent('open_app');
+                necessaryDataForAuth = snapshot.data;
+                if (necessaryDataForAuth.refresh_token == null ||
+                    necessaryDataForAuth.phone_number == null ||
+                    necessaryDataForAuth.name == null) {
+                  currentUser.isLoggedIn = false;
+
+                  AmplitudeAnalytics.initialize(necessaryDataForAuth.device_id).then((value){
+                    AmplitudeAnalytics.analytics.logEvent('open_app');
+                  });
+                  if(necessaryDataForAuth.city == null){
+                    return CityScreen();
+                  }else{
+                    selectedCity = necessaryDataForAuth.city;
+                    homeScreenKey =
+                    new GlobalKey<HomeScreenState>();
+                    return BlocProvider(
+                      create: (context)=> RestaurantGetBloc(),
+                      child: HomeScreen(),
+                    );
+                  }
+                }
+                print(necessaryDataForAuth.refresh_token);
+                AmplitudeAnalytics.initialize(necessaryDataForAuth.phone_number).then((value){
+                  AmplitudeAnalytics.analytics.logEvent('open_app');
+                });
+                Centrifugo.connectToServer();
+                if(necessaryDataForAuth.city == null){
+                  return CityScreen();
+                }else{
+                  selectedCity = necessaryDataForAuth.city;
+                  homeScreenKey =
+                  new GlobalKey<HomeScreenState>();
+                  return BlocProvider(
+                    create: (context)=> RestaurantGetBloc(),
+                    child: HomeScreen(),
+                  );
+                }
               });
-              if(necessaryDataForAuth.city == null){
-                return CityScreen();
-              }else{
-                selectedCity = necessaryDataForAuth.city;
-                homeScreenKey =
-                new GlobalKey<HomeScreenState>();
-                return BlocProvider(
-                  create: (context)=> RestaurantGetBloc(),
-                  child: HomeScreen(),
-                );
-              }
-            }
-            print(necessaryDataForAuth.refresh_token);
-            AmplitudeAnalytics.initialize(necessaryDataForAuth.phone_number).then((value){
-              AmplitudeAnalytics.analytics.logEvent('open_app');
-            });
-            if(necessaryDataForAuth.city == null){
-              return CityScreen();
-            }else{
-              selectedCity = necessaryDataForAuth.city;
-              homeScreenKey =
-              new GlobalKey<HomeScreenState>();
-              return BlocProvider(
-                create: (context)=> RestaurantGetBloc(),
-                child: HomeScreen(),
-              );
-            }
+
           } else {
             return Center(
               child: Image(
-                image: AssetImage('assets/images/Siria.png'),
+                image: new AssetImage('assets/gif/preloader_fermer.gif'),
               )
             );
           }

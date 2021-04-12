@@ -68,7 +68,7 @@ class CodeGetBloc extends Bloc<CodeEvent, CodeState> {
             authCodeData.token;
         await NecessaryDataForAuth.saveData();
 
-        // await Centrifugo.connectToServer();
+         await Centrifugo.connectToServer();
 
         // Изменение флажка и переход на скрин
         currentUser.isLoggedIn = true;

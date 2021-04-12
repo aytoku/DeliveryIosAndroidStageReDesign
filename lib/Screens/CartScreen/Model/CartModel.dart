@@ -124,7 +124,7 @@ class CartModel {
     cancelReason: json["cancel_reason"] == null ? null : json["cancel_reason"],
     cancelComment: json["cancel_comment"] == null ? null : json["cancel_comment"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    promotion: json["cancel"] == null ? null : Promotion.fromJson(json["promotion"]),
+    promotion: json["promotion"] == null ? null : Promotion.fromJson(json["promotion"]),
   );
 
   Map<String, dynamic> toJson() => {

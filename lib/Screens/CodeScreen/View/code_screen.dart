@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/AuthScreen/API/auth_data_pass.dart';
+import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/Model/Auth.dart';
 import 'package:flutter_app/Screens/CodeScreen/API/auth_code_data_pass.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_event.dart';

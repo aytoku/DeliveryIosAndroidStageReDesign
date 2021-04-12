@@ -3,6 +3,7 @@ import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
+import 'package:flutter_app/Screens/NameScreen/Widgets/NameButton.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class NameScreen extends StatefulWidget {
 }
 
 class NameScreenState extends State<NameScreen> {
-  GlobalKey<ButtonState> buttonStateKey;
+  GlobalKey<NameButtonState> buttonStateKey;
   TextEditingController nameFieldController;
   AuthSources source;
   NameScreenState(this.source);
@@ -35,7 +36,7 @@ class NameScreenState extends State<NameScreen> {
   @override
   void initState() {
     super.initState();
-    buttonStateKey = new GlobalKey<ButtonState>();
+    buttonStateKey = new GlobalKey<NameButtonState>();
     nameFieldController = new TextEditingController();
   }
 
@@ -140,7 +141,7 @@ class NameScreenState extends State<NameScreen> {
                           Padding(
                             padding: EdgeInsets.only(
                                 bottom: 20),
-                            child: Button(
+                            child: NameButton(
                               key: buttonStateKey,
                               color: AppColor.mainColor,
                               onTap: () async {
@@ -181,51 +182,6 @@ class NameScreenState extends State<NameScreen> {
             )
           ],
         )
-    );
-  }
-}
-
-class Button extends StatefulWidget {
-  Color color;
-  VoidCallback onTap;
-
-  Button({Key key, this.color, this.onTap}) : super(key: key);
-
-  @override
-  ButtonState createState() {
-    return new ButtonState(color, onTap: onTap);
-  }
-}
-
-class ButtonState extends State<Button> {
-  String error = '';
-  Color color;
-  final VoidCallback onTap;
-
-  ButtonState(this.color, {this.onTap});
-
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return GestureDetector(
-      child: Container(
-        width: 313,
-        height: 52,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Text('Далее',
-              style: TextStyle(
-                  fontSize: 18.0,
-                  color: AppColor.unselectedTextColor)),
-        ),
-      ),
-      onTap: () async {
-        await onTap();
-      },
     );
   }
 }

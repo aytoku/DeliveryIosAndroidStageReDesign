@@ -63,7 +63,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                     child: FlatButton(
                       child: Text(
                         'Продолжить',
-                        style: TextStyle(color: AppColor.unselectedTextColor, fontSize: 18),
+                        style: TextStyle(color: AppColor.textColor, fontSize: 18),
                       ),
                       color: AppColor.mainColor,
                       shape: RoundedRectangleBorder(

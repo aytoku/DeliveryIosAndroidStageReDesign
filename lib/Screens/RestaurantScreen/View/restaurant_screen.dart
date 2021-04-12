@@ -9,6 +9,7 @@ import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/getProductsByStoreUuid.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/API/get_filtered_products.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/CartButton/CartButton.dart';
@@ -24,6 +25,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/Sl
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverText.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/sliverAppBar.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ItemsPadding.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,8 +35,13 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../../data/globalVariables.dart';
 import '../../CartScreen/API/clear_cart.dart';
 import '../API/add_variant_to_cart.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ItemsPadding.dart';
+import '../API/get_filtered_product_categories.dart';
+import '../Model/FilteredProductCategories.dart';
 import '../Model/ProductDataModel.dart';
 
 class RestaurantScreen extends StatefulWidget {
@@ -61,6 +68,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   GlobalKey<ProductDescCounterState> counterKey;
   GlobalKey<CartButtonState> basketButtonStateKey;
   GlobalKey<SliverShadowState> sliverShadowKey;
+  GlobalKey<ItemsPaddingState> itemsPaddingKey;
   bool isLoading = true;
 
   GlobalKey<ScaffoldState> _scaffoldStateKey;
@@ -86,6 +94,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     basketButtonStateKey = new GlobalKey<CartButtonState>();
     _scaffoldStateKey = GlobalKey();
     sliverAppBarKey = GlobalKey();
+    itemsPaddingKey = GlobalKey();
     sliverScrollController = new ScrollController();
 
     // Инициализируем список категорий
@@ -713,6 +722,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       child: ClipRRect(
                           child: Stack(
                             children: <Widget>[
+                              Image.asset('assets/images/food.png', fit: BoxFit.fill,),
                               Image.network(
                                 getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
                                 fit: BoxFit.cover,
@@ -926,7 +936,12 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 color: AppColor.themeColor
                             ),
                             child: Column(
-                                children: sliverChildren
+                              children: [
+                                Column(
+                                    children: sliverChildren,
+                                ),
+                                ItemsPadding(key: itemsPaddingKey,)
+                              ],
                             ),
                           ),
                         );
@@ -954,16 +969,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   Widget _buildGroceryScreen() {
     isLoading = false;
 
-    List<ProductsByStoreUuid> filteredProducts;
-    if(restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length > 0){
-     filteredProducts = List.from(restaurantDataItems.productsByStoreUuidList.where(
-              (element) => element.productCategories[0].name == selectedCategoriesUuid.name
-      ));
-    }
 
     // Если хавки нет
-    if (restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length == 0 ||
-        filteredProducts.length == 0) {
+    if (restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length == 0) {
       return Container(
         color: AppColor.themeColor,
         child: Column(
@@ -1003,7 +1011,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                               ));
                         },
                         child: Padding(
-                          padding: EdgeInsets.only(top: 40),
+                          padding: EdgeInsets.only(top: 0),
                           child: Container(
                               height: 40,
                               width: 60,
@@ -1023,7 +1031,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(right: 30),
                         child: Text(
-                          this.restaurant.name,
+                          selectedCategoriesUuid.name,
                           style: TextStyle(
                             fontSize: 18,),
                         ),
@@ -1047,16 +1055,16 @@ class RestaurantScreenState extends State<RestaurantScreen> {
 
     // генерим список еды и названий категория
     foodMenuItems.clear();
-    foodMenuItems.addAll(MenuItem.fromFoodRecordsList(filteredProducts, this));
+    foodMenuItems.addAll(MenuItem.fromFoodRecordsList(restaurantDataItems.productsByStoreUuidList, this));
     foodMenuTitles.clear();
-    foodMenuTitles.addAll(MenuItemTitle.fromCategoryList([selectedCategoriesUuid]));
+    //foodMenuTitles.addAll(MenuItemTitle.fromCategoryList(restaurantDataItems.productsByStoreUuidList[0]));
     menuWithTitles = generateMenu();
 
     return Container(
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 0, top: 0),
+            padding: EdgeInsets.only(top: 15),
             child: Row(
               children: [
                 InkWell(
@@ -1097,11 +1105,11 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.24,
+                      left: 30,
                       top: 40
                   ),
                   child: Text(
-                    restaurant.name,
+                    selectedCategoriesUuid.name,
                     style: TextStyle(
                       fontSize: 18,),
                   ),
@@ -1110,18 +1118,22 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 100),
+            padding: const EdgeInsets.only(top: 120),
             child: StaggeredGridView.countBuilder(
               physics: BouncingScrollPhysics(),
               padding: EdgeInsets.zero,
               crossAxisCount: 2,
-              itemCount: menuWithTitles.length,
-              itemBuilder: (BuildContext context, int index) => menuWithTitles[index],
+              itemCount: menuWithTitles.length+1,
+              itemBuilder: (BuildContext context, int index) => (index == menuWithTitles.length) ? ItemsPadding(key: itemsPaddingKey,) : menuWithTitles[index],
               staggeredTileBuilder: (int index) {
+                if(index == menuWithTitles.length)
+                  return StaggeredTile.extent(2, 80);
+
                 if (menuWithTitles[index] is MenuItemTitle) {
                   return StaggeredTile.extent(2, 50);
                 }
-                return StaggeredTile.extent(1, 270);
+                return StaggeredTile.extent(1, 300);
+
               },
               mainAxisSpacing: 10.0,
               crossAxisSpacing: 0.0,
@@ -1195,11 +1207,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         _buildScreen()
             :
         FutureBuilder<ProductsByStoreUuidData>(
-            future: (restaurant.type == 'restaurant') ? getSortedProductsByStoreUuid(restaurant) : getProductsByStoreUuid(restaurant.uuid),
+            future: (restaurant.type == 'grocery')
+                ? getFilteredProduct(selectedCategoriesUuid.uuid, '')
+                : getSortedProductsByStoreUuid('', restaurant),
             initialData: null,
             builder: (BuildContext context,
                 AsyncSnapshot<ProductsByStoreUuidData> snapshot) {
-              print(snapshot.data);
+              print(snapshot.connectionState);
               if (snapshot.connectionState == ConnectionState.done) {
                 restaurantDataItems = snapshot.data;
                 return _buildScreen();
@@ -1262,4 +1276,3 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     return true;
   }
 }
-

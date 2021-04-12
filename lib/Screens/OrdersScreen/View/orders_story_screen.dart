@@ -69,7 +69,9 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                           textAlign: TextAlign.start,
                           style: TextStyle(fontSize: 18, color: Color(0xFF000000))),
                       Text(
-                        '${ordersStoryModelItem.totalPrice.toStringAsFixed(0)} \₽',
+                        '${(ordersStoryModelItem.promotion == null) ?
+                        ordersStoryModelItem.totalPrice.toStringAsFixed(0):
+                        (ordersStoryModelItem.totalPrice - ordersStoryModelItem.promotion.amount).toStringAsFixed(0)} \₽',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
@@ -91,7 +93,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                               child: SvgPicture.asset('assets/svg_images/clock.svg'),
                             ),
                             Text(
-                              format.format(ordersStoryModelItem.createdAt),
+                              format.format(ordersStoryModelItem.createdAt.add(Duration(hours: ordersStoryModelItem.storeData.workSchedule.timeZoneOffset))),
                               style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                             ),
                           ],
@@ -172,7 +174,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
       child: Scaffold(
           body: Column(
             children: [
-              ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'История зазказов',),
+              ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'История заказов',),
               Divider(height: 1.0, color: Colors.grey),
               FutureBuilder<OrderDetailsModel>(
                   future: getClientStoryOrders(),

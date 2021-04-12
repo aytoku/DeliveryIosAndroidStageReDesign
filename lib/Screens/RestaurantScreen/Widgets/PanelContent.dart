@@ -354,7 +354,7 @@ class PanelContentState extends State<PanelContent>{
                                           child: Text(
                                             "Добавить",
                                             style:
-                                            TextStyle(color: AppColor.unselectedTextColor, fontSize: 18),
+                                            TextStyle(color: AppColor.textColor, fontSize: 18),
                                           ),
                                         ),
                                       ),
@@ -391,14 +391,14 @@ class PanelContentState extends State<PanelContent>{
                                           menuItem.setState(() {
 
                                           });
-                                          if(currentUser.cartModel.items == null
-                                              || currentUser.cartModel.items.length < 1
-                                                || parent.foodMenuItems.last.key.currentState != null){
-                                            parent.foodMenuItems.last.key.currentState.cartBottomPadding = true;
-                                            parent.foodMenuItems.last.key.currentState.setState(() {
+
+                                          // Добавляем паддинг в конец
+                                          if(parent.itemsPaddingKey.currentState != null){
+                                            parent.itemsPaddingKey.currentState.setState(() {
 
                                             });
                                           }
+
                                           parent.showAlertDialog(context);
                                           if(parent.basketButtonStateKey.currentState != null){
                                             parent.basketButtonStateKey.currentState.refresh();
