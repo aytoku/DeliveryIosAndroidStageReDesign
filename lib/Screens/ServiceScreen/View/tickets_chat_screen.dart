@@ -227,7 +227,7 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
           } else {
             return Center(
               child: SpinKitFadingCircle(
-                color: Colors.green,
+                color: AppColor.mainColor,
                 size: 50.0,
               ),
             );

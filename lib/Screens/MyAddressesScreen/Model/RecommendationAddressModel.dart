@@ -1,5 +1,6 @@
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 
 import '../../../data/refreshToken.dart';
 import 'package:http/http.dart' as http;

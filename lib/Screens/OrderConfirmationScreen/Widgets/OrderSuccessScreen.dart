@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderSuccessScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          color: AppColor.elementsColor,
+          color: AppColor.themeColor,
           child: Stack(
             children: <Widget>[
               Align(
@@ -32,11 +33,10 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 40),
                   child: (necessaryDataForAuth.name == '') ? Text('Ваш заказ принят!', style: TextStyle(
-                      fontSize: 24, color: AppColor.textColor,
+                      fontSize: 24
                   ),) : Text(name + ', ваш заказ принят! ',
                     style: TextStyle(
-                        fontSize: 24,
-                      color: AppColor.textColor
+                        fontSize: 24
                     ),
                   ),
                 ),
@@ -47,8 +47,7 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                   padding: EdgeInsets.only(top: 60),
                   child: Text('Вы можете отследить его статус\nна главной странице!',
                     style: TextStyle(
-                        fontSize: 18,
-                      color: AppColor.textColor
+                        fontSize: 18
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -57,14 +56,14 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  // decoration: BoxDecoration(color: Colors.white),
+                  decoration: BoxDecoration(color: AppColor.themeColor),
                   child: Padding(
                     padding:
                     EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
                     child: FlatButton(
                       child: Text(
                         'Продолжить',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: TextStyle(color: AppColor.textColor, fontSize: 18),
                       ),
                       color: AppColor.mainColor,
                       shape: RoundedRectangleBorder(

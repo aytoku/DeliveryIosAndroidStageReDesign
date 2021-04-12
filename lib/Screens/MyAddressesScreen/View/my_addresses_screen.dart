@@ -4,6 +4,7 @@ import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,7 +28,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: Container(
-          color: Colors.white,
+          color: AppColor.themeColor,
           child: Column(
             children: [
               Padding(
@@ -129,7 +130,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                                 top: 0, left: 30, bottom: 0),
                                             child: GestureDetector(
                                                 child: Container(
-                                                  decoration: BoxDecoration(color: Colors.white),
+                                                  decoration: BoxDecoration(color: AppColor.themeColor),
                                                   padding: EdgeInsets.only(top: 15, bottom: 15),
                                                   child: Row(
                                                     children: <Widget>[
@@ -145,7 +146,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                                           style: TextStyle(
                                                               fontSize: 16,
                                                               color:
-                                                              Colors.grey),
+                                                              AppColor.additionalTextColor),
                                                         ),
                                                       )
                                                     ],
@@ -184,7 +185,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                               spreadRadius: 1.0, //extend the shadow
                                             )
                                           ],
-                                          color: Colors.white,
+                                          color: AppColor.themeColor,
                                           borderRadius: BorderRadius.circular(10.0),
                                           border: Border.all(width: 1.0, color: Colors.grey[200])),
                                       child: Column(
@@ -208,7 +209,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                                             :
                                                         "-",
                                                         style:
-                                                        TextStyle(fontSize: 10, color: Colors.grey),
+                                                        TextStyle(fontSize: 10, color: AppColor.additionalTextColor),
                                                       ),
                                                     ],
                                                   ),
@@ -409,7 +410,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                       padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
                       child: Center(
                         child: SpinKitFadingCircle(
-                          color: Colors.green,
+                          color: AppColor.mainColor,
                           size: 50.0,
                         ),
                       ),
@@ -426,7 +427,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                       child: Text('Добавить адрес',
                           style: TextStyle(
                               fontSize: 16.0,
-                              color: Colors.white)),
+                              color: AppColor.textColor)),
                       color: AppColor.mainColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

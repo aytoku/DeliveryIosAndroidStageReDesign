@@ -1,5 +1,6 @@
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_app/data/refreshToken.dart';
 import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/data/data.dart';
@@ -10,11 +11,12 @@ import 'dart:convert' as convert;
 
 Future<OrderDetailsModel> getClientStoryOrders() async {
   await SendRefreshToken.sendRefreshToken();
-  OrderDetailsModel ordersDetails;
+  OrderDetailsModel ordersDetails = null;
   var url = '${apiUrl}orders/history';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
-    'Authorization':'Bearer ' + authCodeData.token
+    'Authorization':'Bearer ' + authCodeData.token,
+    'Application': header
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);

@@ -1,5 +1,6 @@
 import 'package:flutter_app/Screens/ServiceScreen/API/getTicketByFilter.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 
 class TicketModel{
   String uuid;

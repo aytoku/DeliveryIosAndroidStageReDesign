@@ -4,10 +4,14 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
+
 
 class RestaurantsList extends StatefulWidget {
 
@@ -32,16 +36,19 @@ class RestaurantsListState extends State<RestaurantsList>{
     super.initState();
   }
 
+
   _buildRestaurantsList() {
-    DateTime now = DateTime.now();
-    int currentTime = now.hour*60+now.minute;
-    int dayNumber  = now.weekday-1;
     List<Widget> restaurantList = [];
     records_items.forEach((FilteredStores restaurant) {
-//      int work_beginning = restaurant.work_schedule[dayNumber].work_beginning;
-//      int work_ending = restaurant.work_schedule[dayNumber].work_ending;
-//      bool day_off = restaurant.work_schedule[dayNumber].day_off;
-//      bool available = restaurant.available != null ? restaurant.available : true;
+     bool isScheduleAvailable = restaurant.workSchedule.isAvailable();
+     Standard standard = restaurant.workSchedule.getCurrentStandard();
+     bool available = restaurant.available.flag != null ? restaurant.available.flag : true;
+      available = true;
+     bool open = restaurant.open != null ? restaurant.open : true;
+      open = true;
+     if(restaurant.type == 'grocery'){
+       print(restaurant.uuid + 'GROCERY');
+     }
       restaurantList.add(InkWell(
           hoverColor: AppColor.themeColor,
           focusColor: AppColor.themeColor,
@@ -62,63 +69,70 @@ class RestaurantsListState extends State<RestaurantsList>{
                 border: Border.all(width: 1.0, color: AppColor.elementsColor)),
             child: Column(
               children: <Widget>[
-//                ( day_off ||
-//                    !available ||
-//                    !(currentTime >= work_beginning && currentTime < work_ending)) ? Stack(
-//                  children: [
-//                    ClipRRect(
-//                        borderRadius: BorderRadius.only(
-//                            topLeft: Radius.circular(15),
-//                            topRight: Radius.circular(15),
-//                            bottomLeft: Radius.circular(0),
-//                            bottomRight: Radius.circular(0)),
-//                        child: Hero(
-//                            tag: restaurant.uuid,
-//                            child: ColorFiltered(
-//                              colorFilter: ColorFilter.mode(
-//                                  Colors.grey,
-//                                  BlendMode.saturation
-//                              ),
-//                              child: Image.network(
-//                                getImage(restaurant.image),
-//                                height: 200.0,
-//                                width: MediaQuery.of(context).size.width,
-//                                fit: BoxFit.cover,
-//                              ),
-//                            ))),
-//                    Padding(
-//                      padding: const EdgeInsets.only(top: 150.0),
-//                      child: Align(
-//                        alignment: Alignment.bottomRight,
-//                        child: Container(
-//                          height: 32,
-//                          width: 250,
-//                          decoration: BoxDecoration(
-//                              borderRadius: BorderRadius.only(
-//                                  topLeft: Radius.circular(20),
-//                                  bottomLeft: Radius.circular(20)
-//                              ),
-//                              color: Colors.black.withOpacity(0.5)
-//                          ),
-//                          child: Center(
-//                            child: Padding(
-//                              padding: const EdgeInsets.only(left: 8.0, right: 8),
-//                              child: Text(
-//                                "Заведение откроется в ${(work_beginning / 60).toStringAsFixed(0)} часов",
-//                                style: TextStyle(
-//                                    fontSize: 12.0,
-//                                    fontWeight: FontWeight.w600,
-//                                    color: Colors.white
-//                                ),
-//                                overflow: TextOverflow.ellipsis,
-//                              ),
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    )
-//                  ],
-//                ) :
+               (!available ||
+                   !(isScheduleAvailable) ? Stack(
+                 children: [
+                   ClipRRect(
+                       borderRadius: BorderRadius.only(
+                           topLeft: Radius.circular(15),
+                           topRight: Radius.circular(15),
+                           bottomLeft: Radius.circular(0),
+                           bottomRight: Radius.circular(0)),
+                       child: Hero(
+                           tag: restaurant.uuid,
+                           child: ColorFiltered(
+                             colorFilter: ColorFilter.mode(
+                                 Colors.grey,
+                                 BlendMode.saturation
+                             ),
+                             child: Image.network(
+                               getImage((restaurant.meta.images.length > 0 )? restaurant.meta.images[0]: ''),
+                               height: 200.0,
+                               width: MediaQuery.of(context).size.width,
+                               fit: BoxFit.cover,
+                             ),
+                           ))),
+                   Padding(
+                     padding: const EdgeInsets.only(top: 150.0),
+                     child: Align(
+                       alignment: Alignment.bottomRight,
+                       child: Container(
+                         height: 32,
+                         width: 250,
+                         decoration: BoxDecoration(
+                             borderRadius: BorderRadius.only(
+                                 topLeft: Radius.circular(20),
+                                 bottomLeft: Radius.circular(20)
+                             ),
+                             color: Colors.black.withOpacity(0.5)
+                         ),
+                         child: Center(
+                           child: Padding(
+                             padding: const EdgeInsets.only(left: 8.0, right: 8),
+                             child: (!available) ? Text(
+                               restaurant.available.reason,
+                               style: TextStyle(
+                                   fontSize: 12.0,
+                                   fontWeight: FontWeight.w600,
+                                   color: Colors.white
+                               ),
+                               overflow: TextOverflow.ellipsis,
+                             ) : Text(
+                               (standard!= null) ? "Заведение откроется в ${standard.beginningTime} часов" : '',
+                               style: TextStyle(
+                                   fontSize: 12.0,
+                                   fontWeight: FontWeight.w600,
+                                   color: Colors.white
+                               ),
+                               overflow: TextOverflow.ellipsis,
+                             ),
+                           ),
+                         ),
+                       ),
+                     ),
+                   )
+                 ],
+               ) :
                 Stack(
                   children: [
                     ClipRRect(
@@ -127,14 +141,19 @@ class RestaurantsListState extends State<RestaurantsList>{
                             topRight: Radius.circular(15),
                             bottomLeft: Radius.circular(0),
                             bottomRight: Radius.circular(0)),
-                        child:  Image.network(
-                          getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
-                          height: 200.0,
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.cover,
+                        child:  Stack(
+                          children: [
+                            Center(child: Image.asset('assets/images/food.png')),
+                            Image.network(
+                              getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
+                              height: 200.0,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
                         )),
                   ],
-                ),
+                )),
                 Container(
                   margin: EdgeInsets.only(left: 15.0, top: 12, bottom: 12),
                   child: Column(
@@ -148,7 +167,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                           style: TextStyle(
                             fontSize: 21.0,
                             fontWeight: FontWeight.w500,
-                            color: AppColor.textColor,),
+                            color: Color(0xFF3F3F3F),),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -170,13 +189,13 @@ class RestaurantsListState extends State<RestaurantsList>{
                                 child: Row(
                                   children: [
                                     SvgPicture.asset('assets/svg_images/rest_star.svg',
-                                      color: Colors.white,
+                                      color: AppColor.textColor,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 3.0),
-                                      child: Text(restaurant.meta.rating.toString(),
+                                      child: Text("5.0",
                                         style: TextStyle(
-                                            color: Colors.white
+                                            color: AppColor.textColor
                                         ),
                                       ),
                                     )
@@ -195,14 +214,13 @@ class RestaurantsListState extends State<RestaurantsList>{
                                   Padding(
                                     padding: const EdgeInsets.only(right: 5.0, left: 0),
                                     child: SvgPicture.asset(
-                                        'assets/svg_images/rest_car.svg',
-                                    color: AppColor.textColor,),
+                                        'assets/svg_images/rest_car.svg'),
                                   ),
                                   Text(
                                     restaurant.meta.avgDeliveryTime.toString(),
                                     style: TextStyle(
                                         fontSize: 14.0,
-                                        color: AppColor.textColor,
+                                        color: Colors.black,
                                         fontWeight: FontWeight.w500
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -224,7 +242,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                                     '${restaurant.meta.avgDeliveryPrice}',
                                     style: TextStyle(
                                         fontSize: 14.0,
-                                        color: AppColor.textColor,
+                                        color: Colors.black,
                                         fontWeight: FontWeight.w500
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -243,12 +261,21 @@ class RestaurantsListState extends State<RestaurantsList>{
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) {
-                  return  RestaurantScreen(restaurant: restaurant);
-                }),
-              );
+              if(restaurant.type == 'restaurant'){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) {
+                    return RestaurantScreen(restaurant: restaurant);
+                  }),
+                );
+              }else{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) {
+                    return GroceryScreen(restaurant: restaurant);
+                  }),
+                );
+              }
             } else {
               noConnection(context);
             }

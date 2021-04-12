@@ -6,10 +6,12 @@ import 'package:flutter_app/Screens/CityScreen/View/add_city_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CityScreen extends StatefulWidget {
+
   CityScreen({Key key}) : super(key: key);
 
   @override
@@ -18,20 +20,22 @@ class CityScreen extends StatefulWidget {
   }
 }
 
-class CityScreenState extends State<CityScreen> {
+class CityScreenState extends State<CityScreen>{
+
   TextEditingController cityController;
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     cityController = new TextEditingController();
   }
 
   @override
-  void dispose() {
+  void dispose(){
     super.dispose();
     cityController.dispose();
   }
+
 
   CityScreenState();
 
@@ -62,181 +66,163 @@ class CityScreenState extends State<CityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (selectedCity != null) {
+    if(selectedCity != null){
       cityController.text = selectedCity.name;
     }
     return Scaffold(
-      backgroundColor: AppColor.themeColor,
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 150.0),
-            child: Align(
-              alignment: Alignment.center,
-              child: Image.asset('assets/images/Beirut.png', width: 200, height: 200,),
-            ),
-          ),
-          // SvgPicture.asset('assets/svg_images/city.svg',
-          //   fit: BoxFit.cover,
-          // ),
-          (currentUser.isLoggedIn)
-              ? Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 50, left: 20),
-                    child: GestureDetector(
-                      child: SvgPicture.asset(
-                          'assets/svg_images/rest_arrow_left.svg'),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                )
-              : Container(),
-          (!currentUser.isLoggedIn)
-              ? Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 50, right: 20),
-                    child: GestureDetector(
-                      child: Container(
-                        width: 125,
-                        height: 41,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColor.mainColor),
-                        child: Center(
-                          child: Text(
-                            'Войти',
-                            style: TextStyle(
-                                fontSize: 18, color: AppColor.unselectedTextColor),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                              create: (context) => AuthGetBloc(),
-                              child: AuthScreen(),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                )
-              : Container(),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 190,
-              decoration: BoxDecoration(
-                  color: AppColor.themeColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ]
+      backgroundColor: AppColor.mainColor,
+        body:  Stack(
+          children: [
+            Center(child: Image.asset('assets/images/Beirut.png',),),
+            (currentUser.isLoggedIn) ? Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 50, left: 20),
+                child: GestureDetector(
+                  child: SvgPicture.asset(
+                      'assets/svg_images/rest_arrow_left.svg'),
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 20),
-                      child: Text(
-                        'Укажите город доставки',
+            ) : Container(),
+            (!currentUser.isLoggedIn) ? Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50, right: 20),
+                child: GestureDetector(
+                  child: Container(
+                    width: 125,
+                    height: 41,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColor.themeColor
+                    ),
+                    child: Center(
+                      child: Text('Войти',
                         style: TextStyle(
-                          fontSize: 18,
-                          color: AppColor.textColor,
+                            fontSize: 18,
+                            color: AppColor.textColor
                         ),
-                        textAlign: TextAlign.start,
                       ),
                     ),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                    child: GestureDetector(
-                      child: TextField(
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: AppColor.textColor,
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                          create: (context)=> AuthGetBloc(),
+                          child: AuthScreen(),
                         ),
-                        controller: cityController,
-                        decoration: InputDecoration(
-                            enabled: false,
-                            contentPadding: EdgeInsets.only(left: 2),
-                            hintText: 'Введите город',
-                            hintStyle:
-                                TextStyle(fontSize: 14.0, color: Colors.grey)),
                       ),
-                      onTap: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => AddCityScreen()),
-                            (Route<dynamic> route) => false);
-                      },
+                    );
+                  },
+                ),
+              ),
+            ) : Container(),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 190,
+                decoration: BoxDecoration(
+                    color: AppColor.themeColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
                     ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ]
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 20, right: 20, left: 20),
-                        child: GestureDetector(
-                          child: Container(
-                            height: 52,
-                            width: 335,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                color: (cityController.text.length == 0)
-                                    ? AppColor.subElementsColor
-                                    : AppColor.mainColor),
-                            child: Center(
-                              child: Text(
-                                'Далее',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            ),
+                        padding: const EdgeInsets.only(top: 20, left: 20),
+                        child: Text('Укажите город доставки',
+                          style: TextStyle(
+                            fontSize: 18,
                           ),
-                          onTap: () {
-                            if (cityController.text.length == 0) {
-                              showAlertDialog(context);
-                            }
-                            homeScreenKey = new GlobalKey<HomeScreenState>();
-                            Navigator.of(context).push(
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                      child: GestureDetector(
+                        child: TextField(
+                          controller: cityController,
+                          decoration: InputDecoration(
+                              enabled: false,
+                              contentPadding: EdgeInsets.only(left: 2),
+                              hintText: 'Введите город',
+                              hintStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: AppColor.additionalTextColor
+                              )
+                          ),
+                        ),
+                        onTap: (){
+                          Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                builder: (context) => BlocProvider(
-                                  create: (context) => RestaurantGetBloc(),
-                                  child: new HomeScreen(),
+                                  builder: (context) => AddCityScreen()),
+                                  (Route<dynamic> route) => false);
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom:  20, right: 20, left: 20),
+                          child: GestureDetector(
+                            child: Container(
+                              height: 52,
+                              width: 335,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: (cityController.text.length == 0) ? Color(0xFFF6F6F6) : AppColor.mainColor
+                              ),
+                              child: Center(
+                                child: Text('Далее',
+                                  style: TextStyle(
+                                      color: AppColor.textColor,
+                                      fontSize: 18
+                                  ),
                                 ),
                               ),
-                            );
-                          },
+                            ),
+                            onTap: (){
+                              if(cityController.text.length == 0){
+                                showAlertDialog(context);
+                              }
+                              homeScreenKey = new GlobalKey<HomeScreenState>();
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                        create: (context) => RestaurantGetBloc(),
+                                        child: new HomeScreen(),
+                                      )));
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
-      ),
+            )
+          ],
+        )
     );
   }
 }

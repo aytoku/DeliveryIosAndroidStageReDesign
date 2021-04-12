@@ -23,7 +23,7 @@ class TotalPriceState extends State<TotalPrice> {
           '${totalPrice.toStringAsFixed(0)} \₽',
           style: TextStyle(
               fontSize: 18.0,
-              color: AppColor.textColor)),
+              color: Colors.black)),
     );
   }
 }

@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'package:device_id/device_id.dart';
+import 'package:flutter_app/Application/API/get_color_scheme.dart';
 import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/Model/PaymentMethod.dart';
+import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -18,6 +22,7 @@ class NecessaryDataForAuth{
   String name;
   String token;
   FilteredCities city;
+  PaymentMethod selectedPaymentMethod;
   static NecessaryDataForAuth _necessaryDataForAuth;
 
   NecessaryDataForAuth({
@@ -26,6 +31,7 @@ class NecessaryDataForAuth{
     this.token,
     this.city,
     this.refresh_token,
+    this.selectedPaymentMethod,
     this.name
   });
 
@@ -38,14 +44,29 @@ class NecessaryDataForAuth{
     String refresh_token = prefs.getString('refresh_token');
     String name = prefs.getString('name');
     String cityJson = prefs.getString('city');
+    String selectedPaymentMethodJSON = prefs.getString('selected_payment_method') ?? jsonEncode({
+      "name": "Наличными",
+      "image": "assets/svg_images/dollar_bills.svg",
+      "tag": "cash",
+      "outputTag": "cash"
+    });
     String token = prefs.getString('token');
 
 
     FilteredCities city;
+    PaymentMethod selectedPaymentMethod;
 
     if(cityJson != null){
       city = FilteredCities.fromJson(convert.jsonDecode(cityJson));
     }
+
+    if(selectedPaymentMethodJSON != null){
+      selectedPaymentMethod = PaymentMethod.fromJson(convert.jsonDecode(selectedPaymentMethodJSON));
+    }
+
+     await getColorScheme(header);
+    await getAppInfo();
+
 
     NecessaryDataForAuth result = new NecessaryDataForAuth(
         device_id: device_id,
@@ -53,6 +74,7 @@ class NecessaryDataForAuth{
         refresh_token: refresh_token,
         name: name,
         token: token,
+        selectedPaymentMethod: selectedPaymentMethod,
         city: city,
     );
 
@@ -62,7 +84,6 @@ class NecessaryDataForAuth{
     _necessaryDataForAuth = result;
     if(refresh_token != null){
       result.token = authCodeData.token;
-     // await Centrifugo.connectToServer();
       await saveData();
     }
 
@@ -74,12 +95,14 @@ class NecessaryDataForAuth{
     String refresh_token = _necessaryDataForAuth.refresh_token;
     String name = _necessaryDataForAuth.name;
     String city = convert.jsonEncode(_necessaryDataForAuth.city.toJson());
+    String selectedPaymentMethod = convert.jsonEncode(_necessaryDataForAuth.selectedPaymentMethod.toJson());
     String token = _necessaryDataForAuth.token;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('phone_number', phone_number);
     prefs.setString('refresh_token',refresh_token);
     prefs.setString('name',name);
     prefs.setString('city',city);
+    prefs.setString('selected_payment_method',selectedPaymentMethod);
     prefs.setString('token',token);
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter_app/Screens/HomeScreen/Model/AllStoreCategories.dart';
 import 'package:flutter_app/data/api.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -10,8 +11,7 @@ Future<AllStoreCategoriesData> getAllStoreCategories(String city_uuid) async {
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',
-    'Source':'ios_client_app_1',
-    "ServiceName": 'faem_food',
+    'Application': header
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);

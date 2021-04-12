@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/MyAddressesScreen/Model/my_addresses_model.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/API/get_delivery_tariff.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/View/autocolplete_field_list.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/svg.dart';
 import 'address_screen.dart';
 
@@ -43,11 +45,6 @@ class AddAddressScreenState extends State<AddAddressScreen> {
     cartPageKey = new GlobalKey();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +52,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
     commentField.text = myAddressesModel.description;
     // TODO: implement build
     return Scaffold(
-      backgroundColor: AppColor.elementsColor,
+      backgroundColor: AppColor.themeColor,
       resizeToAvoidBottomPadding: false,
       body: GestureDetector(
         child: Stack(
@@ -64,10 +61,10 @@ class AddAddressScreenState extends State<AddAddressScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 InkWell(
-                  hoverColor: Colors.white,
-                  focusColor: Colors.white,
-                  splashColor: Colors.white,
-                  highlightColor: Colors.white,
+                  hoverColor: AppColor.themeColor,
+                  focusColor: AppColor.themeColor,
+                  splashColor: AppColor.themeColor,
+                  highlightColor: AppColor.themeColor,
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -79,7 +76,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                 padding: EdgeInsets.only(
                                     top: 12, bottom: 12, right: 10),
                                 child:SvgPicture.asset(
-                                    'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
+                                    'assets/svg_images/arrow_left.svg'),
                               )))),
                   onTap: () {
                     Navigator.pop(context);
@@ -113,7 +110,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                color: AppColor.elementsColor,
+                color: AppColor.themeColor,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 5),
                   child: FlatButton(
@@ -121,7 +118,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         "Добавить адрес",
                         style: TextStyle(
                             fontSize: 16.0,
-                            color: AppColor.themeColor)
+                            color: AppColor.textColor)
                     ),
                     color: AppColor.mainColor,
                     shape: RoundedRectangleBorder(
@@ -134,13 +131,29 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         if(myAddressesModel.address == null){
                           return;
                         }
+                        parent.isAddressSelected = true;
+
+                        // поля для
+                        myAddressesModel.entranceField = autoCompleteFieldKey.currentState.entranceField.text;
+                        myAddressesModel.floorField = autoCompleteFieldKey.currentState.floorField.text;
+                        myAddressesModel.officeField = autoCompleteFieldKey.currentState.officeField.text;
+                        myAddressesModel.intercomField = autoCompleteFieldKey.currentState.intercomField.text;
+                        myAddressesModel.deliveryTariff = await getDeliveryTariff();
+
                         myAddressesModel.name = nameField.text;
                         myAddressesModel.description = commentField.text;
+                        //Navigator.pop(context);
                         Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.push(context,
-                          new MaterialPageRoute(builder: (context) => new AddressScreen(restaurant: parent.restaurant, myAddressesModelList: parent.myAddressesModelList, isTakeAwayOrderConfirmation: false,)),
-                        );
+                        // Navigator.push(context,
+                        //   new MaterialPageRoute(builder: (context) => new AddressScreen(restaurant: parent.restaurant, myAddressesModelList: parent.myAddressesModelList, isTakeAwayOrderConfirmation: false,)),
+                        // );
+                        setState(() {
+
+                        });
+                        parent.setState(() {
+
+                        });
+
                       } else {
                         noConnection(context);
                       }

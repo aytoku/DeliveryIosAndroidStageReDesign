@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CityScreen/API/getFilteredCities.dart';
 import 'package:flutter_app/Screens/CityScreen/Model/FilteredCities.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -171,7 +172,7 @@ class AutocompleteListState extends State<AutocompleteList> {
   Widget suggestionRow(){
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: AppColor.elementsColor,
+      color: AppColor.themeColor,
       height: MediaQuery.of(context).size.height * 0.65,
       child: ListView(
           padding: EdgeInsets.zero,
@@ -188,8 +189,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                           child: Text(suggestions[index].name,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 16,
-                              color: AppColor.textColor
+                                fontSize: 16
                             ),
                           ),
                         ),
@@ -198,7 +198,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                           child: Text(suggestions[index].meta.description,
                             style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.grey
+                                color: AppColor.additionalTextColor
                             ),
                           ),
                         ),
@@ -215,7 +215,7 @@ class AutocompleteListState extends State<AutocompleteList> {
                 parent.controller.text = suggestions[index].name;
                 selectedCity = parent.selectedValue;
                 necessaryDataForAuth.city = selectedCity;
-                NecessaryDataForAuth.saveData();
+                await NecessaryDataForAuth.saveData();
                 Navigator.push(context,
                   new MaterialPageRoute(builder: (context) => new CityScreen()),
                 );
@@ -259,53 +259,5 @@ class AutocompleteListState extends State<AutocompleteList> {
       );
     }
     return suggestionRow();
-  }
-}
-
-
-class Cross extends StatefulWidget {
-
-  TextEditingController controller;
-  AutocompleteList autocompleteList;
-  Cross(this.controller, this.autocompleteList, {Key key}) : super(key: key);
-
-  @override
-  CrossState createState() {
-    return new CrossState(controller, autocompleteList);
-  }
-}
-
-class CrossState extends State<Cross> {
-  TextEditingController controller;
-  AutocompleteList autocompleteList;
-  CrossState(this.controller, this.autocompleteList);
-
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(() {
-      setState(() {
-
-      });
-    });
-  }
-
-  Widget build(BuildContext context) {
-    if(controller.text.length == 0){
-      return Container();
-    }
-    return GestureDetector(
-      child: SvgPicture.asset(
-          'assets/svg_images/auto_cross.svg'),
-      onTap: (){
-        if(controller.text != ''){
-          autocompleteList.autoCompleteListKey.currentState.suggestions.clear();
-          controller.clear();
-          autocompleteList.autoCompleteListKey.currentState.setState((){
-
-          });
-        }
-      },
-    );
   }
 }

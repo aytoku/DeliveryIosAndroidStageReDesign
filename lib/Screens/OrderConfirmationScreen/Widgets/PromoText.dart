@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
+import 'package:flutter_app/data/globalVariables.dart';
+import 'package:flutter_app/Screens/OrderConfirmationScreen/API/promo_code.dart';
 
 import '../../../data/data.dart';
 
@@ -32,6 +35,31 @@ class PromoTextState extends State<PromoText>{
   void dispose(){
     super.dispose();
     promoCodeField.dispose();
+  }
+
+  promoCodeAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Padding(
+          padding: EdgeInsets.only(bottom: 500),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Промокод не действителен"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   _promoCode() {
@@ -82,8 +110,6 @@ class PromoTextState extends State<PromoText>{
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                   autofocus: true,
-                  maxLength: 4,
-                  keyboardType: TextInputType.number,
                   decoration: new InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10),),
@@ -115,17 +141,23 @@ class PromoTextState extends State<PromoText>{
                   child: Center(
                     child: Text('Применить',
                       style: TextStyle(
-                          fontSize: 21,
-                          color: Colors.white
+                        fontSize: 21,
+                        color: AppColor.unselectedTextColor,
                       ),
                     ),
                   ),
                 ),
               ),
-              onTap: (){
+              onTap: () async {
+                title = promoCodeField.text;
+                CartModel tempCartModel = await sendPromo(title, currentUser.cartModel.uuid);
+                currentUser.cartModel = tempCartModel ?? currentUser.cartModel;
                 Navigator.pop(context);
                 setState(() {
-                  title = promoCodeField.text;
+                  if(tempCartModel==null){
+                    promoCodeAlert(context);
+                    title = '  Введите\nпромокод';
+                  }
                 });
               },
             )
@@ -141,7 +173,7 @@ class PromoTextState extends State<PromoText>{
       padding: EdgeInsets.only(
           top: 10, left: 0, right: 0, bottom: 10),
       child: Align(
-        alignment: Alignment.bottomLeft,
+        alignment: Alignment.bottomRight,
         child: InkWell(
           child: Container(
             width: 160,
@@ -154,7 +186,7 @@ class PromoTextState extends State<PromoText>{
                       offset: Offset(0.0, 1)
                   )
                 ],
-                color: Colors.white,
+                color: AppColor.themeColor,
                 borderRadius: BorderRadius.circular(10.0),
                 border: Border.all(width: 1.0, color: Colors.grey[200])),
             child: Padding(
@@ -162,10 +194,10 @@ class PromoTextState extends State<PromoText>{
                   top: 10, left: 15, right: 15, bottom: 10),
               child: Column(
                 children: [
-                  (promoCodeField.text != '') ? Text('Промокод применен',
+                  (title != '  Введите\nпромокод') ? Text('Промокод применен',
                     style: TextStyle(
                         color: Color(0xFFB8B8B8), fontSize: 12),) : Container(),
-                  (promoCodeField.text != '') ? Align(
+                  (title != '  Введите\nпромокод') ? Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 3, top: 10),

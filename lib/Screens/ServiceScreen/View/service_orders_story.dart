@@ -251,7 +251,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.35),
                       child: Center(
                         child: SpinKitFadingCircle(
-                          color: Colors.green,
+                          color: AppColor.mainColor,
                           size: 50.0,
                         ),
                       ),

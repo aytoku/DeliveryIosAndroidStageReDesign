@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
-import 'package:flutter_app/data/data.dart';
 
 class MenuItemTitle extends StatefulWidget {
   MenuItemTitle({
@@ -14,7 +13,7 @@ class MenuItemTitle extends StatefulWidget {
   MenuItemTitleState createState() {
     return new MenuItemTitleState(title);
   }
-  //
+
   static List<MenuItemTitle> fromCategoryList(List<CategoriesUuid> categories){
     List<MenuItemTitle> result = new List<MenuItemTitle>();
     categories.forEach((element) {
@@ -41,7 +40,7 @@ class MenuItemTitleState extends State<MenuItemTitle>{
         padding: const EdgeInsets.only(top: 15, bottom: 10, left: 15),
         child: Text(title[0].toUpperCase() + title.substring(1),
           style: TextStyle(
-            color: AppColor.textColor,
+            color: Color(0xFF424242),
             fontSize: 21,
           ),
         ),
