@@ -206,7 +206,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                         ],
                       ),
                       Padding(
-                        padding: (ordersStoryModelItem.withoutDelivery) ? EdgeInsets.only(left: 20) : EdgeInsets.only(right: 5),
+                        padding: (ordersStoryModelItem.withoutDelivery) ? EdgeInsets.only(left: 5) : EdgeInsets.only(right: 5),
                         child: Container(
                           height: 70,
                           width: 70,
