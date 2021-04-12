@@ -22,7 +22,7 @@ class SliverTextState extends State<SliverText>{
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 0, left: 16, right: 16.0),
+        padding: const EdgeInsets.only(top: 0),
         child: title
     );
   }

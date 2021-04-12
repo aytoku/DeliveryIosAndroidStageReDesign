@@ -4,6 +4,7 @@ import 'package:flutter_app/Screens/CompletedOrderScreen/Widget/estimate.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -36,13 +37,13 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                     children: [
                       Text(
                         'Спасибо за заказ!',
-                        style: TextStyle(color: AppColor.textColor, fontSize: 24),
+                        style: TextStyle(color: Color(0xFF424242), fontSize: 24),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Text(
                           'Оставьте свой отзыв, это поможет\nсделать приложение лучше! ',
-                          style: TextStyle(color: AppColor.textColor, fontSize: 18), textAlign: TextAlign.center,
+                          style: TextStyle(color: Color(0xFF424242), fontSize: 18), textAlign: TextAlign.center,
                         ),
                       ),
                     ],
@@ -80,7 +81,7 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                           decoration: new InputDecoration(
                             hintText: 'Оставьте свой отзыв',
                             hintStyle: TextStyle(
-                                color: Colors.grey,
+                                color: AppColor.additionalTextColor,
                                 fontSize: 16
                             ),
                             contentPadding: EdgeInsets.all(15),
@@ -102,7 +103,7 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                   child: FlatButton(
                     child: Text(
                       "Оценить заказ",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      style: TextStyle(color: AppColor.textColor, fontSize: 18),
                     ),
                     color: AppColor.mainColor,
                     shape: RoundedRectangleBorder(
@@ -112,6 +113,7 @@ class CompletedOrderScreenState extends State<CompletedOrderScreen> {
                     EdgeInsets.only(left: 110, top: 20, right: 110, bottom: 20),
                     onPressed: () async {
                       if (await Internet.checkConnection()) {
+                        homeScreenKey = new GlobalKey();
                         Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(

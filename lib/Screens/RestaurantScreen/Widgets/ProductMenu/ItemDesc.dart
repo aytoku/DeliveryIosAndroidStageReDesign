@@ -12,7 +12,6 @@ import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
 
 import '../../../../data/data.dart';
 import '../../Model/ProductsByStoreUuid.dart';
@@ -35,7 +34,6 @@ class MenuItemDescState extends State<MenuItemDesc> {
   ProductsByStoreUuid foodRecords;
   Item item;
   MenuItemState parent;
-  ProductsDataModel productsDataModel;
 
   MenuItemDescState(this.priceFieldKey, this.foodRecords, this.parent);
   int counter = 1;
@@ -47,15 +45,16 @@ class MenuItemDescState extends State<MenuItemDesc> {
         padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
         child: Align(
           alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Container(
-              child: Text('${widget.foodRecords.meta.description}',
-                style: TextStyle(
-                    fontSize: 10.0,
-                    color: AppColor.additionalTextColor,),
-                // overflow: TextOverflow.ellipsis,
-              ),
+          child: Container(
+            padding: EdgeInsets.only(right: 15),
+            child: Text(
+              foodRecords.meta.description,
+              style: TextStyle(
+                  fontSize: 10.0,
+                  color: Colors.grey),
+              maxLines: (parent.parent.restaurant.type == 'restaurant') ? 3 : 2,
+              overflow: TextOverflow.ellipsis,
+              //overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
@@ -70,58 +69,43 @@ class MenuItemDescState extends State<MenuItemDesc> {
       }
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Container(
-            child: Text('${widget.foodRecords.meta.description}',
-              style: TextStyle(
-                fontSize: 10.0,
-                color: AppColor.additionalTextColor,),
-              // overflow: TextOverflow.ellipsis,
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              padding: EdgeInsets.only(right: 0),
+              child: Text(
+                '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
+                style: TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.grey),
+                textAlign: TextAlign.start,
+              ),
             ),
           ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.only(left: 5.0, top: 6, right: 5),
+          child: SvgPicture.asset('assets/svg_images/ellipse.svg',
+            color: Colors.grey,
+            width: 2,
+            height: 2,),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: Text(
+            '${foodRecords.price.toStringAsFixed(0)} \₽',
+            style: TextStyle(
+                fontSize: 12.0,
+                color: Colors.grey),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
     );
-    //   Row(
-    //   children: [
-    //     Padding(
-    //       padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
-    //       child: Align(
-    //         alignment: Alignment.topLeft,
-    //         child: Text(
-    //           '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
-    //           style: TextStyle(
-    //               fontSize: 12.0,
-    //               color: Colors.grey),
-    //           overflow: TextOverflow.ellipsis,
-    //         ),
-    //       ),
-    //     ),
-    //     Padding(
-    //       padding: const EdgeInsets.only(left: 5.0, top: 6, right: 5),
-    //       child: SvgPicture.asset('assets/svg_images/ellipse.svg',
-    //         color: Colors.grey,
-    //         width: 2,
-    //         height: 2,),
-    //     ),
-    //     Padding(
-    //       padding: const EdgeInsets.only(top: 5),
-    //       child: Text(
-    //         '${foodRecords.price.toStringAsFixed(0)} \₽',
-    //         style: TextStyle(
-    //             fontSize: 12.0,
-    //             color: Colors.grey),
-    //         overflow: TextOverflow.ellipsis,
-    //       ),
-    //     ),
-    //   ],
-    // )
-
   }
 
   void refresh() {

@@ -7,6 +7,7 @@ import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/Counter.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/TotalPrice.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../Amplitude/amplitude.dart';
@@ -68,7 +69,7 @@ class CartScreenState extends State<CartScreen> {
               key: Key(currentUser.cartModel.items[index].getUniqueUuid()),
               background: Container(
                   alignment: AlignmentDirectional.centerEnd,
-                  color: AppColor.mainColor,
+                  color: Colors.red,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: SvgPicture.asset('assets/svg_images/del_basket.svg'),
@@ -100,7 +101,7 @@ class CartScreenState extends State<CartScreen> {
               },
               direction: DismissDirection.endToStart,
               child: Container(
-                color: AppColor.elementsColor,
+                color: AppColor.themeColor,
                 width: MediaQuery.of(context).size.width,
                 child: _buildCartItem(order, index),
               ),
@@ -111,7 +112,6 @@ class CartScreenState extends State<CartScreen> {
               child: Column(
                 children: <Widget>[
                   (isTakeAwayScreen) ? Container(
-                    color: AppColor.elementsColor,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Align(
@@ -121,56 +121,55 @@ class CartScreenState extends State<CartScreen> {
                                 + currentUser.cartModel.cookingTime.toStringAsFixed(0)
                                   + ' мин',
                           style: TextStyle(
-                            fontSize: 14,
-                            color: AppColor.textColor
+                            fontSize: 14
                           ),
                         ),
                       ),
                     ),
-                  ) : Container(
-                    color: AppColor.elementsColor,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              Text(
-                                'Доставка',
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: AppColor.textColor),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 5),
-                                child: Text(
-                                  (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    color: AppColor.textColor,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            (currentUser.cartModel.deliveryPrice != null)? '~' + '${currentUser.cartModel.deliveryPrice} \₽' : '',
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                color: AppColor.textColor,),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
+                  ) : Container(),
+                  // Container(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(top: 5),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: <Widget>[
+                  //         Row(
+                  //           children: [
+                  //             Text(
+                  //               'Доставка',
+                  //               style: TextStyle(
+                  //                   fontSize: 18.0,
+                  //                   color: Color(0xFF000000)),
+                  //             ),
+                  //             Padding(
+                  //               padding: const EdgeInsets.only(left: 8.0, top: 5),
+                  //               child: Text(
+                  //                 (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
+                  //                 style: TextStyle(
+                  //                   fontSize: 12.0,
+                  //                   color: Colors.black,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         Text(
+                  //           (currentUser.cartModel.deliveryPrice != null)? '~' + '${currentUser.cartModel.deliveryPrice} \₽' : '',
+                  //           style: TextStyle(
+                  //               fontSize: 18.0,
+                  //               color: Color(0xFF000000)),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  (isTakeAwayScreen) ? Padding(
                     padding: EdgeInsets.only(bottom: 20, top: 20),
                     child: Divider(
                       height: 1,
                       color: Color(0xFFE6E6E6),
                     ),
-                  ),
+                  ) : Container(),
                   Padding(
                     padding: const EdgeInsets.only(top: 0),
                     child: Row(
@@ -180,13 +179,12 @@ class CartScreenState extends State<CartScreen> {
                           'Итого',
                           style: TextStyle(
                               fontSize: 18.0,
-                              color: AppColor.textColor),
+                              color: Color(0xFF000000)),
                         ),
                         Text(
                             (currentUser.cartModel.totalPrice != null)? '~' + '${currentUser.cartModel.totalPrice.toStringAsFixed(0)} \₽' : '',
                           style: TextStyle(
-                            fontSize: 18,
-                            color: AppColor.textColor,
+                            fontSize: 18
                           ),
                         )
                       ],
@@ -253,7 +251,7 @@ class CartScreenState extends State<CartScreen> {
                       style: TextStyle(
                           decoration: TextDecoration.none,
                           fontSize: 14.0,
-                          color: AppColor.textColor),
+                          color: Color(0xFF000000)),
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -274,7 +272,7 @@ class CartScreenState extends State<CartScreen> {
                                         padding: const EdgeInsets.only(bottom: 0.0),
                                         child: Text(order.variantGroups[index].variants[variantsIndex].name,
                                           style: TextStyle(
-                                            color: Colors.grey,
+                                            color: AppColor.additionalTextColor,
                                             fontSize: 10
                                           ),
                                         ),
@@ -311,7 +309,7 @@ class CartScreenState extends State<CartScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                                 child: SvgPicture.asset(
-                                    'assets/svg_images/del_basket.svg', color: AppColor.textColor,),
+                                    'assets/svg_images/del_basket.svg'),
                               ),
                             ),
                             onTap: () {
@@ -382,7 +380,6 @@ class CartScreenState extends State<CartScreen> {
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(Radius.circular(15.0))),
                                         child: Container(
-                                          decoration: BoxDecoration(color: AppColor.themeColor, borderRadius: BorderRadius.circular(15.0)),
                                             height: 130,
                                             width: 300,
                                             child: Column(
@@ -393,7 +390,7 @@ class CartScreenState extends State<CartScreen> {
                                                     child: Center(
                                                       child: Text("Удалить",
                                                         style: TextStyle(
-                                                            color: AppColor.mainColor,
+                                                            color: Color(0xFFFF3B30),
                                                             fontSize: 20
                                                         ),
                                                       ),
@@ -435,7 +432,7 @@ class CartScreenState extends State<CartScreen> {
                                                     child: Center(
                                                       child: Text("Отмена",
                                                         style: TextStyle(
-                                                            color: AppColor.textColor,
+                                                            color: Color(0xFF007AFF),
                                                             fontSize: 20
                                                         ),
                                                       ),
@@ -492,7 +489,7 @@ class CartScreenState extends State<CartScreen> {
       child: new Scaffold(
         key: _scaffoldStateKey,
         body: Container(
-            color: AppColor.elementsColor,
+            color: AppColor.themeColor,
             child: Column(
               children: <Widget>[
                 _buildList(),

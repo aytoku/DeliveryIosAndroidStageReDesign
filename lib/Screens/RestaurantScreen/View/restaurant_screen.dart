@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter_app/Screens/RestaurantScreen/Widgets/FadeAnimation.dart';
+
 import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,8 +9,11 @@ import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/getProductsByStoreUuid.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/API/get_filtered_products.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductsByStoreUuid.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/CartButton/CartButton.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/FadeAnimation.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/PanelContent.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductCategories/CategoryList.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductDescCounter.dart';
@@ -20,30 +23,40 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/Title.d
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverBackButton.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverShadow.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverText.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/sliverAppBar.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ItemsPadding.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../data/data.dart';
+import '../../../data/data.dart';
+import '../../../data/globalVariables.dart';
 import '../../CartScreen/API/clear_cart.dart';
 import '../API/add_variant_to_cart.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ItemsPadding.dart';
+import '../API/get_filtered_product_categories.dart';
+import '../Model/FilteredProductCategories.dart';
 import '../Model/ProductDataModel.dart';
 
 class RestaurantScreen extends StatefulWidget {
   final FilteredStores restaurant;
 
+
   RestaurantScreen({Key key, this.restaurant}) : super(key: key);
 
   @override
-  RestaurantScreenState createState() => RestaurantScreenState(restaurant);
+  RestaurantScreenState createState() =>
+      RestaurantScreenState(restaurant);
 }
 
 class RestaurantScreenState extends State<RestaurantScreen> {
   final FilteredStores restaurant;
-
   // Добавленные глобалки
   ProductsByStoreUuidData restaurantDataItems; // Модель текущего меню
   CategoryList categoryList; // Виджет с категориями еды
@@ -55,6 +68,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   GlobalKey<ProductDescCounterState> counterKey;
   GlobalKey<CartButtonState> basketButtonStateKey;
   GlobalKey<SliverShadowState> sliverShadowKey;
+  GlobalKey<ItemsPaddingState> itemsPaddingKey;
   bool isLoading = true;
 
   GlobalKey<ScaffoldState> _scaffoldStateKey;
@@ -63,8 +77,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   PanelController panelController;
   GlobalKey<PanelContentState> panelContentKey;
   ScrollController sc;
+  GlobalKey<SliverAppBarSettingsState> sliverAppBarKey;
 
   RestaurantScreenState(this.restaurant);
+
 
   @override
   void initState() {
@@ -77,65 +93,62 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     sliverShadowKey = new GlobalKey();
     basketButtonStateKey = new GlobalKey<CartButtonState>();
     _scaffoldStateKey = GlobalKey();
+    sliverAppBarKey = GlobalKey();
+    itemsPaddingKey = GlobalKey();
     sliverScrollController = new ScrollController();
 
     // Инициализируем список категорий
-    categoryList = new CategoryList(
-        key: new GlobalKey<CategoryListState>(),
-        restaurant: restaurant,
-        parent: this);
+    categoryList = new CategoryList(key: new GlobalKey<CategoryListState>(), restaurant: restaurant, parent: this);
   }
 
   @override
-  void dispose() {
+  void dispose(){
     super.dispose();
   }
 
+
+
   bool get _isAppBarExpanded {
-    return sliverScrollController.hasClients &&
-        sliverScrollController.offset > 90;
+    return sliverScrollController.hasClients && sliverScrollController.offset > 90;
   }
+
 
   _dayOff(ProductsByStoreUuid restaurantDataItems,
       GlobalKey<MenuItemCounterState> menuItemCounterKey) {
-    GlobalKey<VariantsSelectorState> variantsSelectorStateKey =
-        GlobalKey<VariantsSelectorState>();
-    // GlobalKey<ToppingsSelectorState> toppingsSelectorStateKey =
-    // new GlobalKey<ToppingsSelectorState>();
-
-//    DateTime now = DateTime.now();
-//    int dayNumber  = now.weekday-1;
-//
-//    int work_beginning = restaurant.work_schedule[dayNumber].work_beginning;
+    bool isScheduleAvailable = restaurant.workSchedule.isAvailable();
+    Standard standard = restaurant.workSchedule.getCurrentStandard();
+    bool available = restaurant.available != null ? restaurant.available : true;
+    bool open = restaurant.open != null ? restaurant.open : true;
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.themeColor,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(12),
             topRight: const Radius.circular(12),
           )),
       child: Stack(
         children: <Widget>[
-//          Padding(
-//            padding: EdgeInsets.only(top: 30),
-//            child: Align(
-//                alignment: Alignment.topCenter,
-//                child: Text('К сожалению, доставка не доступна.\nБлижайшее время в ${( work_beginning/ 60).toStringAsFixed(0)} часов',
-//                  style: TextStyle(
-//                      fontSize: 16
-//                  ),
-//                  textAlign: TextAlign.center,
-//                )
-//            ),
-//          ),
+         Padding(
+           padding: EdgeInsets.only(top: 30),
+           child: Align(
+               alignment: Alignment.topCenter,
+               child: Text('К сожалению, доставка не доступна.',
+                 style: TextStyle(
+                     fontSize: 16
+                 ),
+                 textAlign: TextAlign.center,
+               )
+           ),
+         ),
           Padding(
-            padding: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 25),
+            padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 25),
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: FlatButton(
                   child: Text(
                     "Далее",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style:
+                    TextStyle(color: AppColor.textColor, fontSize: 16),
                   ),
                   color: AppColor.mainColor,
                   shape: RoundedRectangleBorder(
@@ -148,12 +161,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                             builder: (context) => BlocProvider(
-                                  create: (context) => RestaurantGetBloc(),
-                                  child: new HomeScreen(),
-                                )),
-                        (Route<dynamic> route) => false);
+                              create: (context) => RestaurantGetBloc(),
+                              child: new HomeScreen(),
+                            )),
+                            (Route<dynamic> route) => false);
                   },
-                )),
+                )
+            ),
           )
         ],
       ),
@@ -185,11 +199,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     );
   }
 
-  showCartClearDialog(
-      BuildContext context,
-      ProductsDataModel productDataModel,
-      GlobalKey<MenuItemCounterState> menuItemCounterKey,
-      MenuItemState menuItem) {
+  showCartClearDialog(BuildContext context, ProductsDataModel productDataModel,
+      GlobalKey<MenuItemCounterState> menuItemCounterKey, MenuItemState menuItem) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -204,8 +215,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(
-                          left: 15, top: 20, bottom: 20, right: 15),
+                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20, right: 15),
                       child: Text(
                         'Все ранее добавленные блюда из ресторна ${currentUser.cartModel.storeData.name} будут удалены из корзины',
                         style: TextStyle(
@@ -234,23 +244,22 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       ),
                       onTap: () async {
                         if (await Internet.checkConnection()) {
-                          currentUser.cartModel =
-                              await clearCart(necessaryDataForAuth.device_id);
-                          currentUser.cartModel = await addVariantToCart(
-                              productDataModel,
-                              necessaryDataForAuth.device_id,
-                              counterKey.currentState.counter);
+                          currentUser.cartModel = await clearCart(necessaryDataForAuth.device_id);
+                          currentUser.cartModel = await addVariantToCart(productDataModel, necessaryDataForAuth.device_id, counterKey.currentState.counter);
                           basketButtonStateKey.currentState.refresh();
                           counterKey.currentState.refresh();
-                          menuItem.setState(() {});
+                          menuItem.setState(() {
 
-                          if (productDataModel.product.type == "variable") {
+                          });
+
+                          if(productDataModel.product.type == "variable"){
                             Navigator.pop(context);
                             panelController.close();
-                          } else {
+                          }else{
                             Navigator.pop(context);
                             Navigator.pop(context);
                           }
+
 
                           Padding(
                             padding: EdgeInsets.only(bottom: 0),
@@ -298,9 +307,9 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         backgroundColor: Colors.transparent,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(20),
-          topRight: const Radius.circular(20),
-        )),
+              topLeft: const Radius.circular(20),
+              topRight: const Radius.circular(20),
+            )),
         context: context,
         builder: (context) {
           return Container(
@@ -317,89 +326,90 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   }
 
   _buildRestInfoNavigationMenu() {
-//    DateTime now = DateTime.now();
-//    int currentTime = now.hour*60+now.minute;
-//    int dayNumber  = now.weekday-1;
-//    int work_ending = restaurant.work_schedule[dayNumber].work_ending;
     return Container(
-      color: AppColor.themeColor,
       child: Column(
         children: [
           Padding(
             padding: EdgeInsets.only(left: 20, top: 30),
             child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                restaurant.name,
-                style: TextStyle(
-                    color: AppColor.textColor,
-                    fontSize: 21,
-                    fontWeight: FontWeight.bold),
-              ),
+                alignment: Alignment.topLeft,
+                child: Text(restaurant.name,
+                  style: TextStyle(
+                      color: Color(0xFF424242),
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold
+                  ),
+                )
             ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 20),
             child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Адрес',
-                style: TextStyle(
-                    color: AppColor.additionalTextColor, fontSize: 14),
-              ),
+                alignment: Alignment.topLeft,
+                child: Text('Адрес',
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14
+                  ),
+                )
             ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 10),
             child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(
-                  restaurant.address.unrestrictedValue,
-                  style: TextStyle(fontSize: 14, color: AppColor.textColor),
-                )),
+                child: Text(restaurant.address.unrestrictedValue,
+                  style: TextStyle(
+                      fontSize: 14
+                  ),
+                )
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 20),
             child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(
-                  "Время доставки",
+                child: Text("Время доставки",
                   style: TextStyle(
-                      color: AppColor.additionalTextColor, fontSize: 14),
-                )),
+                      color: Colors.grey,
+                      fontSize: 14
+                  ),
+                )
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 10),
             child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(
-                  '${restaurant.meta.avgDeliveryTime}',
-                  style: TextStyle(fontSize: 14, color: AppColor.textColor),
-                )),
+                child: Text('${restaurant.meta.avgDeliveryTime}',
+                  style: TextStyle(
+                      fontSize: 14
+                  ),
+                )
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 20),
             child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(
-                  'Кухни',
+                child: Text('Кухни',
                   style: TextStyle(
-                      color: AppColor.additionalTextColor, fontSize: 14),
-                )),
+                      color: Colors.grey,
+                      fontSize: 14
+                  ),
+                )
+            ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20, top: 10, right: 20.0),
+            padding: EdgeInsets.only(left: 20, top: 10),
             child: Align(
                 alignment: Alignment.topLeft,
                 child: Row(
-                  children: List.generate(restaurant.storeCategoriesUuid.length,
-                      (index) {
-                    return Text(
-                      restaurant.storeCategoriesUuid[index].name + ' ',
-                      style: TextStyle(color: AppColor.textColor),
-                    );
+                  children: List.generate(restaurant.storeCategoriesUuid.length, (index){
+                    return Text(restaurant.storeCategoriesUuid[index].name + ' ');
                   }),
-                )),
+                )
+            ),
           )
         ],
       ),
@@ -407,14 +417,15 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   }
 
   _buildFoodCategoryList() {
-    if (restaurant.productCategoriesUuid.length > 0)
+    if(restaurant.productCategoriesUuid.length>0)
       return categoryList;
     else
       return Container(height: 0);
   }
 
+
   // функция для получения детей сливера
-  List<Widget> getSliverChildren() {
+  List<Widget>  getSliverChildren(){
     List<Widget> result = new List<Widget>();
     result.addAll(menuWithTitles);
     return result;
@@ -426,13 +437,11 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     String lastCategoryUuid = "";
     int lastCategoryIndex = -1;
     foodMenuItems.forEach((foodMenuItem) {
-      if (foodMenuItem.restaurantDataItems.productCategories.length > 0 &&
-          foodMenuItem.restaurantDataItems.productCategories[0].uuid !=
-              lastCategoryUuid) {
+      if(foodMenuItem.restaurantDataItems.productCategories.length > 0 &&
+          foodMenuItem.restaurantDataItems.productCategories[0].uuid != lastCategoryUuid){
         lastCategoryIndex++;
-        lastCategoryUuid =
-            foodMenuItem.restaurantDataItems.productCategories[0].uuid;
-        if (lastCategoryIndex < foodMenuTitles.length) {
+        lastCategoryUuid = foodMenuItem.restaurantDataItems.productCategories[0].uuid;
+        if(lastCategoryIndex < foodMenuTitles.length){
           menu.add(foodMenuTitles[lastCategoryIndex]);
         }
       }
@@ -442,144 +451,124 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     return menu;
   }
 
+
   // список итемов заведения
-  Widget _buildScreen() {
+  Widget _buildRestaurantScreen() {
     isLoading = false;
     // Если хавки нет
-    if (restaurantDataItems != null &&
-        restaurantDataItems.productsByStoreUuidList.length == 0) {
-      return Column(
-        children: [
-          Container(
-            color: AppColor.themeColor,
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 50, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 0),
-                          child: InkWell(
-                            hoverColor: Colors.white,
-                            focusColor: Colors.white,
-                            splashColor: Colors.white,
-                            highlightColor: Colors.white,
-                            onTap: () async {
-                              homeScreenKey = new GlobalKey<HomeScreenState>();
-                              if (await Internet.checkConnection()) {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    PageRouteBuilder(
-                                        pageBuilder: (context, animation,
-                                            anotherAnimation) {
-                                          return BlocProvider(
-                                            create: (context) =>
-                                                RestaurantGetBloc(),
-                                            child: new HomeScreen(),
-                                          );
-                                        },
-                                        transitionDuration:
-                                            Duration(milliseconds: 300),
-                                        transitionsBuilder: (context, animation,
-                                            anotherAnimation, child) {
-                                          return SlideTransition(
-                                            position: Tween(
-                                                    begin: Offset(1.0, 0.0),
-                                                    end: Offset(0.0, 0.0))
-                                                .animate(animation),
-                                            child: child,
-                                          );
-                                        }),
-                                    (Route<dynamic> route) => false);
-                              } else {
-                                noConnection(context);
-                              }
-                            },
-                            child: Container(
+    if (restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length == 0) {
+      return Container(
+        color: AppColor.themeColor,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 50, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Flexible(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 0),
+                      child: InkWell(
+                          hoverColor: Colors.white,
+                          focusColor: Colors.white,
+                          splashColor: Colors.white,
+                          highlightColor: Colors.white,
+                          onTap: () async {
+                            homeScreenKey =
+                            new GlobalKey<HomeScreenState>();
+                            if(await Internet.checkConnection()){
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  PageRouteBuilder(
+                                      pageBuilder: (context, animation, anotherAnimation) {
+                                        return BlocProvider(
+                                          create: (context) => RestaurantGetBloc(),
+                                          child: new HomeScreen(),
+                                        );
+                                      },
+                                      transitionDuration: Duration(milliseconds: 300),
+                                      transitionsBuilder:
+                                          (context, animation, anotherAnimation, child) {
+                                        return SlideTransition(
+                                          position: Tween(
+                                              begin: Offset(1.0, 0.0),
+                                              end: Offset(0.0, 0.0))
+                                              .animate(animation),
+                                          child: child,
+                                        );
+                                      }
+                                  ), (Route<dynamic> route) => false);
+                            }else{
+                              noConnection(context);
+                            }
+                          },
+                          child: Container(
                               height: 40,
                               width: 60,
                               child: Padding(
                                 padding: EdgeInsets.only(
                                     top: 12, bottom: 12, right: 10, left: 16),
                                 child: SvgPicture.asset(
-                                  'assets/svg_images/arrow_left.svg',
-                                  color: AppColor.textColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        flex: 7,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 30),
-                            child: Text(
-                              this.restaurant.name,
-                              style: TextStyle(
-                                  fontSize: 18, color: AppColor.textColor),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 0.0, bottom: 0),
-                //   child: Divider(
-                //     color: Color(0xFFEEEEEE),
-                //     height: 1,
-                //   ),
-                // ),
-                // _buildFoodCategoryList(),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 10.0, bottom: 0),
-                //   child: Divider(
-                //     color: Color(0xFFEEEEEE),
-                //     height: 1,
-                //   ),
-                // ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.3),
-                  child: Center(
-                    child: Text(
-                      'Нет товаров данной категории',
-                      style: TextStyle(color: AppColor.textColor),
+                                    'assets/svg_images/arrow_left.svg'),
+                              ))),
                     ),
                   ),
-                ),
-              ],
+                  Flexible(
+                    flex: 7,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 30),
+                        child: Text(
+                          this.restaurant.name,
+                          style: TextStyle(
+                            fontSize: 18,),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 0.0, bottom: 0),
+              child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+            ),
+            _buildFoodCategoryList(),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, bottom: 0),
+              child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+              child: Center(
+                child: Text('Нет товаров данной категории'),
+              ),
+            ),
+          ],
+        ),
       );
     }
 
+
     // генерим список еды и названий категория
     foodMenuItems.clear();
-    foodMenuItems.addAll(MenuItem.fromFoodRecordsList(
-        restaurantDataItems.productsByStoreUuidList, this));
+    foodMenuItems.addAll(MenuItem.fromFoodRecordsList(restaurantDataItems.productsByStoreUuidList, this));
     foodMenuTitles.clear();
-    foodMenuTitles.addAll(MenuItemTitle.fromCategoryList(
-        restaurant.productCategoriesUuid)); ///////Title
+    foodMenuTitles.addAll(MenuItemTitle.fromCategoryList(restaurant.productCategoriesUuid));
     menuWithTitles = generateMenu();
 
     List<Widget> sliverChildren = getSliverChildren();
-    GlobalKey<SliverTextState> sliverTextKey = new GlobalKey();
-    GlobalKey<SliverBackButtonState> sliverImageKey = new GlobalKey();
+    GlobalKey<SliverTextState>sliverTextKey = new GlobalKey();
+    GlobalKey<SliverBackButtonState>sliverImageKey = new GlobalKey();
 
     // замена кастомной кнопки на кнопку и текст аппбара
     sliverScrollController.addListener(() async {
-      try {
-        if (!isLoading) {
+
+      try{
+        if(!isLoading){
           // Используя силу математики, находим индекс хавки, на которую сейчас
           // смотрим
           double offset = sliverScrollController.offset;
@@ -587,84 +576,72 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           double defaultTitleHeight = 50;
           double defaultFoodItemHeight = 165;
           var item;
-          while (offset > 0 && i < menuWithTitles.length) {
+          while(offset > 0 && i < menuWithTitles.length){
             item = menuWithTitles[i];
-            if (item is MenuItem) {
-              offset -= (item.key.currentContext != null)
-                  ? item.key.currentContext.size.height
-                  : defaultFoodItemHeight;
-            } else if (item is MenuItemTitle) {
-              offset -= (item.key.currentContext != null)
-                  ? item.key.currentContext.size.height
-                  : defaultTitleHeight;
+            if(item is MenuItem){
+              offset -= (item.key.currentContext != null) ? item.key.currentContext.size.height : defaultFoodItemHeight;
+            } else if(item is MenuItemTitle){
+              offset -= (item.key.currentContext != null) ? item.key.currentContext.size.height : defaultTitleHeight;
             }
             i++;
           }
 
-          if (item != null) {
+          if(item!=null){
             String catName = '';
-            if (item is MenuItem)
+            if(item is MenuItem)
               catName = item.restaurantDataItems.productCategories[0].name;
-            else if (item is MenuItemTitle) catName = item.title;
+            else if(item is MenuItemTitle)
+              catName = item.title;
 
             CategoriesUuid cat;
             restaurant.productCategoriesUuid.forEach((element) {
-              if (element.name == catName) {
+              if(element.name == catName){
                 cat = element;
                 return;
               }
             });
 
-            if (cat != null &&
-                cat.name !=
-                    categoryList.key.currentState.currentCategory.name) {
+            if(cat != null &&  cat.name != categoryList.key.currentState.currentCategory.name){
               // Выбираем категорию и скроллим сам список категорий к ней
               categoryList.key.currentState.SelectCategory(cat);
               categoryList.key.currentState.ScrollToSelectedCategory();
             }
           }
         }
-      } catch (e) {}
+      }catch(e){
+      }
 
-      if (sliverTextKey.currentState != null &&
-          sliverScrollController.offset > 89) {
+      if(sliverTextKey.currentState != null && sliverScrollController.offset > 89){
         sliverTextKey.currentState.setState(() {
-          sliverTextKey.currentState.title = new Text(
-            this.restaurant.name,
-            style: TextStyle(color: AppColor.textColor),
-          );
+          sliverTextKey.currentState.title =  new Text(this.restaurant.name, style: TextStyle(color: Colors.black),);
         });
-      } else {
-        if (sliverTextKey.currentState != null) {
+      }else{
+        if(sliverTextKey.currentState != null){
           sliverTextKey.currentState.setState(() {
-            sliverTextKey.currentState.title = new Text('');
+            sliverTextKey.currentState.title =  new Text('');
           });
         }
       }
-      if (sliverImageKey.currentState != null &&
-          sliverScrollController.offset > 89) {
+      if(sliverImageKey.currentState != null && sliverScrollController.offset > 89){
         sliverImageKey.currentState.setState(() {
-          sliverImageKey.currentState.image = new SvgPicture.asset(
-            'assets/svg_images/arrow_left.svg',
-            color: AppColor.textColor,
-          );
+          sliverImageKey.currentState.image =
+          new SvgPicture.asset('assets/svg_images/arrow_left.svg');
         });
-      } else {
-        if (sliverImageKey.currentState != null) {
+      }else{
+        if(sliverImageKey.currentState != null){
           sliverImageKey.currentState.setState(() {
-            sliverImageKey.currentState.image = null;
+            sliverImageKey.currentState.image =  null;
           });
         }
       }
-      if (sliverShadowKey.currentState != null &&
-          sliverScrollController.offset > 180) {
+      if(sliverShadowKey.currentState != null && sliverScrollController.offset > 180){
         sliverShadowKey.currentState.setState(() {
           sliverShadowKey.currentState.showShadow = true;
         });
-      } else {
-        if (sliverShadowKey.currentState != null) {
+      }else{
+        if(sliverShadowKey.currentState != null){
           sliverShadowKey.currentState.setState(() {
-            sliverShadowKey.currentState.showShadow = false;
+            sliverShadowKey.currentState.showShadow =  false;
           });
         }
       }
@@ -676,23 +653,19 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         body: Stack(
           children: [
             Image.network(
-              getImage((restaurant.meta.images != null &&
-                      restaurant.meta.images.length > 0)
-                  ? restaurant.meta.images[0]
-                  : ''),
+              getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
               fit: BoxFit.cover,
               height: 230.0,
               width: MediaQuery.of(context).size.width,
             ),
             CustomScrollView(
               physics: BouncingScrollPhysics(),
-              anchor: 0.02,
+              anchor: 0.01,
               controller: sliverScrollController,
               slivers: [
                 SliverAppBar(
-                  brightness:
-                      _isAppBarExpanded ? Brightness.dark : Brightness.light,
-                  expandedHeight: 160.0,
+                  brightness: _isAppBarExpanded ? Brightness.dark : Brightness.light,
+                  expandedHeight: 140.0,
                   floating: false,
                   pinned: true,
                   snap: false,
@@ -700,139 +673,121 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                   elevation: 0,
                   backgroundColor: AppColor.themeColor,
                   leading: InkWell(
-                    hoverColor: AppColor.themeColor,
-                    focusColor: AppColor.themeColor,
-                    splashColor: AppColor.themeColor,
-                    highlightColor: AppColor.themeColor,
+                    hoverColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     child: Container(
-                      height: 60,
+                      height: 40,
                       width: 60,
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20, bottom: 20, right: 10),
-                        child: SliverBackButton(
-                          key: sliverImageKey,
-                          image: null,
-                        ),
+                        padding: const EdgeInsets.only(top: 20, bottom: 20, right: 10),
+                        child: SliverBackButton(key: sliverImageKey, image: null,),
                       ),
                     ),
                     onTap: () async {
-                      homeScreenKey = new GlobalKey<HomeScreenState>();
-                      if (await Internet.checkConnection()) {
+                      homeScreenKey =
+                      new GlobalKey<HomeScreenState>();
+                      if(await Internet.checkConnection()){
                         Navigator.of(context).pushAndRemoveUntil(
                             PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, anotherAnimation) {
+                                pageBuilder: (context, animation, anotherAnimation) {
                                   return BlocProvider(
                                     create: (context) => RestaurantGetBloc(),
                                     child: new HomeScreen(),
                                   );
                                 },
                                 transitionDuration: Duration(milliseconds: 300),
-                                transitionsBuilder: (context, animation,
-                                    anotherAnimation, child) {
+                                transitionsBuilder:
+                                    (context, animation, anotherAnimation, child) {
                                   return SlideTransition(
                                     position: Tween(
-                                            begin: Offset(1.0, 0.0),
-                                            end: Offset(0.0, 0.0))
+                                        begin: Offset(1.0, 0.0),
+                                        end: Offset(0.0, 0.0))
                                         .animate(animation),
                                     child: child,
                                   );
-                                }),
-                            (Route<dynamic> route) => false);
-                      } else {
+                                }
+                            ), (Route<dynamic> route) => false);
+                      }else{
                         noConnection(context);
                       }
                     },
                   ),
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
-                    title: SliverText(
-                      title: Text(
-                        '',
-                        style:
-                            TextStyle(fontSize: 18, color: AppColor.textColor),
-                      ),
-                      key: sliverTextKey,
-                    ),
+                    title: SliverText(title: Text('', style: TextStyle(fontSize: 18),),key: sliverTextKey,),
                     background: AnnotatedRegion<SystemUiOverlayStyle>(
-                      value: (Platform.isIOS)
-                          ? _isAppBarExpanded
-                              ? SystemUiOverlayStyle.dark
-                              : SystemUiOverlayStyle.light
-                          : SystemUiOverlayStyle.dark,
+                      value: (Platform.isIOS) ? _isAppBarExpanded ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
                       child: ClipRRect(
-                        child: Stack(
-                          children: <Widget>[
-                            Image.network(
-                              getImage((restaurant.meta.images != null &&
-                                      restaurant.meta.images.length > 0)
-                                  ? restaurant.meta.images[0]
-                                  : ''),
-                              fit: BoxFit.cover,
-                              height: 500.0,
-                              width: MediaQuery.of(context).size.width,
-                            ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 40, left: 15),
-                                child: GestureDetector(
-                                  child: SvgPicture.asset(
-                                      'assets/svg_images/rest_arrow_left.svg'),
-                                  onTap: () async {
-                                    if (await Internet.checkConnection()) {
-                                      homeScreenKey =
-                                          new GlobalKey<HomeScreenState>();
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          PageRouteBuilder(
-                                            pageBuilder: (context, animation,
-                                                anotherAnimation) {
-                                              return BlocProvider(
-                                                create: (context) =>
-                                                    RestaurantGetBloc(),
-                                                child: new HomeScreen(),
-                                              );
-                                            },
-                                            transitionDuration:
-                                                Duration(milliseconds: 300),
-                                            transitionsBuilder: (context,
-                                                animation,
-                                                anotherAnimation,
-                                                child) {
-                                              return SlideTransition(
-                                                position: Tween(
-                                                        begin: Offset(1.0, 0.0),
-                                                        end: Offset(0.0, 0.0))
-                                                    .animate(animation),
-                                                child: child,
-                                              );
-                                            },
-                                          ),
-                                          (Route<dynamic> route) => false);
-                                    } else {
-                                      noConnection(context);
-                                    }
-                                  },
-                                ),
+                          child: Stack(
+                            children: <Widget>[
+                              Image.asset('assets/images/food.png', fit: BoxFit.fill,),
+                              Image.network(
+                                getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
+                                fit: BoxFit.cover,
+                                height: 500.0,
+                                alignment: Alignment.topCenter,
+                                width: MediaQuery.of(context).size.width,
                               ),
-                            )
-                          ],
-                        ),
-                      ),
+                              Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 40, left: 15),
+                                    child: GestureDetector(
+                                      child: SvgPicture.asset(
+                                          'assets/svg_images/rest_arrow_left.svg'),
+                                      onTap: () async {
+                                        if(await Internet.checkConnection()){
+                                          homeScreenKey = new GlobalKey<HomeScreenState>();
+                                          Navigator.of(context).pushAndRemoveUntil(
+                                              PageRouteBuilder(
+                                                  pageBuilder: (context, animation, anotherAnimation) {
+                                                    return BlocProvider(
+                                                      create: (context) => RestaurantGetBloc(),
+                                                      child: new HomeScreen(),
+                                                    );
+                                                  },
+                                                  transitionDuration: Duration(milliseconds: 300),
+                                                  transitionsBuilder:
+                                                      (context, animation, anotherAnimation, child) {
+                                                    return SlideTransition(
+                                                      position: Tween(
+                                                          begin: Offset(1.0, 0.0),
+                                                          end: Offset(0.0, 0.0))
+                                                          .animate(animation),
+                                                      child: child,
+                                                    );
+                                                  }
+                                              ), (Route<dynamic> route) => false);
+                                        }else{
+                                          noConnection(context);
+                                        }
+                                      },
+                                    ),
+                                  ))
+                            ],
+                          )),
                     ),
                   ),
                 ),
                 SliverStickyHeader(
-                  sticky: true,
+                  sticky: false,
                   header: Container(
-                    height: 100,
                     decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColor.themeColor,
+                          offset: Offset(0, 5),
+                          blurRadius: 4,
+                          spreadRadius: 2,
+                        )
+                      ],
+                      border: Border.all(color: Colors.white, width: 4),
                       color: AppColor.themeColor,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
-                      ),
+                        topRight: Radius.circular(15),),
                     ),
                     child: Column(
                       children: [
@@ -848,22 +803,21 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                   child: Text(
                                     this.restaurant.name,
                                     style: TextStyle(
-                                        fontSize: 21, color: AppColor.textColor),
+                                        fontSize: 21,
+                                        color: Color(0xFF3F3F3F)),
                                   ),
                                 ),
                                 InkWell(
-                                  hoverColor: AppColor.themeColor,
-                                  focusColor: AppColor.themeColor,
-                                  splashColor: AppColor.themeColor,
-                                  highlightColor: AppColor.themeColor,
+                                  hoverColor: Colors.white,
+                                  focusColor: Colors.white,
+                                  splashColor: Colors.white,
+                                  highlightColor: Colors.white,
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 3.0),
                                     child: SvgPicture.asset(
-                                      'assets/svg_images/rest_info.svg',
-                                      color: AppColor.textColor,
-                                    ),
+                                        'assets/svg_images/rest_info.svg'),
                                   ),
-                                  onTap: () {
+                                  onTap: (){
                                     _restInfo();
                                   },
                                 ),
@@ -879,24 +833,19 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 height: 26,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: AppColor.elementsColor),
+                                    color: Color(0xFFEFEFEF)
+                                ),
                                 child: Center(
                                   child: Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 5, bottom: 5, right: 10, left: 10),
+                                    padding: EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
                                     child: Row(
                                       children: [
-                                        SvgPicture.asset(
-                                          'assets/svg_images/star.svg',
-                                          color: AppColor.textColor,
+                                        SvgPicture.asset('assets/svg_images/star.svg',
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 5),
-                                          child: Text(
-                                            restaurant.meta.rating.toString(),
+                                          padding: const EdgeInsets.only(left: 5),
+                                          child: Text(restaurant.meta.rating.toString(),
                                             style: TextStyle(
-                                              color: AppColor.textColor,
                                             ),
                                           ),
                                         )
@@ -912,26 +861,22 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 height: 26,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: AppColor.elementsColor),
+                                    color: Color(0xFFEFEFEF)
+                                ),
                                 child: Center(
                                   child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 10, right: 10, top: 5, bottom: 5),
+                                    padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
                                     child: Row(
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 5),
-                                          child: SvgPicture.asset(
-                                            'assets/svg_images/rest_car.svg',
-                                            color: AppColor.textColor,
+                                          padding: const EdgeInsets.only(right: 5),
+                                          child: SvgPicture.asset('assets/svg_images/rest_car.svg',
                                           ),
                                         ),
                                         Text(
-                                          '~' +
-                                              '${restaurant.meta.avgDeliveryTime}',
+                                          '~' +  '${restaurant.meta.avgDeliveryTime}',
                                           style: TextStyle(
-                                              color: AppColor.textColor),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -940,21 +885,19 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 16, right: 15),
+                              padding: const EdgeInsets.only(left: 16, right: 15),
                               child: Container(
                                 height: 26,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: AppColor.elementsColor),
+                                    color: Color(0xFFEFEFEF)
+                                ),
                                 child: Center(
                                   child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 10, right: 10, top: 5, bottom: 5),
-                                    child: Text(
-                                      '${restaurant.meta.avgDeliveryPrice}',
-                                      style:
-                                          TextStyle(color: AppColor.textColor),
+                                    padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
+                                    child: Text('${restaurant.meta.avgDeliveryPrice}',
+                                      style: TextStyle(
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -968,21 +911,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 ),
                 SliverStickyHeader(
                   sticky: true,
-                  header: SliverShadow(
-                      categoryList: _buildFoodCategoryList(),
-                      key: sliverShadowKey),
-                  // sliver: SliverGrid.count(
-                  //   crossAxisCount: 2,
-                  //   crossAxisSpacing: 15.0,
-                  //   children: sliverChildren,
-                  // ),
+                  header: SliverShadow(categoryList: _buildFoodCategoryList(), key: sliverShadowKey),
                   sliver: SliverList(
-                    // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //   ///no.of items in the horizontal axis
-                    //   crossAxisCount: 2,
-                    // ),
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) {
+                          (context, index){
                         return TranslationAnimatedWidget(
                           enabled: true,
                           values: [
@@ -990,35 +922,42 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                             Offset(0, 100), //intermediate value
                             Offset(0, 0) //enabled value
                           ],
-                          child: Column(
-                            children: [
-                              Container(
-                                decoration:
-                                    BoxDecoration(color: AppColor.themeColor),
-                                child: Column(children: sliverChildren),
-                              ),
-                              Container(
-                                height: 80,
-                              )
-                            ],
+                          child: Container(
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(0, 0),
+                                    blurRadius: 4,
+                                    spreadRadius: 2,
+                                  )
+                                ],
+                                border: Border.all(color: Colors.white, width: 4),
+                                color: AppColor.themeColor
+                            ),
+                            child: Column(
+                              children: [
+                                Column(
+                                    children: sliverChildren,
+                                ),
+                                ItemsPadding(key: itemsPaddingKey,)
+                              ],
+                            ),
                           ),
                         );
                       },
                       childCount: 1,
                     ),
-                  ),
+                  )
                 )
               ],
             ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: EdgeInsets.only(bottom: 0),
+                padding:  EdgeInsets.only(bottom: 0),
                 child: CartButton(
-                  key: basketButtonStateKey,
-                  restaurant: restaurant,
-                  source: CartSources.Restaurant,
-                ),
+                  key: basketButtonStateKey, restaurant: restaurant, source: CartSources.Restaurant,),
               ),
             )
           ],
@@ -1027,11 +966,205 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     );
   }
 
+  Widget _buildGroceryScreen() {
+    isLoading = false;
+
+
+    // Если хавки нет
+    if (restaurantDataItems != null && restaurantDataItems.productsByStoreUuidList.length == 0) {
+      return Container(
+        color: AppColor.themeColor,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 50, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Flexible(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 0),
+                      child: InkWell(
+                        hoverColor: AppColor.themeColor,
+                        focusColor: AppColor.themeColor,
+                        splashColor: AppColor.themeColor,
+                        highlightColor: AppColor.themeColor,
+                        onTap: () {
+                          Navigator.of(context).pushReplacement(
+                              PageRouteBuilder(
+                                  pageBuilder: (context, animation, anotherAnimation) {
+                                    return new GroceryScreen(restaurant: restaurant,);
+                                  },
+                                  transitionDuration: Duration(milliseconds: 300),
+                                  transitionsBuilder:
+                                      (context, animation, anotherAnimation, child) {
+                                    return SlideTransition(
+                                      position: Tween(
+                                          begin: Offset(1.0, 0.0),
+                                          end: Offset(0.0, 0.0))
+                                          .animate(animation),
+                                      child: child,
+                                    );
+                                  }
+                              ));
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          child: Container(
+                              height: 40,
+                              width: 60,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 12, bottom: 12, right: 10),
+                                child: SvgPicture.asset(
+                                    'assets/svg_images/arrow_left.svg'),
+                              )),),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 7,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 30),
+                        child: Text(
+                          selectedCategoriesUuid.name,
+                          style: TextStyle(
+                            fontSize: 18,),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+              child: Center(
+                child: Text('Нет товаров данной категории'),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+
+    // генерим список еды и названий категория
+    foodMenuItems.clear();
+    foodMenuItems.addAll(MenuItem.fromFoodRecordsList(restaurantDataItems.productsByStoreUuidList, this));
+    foodMenuTitles.clear();
+    //foodMenuTitles.addAll(MenuItemTitle.fromCategoryList(restaurantDataItems.productsByStoreUuidList[0]));
+    menuWithTitles = generateMenu();
+
+    return Container(
+      child: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 15),
+            child: Row(
+              children: [
+                InkWell(
+                  hoverColor: AppColor.themeColor,
+                  focusColor: AppColor.themeColor,
+                  splashColor: AppColor.themeColor,
+                  highlightColor: AppColor.themeColor,
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                        PageRouteBuilder(
+                            pageBuilder: (context, animation, anotherAnimation) {
+                              return new GroceryScreen(restaurant: restaurant,);
+                            },
+                            transitionDuration: Duration(milliseconds: 300),
+                            transitionsBuilder:
+                                (context, animation, anotherAnimation, child) {
+                              return SlideTransition(
+                                position: Tween(
+                                    begin: Offset(1.0, 0.0),
+                                    end: Offset(0.0, 0.0))
+                                    .animate(animation),
+                                child: child,
+                              );
+                            }
+                        ));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 40),
+                    child: Container(
+                        height: 40,
+                        width: 60,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 12, bottom: 12, right: 10),
+                          child: SvgPicture.asset(
+                              'assets/svg_images/arrow_left.svg'),
+                        )),),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: 30,
+                      top: 40
+                  ),
+                  child: Text(
+                    selectedCategoriesUuid.name,
+                    style: TextStyle(
+                      fontSize: 18,),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 120),
+            child: StaggeredGridView.countBuilder(
+              physics: BouncingScrollPhysics(),
+              padding: EdgeInsets.zero,
+              crossAxisCount: 2,
+              itemCount: menuWithTitles.length+1,
+              itemBuilder: (BuildContext context, int index) => (index == menuWithTitles.length) ? ItemsPadding(key: itemsPaddingKey,) : menuWithTitles[index],
+              staggeredTileBuilder: (int index) {
+                if(index == menuWithTitles.length)
+                  return StaggeredTile.extent(2, 80);
+
+                if (menuWithTitles[index] is MenuItemTitle) {
+                  return StaggeredTile.extent(2, 50);
+                }
+                return StaggeredTile.extent(1, 300);
+
+              },
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 0.0,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding:  EdgeInsets.only(bottom: 0),
+              child: CartButton(
+                key: basketButtonStateKey, restaurant: restaurant, source: CartSources.Restaurant,),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildScreen(){
+    if(restaurant.type == 'restaurant'){
+      return _buildRestaurantScreen();
+    }else{
+      return _buildGroceryScreen();
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     panelContentKey = new GlobalKey<PanelContentState>();
-
     return Scaffold(
       backgroundColor: AppColor.themeColor,
       key: _scaffoldStateKey,
@@ -1054,104 +1187,90 @@ class RestaurantScreenState extends State<RestaurantScreen> {
               children: [
                 Align(
                     alignment: Alignment.topCenter,
-                    child:
-                        SvgPicture.asset('assets/svg_images/close_button.svg')),
+                    child: SvgPicture.asset('assets/svg_images/close_button.svg')),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
-                  child: Container(
-                      height: MediaQuery.of(context).size.height * 0.9,
+                  child: Container( height: MediaQuery.of(context).size.height * 0.9,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColor.themeColor,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(12),
                           topRight: Radius.circular(12),
-                        ),
-                      ),
+                        ),),
                       child: PanelContent(key: panelContentKey, parent: this)),
                 ),
               ],
             ),
           );
         },
-        body: (restaurantDataItems != null)
-            ? _buildScreen()
-            : FutureBuilder<ProductsByStoreUuidData>(
-                future: getSortedProductsByStoreUuid(restaurant),
-                initialData: null,
-                builder: (BuildContext context,
-                    AsyncSnapshot<ProductsByStoreUuidData> snapshot) {
-                  print(snapshot.connectionState);
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    restaurantDataItems = snapshot.data;
-                    return _buildScreen();
-                  } else {
-                    return Center(
-                      child: SpinKitFadingCircle(
-                        color: AppColor.mainColor,
-                        size: 50.0,
-                      ),
-                    );
-                  }
-                }),
+        body: (restaurantDataItems != null) ?
+        _buildScreen()
+            :
+        FutureBuilder<ProductsByStoreUuidData>(
+            future: (restaurant.type == 'grocery')
+                ? getFilteredProduct(selectedCategoriesUuid.uuid, '')
+                : getSortedProductsByStoreUuid('', restaurant),
+            initialData: null,
+            builder: (BuildContext context,
+                AsyncSnapshot<ProductsByStoreUuidData> snapshot) {
+              print(snapshot.connectionState);
+              if (snapshot.connectionState == ConnectionState.done) {
+                restaurantDataItems = snapshot.data;
+                return _buildScreen();
+              } else {
+                return Center(
+                  child: SpinKitFadingCircle(
+                    color: AppColor.mainColor,
+                    size: 50.0,
+                  ),
+                );
+              }
+            }),
       ),
     );
   }
-
   // Подгрузка итемов с категорией
   // ignore: non_constant_identifier_names
   Future<bool> GoToCategory(int categoryIndex) async {
-    if (isLoading) return false;
+    if(isLoading)
+      return false;
     isLoading = true;
-    try {
+    try{
+
       // Вычисляем оффсет тайтла необходимой категории
       double offset = 0;
       double defaultTitleHeight = 50;
       double defaultFoodItemHeight = 165;
-      for (int i = 0; i < menuWithTitles.length; i++) {
+      for(int i = 0; i<menuWithTitles.length; i++){
         var item = menuWithTitles[i];
-        if (item is MenuItemTitle) {
-          offset += (item.key.currentContext != null)
-              ? item.key.currentContext.size.height
-              : defaultTitleHeight;
-          if (item.title.toLowerCase() ==
-              restaurant.productCategoriesUuid[categoryIndex].name
-                  .toLowerCase()) {
+        if(item is MenuItemTitle){
+          offset += (item.key.currentContext != null) ? item.key.currentContext.size.height : defaultTitleHeight;
+          if(item.title.toLowerCase() == restaurant.productCategoriesUuid[categoryIndex].name.toLowerCase()) {
             break;
           }
-        } else if (item is MenuItem) {
-          offset += (item.key.currentContext != null)
-              ? item.key.currentContext.size.height
-              : defaultFoodItemHeight;
+        } else if(item is MenuItem){
+          offset += (item.key.currentContext != null) ? item.key.currentContext.size.height : defaultFoodItemHeight;
         }
       }
-      await sliverScrollController.position.animateTo(offset,
-          curve: Curves.ease, duration: Duration(milliseconds: 600));
+      await sliverScrollController.position.animateTo(offset,curve: Curves.ease, duration: Duration(milliseconds: 600));
 
       // Скроллим к нему
 
       return true;
       // находим итем с данной категорией
-      MenuItemTitle targetCategory = menuWithTitles.firstWhere((element) =>
-          element is MenuItemTitle &&
-          element.title ==
-              restaurant.productCategoriesUuid[categoryIndex].name);
-      if (targetCategory != null) {
-        while (targetCategory.key.currentContext == null) {
-          await sliverScrollController.animateTo(
-              sliverScrollController.offset + 200,
-              duration: new Duration(milliseconds: 15),
+      MenuItemTitle targetCategory = menuWithTitles.firstWhere((element) => element is MenuItemTitle && element.title == restaurant.productCategoriesUuid[categoryIndex].name);
+      if(targetCategory != null){
+        while(targetCategory.key.currentContext == null) {
+          await sliverScrollController.animateTo(sliverScrollController.offset+200, duration: new Duration(milliseconds: 15),
               curve: Curves.ease);
         }
         // джампаем к нему
 
-        await Scrollable.ensureVisible(targetCategory.key.currentContext,
-            duration: new Duration(milliseconds: 90), curve: Curves.ease);
-        await sliverScrollController.position.animateTo(
-            sliverScrollController.position.pixels - 60,
-            curve: Curves.ease,
-            duration: Duration(milliseconds: 50));
+        await Scrollable.ensureVisible(targetCategory.key.currentContext, duration: new Duration(milliseconds: 90),
+            curve: Curves.ease);
+        await sliverScrollController.position.animateTo(sliverScrollController.position.pixels-60,curve: Curves.ease, duration: Duration(milliseconds: 50));
       }
-    } finally {
+    }finally{
       isLoading = false;
     }
     return true;

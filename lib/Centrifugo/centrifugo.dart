@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:centrifuge/centrifuge.dart' as centrifuge;
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'API/centrifugo.dart';
 import 'package:flutter_app/Screens/ChatScreen/Model/ChatHistoryModel.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';
@@ -37,7 +39,8 @@ class Centrifugo{
     });
     client.connect();
 
-    final subscription = client.getSubscription('client/' + authCodeData.clientUuid);
+    final subscription = client.getSubscription('eda/orderstates/client/${authCodeData.userUUID}');
+    print('eda/orderstates/client/${authCodeData.userUUID}' + 'CENTRIFUGO');
 
     subscription.publishStream.listen((event){
       var parsedJson = convert.jsonDecode(utf8.decode(event.data));
@@ -49,38 +52,38 @@ class Centrifugo{
     subscription.subscribe();
   }
 
-  static Future<void> OrderCheckingUpdater(String order_uuid, String order_state) async {
+  static Future<void> OrderCheckingUpdater(String order_uuid, String order_state, Map<String, dynamic> data) async {
     if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null
         && !DeliveryStates.contains(order_state)){
       homeScreenKey.currentState.orderList.removeWhere((element) => element.ordersDetailsItem.uuid == order_uuid);
-      if(homeScreenKey.currentState.orderList.length == 0)
-        homeScreenKey.currentState.setState(() { });
-      Navigator.push(
-        homeScreenKey.currentContext,
-        MaterialPageRoute(builder: (_) {
-          return CompletedOrderScreen();
-        }),
-      );
+      // if(homeScreenKey.currentState.orderList.length == 0)
+      //   homeScreenKey.currentState.setState(() { });
+      // Navigator.push(
+      //   homeScreenKey.currentContext,
+      //   MaterialPageRoute(builder: (_) {
+      //     return CompletedOrderScreen();
+      //   }),
+      // );
     }
-//     if(orderCheckingStates.containsKey(order_uuid)) {
-//       if(orderCheckingStates[order_uuid].currentState != null) {
-//         orderCheckingStates[order_uuid].currentState.ordersStoryModelItem = await getOrder(order_uuid);
-//         orderCheckingStates[order_uuid].currentState.setState(() {
-// //          orderCheckingStates[order_uuid].currentState.ordersStoryModelItem
-// //              .state = order_state;
-//         });
-//       } else {
-//         if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null) {
-//           homeScreenKey.currentState.orderList.forEach((element) async {
-//             if(element.ordersDetailsItem.uuid == order_uuid) {
-//               element.ordersDetailsItem = await getOrder(order_uuid);
-// //              element.ordersStoryModelItem.state = order_state;
-//               return;
-//             }
-//           });
-//         }
-//       }
-//     }
+    if(orderCheckingStates.containsKey(order_uuid)) {
+      if(orderCheckingStates[order_uuid].currentState != null) {
+        orderCheckingStates[order_uuid].currentState.ordersStoryModelItem = OrderDetailsModelItem.fromJson(data['payload']['order']);
+        orderCheckingStates[order_uuid].currentState.setState(() {
+//          orderCheckingStates[order_uuid].currentState.ordersStoryModelItem
+//              .state = order_state;
+        });
+      } else {
+        if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null) {
+          homeScreenKey.currentState.orderList.forEach((element) async {
+            if(element.ordersDetailsItem.uuid == order_uuid) {
+              element.ordersDetailsItem =OrderDetailsModelItem.fromJson(data['payload']['order']);
+//              element.ordersStoryModelItem.state = order_state;
+              return;
+            }
+          });
+        }
+      }
+    }
   }
 
   static void messageHandler(Map<String, dynamic> message) async {
@@ -102,58 +105,55 @@ class Centrifugo{
     print(message);
 
 
-    if (message.containsKey('data')) {
-      var data =  message['data'];
-      if(data.containsKey('tag')) {
-        switch (data['tag']){
-          case 'order_state' :
-            var payload = data['payload'];
-            String order_state = payload['state'];
-            String order_uuid = payload['order_uuid'];
-            OrderCheckingUpdater(order_uuid, order_state);
-            break;
+    var data =  message;
+    if(data.containsKey('tag')) {
+      switch (data['tag']){
+        case 'order-state' :
+          String order_state = data['payload']['state'];
+          String order_uuid = data['payload']['order']['uuid'];
+          OrderCheckingUpdater(order_uuid, order_state, data);
+          break;
 
-          case 'chat_message' :
-            var payload = data['payload'];
-            var message = ChatMessage.fromJson(payload);
-            if(chatKey.currentState != null){
-              chatKey.currentState.setState(() {
-                chatKey.currentState.chatMessageList.insert(0, new ChatMessageScreen(chatMessage: message, key: new ObjectKey(message)));
+        case 'chat_message' :
+          var payload = data['payload'];
+          var message = ChatMessage.fromJson(payload);
+          if(chatKey.currentState != null){
+            chatKey.currentState.setState(() {
+              chatKey.currentState.chatMessageList.insert(0, new ChatMessageScreen(chatMessage: message, key: new ObjectKey(message)));
+            });
+          }
+          String order_uuid = message.order_uuid;
+          if(orderCheckingStates.containsKey(order_uuid)) {
+            if(orderCheckingStates[order_uuid].currentState != null) {
+              orderCheckingStates[order_uuid].currentState.setState(() {
               });
             }
-            String order_uuid = message.order_uuid;
-            if(orderCheckingStates.containsKey(order_uuid)) {
-              if(orderCheckingStates[order_uuid].currentState != null) {
-                orderCheckingStates[order_uuid].currentState.setState(() {
-                });
-              }
-            }
-            break;
+          }
+          break;
 
-          case 'chat_messages_read' :
-            var payload = data['payload'];
-            List<dynamic> messagesUuid = payload['messages_uuid'];
-            if(chatKey.currentState != null && chatKey.currentState.order_uuid == payload['order_uuid']){
-              messagesUuid.forEach((element) {
-                if(chatMessagesStates.containsKey(element)){
-                  // ignore: invalid_use_of_protected_member
-                  if(chatMessagesStates[element].currentState != null) {
-                    chatMessagesStates[element].currentState.setState(() {
-                      chatMessagesStates[element].currentState.chatMessage.ack = true;
-                    });
-                  } else {
-                    chatKey.currentState.chatMessageList.forEach((message) {
-                      if(message.chatMessage.uuid == element) {
-                        message.chatMessage.ack = true;
-                        return;
-                      }
-                    });
-                  }
+        case 'chat_messages_read' :
+          var payload = data['payload'];
+          List<dynamic> messagesUuid = payload['messages_uuid'];
+          if(chatKey.currentState != null && chatKey.currentState.order_uuid == payload['order_uuid']){
+            messagesUuid.forEach((element) {
+              if(chatMessagesStates.containsKey(element)){
+                // ignore: invalid_use_of_protected_member
+                if(chatMessagesStates[element].currentState != null) {
+                  chatMessagesStates[element].currentState.setState(() {
+                    chatMessagesStates[element].currentState.chatMessage.ack = true;
+                  });
+                } else {
+                  chatKey.currentState.chatMessageList.forEach((message) {
+                    if(message.chatMessage.uuid == element) {
+                      message.chatMessage.ack = true;
+                      return;
+                    }
+                  });
                 }
-              });
-            }
-            break;
-        }
+              }
+            });
+          }
+          break;
       }
     }
   }
@@ -174,7 +174,6 @@ class Centrifugo{
       importance: Importance.Max,
       priority: Priority.High,
       playSound: true,
-      timeoutAfter: 5000,
       styleInformation: DefaultStyleInformation(true, true),
     );
     var iosChannelSpecifics = IOSNotificationDetails();

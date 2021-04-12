@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
-import 'package:flutter_app/Screens/ChatScreen/View/chat_screen.dart';
+import 'package:flutter_app/Screens/ChatScreen/View/chat_screen_old_version.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/API/cancel_order.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
-import 'package:flutter_app/app.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -66,10 +66,6 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0))),
           child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              color: AppColor.themeColor,
-            ),
               height: 150,
               width: 320,
               child: Column(
@@ -82,7 +78,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            color: AppColor.textColor),
+                            color: Color(0xFF424242)),
                       ),
                     ),
                   ),
@@ -133,7 +129,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
 
 
   List<Widget> _buildListItems(){
-    double totalPrice = ordersDetailsModelItem.totalPrice.toDouble();
+    double totalPrice = ordersDetailsModelItem.totalPrice.toDouble() - ordersDetailsModelItem.promotion.amount;
     var format = new DateFormat('  HH:mm    dd.MM.yyyy');
     List<Widget> result = new List<Widget>();
     if(ordersDetailsModelItem == null || ordersDetailsModelItem.items == null){
@@ -143,7 +139,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       padding: const EdgeInsets.only(left: 15.0, right: 14, bottom: 10, top: 15),
       child: Container(
         height: 190,
-        padding: EdgeInsets.only(right: 10, left: 10),
+        padding: EdgeInsets.only(right: 10, left: 15),
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -152,9 +148,9 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 spreadRadius: 1.0, //extend the shadow
               )
             ],
-            color: AppColor.elementsColor,
+            color: AppColor.themeColor,
             borderRadius: BorderRadius.circular(10.0),
-            border: Border.all(width: 1.0, color: AppColor.elementsColor)),
+            border: Border.all(width: 1.0, color: Colors.grey[200])),
         child: Column(
           children: <Widget>[
             Padding(
@@ -166,13 +162,14 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     (ordersDetailsModelItem.storeData != null)
                         ? ordersDetailsModelItem.storeData.name
                         : 'Пусто',
-                    style: TextStyle(fontSize: 18, color: AppColor.textColor),
+                    style: TextStyle(fontSize: 18, color: Color(0xFF000000)),
                   ),
                   Text(
-                    '${ordersDetailsModelItem.totalPrice.toStringAsFixed(0)} \₽',
+                    '${ordersDetailsModelItem.promotion == null ? ordersDetailsModelItem.totalPrice.toStringAsFixed(0):
+                    (ordersDetailsModelItem.totalPrice - ordersDetailsModelItem.promotion.amount).toStringAsFixed(0) } \₽',
                     style: TextStyle(
                       fontSize: 18,
-                      color: AppColor.textColor,
+                      color: Colors.black,
                     ),
                   ),
                 ],
@@ -188,13 +185,13 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: 2),
-                          child: SvgPicture.asset('assets/svg_images/clock.svg', color: AppColor.additionalTextColor,),
+                          child: SvgPicture.asset('assets/svg_images/clock.svg'),
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 0, top: 0, right: 15),
                           child: Text(
-                            format.format(ordersDetailsModelItem.createdAt),
-                            style: TextStyle(fontSize: 12, color: AppColor.additionalTextColor),
+                            format.format(ordersDetailsModelItem.createdAt.add(Duration(hours: ordersDetailsModelItem.storeData.workSchedule.timeZoneOffset))),
+                            style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                           ),
                         ),
                       ],
@@ -204,13 +201,13 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     children: [
                       Text(statusTitles[ordersDetailsModelItem.state],
                         style: TextStyle(
-                            color: AppColor.textColor,
+                            color: Colors.black,
                             fontSize: 14
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0, right: 5),
-                        child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state], color: AppColor.textColor,),
+                        child: SvgPicture.asset(statusIcons[ordersDetailsModelItem.state]),
                       ),
                     ],
                   )
@@ -229,7 +226,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                   'Адрес доставки',
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppColor.additionalTextColor,),
+                    color: Color(0xFF3F3F3F),),
                 ),
               ),
             ),
@@ -241,7 +238,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       (ordersDetailsModelItem.deliveryAddress != null)
                           ?  ordersDetailsModelItem.deliveryAddress.unrestrictedValue
                           : 'Пусто',
-                      style: TextStyle(fontSize: 12, color: AppColor.textColor,),
+                      style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0),),
                       textAlign: TextAlign.start,
                     )
                 )
@@ -349,7 +346,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                               style: TextStyle(
                                   decoration: TextDecoration.none,
                                   fontSize: 14.0,
-                                  color: AppColor.textColor),
+                                  color: Color(0xFF000000)),
                               textAlign: TextAlign.start,
                             ),
                           ),
@@ -397,7 +394,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                             child: Text(
                               '${(item.totalItemPrice.toStringAsFixed(0))} \₽',
                               style: TextStyle(
-                                  color: AppColor.textColor, fontSize: 18),
+                                  color: Colors.black, fontSize: 18),
                             ),
                           ),
                         ),
@@ -408,7 +405,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                             child: Text(
                               '${item.count}шт',
                               style: TextStyle(
-                                  color: AppColor.textColor, fontSize: 18),
+                                  color: Colors.black, fontSize: 18),
                             ),
                           ),
                         ),
@@ -478,19 +475,42 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 Text(
                   "Доставка",
                   style: TextStyle(
-                      color: AppColor.textColor,
+                      color: Color(0xFF000000),
                       fontSize: 18),
                 ),
                 Padding(
                   padding: EdgeInsets.only(),
                   child: Text(
-                    (ordersDetailsModelItem.deliveryPrice.toStringAsFixed(0)).toString() + ' \₽',
+                    (ordersDetailsModelItem.deliveryTariff.price).toString() + ' \₽',
                     style: TextStyle(
-                        color: AppColor.textColor, fontSize: 18),
+                        color: Colors.black, fontSize: 18),
                   ),
                 ),
               ],
             )
+        ),
+        Visibility(
+          visible: (ordersDetailsModelItem.promotion == null
+          || ordersDetailsModelItem.promotion.amount == 0) ? false : true,
+          child: Padding(
+            padding: EdgeInsets.only(
+                top: 15, left: 17, bottom: 5, right: 17),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Скидка',
+                  style:
+                  TextStyle(color: Colors.red, fontSize: 14),
+                ),
+                Text(
+                  (ordersDetailsModelItem.promotion == null) ? '' : '-${ordersDetailsModelItem.promotion.amount} \₽',
+                  style:
+                  TextStyle(color: Colors.red, fontSize: 14),
+                )
+              ],
+            ),
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -501,7 +521,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 'Итого',
                 style: TextStyle(
                     fontSize: 18.0,
-                    color: AppColor.textColor),
+                    color: Color(0xFF000000)),
               ),
             ),
             Padding(
@@ -509,7 +529,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
               child: Text('${totalPrice.toStringAsFixed(0)} \₽',
                   style: TextStyle(
                       fontSize: 18.0,
-                      color: AppColor.textColor)),
+                      color: Color(0xFF000000))),
             )
           ],
         )
@@ -631,7 +651,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                 padding:
                                 EdgeInsets.only(top: 12, bottom: 12, right: 10),
                                 child:  SvgPicture.asset(
-                                    'assets/svg_images/arrow_left.svg', color: AppColor.textColor,),
+                                    'assets/svg_images/arrow_left.svg'),
                               ))),
                       onTap: () {
                         Navigator.pop(context);
@@ -648,7 +668,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: AppColor.textColor),
+                              color: Color(0xFF3F3F3F)),
                         ),
                       ),
                     ),
@@ -723,14 +743,14 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           height: 50,
                           width: 340,
                           decoration: BoxDecoration(
-                            color: AppColor.mainColor,
+                            color: Color(0xFFFE534F),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: Center(
                             child: Text(
                               'Отменить заказ',
                               style: TextStyle(
-                                color: AppColor.unselectedTextColor,
+                                color: AppColor.textColor,
                                 fontSize: 18,),
                             ),
                           )),
@@ -748,7 +768,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                         child: Text('Вы действительно хотите отменить заказ?',
                                           style: TextStyle(
                                             fontSize: 20,
-                                            color: AppColor.textColor
+                                            color: Colors.black
                                           ),
                                         ),
                                       ),
@@ -799,7 +819,6 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(15.0))),
                                     child: Container(
-                                      decoration: BoxDecoration(color: AppColor.themeColor, borderRadius: BorderRadius.circular(15.0)),
                                         height: 210,
                                         width: 300,
                                         child: Column(
@@ -810,7 +829,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                                 child: Text('Вы действительно хотите отменить заказ?',
                                                   style: TextStyle(
                                                       fontSize: 20,
-                                                      color: AppColor.textColor
+                                                      color: Colors.black
                                                   ),
                                                   textAlign: TextAlign.center,
                                                 ),
@@ -855,7 +874,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                                 child: Center(
                                                   child: Text("Вернуться назад",
                                                     style: TextStyle(
-                                                        color: AppColor.textColor,
+                                                        color: Color(0xFF007AFF),
                                                         fontSize: 20
                                                     ),
                                                   ),
@@ -897,7 +916,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                       'Позвонить',
                                       style: TextStyle(
                                           fontSize: 18,
-                                          color: Colors.white
+                                          color: AppColor.textColor
                                       ),
                                     ),
                                   )
@@ -993,165 +1012,5 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             // )
           ],
         ));
-  }
-}
-
-class OrderRejectScreen extends StatefulWidget {
-  final OrderDetailsModelItem ordersStoryModelItem;
-  OrderRejectScreen({Key key, this.ordersStoryModelItem}) : super(key: key);
-
-  @override
-  OrderRejectScreenState createState() {
-    return new OrderRejectScreenState(ordersStoryModelItem);
-  }
-}
-
-class OrderRejectScreenState extends State<OrderRejectScreen> {
-  final OrderDetailsModelItem ordersStoryModelItem;
-  OrderRejectScreenState(this.ordersStoryModelItem);
-
-  showAlertDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15.0))),
-          child: Container(
-            color: AppColor.themeColor,
-              height: 100,
-              width: 320,
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, top: 20, bottom: 20, right: 10),
-                    child: Center(
-                      child: Text(
-                        'Отмена заказа',
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: AppColor.textColor),
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: SpinKitThreeBounce(
-                      color: AppColor.mainColor,
-                      size: 20.0,
-                    ),
-                  ),
-                ],
-              )),
-        );
-      },
-    );
-  }
-
-  Widget build(BuildContext context) {
-    double toppingsCost = 0;
-    return Scaffold(
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  InkWell(
-                    child: Container(
-                        height: 50,
-                        width: 60,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 12, bottom: 12, right: 15),
-                          child: Center(
-                            child:SvgPicture.asset(
-                                'assets/svg_images/arrow_left.svg'),
-                          ),
-                        )
-                    ),
-                    onTap: () async {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.35),
-                    child: Text('Отмена заказа',style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF424242))),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),
-              child: Text('Почему вы решили отменить заказ?',style: TextStyle(fontSize: 18, color: Color(0xFF424242))),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: ListView(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.zero,
-                children: List.generate(5,(index){
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 30.0, left: 15, right: 15),
-                    child: Container(
-                        width: 345,
-                        height: 56,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(0xFFE6E6E6)
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Align(alignment: Alignment.centerLeft,child: Text('Заказал случайно', textAlign: TextAlign.start,)),
-                        )
-                    ),
-                  );
-                }),
-              ),
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 25),
-                  child: GestureDetector(
-                    child: Container(
-                        height: 50,
-                        width: 340,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFE534F),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Оменить заказ',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,),
-                          ),
-                        )),
-                    onTap: () async {
-                      if (await Internet.checkConnection()) {
-                        showAlertDialog(context);
-                        await cancelOrder(ordersStoryModelItem.uuid);
-                        homeScreenKey = new GlobalKey();
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => BlocProvider(
-                                  create: (context) => RestaurantGetBloc(),
-                                  child: new HomeScreen(),
-                                )),
-                                (Route<dynamic> route) => false);
-                      } else {
-                        noConnection(context);
-                      }
-                    },
-                  ),
-                ),
-              ),
-            )
-          ],
-        )
-    );
   }
 }

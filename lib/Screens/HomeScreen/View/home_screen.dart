@@ -10,32 +10,39 @@ import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
 import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
-import 'package:flutter_app/Screens/HomeScreen/API/getFilteredStores.dart';
+import 'package:flutter_app/Screens/ChatScreen/API/create_message.dart';
+import 'package:flutter_app/Screens/HomeScreen/API/getStocks.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
 import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/Stock.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/Filter.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/RestaurantsList.dart';
-import 'package:flutter_app/Screens/HomeScreen/Widgets/TemporaryOrderChecking.dart';
+import 'package:flutter_app/Screens/HomeScreen/View/promo_screen.dart';
+import 'package:flutter_app/Screens/HomeScreen/Widgets/StockList.dart';
 import 'package:flutter_app/Screens/InformationScreen/View/infromation_screen.dart';
-import 'package:flutter_app/Screens/MyAddressesScreen/View/my_addresses_screen.dart';
 import 'package:flutter_app/Screens/OrdersScreen/View/orders_story_screen.dart';
+import 'package:flutter_app/Screens/PaymentScreen/View/payment_screen.dart';
 import 'package:flutter_app/Screens/ProfileScreen/View/profile_screen.dart';
-import 'package:flutter_app/Screens/ServiceScreen/View/service_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pay/flutter_pay.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../../Preloader/device_id_screen.dart';
 import '../../../data/data.dart';
 import '../../CartScreen/Model/CartModel.dart';
+import '../../ChatScreen/View/chat_screen.dart';
 import '../../CityScreen/View/city_screen.dart';
 import '../../RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import '../Model/FilteredStores.dart';
+
 
 class HomeScreen extends StatefulWidget {
   HomeScreen() : super(key: homeScreenKey);
@@ -44,11 +51,12 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   List<OrderChecking> orderList;
   List<FilteredStores> recordsItems;
   GlobalKey<ScaffoldState> _scaffoldKey;
-  GlobalKey<TemporaryOrderCheckingState> temporaryOrderCheckingKey;
+  List<Widget> stocksItems;
+  ScrollController stocksScrollController;
   GlobalKey<CartButtonState> basketButtonStateKey;
   Filter filter;
   RestaurantsList restaurantsList;
@@ -56,6 +64,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   RestaurantGetBloc restaurantGetBloc;
   CartButton cartButton;
   Timer timer;
+
+
+
 
   @override
   void initState() {
@@ -65,6 +76,12 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    stocksScrollController = new ScrollController();
+    Future.delayed(Duration.zero, () {
+
+      checkVer(context);
+
+    });
     orderList = new List<OrderChecking>();
     recordsItems = new List<FilteredStores>();
     _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -72,13 +89,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     cityScreenKey = new GlobalKey<CityScreenState>();
     restaurantGetBloc = BlocProvider.of<RestaurantGetBloc>(context);
     restaurantGetBloc.add(InitialLoad());
-    temporaryOrderCheckingKey = new GlobalKey();
-    // временное решение(убрать когда будет центрифуга)
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
-      if (temporaryOrderCheckingKey.currentState != null) {
-        temporaryOrderCheckingKey.currentState.setState(() {});
-      }
-    });
   }
 
   @override
@@ -87,15 +97,17 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    stocksScrollController.dispose();
     WidgetsBinding.instance.removeObserver(this);
-    timer.cancel();
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      setState(() {});
+    if(state == AppLifecycleState.resumed){
+      setState(() {
+
+      });
     }
   }
 
@@ -108,7 +120,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           title: Text(
             'Информация',
             style: TextStyle(
-                fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {
@@ -137,16 +149,17 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 title: Text(
                   necessaryDataForAuth.name ?? ' ',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: AppColor.textColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 17),
                 ),
                 subtitle: Text(
                   necessaryDataForAuth.phone_number ?? ' ',
-                  style: TextStyle(color: Colors.white, fontSize: 14),
+                  style: TextStyle(color: AppColor.textColor, fontSize: 14),
                 ),
                 trailing: GestureDetector(
-                  child: SvgPicture.asset('assets/svg_images/pencil.svg'),
+                  child: SvgPicture.asset(
+                      'assets/svg_images/pencil.svg'),
                 ),
               ),
             ),
@@ -197,7 +210,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             title: Text(
               'История заказов',
               style: TextStyle(
-                  fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
             ),
             onTap: () async {
               if (await Internet.checkConnection()) {
@@ -250,7 +263,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         //         Navigator.push(
         //           context,
         //           new MaterialPageRoute(
-        //             builder: (context) => new ServiceScreen(),
+        //             builder: (context) => new ChatScreen(),
         //           ),
         //         );
         //       } else {
@@ -268,7 +281,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             title: Text(
               'Выход',
               style: TextStyle(
-                  fontSize: 17, color: AppColor.textColor, letterSpacing: 0.45),
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
             ),
             onTap: () async {
               if (await Internet.checkConnection()) {
@@ -277,8 +290,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 authCodeData.token = null;
                 await NecessaryDataForAuth.saveData();
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => DeviceIdScreen()),
-                    (Route<dynamic> route) => false);
+                    MaterialPageRoute(
+                        builder: (context) => DeviceIdScreen()),
+                        (Route<dynamic> route) => false);
               } else {
                 noConnection(context);
               }
@@ -293,70 +307,62 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             padding: EdgeInsets.only(top: 0),
             child: ListTile(
                 title: InkWell(
-              child: Padding(
-                padding: EdgeInsets.only(top: 0, bottom: 20),
-                child: Text(
-                  'Авторизоваться',
-                  style: TextStyle(
-                      fontSize: 17,
-                      color: AppColor.textColor,
-                      letterSpacing: 0.45),
-                ),
-              ),
-              onTap: () async {
-                if (await Internet.checkConnection()) {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                        create: (context) => AuthGetBloc(),
-                        child: AuthScreen(),
-                      ),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 0, bottom: 20),
+                    child: Text(
+                      'Авторизоваться',
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Color(0xFF424242),
+                          letterSpacing: 0.45),
                     ),
-                  );
-                } else {
-                  noConnection(context);
-                }
-              },
-            )),
+                  ),
+                  onTap: () async {
+                    if (await Internet.checkConnection()) {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context)=> AuthGetBloc(),
+                            child: AuthScreen(),
+                          ),
+                        ),
+                      );
+                    } else {
+                      noConnection(context);
+                    }
+                  },
+                )),
           ));
     }
     return allSideBarItems;
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-          statusBarColor: Colors.white, statusBarBrightness: Brightness.light),
+          statusBarColor: Colors.white,
+          statusBarBrightness: Brightness.light
+      ),
       child: Scaffold(
         backgroundColor: AppColor.themeColor,
         key: _scaffoldKey,
         drawer: ClipRRect(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
-          child: Theme(
-            data: Theme.of(context).copyWith(
-                canvasColor: AppColor
-                    .themeColor //This will change the drawer background to blue.
-                //other styles
-                ),
-            child: Drawer(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+          child: Drawer(
               child: Column(
                 children: [
-                  Container(
-                    width: 200,
-                    height: 250,
-                    child: Container(
-                      margin: EdgeInsets.zero,
-                      padding: EdgeInsets.zero,
-                      height: 100,
-                      width: 100,
-                      child: Transform(
-                        transform: Matrix4.translationValues(0, 15, 0),
-                        child: Container(
-                          child: Image.asset('assets/images/Hatta.png'),
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 60),
+                    child: Center(
+                      child: Image(
+                        height: 97,
+                        width: 142,
+                        image: AssetImage('assets/images/Hatta.png'),
                       ),
                     ),
                   ),
@@ -366,28 +372,39 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
                   ),
                 ],
-              ),
-            ),
+              )
           ),
         ),
         body: BlocBuilder<RestaurantGetBloc, RestaurantGetState>(
             bloc: BlocProvider.of<RestaurantGetBloc>(context),
-            builder: (BuildContext context, RestaurantGetState state) {
-              if (state is RestaurantGetStateLoading)
-                return Center(
-                  child: SpinKitFadingCircle(
-                    color: AppColor.mainColor,
-                    size: 50.0,
+            builder: (BuildContext context,
+                RestaurantGetState state) {
+              if(state is RestaurantGetStateLoading){
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: AppColor.mainColor
+                  ),
+                  child: Center(
+                    child: Image(
+                      image: assetImage
+                    ),
                   ),
                 );
-              else if (state is RestaurantGetStateSuccess) {
+                return Center(
+                  child: Image(
+                    image: AssetImage('assets/images/images/Hatta.png'),
+                  ),
+                );
+              }
+              else if(state is RestaurantGetStateSuccess){
                 recordsItems.clear();
                 recordsItems.addAll(state.items);
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 50, left: 16, right: 15, bottom: 10),
+                      padding: const EdgeInsets.only(top: 50, left: 16, right: 15, bottom: 10),
                       child: Row(
                         children: [
                           Padding(
@@ -403,7 +420,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
                                   'assets/svg_images/home_menu.svg',
-                                  color: AppColor.textColor,
+                                  color: Colors.black,
                                 ),
                               ),
                               onTap: () {
@@ -419,20 +436,23 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: AppColor.mainColor),
+                                    color: AppColor.mainColor
+                                ),
                                 child: Center(
-                                  child: Text(
-                                    selectedCity.name,
+                                  child: Text(selectedCity.name,
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 13),
+                                        color: AppColor.textColor,
+                                        fontSize: 13
+                                    ),
                                   ),
                                 ),
                               ),
-                              onTap: () {
+                              onTap: (){
                                 Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                    builder: (context) => new CityScreen(),
+                                    builder: (context) =>
+                                    new CityScreen(),
                                   ),
                                 );
                               },
@@ -450,49 +470,110 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         ],
                       ),
                     ),
+                    FutureBuilder<List<Stock>>(
+                        future: getStocks(necessaryDataForAuth.city.uuid),
+                        builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
+                          return (snapshot.connectionState == ConnectionState.done) ? Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Акции и новинки',
+                                      style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, left: 16, right: 15, bottom: 10),
+                                  child: Container(
+                                    height: 100,
+                                    child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        shrinkWrap: false,
+                                        scrollDirection: Axis.horizontal,
+                                        controller: stocksScrollController,
+                                        itemCount: snapshot.data.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            child: Card(
+                                              child: Container(
+                                                width: 180,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                ),
+                                                child: Image.network(snapshot.data[index].image, fit: BoxFit.cover,),
+                                              ),
+                                            ),
+                                            onTap: (){
+                                              var stock = snapshot.data[index];
+                                              if(stock.stores != null && stock.stores.isNotEmpty){
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (_) {
+                                                    return PromoScreen(stock: stock,);
+                                                  }),
+                                                );
+                                              }
+                                            },
+                                          );
+                                        }),
+                                  )
+                              ),
+                            ],
+                          ) : Container();
+                        }
+                    ),
                     Expanded(
                       child: ListView(
                         physics: BouncingScrollPhysics(),
                         padding: EdgeInsets.zero,
                         children: <Widget>[
-                          TemporaryOrderChecking(
-                              orderList: orderList,
-                              key: temporaryOrderCheckingKey),
-                          // (!currentUser.isLoggedIn) ? Container() :
-                          // FutureBuilder<List<OrderChecking>>(
-                          //   future: OrderChecking.getActiveOrder(),
-                          //   builder: (BuildContext context,
-                          //       AsyncSnapshot<List<OrderChecking>> snapshot) {
-                          //     if (snapshot.connectionState ==
-                          //         ConnectionState.done &&
-                          //         snapshot.data != null &&
-                          //         snapshot.data.length > 0) {
-                          //       orderList = snapshot.data;
-                          //       return (currentUser.isLoggedIn)
-                          //           ? Padding(
-                          //         padding: const EdgeInsets.only(top: 15),
-                          //         child: Container(
-                          //           height: 230,
-                          //           child: (snapshot.data.length > 1) ? ListView(
-                          //             children: snapshot.data,
-                          //             scrollDirection: Axis.horizontal,
-                          //           ) : Center(
-                          //             child: Row(
-                          //               children: snapshot.data,
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ) : Container(
-                          //         height: 0,
-                          //       );
-                          //     } else {
-                          //       orderList = null;
-                          //       return Container(
-                          //         height: 0,
-                          //       );
-                          //     }
-                          //   },
+                          // TemporaryOrderChecking(
+                          //     orderList: orderList,
+                          //     key: temporaryOrderCheckingKey
                           // ),
+                          (!currentUser.isLoggedIn) ? Container() :
+                          FutureBuilder<List<OrderChecking>>(
+                            future: OrderChecking.getActiveOrder(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<List<OrderChecking>> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                                  snapshot.data != null &&
+                                  snapshot.data.length > 0) {
+                                orderList = snapshot.data;
+                                return (currentUser.isLoggedIn)
+                                    ? Padding(
+                                  padding: const EdgeInsets.only(top: 15),
+                                  child: Container(
+                                    height: 230,
+                                    child: (snapshot.data.length > 1) ? ListView(
+                                      children: snapshot.data,
+                                      scrollDirection: Axis.horizontal,
+                                    ) : Center(
+                                      child: Row(
+                                        children: snapshot.data,
+                                      ),
+                                    ),
+                                  ),
+                                ) : Container(
+                                  height: 0,
+                                );
+                              } else {
+                                orderList = null;
+                                return Container(
+                                  height: 0,
+                                );
+                              }
+                            },
+                          ),
                           // Padding(
                           //   padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
                           //   child: Row(
@@ -533,99 +614,76 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           //     child: Text('sdf'),
                           //   ),
                           //   onTap: () async {
-                          //     FlutterPay flutterPay = FlutterPay();
-                          //
-                          //     PaymentItem item = PaymentItem(name: "T-Shirt", price: 10.98);
-                          //
-                          //     String token = await flutterPay.makePayment(
-                          //       merchantIdentifier: "T1513081007-api",
-                          //       currencyCode: "RUB",
-                          //       countryCode: "RU",
-                          //       allowedPaymentNetworks: [
-                          //         PaymentNetwork.visa,
-                          //         PaymentNetwork.masterCard,
-                          //       ],
-                          //       paymentItems: [item],
-                          //       merchantName: "Faem",
-                          //       gatewayName: "sberbank",
-                          //     );
-                          //
-                          //     print(token);
+                          //     createMessage('ka');
                           //   },
                           // ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text('Рестораны',
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  color: AppColor.textColor,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.2,
-                                )),
-                          ),
+                          // Padding(
+                          //   padding:
+                          //   EdgeInsets.symmetric(horizontal: 20.0),
+                          //   child: Text('Рестораны', // нужно добавить цвет для текста
+                          //       // в некоторых прилагах и черный и белый текст
+                          //       style: TextStyle(
+                          //         fontSize: 28,
+                          //         color: Color(0xFF3F3F3F),
+                          //         fontWeight: FontWeight.bold,
+                          //         letterSpacing: 1.2,
+                          //       )),
+                          // ),
                           filter = Filter(this),
-                          (recordsItems.isEmpty)
-                              ? Center(
-                                  child: Container(),
-                                )
-                              : restaurantsList = RestaurantsList(
-                                  List.from(recordsItems), this,
-                                  key: GlobalKey())
+                          (recordsItems.isEmpty) ?  Center(
+                            child: Container(),
+                          ) : restaurantsList = RestaurantsList(List.from(recordsItems), this, key: GlobalKey())
                         ],
                       ),
                     ),
-                    cartButton != null
-                        ? cartButton
-                        : FutureBuilder<CartModel>(
-                            future: getCartByDeviceId(
-                                necessaryDataForAuth.device_id),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<CartModel> snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                currentUser.cartModel = snapshot.data;
-                                if (currentUser.cartModel == null ||
-                                    currentUser.cartModel.items == null ||
-                                    currentUser.cartModel.items.length < 1) {
-                                  currentUser.cartModel = new CartModel();
-                                  return Container();
-                                }
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 0),
-                                  child: cartButton = CartButton(
-                                    key: basketButtonStateKey,
-                                    restaurant: FilteredStores.fromStoreData(
-                                        currentUser.cartModel.storeData),
-                                    source: CartSources.Home,
-                                  ),
-                                );
-                              }
+                    cartButton != null ? cartButton :
+                    FutureBuilder<CartModel>(
+                        future: getCartByDeviceId(necessaryDataForAuth.device_id),
+                        builder: (BuildContext context, AsyncSnapshot<CartModel> snapshot){
+                          if(snapshot.connectionState == ConnectionState.done){
+                            currentUser.cartModel = snapshot.data;
+                            if(currentUser.cartModel == null
+                                || currentUser.cartModel.items == null
+                                || currentUser.cartModel.items.length < 1){
+                              currentUser.cartModel = new CartModel();
                               return Container();
-                            })
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 0),
+                              child: cartButton = CartButton(
+                                key: basketButtonStateKey,
+                                restaurant: FilteredStores.fromStoreData(currentUser.cartModel.storeData),
+                                source: CartSources.Home,
+                              ),
+                            );
+                          }
+                          return Container();
+                        }
+                    )
                   ],
                 );
-              } else if (state is RestaurantGetStateEmpty) {
+              }else if(state is RestaurantGetStateEmpty){
                 return Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 50, left: 16, right: 15, bottom: 10),
+                      padding: const EdgeInsets.only(top: 50, left: 16, right: 15, bottom: 10),
                       child: Row(
                         children: [
                           Padding(
                             padding: EdgeInsets.only(left: 0, top: 0),
                             child: InkWell(
-                              hoverColor: Colors.white,
-                              focusColor: Colors.white,
-                              splashColor: Colors.white,
-                              highlightColor: Colors.white,
+                              hoverColor: AppColor.themeColor,
+                              focusColor: AppColor.themeColor,
+                              splashColor: AppColor.themeColor,
+                              highlightColor: AppColor.themeColor,
                               child: Container(
                                 height: 40,
                                 width: 40,
                                 padding: EdgeInsets.all(5),
                                 child: SvgPicture.asset(
+                                  // добавить цвет для картинок 
                                   'assets/svg_images/home_menu.svg',
-                                  color: AppColor.textColor,
+                                  color: Colors.black,
                                 ),
                               ),
                               onTap: () {
@@ -641,21 +699,23 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 height: 38,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
-                                    color: AppColor.mainColor),
+                                    color: AppColor.mainColor
+                                ),
                                 child: Center(
-                                  child: Text(
-                                    selectedCity.name,
+                                  child: Text(selectedCity.name,
                                     style: TextStyle(
                                         color: AppColor.textColor,
-                                        fontSize: 13),
+                                        fontSize: 13
+                                    ),
                                   ),
                                 ),
                               ),
-                              onTap: () {
+                              onTap: (){
                                 Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                    builder: (context) => new CityScreen(),
+                                    builder: (context) =>
+                                    new CityScreen(),
                                   ),
                                 );
                               },
@@ -673,13 +733,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.3),
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
                       child: Center(
-                        child: Text(
-                          'Нет заведений по этому городу',
-                          style: TextStyle(color: AppColor.textColor),
-                        ),
+                        child: Text('Нет заведений по этому городу'),
                       ),
                     ),
                   ],
