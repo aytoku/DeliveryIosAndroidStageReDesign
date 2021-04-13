@@ -633,7 +633,7 @@ class GroceryScreenState extends State<GroceryScreen>{
 
     return Scaffold(
       body: Container(
-        child: _buildRestaurantScreen()
+        child: _buildRestaurantScreen() 
       ),
     );
     return Scaffold(
