@@ -313,15 +313,20 @@ class PromoScreenState extends State<PromoScreen>{
                   pinned: true,
                   snap: false,
                   stretch: true,
-                  leading: Container(
-                      height: 40,
-                      width: 60,
-                      child: Padding(
-                        padding:
-                        EdgeInsets.only(top: 17, bottom: 17, right: 10),
-                        child:  SvgPicture.asset(
-                            'assets/svg_images/arrow_left.svg'),
-                      )),
+                  leading: InkWell(
+                    child: Container(
+                        height: 40,
+                        width: 60,
+                        child: Padding(
+                          padding:
+                          EdgeInsets.only(top: 17, bottom: 17, right: 10),
+                          child:  SvgPicture.asset(
+                              'assets/svg_images/arrow_left.svg'),
+                        )),
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                  ),
                   elevation: 0,
                   backgroundColor: AppColor.themeColor,
                   flexibleSpace: FlexibleSpaceBar(

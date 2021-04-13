@@ -118,107 +118,107 @@ class AutoCompleteFieldState extends State<AutoCompleteField> with AutomaticKeep
                 ],
               )
           ),
-          Padding(
-            padding: EdgeInsets.only(
-                top: 20, left: 5, bottom: 10, right: 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  width: 60,
-                  child: Padding(
-                      padding: EdgeInsets.only( bottom: 0, top: 5),
-                      child: Container(
-                        height: 20,
-                        child: TextField(
-                          textCapitalization: TextCapitalization.sentences,
-                          controller: entranceField,
-                          maxLength: 3,
-                          keyboardType: TextInputType.number,
-                          focusNode: focusNode,
-                          decoration: new InputDecoration(
-                            hintText: 'Подъезд',
-                            hintStyle: TextStyle(
-                                color: Color(0xFFB0B0B0),
-                                fontSize: 13),
-                            border: InputBorder.none,
-                            counterText: '',
-                          ),
-                        ),
-                      )),
-                ),
-                Container(
-                  width: 60,
-                  child: Padding(
-                      padding: EdgeInsets.only( bottom: 0, top: 5),
-                      child: Container(
-                        height: 20,
-                        child: TextField(
-                          textCapitalization: TextCapitalization.sentences,
-                          controller: floorField,
-                          keyboardType: TextInputType.number,
-                          focusNode: focusNode,
-                          maxLength: 2,
-                          decoration: new InputDecoration(
-                            hintText: 'Этаж',
-                            hintStyle: TextStyle(
-                                color: Color(0xFFB0B0B0),
-                                fontSize: 13),
-                            border: InputBorder.none,
-                            counterText: '',
-                          ),
-                        ),
-                      )),
-                ),
-                Container(
-                  width: 60,
-                  child: Padding(
-                      padding: EdgeInsets.only( bottom: 0, top: 5),
-                      child: Container(
-                        height: 20,
-                        child: TextField(
-                          textCapitalization: TextCapitalization.sentences,
-                          controller: officeField,
-                          maxLength: 6,
-                          focusNode: focusNode,
-                          keyboardType: TextInputType.number,
-                          decoration: new InputDecoration(
-                            hintText: 'Кв./офис',
-                            hintStyle: TextStyle(
-                                color: Color(0xFFB0B0B0),
-                                fontSize: 13),
-                            border: InputBorder.none,
-                            counterText: '',
-                          ),
-                        ),
-                      )),
-                ),
-                Container(
-                  width: 80,
-                  child: Padding(
-                      padding: EdgeInsets.only( bottom: 0, top: 5),
-                      child: Container(
-                        height: 20,
-                        child: TextField(
-                          textCapitalization: TextCapitalization.sentences,
-                          controller: intercomField,
-                          maxLength: 6,
-                          keyboardType: TextInputType.number,
-                          focusNode: focusNode,
-                          decoration: new InputDecoration(
-                            hintText: 'Домофон',
-                            hintStyle: TextStyle(
-                                color: Color(0xFFB0B0B0),
-                                fontSize: 13),
-                            border: InputBorder.none,
-                            counterText: '',
-                          ),
-                        ),
-                      )),
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(
+          //       top: 20, left: 5, bottom: 10, right: 0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: <Widget>[
+          //       Container(
+          //         width: 60,
+          //         child: Padding(
+          //             padding: EdgeInsets.only( bottom: 0, top: 5),
+          //             child: Container(
+          //               height: 20,
+          //               child: TextField(
+          //                 textCapitalization: TextCapitalization.sentences,
+          //                 controller: entranceField,
+          //                 maxLength: 3,
+          //                 keyboardType: TextInputType.number,
+          //                 focusNode: focusNode,
+          //                 decoration: new InputDecoration(
+          //                   hintText: 'Подъезд',
+          //                   hintStyle: TextStyle(
+          //                       color: Color(0xFFB0B0B0),
+          //                       fontSize: 13),
+          //                   border: InputBorder.none,
+          //                   counterText: '',
+          //                 ),
+          //               ),
+          //             )),
+          //       ),
+          //       Container(
+          //         width: 60,
+          //         child: Padding(
+          //             padding: EdgeInsets.only( bottom: 0, top: 5),
+          //             child: Container(
+          //               height: 20,
+          //               child: TextField(
+          //                 textCapitalization: TextCapitalization.sentences,
+          //                 controller: floorField,
+          //                 keyboardType: TextInputType.number,
+          //                 focusNode: focusNode,
+          //                 maxLength: 2,
+          //                 decoration: new InputDecoration(
+          //                   hintText: 'Этаж',
+          //                   hintStyle: TextStyle(
+          //                       color: Color(0xFFB0B0B0),
+          //                       fontSize: 13),
+          //                   border: InputBorder.none,
+          //                   counterText: '',
+          //                 ),
+          //               ),
+          //             )),
+          //       ),
+          //       Container(
+          //         width: 60,
+          //         child: Padding(
+          //             padding: EdgeInsets.only( bottom: 0, top: 5),
+          //             child: Container(
+          //               height: 20,
+          //               child: TextField(
+          //                 textCapitalization: TextCapitalization.sentences,
+          //                 controller: officeField,
+          //                 maxLength: 6,
+          //                 focusNode: focusNode,
+          //                 keyboardType: TextInputType.number,
+          //                 decoration: new InputDecoration(
+          //                   hintText: 'Кв./офис',
+          //                   hintStyle: TextStyle(
+          //                       color: Color(0xFFB0B0B0),
+          //                       fontSize: 13),
+          //                   border: InputBorder.none,
+          //                   counterText: '',
+          //                 ),
+          //               ),
+          //             )),
+          //       ),
+          //       Container(
+          //         width: 80,
+          //         child: Padding(
+          //             padding: EdgeInsets.only( bottom: 0, top: 5),
+          //             child: Container(
+          //               height: 20,
+          //               child: TextField(
+          //                 textCapitalization: TextCapitalization.sentences,
+          //                 controller: intercomField,
+          //                 maxLength: 6,
+          //                 keyboardType: TextInputType.number,
+          //                 focusNode: focusNode,
+          //                 decoration: new InputDecoration(
+          //                   hintText: 'Домофон',
+          //                   hintStyle: TextStyle(
+          //                       color: Color(0xFFB0B0B0),
+          //                       fontSize: 13),
+          //                   border: InputBorder.none,
+          //                   counterText: '',
+          //                 ),
+          //               ),
+          //             )),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           autocompleteList
         ],
       ),

@@ -468,75 +468,76 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         ],
                       ),
                     ),
-                    FutureBuilder<List<Stock>>(
-                        future: getStocks(necessaryDataForAuth.city.uuid),
-                        builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
-                          return (snapshot.connectionState == ConnectionState.done) ? Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Акции и новинки',
-                                      style: TextStyle(
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, left: 16, right: 15, bottom: 10),
-                                  child: Container(
-                                    height: 100,
-                                    child: ListView.builder(
-                                        physics: BouncingScrollPhysics(),
-                                        shrinkWrap: false,
-                                        scrollDirection: Axis.horizontal,
-                                        controller: stocksScrollController,
-                                        itemCount: snapshot.data.length,
-                                        itemBuilder: (context, index) {
-                                          return InkWell(
-                                            child: Card(
-                                              child: Container(
-                                                width: 180,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(5.0),
-                                                ),
-                                                child: Image.network(snapshot.data[index].image, fit: BoxFit.cover,),
-                                              ),
-                                            ),
-                                            onTap: (){
-                                              var stock = snapshot.data[index];
-                                              if(stock.stores != null && stock.stores.isNotEmpty){
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(builder: (_) {
-                                                    return PromoScreen(stock: stock,);
-                                                  }),
-                                                );
-                                              }
-                                            },
-                                          );
-                                        }),
-                                  )
-                              ),
-                            ],
-                          ) : Container();
-                        }
-                    ),
                     Expanded(
                       child: ListView(
                         physics: BouncingScrollPhysics(),
                         padding: EdgeInsets.zero,
                         children: <Widget>[
-                          // TemporaryOrderChecking(
-                          //     orderList: orderList,
-                          //     key: temporaryOrderCheckingKey
-                          // ),
+                          FutureBuilder<List<Stock>>(
+                              future: getStocks(necessaryDataForAuth.city.uuid),
+                              builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
+                                return (snapshot.connectionState == ConnectionState.done) ? Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Акции и новинки',
+                                            style: TextStyle(
+                                                fontSize: 28,
+                                                fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 10, left: 16, right: 15, bottom: 10),
+                                        child: Container(
+                                          height: 100,
+                                          child: ListView.builder(
+                                              physics: BouncingScrollPhysics(),
+                                              shrinkWrap: false,
+                                              scrollDirection: Axis.horizontal,
+                                              controller: stocksScrollController,
+                                              itemCount: snapshot.data.length,
+                                              itemBuilder: (context, index) {
+                                                return InkWell(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left: 10),
+                                                    child: Container(
+                                                      width: 130,
+                                                      height: 100,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                      ),
+                                                      child: ClipRRect(
+                                                          borderRadius: BorderRadius.circular(10),
+                                                          child: Image.network(snapshot.data[index].image,
+                                                            fit: BoxFit.cover,)),
+                                                    ),
+                                                  ),
+                                                  onTap: (){
+                                                    var stock = snapshot.data[index];
+                                                    if(stock.stores != null && stock.stores.isNotEmpty){
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(builder: (_) {
+                                                          return PromoScreen(stock: stock,);
+                                                        }),
+                                                      );
+                                                    }
+                                                  },
+                                                );
+                                              }),
+                                        )
+                                    ),
+                                  ],
+                                ) : Container();
+                              }
+                          ),
                           (!currentUser.isLoggedIn) ? Container() :
                           FutureBuilder<List<OrderChecking>>(
                             future: OrderChecking.getActiveOrder(),

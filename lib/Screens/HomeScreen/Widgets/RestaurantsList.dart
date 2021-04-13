@@ -41,6 +41,7 @@ class RestaurantsListState extends State<RestaurantsList>{
     List<Widget> restaurantList = [];
     records_items.forEach((FilteredStores restaurant) {
      bool isScheduleAvailable = restaurant.workSchedule.isAvailable();
+     //isScheduleAvailable = false;
      Standard standard = restaurant.workSchedule.getCurrentStandard();
      bool available = restaurant.available.flag != null ? restaurant.available.flag : true;
      if(restaurant.name == 'НАШ'){

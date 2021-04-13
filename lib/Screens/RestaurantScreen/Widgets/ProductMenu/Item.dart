@@ -111,7 +111,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
         context: context,
         builder: (context) {
           return Container(
-            height: 300,
+            height: 250,
             child: _dayOffBottomNavigationMenu(parent.restaurant),
             decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
@@ -125,6 +125,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 
 
   _dayOffBottomNavigationMenu(FilteredStores restaurant) {
+    Standard standard = parent.restaurant.workSchedule.getCurrentStandard();
     return Container(
       decoration: BoxDecoration(
           color: AppColor.themeColor,
@@ -138,11 +139,21 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
             padding: EdgeInsets.only(top: 30),
             child: Align(
                 alignment: Alignment.topCenter,
-                child: Text('К сожалению, доставка не доступна.',
-                  style: TextStyle(
-                      fontSize: 16
-                  ),
-                  textAlign: TextAlign.center,
+                child: Column(
+                  children: [
+                    Text('К сожалению, заведение не доступно.',
+                      style: TextStyle(
+                          fontSize: 16
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text((standard!= null) ? "Заведение откроется в ${standard.beginningTime} часов" : '',
+                      style: TextStyle(
+                          fontSize: 16
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 )
             ),
           ),
@@ -161,8 +172,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                     borderRadius: BorderRadius.circular(10),
                   ),
                   padding: EdgeInsets.only(
-                      left: 110, top: 20, right: 110, bottom: 20),
-                  onPressed: () async {
+                      left: 160, top: 20, right: 160, bottom: 20),
+                  onPressed: ()async {
                     homeScreenKey = new GlobalKey<HomeScreenState>();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
@@ -184,7 +195,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   Widget build(BuildContext context) {
 
     bool isScheduleAvailable = parent.restaurant.workSchedule.isAvailable();
-    Standard standard = parent.restaurant.workSchedule.getCurrentStandard();
+    //isScheduleAvailable = false;
     bool available = parent.restaurant.available.flag != null ? parent.restaurant.available.flag : true;
     super.build(context);
     GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();
@@ -200,8 +211,9 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                     if (await Internet.checkConnection()) {
                       if(!available || !isScheduleAvailable){
                         _dayOff();
+                      }else{
+                        onPressedButton(restaurantDataItems, menuItemCounterKey);
                       }
-                      onPressedButton(restaurantDataItems, menuItemCounterKey);
                       // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
                     } else {
                       noConnection(context);
@@ -344,7 +356,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                         fit: BoxFit.cover,
                         height:
                         MediaQuery.of(context).size.height,
-                        width: 168,
+                        width: MediaQuery.of(context).size.width,
                       ),
                       Image.network(
                         getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
@@ -413,8 +425,9 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
           if (await Internet.checkConnection()) {
             if(!available || !isScheduleAvailable){
               _dayOff();
+            }else{
+              onPressedButton(restaurantDataItems, menuItemCounterKey);
             }
-            onPressedButton(restaurantDataItems, menuItemCounterKey);
             // Navigator.push(context, MaterialPageRoute(builder: (context)=> PB()));
           } else {
             noConnection(context);

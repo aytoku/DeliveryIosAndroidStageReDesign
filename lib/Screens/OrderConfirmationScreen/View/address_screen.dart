@@ -18,6 +18,7 @@ import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/OrderSuccess
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PaymentButton.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Widgets/PromoText.dart';
 import 'package:flutter_app/Screens/PaymentScreen/API/sber_API.dart';
+import 'package:flutter_app/Screens/PaymentScreen/Model/SberGooglePayment.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -70,6 +71,7 @@ class AddressScreenState extends State<AddressScreen>
   GlobalKey<AddressSelectorState> addressSelectorKey;
   GlobalKey<PromoTextState> promoTextKey;
   GlobalKey<PaymentButtonState> paymentButtonKey;
+  SberGooglePayment sberGooglePayment;
 
   // TextEditingController phoneNumberController;
   // TextEditingController nameController;
@@ -81,6 +83,11 @@ class AddressScreenState extends State<AddressScreen>
 
   double initHeight = 200;
   int paymentsMethodCount = 0;
+
+  TextEditingController officeField;
+  TextEditingController intercomField;
+  TextEditingController entranceField;
+  TextEditingController floorField;
 
 
   AddressScreenState(this.restaurant, this.addedAddress, this.isTakeAwayOrderConfirmation, {this.myAddressesModelList});
@@ -97,6 +104,10 @@ class AddressScreenState extends State<AddressScreen>
     card_image = 'assets/svg_images/visa.svg';
     cash = 'Наличными';
     card = 'Картой';
+    entranceField = new TextEditingController();
+    floorField = new TextEditingController();
+    intercomField = new TextEditingController();
+    officeField = new TextEditingController();
     _scaffoldStateKey = GlobalKey();
     commentField = new TextEditingController();
     addressValueController = new TextEditingController();
@@ -153,6 +164,31 @@ class AddressScreenState extends State<AddressScreen>
               width: 100,
               child: Center(
                 child: Text("Введите адрес"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  failedPayment(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Padding(
+          padding: EdgeInsets.only(bottom: 500),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Оплата не прошла"),
               ),
             ),
           ),
@@ -735,6 +771,107 @@ class AddressScreenState extends State<AddressScreen>
                         // ),
                         (isTakeAwayOrderConfirmation) ? Container() : buildAddressesList(),
                         Padding(
+                          padding: EdgeInsets.only(
+                              top: 20, left: 20, bottom: 0, right: 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                width: 60,
+                                child: Padding(
+                                    padding: EdgeInsets.only( bottom: 0, top: 5),
+                                    child: Container(
+                                      height: 20,
+                                      child: TextField(
+                                        textCapitalization: TextCapitalization.sentences,
+                                        controller: entranceField,
+                                        maxLength: 3,
+                                        keyboardType: TextInputType.number,
+                                        focusNode: focusNode,
+                                        decoration: new InputDecoration(
+                                          hintText: 'Подъезд',
+                                          hintStyle: TextStyle(
+                                              color: Color(0xFFB0B0B0),
+                                              fontSize: 13),
+                                          border: InputBorder.none,
+                                          counterText: '',
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                              Container(
+                                width: 60,
+                                child: Padding(
+                                    padding: EdgeInsets.only( bottom: 0, top: 5),
+                                    child: Container(
+                                      height: 20,
+                                      child: TextField(
+                                        textCapitalization: TextCapitalization.sentences,
+                                        controller: floorField,
+                                        keyboardType: TextInputType.number,
+                                        focusNode: focusNode,
+                                        maxLength: 2,
+                                        decoration: new InputDecoration(
+                                          hintText: 'Этаж',
+                                          hintStyle: TextStyle(
+                                              color: Color(0xFFB0B0B0),
+                                              fontSize: 13),
+                                          border: InputBorder.none,
+                                          counterText: '',
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                              Container(
+                                width: 60,
+                                child: Padding(
+                                    padding: EdgeInsets.only( bottom: 0, top: 5),
+                                    child: Container(
+                                      height: 20,
+                                      child: TextField(
+                                        textCapitalization: TextCapitalization.sentences,
+                                        controller: officeField,
+                                        maxLength: 6,
+                                        focusNode: focusNode,
+                                        keyboardType: TextInputType.number,
+                                        decoration: new InputDecoration(
+                                          hintText: 'Кв./офис',
+                                          hintStyle: TextStyle(
+                                              color: Color(0xFFB0B0B0),
+                                              fontSize: 13),
+                                          border: InputBorder.none,
+                                          counterText: '',
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                              Container(
+                                width: 80,
+                                child: Padding(
+                                    padding: EdgeInsets.only( bottom: 0, top: 5),
+                                    child: Container(
+                                      height: 20,
+                                      child: TextField(
+                                        textCapitalization: TextCapitalization.sentences,
+                                        controller: intercomField,
+                                        maxLength: 6,
+                                        keyboardType: TextInputType.number,
+                                        focusNode: focusNode,
+                                        decoration: new InputDecoration(
+                                          hintText: 'Домофон',
+                                          hintStyle: TextStyle(
+                                              color: Color(0xFFB0B0B0),
+                                              fontSize: 13),
+                                          border: InputBorder.none,
+                                          counterText: '',
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
                           child: Stack(
                             children: [
@@ -1100,29 +1237,37 @@ class AddressScreenState extends State<AddressScreen>
                               emptyAddress(context);
                               return;
                             }
-                            showAlertDialog(context);
-                            await createOrder(
-                                currentUser.cartModel.uuid,
-                                false,
-                                false,
-                                eatInStore,
-                                addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-                                addressSelectorKey.currentState.myFavouriteAddressesModel.entranceField,
-                                addressSelectorKey.currentState.myFavouriteAddressesModel.floorField,
-                                addressSelectorKey.currentState.myFavouriteAddressesModel.officeField,
-                                addressSelectorKey.currentState.myFavouriteAddressesModel.intercomField,
-                                commentField.text
-                            );
+                            if(selectedPaymentMethod == paymentMethods[1]){
+                              await makePayment();
+                            }else if(selectedPaymentMethod == paymentMethods[0]){
+                              showAlertDialog(context);
+                              await createOrder(
+                                  currentUser.cartModel.uuid,
+                                  false,
+                                  false,
+                                  eatInStore,
+                                  addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+                                  entranceField.text,
+                                  floorField.text,
+                                  officeField.text,
+                                  intercomField.text,
+                                  commentField.text
+                              );
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                                      (Route<dynamic> route) => false);
+                            }
                           }
 
-                          if(selectedPaymentMethod == paymentMethods[0]){
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-                                    (Route<dynamic> route) => false);
-                          }else{ // если не наличка
-                            await makePayment();
-                          }
+                          // if(selectedPaymentMethod == paymentMethods[0]){
+                          //   Navigator.of(context).pushAndRemoveUntil(
+                          //       MaterialPageRoute(
+                          //           builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                          //           (Route<dynamic> route) => false);
+                          // }else{ // если не наличка
+                          //   await makePayment();
+                          // }
 
                         } else {
                           noConnection(context);
@@ -1154,37 +1299,58 @@ class AddressScreenState extends State<AddressScreen>
       result = await SberAPI.googlePay(req, currentUser.cartModel.uuid);
     }
     if(result.success){
-      // if(result.data.acsUrl != null){
-      //   Navigator.of(context).push(
-      //       MaterialPageRoute(
-      //           builder: (context) => WebView(
-      //             onPageFinished: (String url) {
-      //               print(url);
-      //               if(url == "https://3dsec.sberbank.ru/payment/merchants/root/errors_ru.html"){ // здесь когда-нибудь вставить саксес и еррор урлы
-      //                 Navigator.of(context).pushAndRemoveUntil(
-      //                     MaterialPageRoute(
-      //                         builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
-      //                         (Route<dynamic> route) => false);
-      //               }
-      //             },
-      //             initialUrl: new Uri.dataFromString(
-      //                 _loadHTML(result.data.acsUrl,
-      //                     result.data.paReq,
-      //                     result.data.termUrl
-      //                 ), mimeType: 'text/html').toString(),
-      //             javascriptMode: JavascriptMode.unrestricted,
-      //             onWebViewCreated: (WebViewController webController){
-      //             },
-      //           ))
-      //   );
-      //   return result.success;
-      // }
+      showAlertDialog(context);
+      await createOrder(
+          currentUser.cartModel.uuid,
+          false,
+          false,
+          eatInStore,
+          addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+          entranceField.text,
+          floorField.text,
+          officeField.text,
+          intercomField.text,
+          commentField.text
+      );
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
               (Route<dynamic> route) => false);
-
+    }else if(result == null){
+      failedPayment(context);
     }
+    // if(result.success){
+    //   // if(result.data.acsUrl != null){
+    //   //   Navigator.of(context).push(
+    //   //       MaterialPageRoute(
+    //   //           builder: (context) => WebView(
+    //   //             onPageFinished: (String url) {
+    //   //               print(url);
+    //   //               if(url == "https://3dsec.sberbank.ru/payment/merchants/root/errors_ru.html"){ // здесь когда-нибудь вставить саксес и еррор урлы
+    //   //                 Navigator.of(context).pushAndRemoveUntil(
+    //   //                     MaterialPageRoute(
+    //   //                         builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+    //   //                         (Route<dynamic> route) => false);
+    //   //               }
+    //   //             },
+    //   //             initialUrl: new Uri.dataFromString(
+    //   //                 _loadHTML(result.data.acsUrl,
+    //   //                     result.data.paReq,
+    //   //                     result.data.termUrl
+    //   //                 ), mimeType: 'text/html').toString(),
+    //   //             javascriptMode: JavascriptMode.unrestricted,
+    //   //             onWebViewCreated: (WebViewController webController){
+    //   //             },
+    //   //           ))
+    //   //   );
+    //   //   return result.success;
+    //   // }
+    //   Navigator.of(context).pushAndRemoveUntil(
+    //       MaterialPageRoute(
+    //           builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+    //           (Route<dynamic> route) => false);
+    //
+    // }
     return result.success;
   }
 

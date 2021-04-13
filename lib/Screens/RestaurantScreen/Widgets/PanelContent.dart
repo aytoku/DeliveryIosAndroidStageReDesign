@@ -51,8 +51,10 @@ class PanelContentState extends State<PanelContent>{
 
   @override
   Widget build(BuildContext context) {
-
-
+    bool isScheduleAvailable = parent.restaurant.workSchedule.isAvailable();
+    //isScheduleAvailable = false;
+    Standard standard = parent.restaurant.workSchedule.getCurrentStandard();
+    bool available = parent.restaurant.available.flag != null ? parent.restaurant.available.flag : true;
     if(menuItem == null)
       return Container(height: 200);
 
@@ -67,7 +69,71 @@ class PanelContentState extends State<PanelContent>{
           variantsSelectors = getVariantGroups(productsDescription);
         }
 
-
+        if(!available || !isScheduleAvailable){
+          Container(
+            decoration: BoxDecoration(
+                color: AppColor.themeColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(12),
+                  topRight: const Radius.circular(12),
+                )),
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 30),
+                  child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Column(
+                        children: [
+                          Text('К сожалению, заведение не доступно.',
+                            style: TextStyle(
+                                fontSize: 16
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text((standard!= null) ? "Заведение откроется в ${standard.beginningTime} часов" : '',
+                            style: TextStyle(
+                                fontSize: 16
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      )
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 25),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FlatButton(
+                        child: Text(
+                          "Далее",
+                          style:
+                          TextStyle(color: AppColor.textColor, fontSize: 16),
+                        ),
+                        color: AppColor.mainColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.only(
+                            left: 160, top: 20, right: 160, bottom: 20),
+                        onPressed: ()async {
+                          homeScreenKey = new GlobalKey<HomeScreenState>();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => BlocProvider(
+                                    create: (context) => RestaurantGetBloc(),
+                                    child: new HomeScreen(),
+                                  )),
+                                  (Route<dynamic> route) => false);
+                        },
+                      )
+                  ),
+                )
+              ],
+            ),
+          );
+        }
         if(productsDescription != null){
           return Container(
             decoration: BoxDecoration(
@@ -432,8 +498,7 @@ class PanelContentState extends State<PanelContent>{
               ],
             ),
           );
-        }
-        else{
+        }else{
           return Padding(
             padding: const EdgeInsets.only(top: 40),
             child: Center(

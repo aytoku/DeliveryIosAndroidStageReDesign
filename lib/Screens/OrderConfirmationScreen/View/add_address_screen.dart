@@ -133,10 +133,10 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         parent.isAddressSelected = true;
 
                         // поля для
-                        myAddressesModel.entranceField = autoCompleteFieldKey.currentState.entranceField.text;
-                        myAddressesModel.floorField = autoCompleteFieldKey.currentState.floorField.text;
-                        myAddressesModel.officeField = autoCompleteFieldKey.currentState.officeField.text;
-                        myAddressesModel.intercomField = autoCompleteFieldKey.currentState.intercomField.text;
+                        // myAddressesModel.entranceField = autoCompleteFieldKey.currentState.entranceField.text;
+                        // myAddressesModel.floorField = autoCompleteFieldKey.currentState.floorField.text;
+                        // myAddressesModel.officeField = autoCompleteFieldKey.currentState.officeField.text;
+                        // myAddressesModel.intercomField = autoCompleteFieldKey.currentState.intercomField.text;
                         myAddressesModel.deliveryTariff = await getDeliveryTariff();
 
                         myAddressesModel.name = nameField.text;
