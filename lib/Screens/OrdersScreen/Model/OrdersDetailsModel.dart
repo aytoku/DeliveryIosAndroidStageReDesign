@@ -255,8 +255,8 @@ class Address {
   String houseType;
   int accuracyLevel;
   int radius;
-  double lat;
-  double lon;
+  var lat;
+  var lon;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
     uuid: json["uuid"],

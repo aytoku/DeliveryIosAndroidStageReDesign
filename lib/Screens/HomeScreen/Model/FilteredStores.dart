@@ -81,8 +81,8 @@ class FilteredStores {
   Address address;
   List<Contact> contacts;
   int priority;
-  int lat;
-  int lon;
+  var lat;
+  var lon;
   String url;
   FilteredStoreMeta meta;
   Settings settings;
@@ -198,8 +198,8 @@ class Address {
   String houseType;
   int accuracyLevel;
   int radius;
-  double lat;
-  double lon;
+  var lat;
+  var lon;
   String category;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(

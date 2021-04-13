@@ -495,7 +495,9 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                     ),
                   )
               ),
-              SvgPicture.asset('assets/svg_images/rest_plus.svg'),
+              InkWell(
+                child: SvgPicture.asset('assets/svg_images/rest_plus.svg'),
+              ),
             ],
           ),
         );
@@ -517,7 +519,6 @@ class MenuItemCounterState extends State<MenuItemCounter> {
             onTap: () async {
               if (counter != 0) {
                 await _incrementCounter_minus();
-
               }
             },
             child: SvgPicture.asset('assets/svg_images/rest_minus.svg'),
@@ -538,7 +539,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
               ),
             ),
           ),
-          InkWell(
+          GestureDetector(
             onTap: () async {
               if (await Internet.checkConnection()) {
                 if(foodRecords.type == 'variable'){
@@ -546,7 +547,6 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                 }else{
                   await _incrementCounter_plus();
                 }
-
               } else {
                 noConnection(context);
               }
@@ -555,6 +555,10 @@ class MenuItemCounterState extends State<MenuItemCounter> {
           ),
         ])
     );
+  }
+
+  void _onTapDown(TapDownDetails details) {
+
   }
 
   void refresh() {

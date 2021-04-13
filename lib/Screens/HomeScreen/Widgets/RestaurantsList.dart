@@ -179,29 +179,29 @@ class RestaurantsListState extends State<RestaurantsList>{
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                                padding: EdgeInsets.only(left: 8, right: 8, top: 0),
-                                height: 25,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: AppColor.mainColor
-                                ),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset('assets/svg_images/rest_star.svg',
-                                      color: AppColor.textColor,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 3.0),
-                                      child: Text("5.0",
-                                        style: TextStyle(
-                                            color: AppColor.textColor
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )
-                            ),
+                            // Container(
+                            //     padding: EdgeInsets.only(left: 8, right: 8, top: 0),
+                            //     height: 25,
+                            //     decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(10),
+                            //         color: AppColor.mainColor
+                            //     ),
+                            //     child: Row(
+                            //       children: [
+                            //         SvgPicture.asset('assets/svg_images/rest_star.svg',
+                            //           color: AppColor.textColor,
+                            //         ),
+                            //         Padding(
+                            //           padding: const EdgeInsets.only(left: 3.0),
+                            //           child: Text("5.0",
+                            //             style: TextStyle(
+                            //                 color: AppColor.textColor
+                            //             ),
+                            //           ),
+                            //         )
+                            //       ],
+                            //     )
+                            // ),
                             Container(
                               height: 25,
                               padding: EdgeInsets.only(left: 10, right: 10),

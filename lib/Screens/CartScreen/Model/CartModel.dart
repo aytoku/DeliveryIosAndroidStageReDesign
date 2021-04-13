@@ -590,8 +590,8 @@ class StoreData {
   final Address address;
   final List<Contact> contacts;
   final int priority;
-  final int lat;
-  final int lon;
+  var lat;
+  var lon;
   final bool ownDelivery;
   final String url;
   final StoreDataMeta meta;

@@ -140,8 +140,8 @@ class DestinationPoints extends InitialAddressModel {
     String houseType,
     int accuracyLevel,
     int radius,
-    double lat,
-    double lon,
+    var lat,
+    var lon,
   }):super( // Передаем данные в родительский конструктор
       uuid: uuid,
       unrestrictedValue: unrestrictedValue,

@@ -215,110 +215,110 @@ class _CodeScreenState extends State<CodeScreen> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 140),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      height: 130,
-                      width: 313,
-                      decoration: BoxDecoration(
-                        color: AppColor.mainColor,
-                        // border: Border.all(
-                        //   color: mainColor,
-                        // ),
-                        borderRadius: const BorderRadius.all(
-                          const Radius.circular(10.0),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 15.0),
-                              child: Text(
-                                'Введите код из смс',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: AppColor.unselectedTextColor
-                                ),
-                              ),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 140),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                          height: 130,
+                          width: 313,
+                          decoration: BoxDecoration(
+                            color: AppColor.mainColor,
+                            // border: Border.all(
+                            //   color: mainColor,
+                            // ),
+                            borderRadius: const BorderRadius.all(
+                              const Radius.circular(10.0),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 14.0),
-                            child: Container(
-                              height: 80.0,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: AppColor.mainColor),
-                                  borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10)),
-                                  color: AppColor.fieldColor,),
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.topCenter,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 6.0),
-                                  child: Container(
-                                    width: 200.0,
-                                    padding: EdgeInsets.only(bottom: 19.0),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10)),
-                                        color: AppColor.fieldColor),
-                                    child: PinInputTextField(
-                                      keyboardType: TextInputType.number,
-                                      autoFocus: true,
-                                      controller: pinController,
-                                      pinLength: 4,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
-                                      ],
-                                      decoration: UnderlineDecoration(
-                                        textStyle: TextStyle(
-                                          color: AppColor.textColor,
-                                          fontSize: 30.0,
-                                        ),
-                                        colorBuilder: PinListenColorBuilder(
-                                          AppColor.textColor,
-                                          AppColor.textColor,
-                                        ),
-                                      ),
-                                      // inputFormatter: <TextInputFormatter>[
-                                      //   WhitelistingTextInputFormatter.digitsOnly
-                                      // ],
-                                      onChanged: (String newPin) async {
-                                        if (this.mounted) {
-                                          setState(() {
-                                            code = newPin;
-                                            buttonColor();
-                                          });
-                                        }
-                                      },
+                                  padding: const EdgeInsets.only(top: 15.0),
+                                  child: Text(
+                                    'Введите код из смс',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: AppColor.unselectedTextColor
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 14.0),
+                                child: Container(
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppColor.mainColor),
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(10)),
+                                      color: AppColor.fieldColor,),
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 6.0),
+                                      child: Container(
+                                        width: 200.0,
+                                        padding: EdgeInsets.only(bottom: 19.0),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                bottomRight: Radius.circular(10),
+                                                bottomLeft: Radius.circular(10)),
+                                            color: AppColor.fieldColor),
+                                        child: PinInputTextField(
+                                          keyboardType: TextInputType.number,
+                                          autoFocus: true,
+                                          controller: pinController,
+                                          pinLength: 4,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.digitsOnly,
+                                          ],
+                                          decoration: UnderlineDecoration(
+                                            textStyle: TextStyle(
+                                              color: AppColor.textColor,
+                                              fontSize: 30.0,
+                                            ),
+                                            colorBuilder: PinListenColorBuilder(
+                                              AppColor.textColor,
+                                              AppColor.textColor,
+                                            ),
+                                          ),
+                                          // inputFormatter: <TextInputFormatter>[
+                                          //   WhitelistingTextInputFormatter.digitsOnly
+                                          // ],
+                                          onChanged: (String newPin) async {
+                                            if (this.mounted) {
+                                              setState(() {
+                                                code = newPin;
+                                                buttonColor();
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                    (state is SearchStateError) ? Center(
+                      child: Text(
+                        state.error,
+                        style: TextStyle(
+                            color: Colors.red, fontSize: 12),
+                      ),
+                    ) : Container(),
+                  ],
                 ),
-                (state is SearchStateError) ? Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        top: 10, bottom: 60, left: 0),
-                    child: Text(
-                      state.error,
-                      style: TextStyle(
-                          color: Colors.red, fontSize: 12),
-                    ),
-                  ),
-                ) : Container(),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(

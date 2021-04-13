@@ -233,7 +233,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
               )
             ],
             color: AppColor.themeColor,
-            border: Border.all(width: 1.0, color: Colors.grey[200]),
+            border: Border.all(width: 1.0, color: AppColor.themeColor),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
@@ -297,7 +297,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                             '${restaurantDataItems.meta.description}',
                             style: TextStyle(
                                 fontSize: 12.0,
-                                color: Colors.grey),
+                                color: AppColor.themeColor),
                             textAlign: TextAlign.start,
                           ),
                         ),

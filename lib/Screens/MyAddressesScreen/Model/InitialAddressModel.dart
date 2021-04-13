@@ -39,8 +39,8 @@ class InitialAddressModel{
   String houseType;
   int accuracyLevel;
   int radius;
-  double lat;
-  double lon;
+  var lat;
+  var lon;
   String comment;
   String name; // Лишнее поле, для упрощения полиморфизма
 

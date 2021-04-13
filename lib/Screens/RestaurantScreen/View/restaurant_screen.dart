@@ -210,14 +210,14 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
             child: Container(
-                height: 242,
+                height: 225,
                 width: 300,
                 child: Column(
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(left: 15, top: 20, bottom: 20, right: 15),
                       child: Text(
-                        'Все ранее добавленные блюда из ресторна ${currentUser.cartModel.storeData.name} будут удалены из корзины',
+                        'Все ранее добавленные блюда из ресторана ${currentUser.cartModel.storeData.name} будут удалены из корзины',
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.bold),
                       ),
@@ -1098,14 +1098,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                         width: 60,
                         child: Padding(
                           padding: EdgeInsets.only(
-                              top: 12, bottom: 12, right: 10),
+                              top: 12, bottom: 12,),
                           child: SvgPicture.asset(
                               'assets/svg_images/arrow_left.svg'),
                         )),),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: 30,
                       top: 40
                   ),
                   child: Text(

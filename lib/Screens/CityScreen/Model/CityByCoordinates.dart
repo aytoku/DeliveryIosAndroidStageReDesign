@@ -40,8 +40,8 @@ class CityByCoordinates {
   int frontDoor;
   String house;
   String houseType;
-  double lat;
-  double lon;
+  var lat;
+  var lon;
   bool outOfTown;
   String pointType;
   int radius;
