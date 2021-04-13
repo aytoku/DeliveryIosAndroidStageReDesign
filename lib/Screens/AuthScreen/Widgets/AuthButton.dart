@@ -42,6 +42,13 @@ class AuthButtonState extends State<AuthButton> {
 
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    lock = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return GestureDetector(
@@ -65,22 +72,27 @@ class AuthButtonState extends State<AuthButton> {
       ),
       onTap: () async {
         if (await Internet.checkConnection()) {
-          try{
-            currentUser.phone = currentUser.phone.replaceAll('-', '');
-            currentUser.phone = currentUser.phone.replaceAll(' ', '');
-            print(currentUser.phone);
-            if (validateMobile(currentUser.phone) == null) {
-              if (currentUser.phone[0] != '+') {
-                currentUser.phone = '+' + currentUser.phone;
+          if(!lock){
+            try{
+              lock = true;
+              currentUser.phone = currentUser.phone.replaceAll('-', '');
+              currentUser.phone = currentUser.phone.replaceAll(' ', '');
+              print(currentUser.phone);
+              if (validateMobile(currentUser.phone) == null) {
+                if (currentUser.phone[0] != '+') {
+                  currentUser.phone = '+' + currentUser.phone;
+                }
+                authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone)); // отправка события в bloc
+              } else {
+                authGetBloc.add(SetError('Указан неверный номер')); // отправка события в bloc
               }
-              authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone)); // отправка события в bloc
-            } else {
-              authGetBloc.add(SetError('Указан неверный номер')); // отправка события в bloc
+            }finally{
+              lock = false;
             }
-          }finally{
-            lock = false;
+          }else{
             await Vibrate.canVibrate;
           }
+
         } else {
           noConnection(context);
         }

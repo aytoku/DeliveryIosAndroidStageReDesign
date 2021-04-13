@@ -81,8 +81,8 @@ class FilteredStores {
   Address address;
   List<Contact> contacts;
   int priority;
-  int lat;
-  int lon;
+  double lat;
+  double lon;
   String url;
   FilteredStoreMeta meta;
   Settings settings;
@@ -122,8 +122,8 @@ class FilteredStores {
     address: Address.fromJson(json["address"]),
     contacts: json["contacts"] == null ? null : List<Contact>.from(json["contacts"].map((x) => Contact.fromJson(x))),
     priority: json["priority"],
-    lat: json["lat"],
-    lon: json["lon"],
+    lat: json["lat"] * 1.0,
+    lon: json["lon"] * 1.0,
     url: json["url"],
     meta: (json['meta'] == null) ? null : FilteredStoreMeta.fromJson(json["meta"]),
   );

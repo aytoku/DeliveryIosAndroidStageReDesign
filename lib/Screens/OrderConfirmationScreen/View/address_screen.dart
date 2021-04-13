@@ -1316,7 +1316,7 @@ class AddressScreenState extends State<AddressScreen>
           MaterialPageRoute(
               builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
               (Route<dynamic> route) => false);
-    }else if(result == null){
+    }else if(result == null || result.success == false){
       failedPayment(context);
     }
     // if(result.success){

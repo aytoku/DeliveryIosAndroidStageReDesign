@@ -452,8 +452,8 @@ class StoreData {
   Address address;
   dynamic contacts;
   int priority;
-  int lat;
-  int lon;
+  double lat;
+  double lon;
   bool ownDelivery;
   String url;
   StoreDataMeta meta;
@@ -476,8 +476,8 @@ class StoreData {
       address: Address.fromJson(json["address"]),
       contacts: json["contacts"],
       priority: json["priority"],
-      lat: json["lat"],
-      lon: json["lon"],
+      lat: json["lat"] * 1.0,
+      lon: json["lon"] * 1.0,
       ownDelivery: json["own_delivery"],
       url: json["url"],
       meta: StoreDataMeta.fromJson(json["meta"]),

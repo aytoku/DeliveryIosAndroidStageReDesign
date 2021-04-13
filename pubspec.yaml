@@ -53,6 +53,7 @@ dependencies:
   package_info: ^0.4.3+4
   change_app_package_name: ^0.1.2
   flutter_vibrate: ^1.0.0
+  flutter_gifimage: ^1.0.1
 
   bloc: ^4.0.0
   flutter_bloc: ^4.0.0

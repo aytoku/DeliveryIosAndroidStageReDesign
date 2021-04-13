@@ -108,7 +108,7 @@ class NecessaryDataForAuth{
 
   static Future<String> refreshToken(String refresh_token, String token, String device_id) async {
     String result = null;
-    var url = 'https://auth.apis.stage.faem.pro/api/v3/auth/clients/refresh';
+    var url = '${authApiUrl}auth/clients/refresh';
     print(refresh_token);
     print('--------');
     print(token);
