@@ -391,7 +391,8 @@ class GroceryScreenState extends State<GroceryScreen>{
                       child: ClipRRect(
                           child: Stack(
                             children: <Widget>[
-                              Image.asset('assets/images/food.png', fit: BoxFit.cover,),
+                              Center(
+                                  child: Image.asset('assets/images/food.png', fit: BoxFit.cover,)),
                               Image.network(
                                 getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
                                 fit: BoxFit.cover,
