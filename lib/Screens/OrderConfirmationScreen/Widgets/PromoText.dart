@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CartScreen/Model/CartModel.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/API/promo_code.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import '../../../data/data.dart';
 
@@ -29,6 +30,7 @@ class PromoTextState extends State<PromoText>{
   void initState(){
     super.initState();
     promoCodeField = new TextEditingController();
+    lock = false;
   }
 
   @override
@@ -151,16 +153,25 @@ class PromoTextState extends State<PromoText>{
                   ),
                 ),
                 onTap: () async {
-                  title = promoCodeField.text;
-                  CartModel tempCartModel = await sendPromo(title, currentUser.cartModel.uuid);
-                  currentUser.cartModel = tempCartModel ?? currentUser.cartModel;
-                   Navigator.pop(context);
-                  setState(() {
-                    if(tempCartModel==null){
-                      promoCodeAlert(context);
-                      title = '  Введите\nпромокод';
+                  if(!lock){
+                    lock = true;
+                    try{
+                      title = promoCodeField.text;
+                      CartModel tempCartModel = await sendPromo(title, currentUser.cartModel.uuid);
+                      currentUser.cartModel = tempCartModel ?? currentUser.cartModel;
+                      Navigator.pop(context);
+                      setState(() {
+                        if(tempCartModel==null){
+                          promoCodeAlert(context);
+                          title = '  Введите\nпромокод';
+                        }
+                      });
+                    }finally{
+                      lock = false;
                     }
-                  });
+                  }else{
+                    await Vibrate.vibrate();
+                  }
                 },
               )
             ],

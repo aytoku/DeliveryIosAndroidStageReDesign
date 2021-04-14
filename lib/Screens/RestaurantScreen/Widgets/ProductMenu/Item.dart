@@ -60,6 +60,12 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 
 
   MenuItemState(this.restaurantDataItems, this.parent);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    lock = false;
+  }
 
   showAlertDialog(BuildContext context) {
     showDialog(
@@ -743,54 +749,58 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                                 ),
                                                                 onTap: () async {
                                                                   if (await Internet.checkConnection()) {
-                                                                    try{
-                                                                      ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
-                                                                      bool hasErrors = false;
-                                                                      cartProduct.variantGroups = new List<VariantGroup>();
-                                                                      variantsSelectors.forEach((variantGroupSelector) {
-                                                                        if(variantGroupSelector.key.currentState.hasSelectedVariants()){
-                                                                          cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
-                                                                          cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
-                                                                        } else if(variantGroupSelector.key.currentState.required) {
-                                                                          hasErrors = true;
-                                                                          variantGroupSelector.key.currentState.setState(() {
-                                                                            variantGroupSelector.key.currentState.error = true;
-                                                                          });
-                                                                        }
-                                                                      });
-
-                                                                      if(hasErrors){
-                                                                        return;
-                                                                      }
-
-                                                                      if(currentUser.cartModel != null && currentUser.cartModel.items != null
-                                                                          && currentUser.cartModel.items.length > 0
-                                                                          && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
-                                                                        print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
-                                                                        parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, this);
-                                                                      } else {
-                                                                        currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
-                                                                        menuItemCounterKey.currentState.refresh();
-                                                                        Navigator.pop(context);
-                                                                        setState(() {
-
+                                                                    if(!lock){
+                                                                      lock = true;
+                                                                      try{
+                                                                        ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
+                                                                        bool hasErrors = false;
+                                                                        cartProduct.variantGroups = new List<VariantGroup>();
+                                                                        variantsSelectors.forEach((variantGroupSelector) {
+                                                                          if(variantGroupSelector.key.currentState.hasSelectedVariants()){
+                                                                            cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
+                                                                            cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
+                                                                          } else if(variantGroupSelector.key.currentState.required) {
+                                                                            hasErrors = true;
+                                                                            variantGroupSelector.key.currentState.setState(() {
+                                                                              variantGroupSelector.key.currentState.error = true;
+                                                                            });
+                                                                          }
                                                                         });
 
-                                                                        // Добавляем паддинг в конец
-                                                                        if(parent.itemsPaddingKey.currentState != null){
-                                                                          parent.itemsPaddingKey.currentState.setState(() {
+                                                                        if(hasErrors){
+                                                                          return;
+                                                                        }
+
+                                                                        if(currentUser.cartModel != null && currentUser.cartModel.items != null
+                                                                            && currentUser.cartModel.items.length > 0
+                                                                            && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
+                                                                          print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
+                                                                          parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, this);
+                                                                        } else {
+                                                                          currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
+                                                                          menuItemCounterKey.currentState.refresh();
+                                                                          Navigator.pop(context);
+                                                                          setState(() {
 
                                                                           });
-                                                                        }
 
-                                                                        parent.showAlertDialog(context);
-                                                                        if(parent.basketButtonStateKey.currentState != null){
-                                                                          parent.basketButtonStateKey.currentState.refresh();
+                                                                          // Добавляем паддинг в конец
+                                                                          if(parent.itemsPaddingKey.currentState != null){
+                                                                            parent.itemsPaddingKey.currentState.setState(() {
+
+                                                                            });
+                                                                          }
+
+                                                                          parent.showAlertDialog(context);
+                                                                          if(parent.basketButtonStateKey.currentState != null){
+                                                                            parent.basketButtonStateKey.currentState.refresh();
+                                                                          }
                                                                         }
+                                                                      }finally{
+                                                                        lock = false;
                                                                       }
-                                                                    }finally{
-                                                                      lock = false;
-                                                                      await Vibrate.canVibrate;
+                                                                    }else{
+                                                                      await Vibrate.vibrate();
                                                                     }
                                                                   } else {
                                                                     noConnection(context);

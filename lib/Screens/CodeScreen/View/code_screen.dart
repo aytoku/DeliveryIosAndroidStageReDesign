@@ -430,18 +430,17 @@ class CodeScreenState extends State<CodeScreen> {
                         key: buttonStateKey,
                         color: Color(0xFFF3F3F3),
                         onTap: () async {
+                          if(codeGetBloc.state is CodeStateLoading){
+                            await Vibrate.vibrate();
+                            return;
+                          }
                           if (await Internet.checkConnection()) {
-                            try{
-                              String temp = '';
-                              temp = code1.controller.text +
-                                  code2.controller.text +
-                                  code3.controller.text +
-                                  code4.controller.text;
-                              codeGetBloc.add(SendCode(code: int.parse(temp)));
-                            }finally{
-                              lock = false;
-                              await Vibrate.canVibrate;
-                            }
+                            String temp = '';
+                            temp = code1.controller.text +
+                                code2.controller.text +
+                                code3.controller.text +
+                                code4.controller.text;
+                            codeGetBloc.add(SendCode(code: int.parse(temp)));
                           } else {
                             noConnection(context);
                           }

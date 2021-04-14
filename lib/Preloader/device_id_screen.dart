@@ -4,6 +4,7 @@ import 'package:flutter_app/Centrifugo/centrifugo.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
 import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
 import 'package:flutter_app/VersionControl/Model/CurrentVersionModel.dart';
 import 'package:flutter_app/data/data.dart';
@@ -97,7 +98,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
                 if(animationSnapshot.connectionState != ConnectionState.done)
                   return Center(
                       child: Image(
-                        image: new AssetImage('assets/gif/preloader_fermer.gif'),
+                        image: assetImage,
                       )
                   );
 
@@ -117,7 +118,9 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
                     homeScreenKey =
                     new GlobalKey<HomeScreenState>();
                     return BlocProvider(
-                      create: (context)=> RestaurantGetBloc(),
+                      create: (context)=> RestaurantGetBloc(
+                          restaurantGetState: RestaurantGetStateLoading(
+                              showPrelaoder: true)),
                       child: HomeScreen(),
                     );
                   }
@@ -134,7 +137,9 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
                   homeScreenKey =
                   new GlobalKey<HomeScreenState>();
                   return BlocProvider(
-                    create: (context)=> RestaurantGetBloc(),
+                    create: (context)=> RestaurantGetBloc(
+                        restaurantGetState: RestaurantGetStateLoading(
+                            showPrelaoder: true)),
                     child: HomeScreen(),
                   );
                 }

@@ -26,24 +26,36 @@ class Stock {
     this.name,
     this.stores,
     this.image,
+    this.description,
+    this.banner,
+    this.citiesUuid,
   });
 
   String uuid;
   String name;
   List<FilteredStores> stores;
+  List<String> citiesUuid;
   String image;
+  String description;
+  String banner;
 
   factory Stock.fromJson(Map<String, dynamic> json) => Stock(
     uuid: json["uuid"] == null ? null : json["uuid"],
     name: json["name"] == null ? null : json["name"],
     stores: json["stores"] == null ? null : List<FilteredStores>.from(json["stores"].map((x) => FilteredStores.fromJson(x))),
+    citiesUuid: json["cities_uuid"] == null ? null : List<String>.from(json["cities_uuid"].map((x) => (x))),
     image: json["image"] == null ? null : json["image"],
+    description: json["description"] == null ? null : json["description"],
+    banner: json["banner"] == null ? null : json["banner"],
   );
 
   Map<String, dynamic> toJson() => {
     "uuid": uuid == null ? null : uuid,
     "name": name == null ? null : name,
     "stores_uuid": stores == null ? null : List<dynamic>.from(stores.map((x) => x.toJson())),
+    "cities_uuid": citiesUuid == null ? null : List<dynamic>.from(citiesUuid.map((x) => x)),
     "image": image == null ? null : image,
+    "banner": banner == null ? null : banner,
+    "description": description == null ? null : description,
   };
 }

@@ -11,6 +11,12 @@ import 'restaurant_get_state.dart';
 
 class RestaurantGetBloc extends Bloc<RestaurantEvent, RestaurantGetState> {
 
+  RestaurantGetState restaurantGetState;
+
+  RestaurantGetBloc(
+    {this.restaurantGetState}
+  );
+
   @override
   Stream<Transition<RestaurantEvent, RestaurantGetState>> transformEvents(
       Stream<RestaurantEvent> events,
@@ -32,7 +38,7 @@ class RestaurantGetBloc extends Bloc<RestaurantEvent, RestaurantGetState> {
   }
 
   @override
-  RestaurantGetState get initialState => RestaurantGetStateLoading();
+  RestaurantGetState get initialState => restaurantGetState ?? RestaurantGetStateLoading();
 
   @override
   Stream<RestaurantGetState> mapEventToState(RestaurantEvent event ) async* {

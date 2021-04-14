@@ -378,23 +378,33 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             builder: (BuildContext context,
                 RestaurantGetState state) {
               if(state is RestaurantGetStateLoading){
-                return Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFDCA02),
-                  ),
-                  child: Center(
-                    child: Image(
-                      image: assetImage
+                if(state.showPrelaoder){
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFDCA02),
                     ),
-                  ),
-                );
-                return Center(
-                  child: Image(
-                    image: AssetImage('assets/images/fermer.png'),
-                  ),
-                );
+                    child: Center(
+                      child: Image(
+                          image: assetImage
+                      ),
+                    ),
+                  );
+                }else{
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFDCA02),
+                    ),
+                    child: Center(
+                      child: Image(
+                        image: AssetImage('assets/images/fermer.png'),
+                      ),
+                    ),
+                  );
+                }
               }
               else if(state is RestaurantGetStateSuccess){
                 recordsItems.clear();

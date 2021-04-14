@@ -26,4 +26,4 @@ String header = 'eda/fermer-market';
 FilteredProductCategories selectedCategoriesUuid;
 String tempClientUuid = '';
 AssetImage assetImage = AssetImage('assets/gif/preloader_fermer.gif');
-bool lock;
+bool lock = false;
