@@ -12,6 +12,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/FadeAnimation.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverText.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
@@ -36,6 +37,8 @@ class PromoScreenState extends State<PromoScreen>{
 
   GlobalKey<CartButtonState> basketButtonStateKey;
   PromoScreenState(this.stock);
+
+
 
   List<Widget>  getSliverChildren(){
     List<Widget> result = new List<Widget>();
@@ -174,29 +177,29 @@ class PromoScreenState extends State<PromoScreen>{
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // Container(
-                                //     padding: EdgeInsets.only(left: 8, right: 8, top: 0),
-                                //     height: 25,
-                                //     decoration: BoxDecoration(
-                                //         borderRadius: BorderRadius.circular(10),
-                                //         color: AppColor.mainColor
-                                //     ),
-                                //     child: Row(
-                                //       children: [
-                                //         SvgPicture.asset('assets/svg_images/rest_star.svg',
-                                //           color: Colors.white,
-                                //         ),
-                                //         Padding(
-                                //           padding: const EdgeInsets.only(left: 3.0),
-                                //           child: Text(restaurant.meta.rating.toString(),
-                                //             style: TextStyle(
-                                //                 color: AppColor.textColor
-                                //             ),
-                                //           ),
-                                //         )
-                                //       ],
-                                //     )
-                                // ),
+                                Container(
+                                    padding: EdgeInsets.only(left: 8, right: 8, top: 0),
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: AppColor.mainColor
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset('assets/svg_images/rest_star.svg',
+                                          color: Colors.white,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 3.0),
+                                          child: Text(restaurant.meta.rating.toString(),
+                                            style: TextStyle(
+                                                color: AppColor.textColor
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                ),
                                 Container(
                                   height: 25,
                                   padding: EdgeInsets.only(left: 10, right: 10),
@@ -288,6 +291,23 @@ class PromoScreenState extends State<PromoScreen>{
   Widget _buildRestaurantScreen() {
 
     List<Widget> sliverChildren = getSliverChildren();
+    GlobalKey<SliverTextState>sliverTextKey = new GlobalKey();
+
+    sliverScrollController.addListener(() async {
+
+
+      if(sliverTextKey.currentState != null && sliverScrollController.offset > 89){
+        sliverTextKey.currentState.setState(() {
+          sliverTextKey.currentState.title =  new Text(stock.name, style: TextStyle(color: Colors.black),);
+        });
+      }else{
+        if(sliverTextKey.currentState != null){
+          sliverTextKey.currentState.setState(() {
+            sliverTextKey.currentState.title =  new Text('');
+          });
+        }
+      }
+    });
 
     return DefaultTabController(
       length: 1,
@@ -296,7 +316,7 @@ class PromoScreenState extends State<PromoScreen>{
         body: Stack(
           children: [
             Image.network(
-              getImage((stock.image != null) ? stock.image : ''),
+              getImage((stock.banner != null) ? stock.banner : ''),
               fit: BoxFit.cover,
               height: 230.0,
               width: MediaQuery.of(context).size.width,
@@ -331,13 +351,14 @@ class PromoScreenState extends State<PromoScreen>{
                   backgroundColor: AppColor.themeColor,
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
+                    title: SliverText(title: Text('', style: TextStyle(fontSize: 18),),key: sliverTextKey,),
                     background: AnnotatedRegion<SystemUiOverlayStyle>(
                       value: (Platform.isIOS) ? _isAppBarExpanded ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
                       child: ClipRRect(
                           child: Stack(
                             children: <Widget>[
                               Image.network(
-                                getImage((stock.image != null) ? stock.image : ''),
+                                getImage((stock.banner != null) ? stock.banner : ''),
                                 fit: BoxFit.cover,
                                 height: 230.0,
                                 width: MediaQuery.of(context).size.width,
@@ -367,10 +388,29 @@ class PromoScreenState extends State<PromoScreen>{
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(15),
-                      child: Text(
-                        stock.name,
-                        style: TextStyle(
-                            fontSize: 18
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                stock.name,
+                                style: TextStyle(
+                                    fontSize: 18
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                stock.description,
+                                style: TextStyle(
+                                    fontSize: 18
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_state.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 
 import '../../../Internet/check_internet.dart';
@@ -72,27 +73,21 @@ class AuthButtonState extends State<AuthButton> {
       ),
       onTap: () async {
         if (await Internet.checkConnection()) {
-          if(!lock){
-            try{
-              lock = true;
-              currentUser.phone = currentUser.phone.replaceAll('-', '');
-              currentUser.phone = currentUser.phone.replaceAll(' ', '');
-              print(currentUser.phone);
-              if (validateMobile(currentUser.phone) == null) {
-                if (currentUser.phone[0] != '+') {
-                  currentUser.phone = '+' + currentUser.phone;
-                }
-                authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone)); // отправка события в bloc
-              } else {
-                authGetBloc.add(SetError('Указан неверный номер')); // отправка события в bloc
-              }
-            }finally{
-              lock = false;
-            }
-          }else{
-            await Vibrate.canVibrate;
+          if(authGetBloc.state is AuthStateLoading){
+            await Vibrate.vibrate();
+            return;
           }
-
+          currentUser.phone = currentUser.phone.replaceAll('-', '');
+          currentUser.phone = currentUser.phone.replaceAll(' ', '');
+          print(currentUser.phone);
+          if (validateMobile(currentUser.phone) == null) {
+            if (currentUser.phone[0] != '+') {
+              currentUser.phone = '+' + currentUser.phone;
+            }
+            authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone)); // отправка события в bloc
+          } else {
+            authGetBloc.add(SetError('Указан неверный номер')); // отправка события в bloc
+          }
         } else {
           noConnection(context);
         }

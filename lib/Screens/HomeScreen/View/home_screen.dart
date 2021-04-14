@@ -357,13 +357,14 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 60),
+                    padding: const EdgeInsets.only(top: 40, bottom: 10, right: 10),
                     child: Center(
-                      child: Image(
-                        height: 97,
-                        width: 142,
-                        image: AssetImage('assets/images/Fermer.png'),
-                      ),
+                      child: Container(
+                        height: 140,
+                        child: Image(
+                          image: AssetImage('assets/images/Fermer.png'),
+                        ),
+                      )
                     ),
                   ),
                   Expanded(
@@ -380,23 +381,33 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             builder: (BuildContext context,
                 RestaurantGetState state) {
               if(state is RestaurantGetStateLoading){
-                return Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: AppColor.mainColor
-                  ),
-                  child: Center(
-                    child: Image(
-                      image: assetImage
+                if(state.showPrelaoder){
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFDCA02),
                     ),
-                  ),
-                );
-                return Center(
-                  child: Image(
-                    image: AssetImage('assets/images/fermer.png'),
-                  ),
-                );
+                    child: Center(
+                      child: Image(
+                          image: assetImage
+                      ),
+                    ),
+                  );
+                }else{
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFFDCA02),
+                    ),
+                    child: Center(
+                      child: Image(
+                        image: AssetImage('assets/images/Fermer.png'),
+                      ),
+                    ),
+                  );
+                }
               }
               else if(state is RestaurantGetStateSuccess){
                 recordsItems.clear();

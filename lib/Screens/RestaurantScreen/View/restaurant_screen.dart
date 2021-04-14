@@ -1092,7 +1092,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                         ));
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(top: 40),
+                    padding: EdgeInsets.only(top: 20),
                     child: Container(
                         height: 40,
                         width: 60,
@@ -1105,7 +1105,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      top: 40
+                      top: 20
                   ),
                   child: Text(
                     selectedCategoriesUuid.name,

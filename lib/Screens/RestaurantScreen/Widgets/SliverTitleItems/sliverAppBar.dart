@@ -44,7 +44,7 @@ class SliverAppBarSettingsState extends State<SliverAppBarSettings>{
   Widget build(BuildContext context) {
     return SliverAppBar(
       brightness: _isAppBarExpanded ? Brightness.dark : Brightness.light,
-      expandedHeight: 140.0,
+      expandedHeight: 100.0,
       floating: false,
       pinned: true,
       snap: false,
@@ -57,10 +57,10 @@ class SliverAppBarSettingsState extends State<SliverAppBarSettings>{
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         child: Container(
-          height: 40,
+          height: 20,
           width: 60,
           child: Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 20, right: 10),
+            padding: const EdgeInsets.only(top: 20, bottom: 0, right: 10),
             child: SliverBackButton(key: sliverImageKey, image: null,),
           ),
         ),

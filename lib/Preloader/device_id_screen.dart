@@ -4,12 +4,13 @@ import 'package:flutter_app/Centrifugo/centrifugo.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CityScreen/View/city_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_state.dart';
 import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
 import 'package:flutter_app/VersionControl/Model/CurrentVersionModel.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_app/VersionControl/API/getCurrentVersion.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../Amplitude/amplitude.dart';
 import '../Config/config.dart';
@@ -118,7 +119,9 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
                     homeScreenKey =
                     new GlobalKey<HomeScreenState>();
                     return BlocProvider(
-                      create: (context)=> RestaurantGetBloc(),
+                      create: (context)=> RestaurantGetBloc(
+                          restaurantGetState: RestaurantGetStateLoading(
+                              showPrelaoder: true)),
                       child: HomeScreen(),
                     );
                   }
@@ -135,17 +138,15 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
                   homeScreenKey =
                   new GlobalKey<HomeScreenState>();
                   return BlocProvider(
-                    create: (context)=> RestaurantGetBloc(),
+                    create: (context)=> RestaurantGetBloc(
+                        restaurantGetState: RestaurantGetStateLoading(
+                            showPrelaoder: true)),
                     child: HomeScreen(),
                   );
                 }
               });
           } else {
-            return Center(
-              child: Image(
-                image: new AssetImage('assets/images/Fermer.png'),
-              )
-            );
+            return Container();
           }
         },
       ),
