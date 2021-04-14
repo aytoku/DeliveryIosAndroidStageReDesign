@@ -307,16 +307,13 @@ class PromoScreenState extends State<PromoScreen>{
               controller: sliverScrollController,
               slivers: [
                 SliverAppBar(
-                  brightness: _isAppBarExpanded ? Brightness.light : Brightness.light,
+                  brightness: _isAppBarExpanded ? Brightness.dark : Brightness.light,
                   expandedHeight: 140.0,
                   floating: false,
                   pinned: true,
                   snap: false,
                   stretch: true,
-                  leading: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
+                  leading: InkWell(
                     child: Container(
                         height: 40,
                         width: 60,
@@ -326,6 +323,9 @@ class PromoScreenState extends State<PromoScreen>{
                           child:  SvgPicture.asset(
                               'assets/svg_images/arrow_left.svg'),
                         )),
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
                   ),
                   elevation: 0,
                   backgroundColor: AppColor.themeColor,
@@ -368,9 +368,9 @@ class PromoScreenState extends State<PromoScreen>{
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(
-                        stock.name?.toUpperCase(),
+                        stock.name,
                         style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 18
                         ),
                       ),
                     ),

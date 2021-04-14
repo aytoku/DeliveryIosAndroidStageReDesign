@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/CartScreen/Widgets/PriceField.dart';
+import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
+import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
+import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/add_variant_to_cart.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/API/getProductData.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/ProductDataModel.dart';
@@ -12,8 +15,10 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductMenu/ItemCou
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/VariantSelector.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class PanelContent extends StatefulWidget {
   RestaurantScreenState parent;
@@ -43,10 +48,13 @@ class PanelContentState extends State<PanelContent>{
   ProductsDataModel productsDescription;
   List<VariantsSelector> variantsSelectors;
 
+
   @override
   Widget build(BuildContext context) {
-
-
+    bool isScheduleAvailable = parent.restaurant.workSchedule.isAvailable();
+    //isScheduleAvailable = false;
+    Standard standard = parent.restaurant.workSchedule.getCurrentStandard();
+    bool available = parent.restaurant.available.flag != null ? parent.restaurant.available.flag : true;
     if(menuItem == null)
       return Container(height: 200);
 
@@ -61,7 +69,71 @@ class PanelContentState extends State<PanelContent>{
           variantsSelectors = getVariantGroups(productsDescription);
         }
 
-
+        if(!available || !isScheduleAvailable){
+          Container(
+            decoration: BoxDecoration(
+                color: AppColor.themeColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(12),
+                  topRight: const Radius.circular(12),
+                )),
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 30),
+                  child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Column(
+                        children: [
+                          Text('К сожалению, заведение не доступно.',
+                            style: TextStyle(
+                                fontSize: 16
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text((standard!= null) ? "Заведение откроется в ${standard.beginningTime} часов" : '',
+                            style: TextStyle(
+                                fontSize: 16
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      )
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 25),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FlatButton(
+                        child: Text(
+                          "Далее",
+                          style:
+                          TextStyle(color: AppColor.textColor, fontSize: 16),
+                        ),
+                        color: AppColor.mainColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.only(
+                            left: 160, top: 20, right: 160, bottom: 20),
+                        onPressed: ()async {
+                          homeScreenKey = new GlobalKey<HomeScreenState>();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => BlocProvider(
+                                    create: (context) => RestaurantGetBloc(),
+                                    child: new HomeScreen(),
+                                  )),
+                                  (Route<dynamic> route) => false);
+                        },
+                      )
+                  ),
+                )
+              ],
+            ),
+          );
+        }
         if(productsDescription != null){
           return Container(
             decoration: BoxDecoration(
@@ -361,48 +433,53 @@ class PanelContentState extends State<PanelContent>{
                                     ),
                                     onTap: () async {
                                       if (await Internet.checkConnection()) {
-                                        ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
-                                        bool hasErrors = false;
-                                        cartProduct.variantGroups = new List<VariantGroup>();
-                                        variantsSelectors.forEach((variantGroupSelector) {
-                                          if(variantGroupSelector.key.currentState.hasSelectedVariants()){
-                                            cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
-                                            cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
-                                          } else if(variantGroupSelector.key.currentState.required) {
-                                            hasErrors = true;
-                                            variantGroupSelector.key.currentState.setState(() {
-                                              variantGroupSelector.key.currentState.error = true;
-                                            });
-                                          }
-                                        });
-
-                                        if(hasErrors){
-                                          return;
-                                        }
-
-                                        if(currentUser.cartModel != null && currentUser.cartModel.items != null
-                                            && currentUser.cartModel.items.length > 0
-                                            && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
-                                          print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
-                                          parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, menuItem);
-                                        } else {
-                                          currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
-                                          parent.panelController.close();
-                                          menuItem.setState(() {
-
+                                        try{
+                                          ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
+                                          bool hasErrors = false;
+                                          cartProduct.variantGroups = new List<VariantGroup>();
+                                          variantsSelectors.forEach((variantGroupSelector) {
+                                            if(variantGroupSelector.key.currentState.hasSelectedVariants()){
+                                              cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
+                                              cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
+                                            } else if(variantGroupSelector.key.currentState.required) {
+                                              hasErrors = true;
+                                              variantGroupSelector.key.currentState.setState(() {
+                                                variantGroupSelector.key.currentState.error = true;
+                                              });
+                                            }
                                           });
 
-                                          // Добавляем паддинг в конец
-                                          if(parent.itemsPaddingKey.currentState != null){
-                                            parent.itemsPaddingKey.currentState.setState(() {
+                                          if(hasErrors){
+                                            return;
+                                          }
+
+                                          if(currentUser.cartModel != null && currentUser.cartModel.items != null
+                                              && currentUser.cartModel.items.length > 0
+                                              && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
+                                            print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
+                                            parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, menuItem);
+                                          } else {
+                                            currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
+                                            parent.panelController.close();
+                                            menuItem.setState(() {
 
                                             });
-                                          }
 
-                                          parent.showAlertDialog(context);
-                                          if(parent.basketButtonStateKey.currentState != null){
-                                            parent.basketButtonStateKey.currentState.refresh();
+                                            // Добавляем паддинг в конец
+                                            if(parent.itemsPaddingKey.currentState != null){
+                                              parent.itemsPaddingKey.currentState.setState(() {
+
+                                              });
+                                            }
+
+                                            parent.showAlertDialog(context);
+                                            if(parent.basketButtonStateKey.currentState != null){
+                                              parent.basketButtonStateKey.currentState.refresh();
+                                            }
                                           }
+                                        }finally{
+                                          lock = false;
+                                          await Vibrate.canVibrate;
                                         }
                                       } else {
                                         noConnection(context);
@@ -421,8 +498,7 @@ class PanelContentState extends State<PanelContent>{
               ],
             ),
           );
-        }
-        else{
+        }else{
           return Padding(
             padding: const EdgeInsets.only(top: 40),
             child: Center(

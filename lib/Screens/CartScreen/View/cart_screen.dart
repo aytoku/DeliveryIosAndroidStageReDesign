@@ -117,7 +117,8 @@ class CartScreenState extends State<CartScreen> {
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                            'Заберите заказ на ' + '' + 'через '
+                            'Заберите заказ на ' + restaurant.address.unrestrictedValue
+                                + ' через '
                                 + currentUser.cartModel.cookingTime.toStringAsFixed(0)
                                   + ' мин',
                           style: TextStyle(
