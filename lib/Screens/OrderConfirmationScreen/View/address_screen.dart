@@ -770,7 +770,7 @@ class AddressScreenState extends State<AddressScreen>
                         //   },
                         // ),
                         (isTakeAwayOrderConfirmation) ? Container() : buildAddressesList(),
-                        Padding(
+                        (isTakeAwayOrderConfirmation) ? Container() : Padding(
                           padding: EdgeInsets.only(
                               top: 20, left: 20, bottom: 0, right: 0),
                           child: Row(
