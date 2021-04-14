@@ -25,4 +25,5 @@ FilteredCities selectedCity;
 String header = 'eda/fermer-market';
 FilteredProductCategories selectedCategoriesUuid;
 String tempClientUuid = '';
-AssetImage assetImage = AssetImage('assets/gif/preloader_fermer.gif');
+AssetImage assetImage = AssetImage('assets/images/Fermer.png');
+bool lock;

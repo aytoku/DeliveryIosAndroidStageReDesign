@@ -130,7 +130,7 @@ class CartScreenState extends State<CartScreen> {
                   ) : Container(),
                   // Container(
                   //   child: Padding(
-                  //     padding: const EdgeInsets.only(top: 5),
+                  //     padding: const EdgeInsets.only(top: 5, bottom: 20),
                   //     child: Row(
                   //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //       children: <Widget>[
@@ -142,16 +142,16 @@ class CartScreenState extends State<CartScreen> {
                   //                   fontSize: 18.0,
                   //                   color: Color(0xFF000000)),
                   //             ),
-                  //             Padding(
-                  //               padding: const EdgeInsets.only(left: 8.0, top: 5),
-                  //               child: Text(
-                  //                 (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
-                  //                 style: TextStyle(
-                  //                   fontSize: 12.0,
-                  //                   color: Colors.black,
-                  //                 ),
-                  //               ),
-                  //             ),
+                  //             // Padding(
+                  //             //   padding: const EdgeInsets.only(left: 8.0, top: 5, bottom: 20,),
+                  //             //   child: Text(
+                  //             //     (currentUser.cartModel.cookingTime != null)? '~' + '${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
+                  //             //     style: TextStyle(
+                  //             //       fontSize: 12.0,
+                  //             //       color: Colors.black,
+                  //             //     ),
+                  //             //   ),
+                  //             // ),
                   //           ],
                   //         ),
                   //         Text(

@@ -98,7 +98,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
                 if(animationSnapshot.connectionState != ConnectionState.done)
                   return Center(
                       child: Image(
-                        image: new AssetImage('assets/gif/preloader_fermer.gif'),
+                        image: new AssetImage('assets/images/Fermer.png'),
                       )
                   );
 
@@ -140,11 +140,10 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
                   );
                 }
               });
-
           } else {
             return Center(
               child: Image(
-                image: new AssetImage('assets/gif/preloader_fermer.gif'),
+                image: new AssetImage('assets/images/Fermer.png'),
               )
             );
           }

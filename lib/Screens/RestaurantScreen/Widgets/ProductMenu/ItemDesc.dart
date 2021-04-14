@@ -71,31 +71,31 @@ class MenuItemDescState extends State<MenuItemDesc> {
 
     return Row(
       children: [
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
+        //   child: Align(
+        //     alignment: Alignment.topLeft,
+        //     child: Container(
+        //       padding: EdgeInsets.only(right: 0),
+        //       child: Text(
+        //         '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
+        //         style: TextStyle(
+        //             fontSize: 12.0,
+        //             color: Colors.grey),
+        //         textAlign: TextAlign.start,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 5.0, top: 6, right: 5),
+        //   child: SvgPicture.asset('assets/svg_images/ellipse.svg',
+        //     color: Colors.grey,
+        //     width: 2,
+        //     height: 2,),
+        // ),
         Padding(
           padding: const EdgeInsets.only(left: 15.0, bottom: 0, top: 5),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              padding: EdgeInsets.only(right: 0),
-              child: Text(
-                '${foodRecords.weight.toStringAsFixed(0)}' + '' + foodRecords.weightMeasurement,
-                style: TextStyle(
-                    fontSize: 12.0,
-                    color: Colors.grey),
-                textAlign: TextAlign.start,
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 5.0, top: 6, right: 5),
-          child: SvgPicture.asset('assets/svg_images/ellipse.svg',
-            color: Colors.grey,
-            width: 2,
-            height: 2,),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 5),
           child: Text(
             '${foodRecords.price.toStringAsFixed(0)} \₽',
             style: TextStyle(

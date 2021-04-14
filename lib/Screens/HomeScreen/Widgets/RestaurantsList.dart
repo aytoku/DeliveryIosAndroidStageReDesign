@@ -240,7 +240,7 @@ class RestaurantsListState extends State<RestaurantsList>{
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '${restaurant.meta.avgDeliveryPrice}',
+                                    'от ${restaurant.meta.avgDeliveryPrice}',
                                     style: TextStyle(
                                         fontSize: 14.0,
                                         color: Colors.black,

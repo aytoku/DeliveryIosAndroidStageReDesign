@@ -398,10 +398,10 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                         child: Container(
                           padding: EdgeInsets.only(right: 0),
                           child: Text(
-                            '${restaurantDataItems.weight.toStringAsFixed(0)}' + '' + restaurantDataItems.weightMeasurement,
+                            restaurantDataItems.meta.shortDescription,
                             style: TextStyle(
                                 fontSize: 12.0,
-                                color: Colors.grey),
+                                color: AppColor.textColor),
                             textAlign: TextAlign.start,
                           ),
                         ),

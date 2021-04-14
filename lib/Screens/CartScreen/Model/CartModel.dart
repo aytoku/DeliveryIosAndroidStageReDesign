@@ -62,7 +62,7 @@ class CartModel {
     this.cancelReason,
     this.cancelComment,
     this.createdAt,
-    this.promotion,
+    this.promotion
   });
 
   final String uuid;
@@ -590,8 +590,8 @@ class StoreData {
   final Address address;
   final List<Contact> contacts;
   final int priority;
-  var lat;
-  var lon;
+  final double lat;
+  final double lon;
   final bool ownDelivery;
   final String url;
   final StoreDataMeta meta;
@@ -611,8 +611,8 @@ class StoreData {
     address: json["address"] == null ? null : Address.fromJson(json["address"]),
     contacts: json["contacts"] == null ? null : List<Contact>.from(json["contacts"].map((x) => Contact.fromJson(x))),
     priority: json["priority"] == null ? null : json["priority"],
-    lat: json["lat"] == null ? null : json["lat"],
-    lon: json["lon"] == null ? null : json["lon"],
+    lat: json["lat"] == null ? null : json["lat"] * 1.0,
+    lon: json["lon"] == null ? null : json["lon"] * 1.0,
     ownDelivery: json["own_delivery"] == null ? null : json["own_delivery"],
     url: json["url"] == null ? null : json["url"],
     meta: json["meta"] == null ? null : StoreDataMeta.fromJson(json["meta"]),

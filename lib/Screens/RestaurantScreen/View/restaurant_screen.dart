@@ -827,34 +827,34 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                         ),
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: Container(
-                                height: 26,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xFFEFEFEF)
-                                ),
-                                child: Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset('assets/svg_images/star.svg',
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 5),
-                                          child: Text(restaurant.meta.rating.toString(),
-                                            style: TextStyle(
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(left: 15),
+                            //   child: Container(
+                            //     height: 26,
+                            //     decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(10),
+                            //         color: Color(0xFFEFEFEF)
+                            //     ),
+                            //     child: Center(
+                            //       child: Padding(
+                            //         padding: EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
+                            //         child: Row(
+                            //           children: [
+                            //             SvgPicture.asset('assets/svg_images/star.svg',
+                            //             ),
+                            //             Padding(
+                            //               padding: const EdgeInsets.only(left: 5),
+                            //               child: Text(restaurant.meta.rating.toString(),
+                            //                 style: TextStyle(
+                            //                 ),
+                            //               ),
+                            //             )
+                            //           ],
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.only(left: 16),
                               child: Container(
@@ -895,7 +895,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 child: Center(
                                   child: Padding(
                                     padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
-                                    child: Text('${restaurant.meta.avgDeliveryPrice}',
+                                    child: Text('от ${restaurant.meta.avgDeliveryPrice}',
                                       style: TextStyle(
                                       ),
                                     ),

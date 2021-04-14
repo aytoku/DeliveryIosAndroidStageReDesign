@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_app/data/api.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -11,7 +12,7 @@ class   SendRefreshToken {
   static Future<bool> sendRefreshToken({String refreshToken, String token, String device_id}) async {
     bool isSuccess = false;
     try{
-      var url = 'https://auth.apis.stage.faem.pro/api/v3/auth/clients/refresh';
+      var url = '${authApiUrl}auth/clients/refresh';
       var response = await http.post(
           url, body: jsonEncode({
         "refresh": (refreshToken != null)? refreshToken : authCodeData.refreshToken.value,
