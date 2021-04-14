@@ -46,7 +46,7 @@ class PriceFieldState extends State<PriceField> {
       );
     }else if(restaurantDataItems!=null) {
       return Text(
-        '${((restaurantDataItems.price+variantsPrice) * count).toStringAsFixed(0)}\₽',
+        '${((restaurantDataItems.price+variantsPrice) * count).toStringAsFixed(0)} \₽',
         style: TextStyle(
             fontSize: 15.0,
             color: Color(0xFF000000)),

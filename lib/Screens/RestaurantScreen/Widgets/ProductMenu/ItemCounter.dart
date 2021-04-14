@@ -478,13 +478,13 @@ class MenuItemCounterState extends State<MenuItemCounter> {
         );
       }else{
         return Padding(
-          padding: const EdgeInsets.only(bottom: 5, right: 15, left: 5),
+          padding: const EdgeInsets.only(bottom: 5, right: 15, left: 2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 8, bottom: 5, top: 5, right: 5),
+                    padding: const EdgeInsets.only(bottom: 5, top: 5, right: 5),
                     child: Text(
                       '${foodRecords.price.toStringAsFixed(0)} \₽',
                       style: TextStyle(
@@ -513,7 +513,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
     }
 
     return Padding(
-        padding: EdgeInsets.only(left: 15, bottom: 5),
+        padding: EdgeInsets.only(left: 2, bottom: 5),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           InkWell(
             onTap: () async {

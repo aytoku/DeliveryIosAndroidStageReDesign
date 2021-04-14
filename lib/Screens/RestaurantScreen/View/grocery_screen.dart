@@ -330,7 +330,7 @@ class GroceryScreenState extends State<GroceryScreen>{
               slivers: [
                 SliverAppBar(
                   brightness: _isAppBarExpanded ? Brightness.dark : Brightness.light,
-                  expandedHeight: 140.0,
+                  expandedHeight: 100.0,
                   floating: false,
                   pinned: true,
                   snap: false,
