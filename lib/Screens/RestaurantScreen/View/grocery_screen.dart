@@ -185,72 +185,78 @@ class GroceryScreenState extends State<GroceryScreen>{
                 ConnectionState.done &&
                 snapshot.data.filteredProductCategories.length > 0){
               return ListView(
+                physics: NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
                 children: List.generate(snapshot.data.filteredProductCategories.length, (index){
-                  return InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+                  return Material(
+                    child: InkWell(
+                      splashColor: AppColor.additionalTextColor,
+                      child: Ink(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                  height: 70,
-                                  width: 50,
-                                  padding: EdgeInsets.only(top: 8, bottom: 8),
-                                  child: Image.network((snapshot.data.filteredProductCategories[index].meta.images != null &&
-                                      snapshot.data.filteredProductCategories[index].meta.images[0] != null) ?
-                                  snapshot.data.filteredProductCategories[index].meta.images[0] : '',
-                                    fit: BoxFit.cover,
-                                  )
+                              Row(
+                                children: [
+                                  Container(
+                                      height: 70,
+                                      width: 50,
+                                      padding: EdgeInsets.only(top: 8, bottom: 8),
+                                      child: Image.network((snapshot.data.filteredProductCategories[index].meta.images != null &&
+                                          snapshot.data.filteredProductCategories[index].meta.images[0] != null) ?
+                                      snapshot.data.filteredProductCategories[index].meta.images[0] : '',
+                                        fit: BoxFit.cover,
+                                      )
+                                  ),
+                                  Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: Text(snapshot.data.filteredProductCategories[index].name),
+                                      )
+                                  ),
+                                ],
                               ),
                               Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: Text(snapshot.data.filteredProductCategories[index].name),
-                                  )
-                              ),
+                                  padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFEEEEEE),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: Text(
+                                    snapshot.data.filteredProductCategories[index].count.toString(),
+                                    style: TextStyle(
+                                        color: AppColor.mainColor
+                                    ),
+                                  ))
                             ],
                           ),
-                          Container(
-                              padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFEEEEEE),
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                              child: Text(
-                                snapshot.data.filteredProductCategories[index].count.toString(),
-                                style: TextStyle(
-                                    color: AppColor.mainColor
-                                ),
-                              ))
-                        ],
+                        ),
                       ),
+                      onTap: () async{
+                        var categoriesFilter = await getFilteredProductCategories(
+                            restaurant.uuid,
+                            snapshot.data.filteredProductCategories[index].uuid,
+                            necessaryDataForAuth.city.uuid);
+                        if(categoriesFilter.filteredProductCategories.isEmpty){
+                          selectedCategoriesUuid = snapshot.data.filteredProductCategories[index];
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) {
+                              return RestaurantScreen(restaurant: restaurant);
+                            }),
+                          );
+                        }else{
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context)=> GroceryCategoriesScreen(
+                                  restaurant: restaurant,
+                                  parentCategory: snapshot.data.filteredProductCategories[index],
+                                  filteredProductCategoriesData: categoriesFilter
+                              ))
+                          );
+                        }
+                      },
                     ),
-                    onTap: () async{
-                      var categoriesFilter = await getFilteredProductCategories(
-                          restaurant.uuid,
-                          snapshot.data.filteredProductCategories[index].uuid,
-                          necessaryDataForAuth.city.uuid);
-                      if(categoriesFilter.filteredProductCategories.isEmpty){
-                        selectedCategoriesUuid = snapshot.data.filteredProductCategories[index];
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) {
-                            return RestaurantScreen(restaurant: restaurant);
-                          }),
-                        );
-                      }else{
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context)=> GroceryCategoriesScreen(
-                                restaurant: restaurant,
-                                parentCategory: snapshot.data.filteredProductCategories[index],
-                                filteredProductCategoriesData: categoriesFilter
-                            ))
-                        );
-                      }
-                    },
                   );
                 }),
               );
