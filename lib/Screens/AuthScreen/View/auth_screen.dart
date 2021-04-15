@@ -240,9 +240,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                       ..onTap = () async {
                                         if (await Internet.checkConnection()) {
                                           if (await canLaunch(
-                                              "https://faem.ru/legal/agreement")) {
+                                              "https://eda.faem.ru/agreement")) {
                                             await launch(
-                                                "https://faem.ru/legal/agreement");
+                                                "https://eda.faem.ru/agreement");
                                           }
                                         } else {
                                           noConnection(context);
@@ -259,9 +259,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                       ..onTap = () async {
                                         if (await Internet.checkConnection()) {
                                           if (await canLaunch(
-                                              "https://faem.ru/privacy")) {
+                                              "https://eda.faem.ru/privacy")) {
                                             await launch(
-                                                "https://faem.ru/privacy");
+                                                "https://eda.faem.ru/privacy");
                                           }
                                         } else {
                                           noConnection(context);

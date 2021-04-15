@@ -85,8 +85,8 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                             ),
                             onTap: () async {
                               if (await Internet.checkConnection()) {
-                                if (await canLaunch("https://faem.ru/legal/agreement")) {
-                                  await launch("https://faem.ru/legal/agreement");
+                                if (await canLaunch("https://eda.faem.ru/agreement")) {
+                                  await launch("https://eda.faem.ru/agreement");
                                 }
                               } else {
                                 noConnection(context);
@@ -116,8 +116,8 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                             ),
                             onTap: () async {
                               if (await Internet.checkConnection()) {
-                                if (await canLaunch("https://faem.ru/privacy")) {
-                                  await launch("https://faem.ru/privacy");
+                                if (await canLaunch("https://eda.faem.ru/privacy")) {
+                                  await launch("https://eda.faem.ru/privacy");
                                 }
                               } else {
                                 noConnection(context);
