@@ -70,10 +70,10 @@ class CityScreenState extends State<CityScreen>{
       cityController.text = selectedCity.name;
     }
     return Scaffold(
-      backgroundColor: AppColor.mainColor,
+      backgroundColor: Color(0xFF141414),
         body:  Stack(
           children: [
-            Center(child: Image.asset('assets/images/Fermer.png',),),
+            Center(child: Image.asset('assets/images/fermer.png',),),
             (currentUser.isLoggedIn) ? Align(
               alignment: Alignment.topLeft,
               child: Padding(

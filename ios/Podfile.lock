@@ -46,6 +46,8 @@ PODS:
     - Flutter
   - flutter_pay (0.0.1):
     - Flutter
+  - flutter_vibrate (0.0.1):
+    - Flutter
   - GoogleAppMeasurement (6.6.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -101,6 +103,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_pay (from `.symlinks/plugins/flutter_pay/ios`)
+  - flutter_vibrate (from `.symlinks/plugins/flutter_vibrate/ios`)
   - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - mad_pay (from `.symlinks/plugins/mad_pay/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
@@ -137,6 +140,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_pay:
     :path: ".symlinks/plugins/flutter_pay/ios"
+  flutter_vibrate:
+    :path: ".symlinks/plugins/flutter_vibrate/ios"
   launch_review:
     :path: ".symlinks/plugins/launch_review/ios"
   mad_pay:
@@ -164,6 +169,7 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_local_notifications: 9e4738ce2471c5af910d961a6b7eadcf57c50186
   flutter_pay: b9fda1c5be6ddc7af769f26553e9c648fc551263
+  flutter_vibrate: c0ca4ac994ff97c3f147f69865458bbc0cc3508b
   GoogleAppMeasurement: 67458367830514fb20fd9e233496f1eef9d90185
   GoogleDataTransport: 672fb0ce96fe7f7f31d43672fca62ad2c9c86f7b
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3

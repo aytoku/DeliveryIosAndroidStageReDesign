@@ -83,7 +83,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.mainColor,
+      color: Color(0xFF141414),
       child: FutureBuilder<NecessaryDataForAuth>(
         future: devId,
         builder:
@@ -99,7 +99,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
                 if(animationSnapshot.connectionState != ConnectionState.done)
                   return Center(
                       child: Image(
-                        image: new AssetImage('assets/images/Fermer.png'),
+                        image: new AssetImage('assets/images/fermer.png'),
                       )
                   );
 

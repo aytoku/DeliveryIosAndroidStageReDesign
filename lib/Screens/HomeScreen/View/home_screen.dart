@@ -362,7 +362,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                       child: Container(
                         height: 140,
                         child: Image(
-                          image: AssetImage('assets/images/Fermer.png'),
+                          image: AssetImage('assets/images/fermer.png'),
                         ),
                       )
                     ),
@@ -386,7 +386,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: Color(0xFFFDCA02),
+                      color: Color(0xFF141414),
                     ),
                     child: Center(
                       child: Image(
@@ -399,11 +399,11 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: Color(0xFFFDCA02),
+                      color: Color(0xFF141414),
                     ),
                     child: Center(
                       child: Image(
-                        image: AssetImage('assets/images/Fermer.png'),
+                        image: AssetImage('assets/images/fermer.png'),
                       ),
                     ),
                   );
