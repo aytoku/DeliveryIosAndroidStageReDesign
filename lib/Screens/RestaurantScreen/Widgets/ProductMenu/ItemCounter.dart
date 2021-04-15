@@ -447,7 +447,6 @@ class MenuItemCounterState extends State<MenuItemCounter> {
   }
 
 
-
   Widget build(BuildContext context) {
     item = currentUser.cartModel.findCartItem(foodRecords);
     if(item == null){
@@ -455,7 +454,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
         return Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 15, bottom: 5),
+            padding: const EdgeInsets.only(left: 15, bottom: 0),
             child: Row(
               children: [
                 SvgPicture.asset('assets/svg_images/rest_plus.svg'),
@@ -478,13 +477,13 @@ class MenuItemCounterState extends State<MenuItemCounter> {
         );
       }else{
         return Padding(
-          padding: const EdgeInsets.only(bottom: 5, right: 15, left: 2),
+          padding: const EdgeInsets.only(bottom: 0, right: 4, left: 2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 5, top: 5, right: 5),
+                    padding: const EdgeInsets.only(bottom: 5, top: 5,),
                     child: Text(
                       '${foodRecords.price.toStringAsFixed(0)} \₽',
                       style: TextStyle(
@@ -557,9 +556,9 @@ class MenuItemCounterState extends State<MenuItemCounter> {
     );
   }
 
-  void _onTapDown(TapDownDetails details) {
-
-  }
+  // void _onTapDown(TapDownDetails details) {
+  //
+  // }
 
   void refresh() {
     setState(() {});

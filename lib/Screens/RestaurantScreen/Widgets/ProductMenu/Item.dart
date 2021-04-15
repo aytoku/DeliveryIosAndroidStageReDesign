@@ -54,9 +54,11 @@ class MenuItem extends StatefulWidget {
   }
 }
 
-class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
+class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin{
   final ProductsByStoreUuid restaurantDataItems;
   final RestaurantScreenState parent;
+  double _scale;
+  AnimationController _controller;
 
 
   MenuItemState(this.restaurantDataItems, this.parent);
@@ -86,6 +88,28 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
     );
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 100,
+      ),
+      lowerBound: 0.0,
+      upperBound: 0.1,
+    )..addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -193,7 +217,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
 
   @override
   Widget build(BuildContext context) {
-
+    _scale = 1 - _controller.value;
     bool isScheduleAvailable = parent.restaurant.workSchedule.isAvailable();
     //isScheduleAvailable = false;
     bool available = parent.restaurant.available.flag != null ? parent.restaurant.available.flag : true;
@@ -203,8 +227,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
       return Container(
         color: AppColor.themeColor,
         child: Padding(
-          padding: EdgeInsets.only(top: 15.0, left: 15, right: 15,
-              bottom:  15),
+          padding: EdgeInsets.only(top: 10.0, left: 15, right: 15,
+              bottom:  10),
           child: Center(
               child: GestureDetector(
                   onTap: () async {
@@ -220,18 +244,18 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                     }
                   },
                   child: Container(
-                    height: 153,
+                    height: 152,
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4.0, // soften the shadow
-                          spreadRadius: 1.0, //extend the shadow
+                          color: Colors.black12.withOpacity(0.05),
+                          blurRadius: 7.0, // soften the shadow
+                          spreadRadius: 3.0, //extend the shadow
                         )
                       ],
                       color: AppColor.themeColor,
-                      border: Border.all(width: 1.0, color: Colors.grey[200]),
-                      borderRadius: BorderRadius.circular(15),
+                      // border: Border.all(width: 1.0, color: Colors.grey[200]),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -253,11 +277,11 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                   child: Column(
                                     children: <Widget>[
                                       Container(
-                                        height: 100,
+                                        height: 110,
                                         child: Column(
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.only(top: 10.0, left: 15, bottom: 5),
+                                              padding: const EdgeInsets.only(top: 10.0, left: 15, bottom: 25),
                                               child: Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
@@ -285,32 +309,33 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                         Stack(
                           alignment: Alignment.topRight,
                           children: [
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(15),
-                                    bottomRight: Radius.circular(15)),
-                                child: Stack(
-                                  children: [
-                                    Image.asset('assets/images/food.png',
-                                      fit: BoxFit.cover,
-                                      height:
-                                      MediaQuery.of(context).size.height,
-                                      width: 168,
-                                    ),
-                                    Image.network(
-                                      getImage((restaurantDataItems
-                                          .meta.images !=
-                                          null)
-                                          ? restaurantDataItems.meta.images[0]
-                                          : ''),
-                                      fit: BoxFit.cover,
-                                      height:
-                                      MediaQuery.of(context).size.height,
-                                      width: 168,
-                                    ),
-                                  ],
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  child: Stack(
+                                    children: [
+                                      Image.asset('assets/images/food.png',
+                                        fit: BoxFit.cover,
+                                        height:
+                                        MediaQuery.of(context).size.height,
+                                        width: 168,
+                                      ),
+                                      Image.network(
+                                        getImage((restaurantDataItems
+                                            .meta.images !=
+                                            null)
+                                            ? restaurantDataItems.meta.images[0]
+                                            : ''),
+                                        fit: BoxFit.cover,
+                                        height:
+                                        MediaQuery.of(context).size.height,
+                                        width: 168,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -327,97 +352,105 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
       );
     }else {
       return GestureDetector(
-        child: Container(
-          margin: EdgeInsets.only(left: 10, right: 10),
-          height: 250,
-          decoration: BoxDecoration(
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.black12,
-            //     blurRadius: 4.0, // soften the shadow
-            //     spreadRadius: 1.0, //extend the shadow
-            //   )
-            // ],
-            color: AppColor.themeColor,
-            border: Border.all(width: 1.0, color: AppColor.themeColor),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            children: [
-              Container(
-                height: 120,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Stack(
-                    children: [
-                      Image.asset('assets/images/food.png',
-                        fit: BoxFit.cover,
-                        height:
-                        MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                      Image.network(
-                        getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
-                        fit: BoxFit.cover,
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                    ],
-                  ),),
-              ),
-              Container(
-                height: 130,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                    color: Colors.transparent
-                ),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 2, top: 12),
-                        child: Text(
-                          restaurantDataItems.name,
-                          maxLines: 3,
-                          style: TextStyle(
-                              fontSize: 16.0, color: Color(0xFF3F3F3F), ),
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+        onTapDown: _onTapDown,
+        onTapUp: _onTapUp,
+        child: Transform.scale(
+          scale: _scale,
+          child: Container(
+            // margin: EdgeInsets.only(left: 10, right: 10),
+            height: 250,
+            decoration: BoxDecoration(
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.black12,
+              //     blurRadius: 4.0, // soften the shadow
+              //     spreadRadius: 1.0, //extend the shadow
+              //   )
+              // ],
+              color: AppColor.themeColor,
+              border: Border.all(width: 0.5, color: AppColor.unselectedBorderFieldColor.withOpacity(0.3)),
+              // borderRadius: BorderRadius.circular(10),
+            ),
+            child: Container(
+              margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+              child: Column(
+                children: [
+                  Container(
+                    height: 120,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Stack(
+                        children: [
+                          Image.asset('assets/images/food.png',
+                            fit: BoxFit.cover,
+                            height:
+                            MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                          Image.network(
+                            getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
+                            fit: BoxFit.cover,
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                        ],
+                      ),),
+                  ),
+                  Container(
+                    height: 125,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                        color: Colors.transparent
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 2.0, bottom: 0, top: 5),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          padding: EdgeInsets.only(right: 0),
-                          child: Text(
-                            restaurantDataItems.meta.description,
-                            style: TextStyle(
-                                fontSize: 10.0,
-                                color: AppColor.textColor.withOpacity(0.6), ),
-                            textAlign: TextAlign.start,
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 2, top: 12),
+                            child: Text(
+                              restaurantDataItems.name,
+                              maxLines: 3,
+                              style: TextStyle(
+                                  fontSize: 16.0, color: Color(0xFF3F3F3F), ),
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 2.0, bottom: 0, top: 5),
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                              padding: EdgeInsets.only(right: 0),
+                              child: Text(
+                                restaurantDataItems.meta.description,
+                                style: TextStyle(
+                                    fontSize: 10.0,
+                                    color: AppColor.textColor.withOpacity(0.6), ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: MenuItemCounter(
+                                foodRecords: restaurantDataItems,
+                                menuItemCounterKey: menuItemCounterKey,
+                                parent: this),
+                          ),
+                        )
+                      ],
                     ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: MenuItemCounter(
-                            foodRecords: restaurantDataItems,
-                            menuItemCounterKey: menuItemCounterKey,
-                            parent: this),
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
         onTap: () async {
@@ -723,83 +756,98 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                                             flex: 2,
                                                             child: Padding(
                                                               padding: EdgeInsets.only(left: 8, right: 16),
-                                                              child: GestureDetector(
-                                                                child: Container(
-                                                                  height: 52,
-                                                                  decoration: BoxDecoration(
-                                                                    color: AppColor.mainColor,
-                                                                    borderRadius: BorderRadius.circular(10),
-                                                                  ),
-                                                                  child: Padding(
-                                                                    padding: const EdgeInsets.only(left: 15, right: 15),
-                                                                    child: Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                      children: [
-                                                                        Text(
-                                                                          "Добавить",
-                                                                          style:
-                                                                          TextStyle(color: AppColor.textColor, fontSize: 18),
-                                                                        ),
-                                                                        PriceField(key: priceFieldKey, restaurantDataItems: restaurantDataItems),
-                                                                      ],
+                                                              child: Stack(
+                                                                children: [
+                                                                  Container(
+                                                                    height: 52,
+                                                                    decoration: BoxDecoration(
+                                                                      color: AppColor.mainColor,
+                                                                      borderRadius: BorderRadius.circular(10),
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(left: 15, right: 15),
+                                                                      child: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Text(
+                                                                            "Добавить",
+                                                                            style:
+                                                                            TextStyle(color: AppColor.textColor, fontSize: 18),
+                                                                          ),
+                                                                          PriceField(key: priceFieldKey, restaurantDataItems: restaurantDataItems),
+                                                                        ],
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                                onTap: () async {
-                                                                  if (await Internet.checkConnection()) {
-                                                                    try{
-                                                                      ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
-                                                                      bool hasErrors = false;
-                                                                      cartProduct.variantGroups = new List<VariantGroup>();
-                                                                      variantsSelectors.forEach((variantGroupSelector) {
-                                                                        if(variantGroupSelector.key.currentState.hasSelectedVariants()){
-                                                                          cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
-                                                                          cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
-                                                                        } else if(variantGroupSelector.key.currentState.required) {
-                                                                          hasErrors = true;
-                                                                          variantGroupSelector.key.currentState.setState(() {
-                                                                            variantGroupSelector.key.currentState.error = true;
-                                                                          });
+                                                                  Material(
+                                                                    type: MaterialType.transparency,
+                                                                    child: InkWell(
+                                                                      splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
+                                                                      child: Ink(
+                                                                        child: Container(
+                                                                          height: 52,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(10),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      onTap: () async {
+                                                                        if (await Internet.checkConnection()) {
+                                                                          try{
+                                                                            ProductsDataModel cartProduct = ProductsDataModel.fromJson(productsDescription.toJson());
+                                                                            bool hasErrors = false;
+                                                                            cartProduct.variantGroups = new List<VariantGroup>();
+                                                                            variantsSelectors.forEach((variantGroupSelector) {
+                                                                              if(variantGroupSelector.key.currentState.hasSelectedVariants()){
+                                                                                cartProduct.variantGroups.add(VariantGroup.fromJson(variantGroupSelector.variantGroup.toJson()));
+                                                                                cartProduct.variantGroups.last.variants = variantGroupSelector.key.currentState.selectedVariants;
+                                                                              } else if(variantGroupSelector.key.currentState.required) {
+                                                                                hasErrors = true;
+                                                                                variantGroupSelector.key.currentState.setState(() {
+                                                                                  variantGroupSelector.key.currentState.error = true;
+                                                                                });
+                                                                              }
+                                                                            });
+                                                                            if(hasErrors){
+                                                                              return;
+                                                                            }
+
+                                                                            if(currentUser.cartModel != null && currentUser.cartModel.items != null
+                                                                                && currentUser.cartModel.items.length > 0
+                                                                                && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
+                                                                              print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
+                                                                              parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, this);
+                                                                            } else {
+                                                                              currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
+                                                                              Navigator.pop(context);
+                                                                              menuItemCounterKey.currentState.refresh();
+                                                                              setState(() {
+
+                                                                              });
+
+                                                                              // Добавляем паддинг в конец
+                                                                              if(parent.itemsPaddingKey.currentState != null){
+                                                                                parent.itemsPaddingKey.currentState.setState(() {
+
+                                                                                });
+                                                                              }
+
+                                                                              parent.showAlertDialog(context);
+                                                                              if(parent.basketButtonStateKey.currentState != null){
+                                                                                parent.basketButtonStateKey.currentState.refresh();
+                                                                              }
+                                                                            }
+                                                                          }finally{
+                                                                            lock = false;
+                                                                            await Vibrate.canVibrate;
+                                                                          }
+                                                                        } else {
+                                                                          noConnection(context);
                                                                         }
-                                                                      });
-
-                                                                      if(hasErrors){
-                                                                        return;
-                                                                      }
-
-                                                                      if(currentUser.cartModel != null && currentUser.cartModel.items != null
-                                                                          && currentUser.cartModel.items.length > 0
-                                                                          && productsDescription.product.storeUuid != currentUser.cartModel.storeUuid){
-                                                                        print(productsDescription.product.storeUuid.toString() + "!=" + currentUser.cartModel.storeUuid.toString());
-                                                                        parent.showCartClearDialog(context, cartProduct, menuItemCounterKey, this);
-                                                                      } else {
-                                                                        currentUser.cartModel = await addVariantToCart(cartProduct, necessaryDataForAuth.device_id, parent.counterKey.currentState.counter);
-                                                                        menuItemCounterKey.currentState.refresh();
-                                                                        Navigator.pop(context);
-                                                                        setState(() {
-
-                                                                        });
-
-                                                                        // Добавляем паддинг в конец
-                                                                        if(parent.itemsPaddingKey.currentState != null){
-                                                                          parent.itemsPaddingKey.currentState.setState(() {
-
-                                                                          });
-                                                                        }
-
-                                                                        parent.showAlertDialog(context);
-                                                                        if(parent.basketButtonStateKey.currentState != null){
-                                                                          parent.basketButtonStateKey.currentState.refresh();
-                                                                        }
-                                                                      }
-                                                                    }finally{
-                                                                      lock = false;
-                                                                      await Vibrate.canVibrate;
-                                                                    }
-                                                                  } else {
-                                                                    noConnection(context);
-                                                                  }
-                                                                },
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
                                                           )
@@ -862,4 +910,14 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
     });
     return result;
   }
+
+
+  void _onTapDown(TapDownDetails details) {
+    _controller.forward();
+  }
+
+  void _onTapUp(TapUpDetails details) {
+    _controller.reverse();
+  }
 }
+

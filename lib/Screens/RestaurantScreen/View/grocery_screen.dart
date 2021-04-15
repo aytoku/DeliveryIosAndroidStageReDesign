@@ -17,6 +17,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/Sl
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/FilteredProductCategories.dart';
@@ -45,6 +46,12 @@ class GroceryScreenState extends State<GroceryScreen>{
 
   GlobalKey<SliverShadowState> sliverShadowKey;
   GroceryScreenState(this.restaurant);
+
+  @override
+  void initState() {
+    super.initState();
+    sliverShadowKey = new GlobalKey();
+  }
 
   _restInfo() {
     showModalBottomSheet(
@@ -91,29 +98,29 @@ class GroceryScreenState extends State<GroceryScreen>{
                 )
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 20, top: 20),
-            child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('Адрес',
-                  style: TextStyle(
-                      color: AppColor.additionalTextColor,
-                      fontSize: 14
-                  ),
-                )
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 20, top: 10),
-            child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(restaurant.address.unrestrictedValue,
-                  style: TextStyle(
-                      fontSize: 14
-                  ),
-                )
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 20, top: 20),
+          //   child: Align(
+          //       alignment: Alignment.topLeft,
+          //       child: Text('Адрес',
+          //         style: TextStyle(
+          //             color: AppColor.additionalTextColor,
+          //             fontSize: 14
+          //         ),
+          //       )
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 20, top: 10),
+          //   child: Align(
+          //       alignment: Alignment.topLeft,
+          //       child: Text(restaurant.address.unrestrictedValue,
+          //         style: TextStyle(
+          //             fontSize: 14
+          //         ),
+          //       )
+          //   ),
+          // ),
           Padding(
             padding: EdgeInsets.only(left: 20, top: 20),
             child: Align(
@@ -188,75 +195,91 @@ class GroceryScreenState extends State<GroceryScreen>{
                 physics: NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
                 children: List.generate(snapshot.data.filteredProductCategories.length, (index){
-                  return InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+                  return Column(
+                    children: [
+                      InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                  height: 70,
-                                  width: 50,
-                                  padding: EdgeInsets.only(top: 8, bottom: 8),
-                                  child: Image.network((snapshot.data.filteredProductCategories[index].meta.images != null &&
-                                      snapshot.data.filteredProductCategories[index].meta.images[0] != null) ?
-                                  snapshot.data.filteredProductCategories[index].meta.images[0] : '',
-                                    fit: BoxFit.cover,
-                                  )
+                              Row(
+                                children: [
+                                  Container(
+                                      height: 70,
+                                      width: 50,
+                                      padding: EdgeInsets.only(top: 8, bottom: 8),
+                                      child: Image.network((snapshot.data.filteredProductCategories[index].meta.images != null &&
+                                          snapshot.data.filteredProductCategories[index].meta.images[0] != null) ?
+                                      snapshot.data.filteredProductCategories[index].meta.images[0] : '',
+                                        fit: BoxFit.cover,
+                                      )
+                                  ),
+                                  Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: Text(snapshot.data.filteredProductCategories[index].name),
+                                      )
+                                  ),
+                                ],
                               ),
                               Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: Text(snapshot.data.filteredProductCategories[index].name),
-                                  )
-                              ),
+                                  padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFEEEEEE),
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: Text(
+                                    snapshot.data.filteredProductCategories[index].count.toString(),
+                                    style: TextStyle(
+                                        color: AppColor.mainColor
+                                    ),
+                                  ))
                             ],
                           ),
-                          Container(
-                              padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFEEEEEE),
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                              child: Text(
-                                snapshot.data.filteredProductCategories[index].count.toString(),
-                                style: TextStyle(
-                                    color: AppColor.mainColor
-                                ),
-                              ))
-                        ],
+                        ),
+                        onTap: () async{
+                          var categoriesFilter = await getFilteredProductCategories(
+                              restaurant.uuid,
+                              snapshot.data.filteredProductCategories[index].uuid,
+                              necessaryDataForAuth.city.uuid);
+                          if(categoriesFilter.filteredProductCategories.isEmpty){
+                            selectedCategoriesUuid = snapshot.data.filteredProductCategories[index];
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) {
+                                return RestaurantScreen(restaurant: restaurant);
+                              }),
+                            );
+                          }else{
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context)=> GroceryCategoriesScreen(
+                                    restaurant: restaurant,
+                                    parentCategory: snapshot.data.filteredProductCategories[index],
+                                    filteredProductCategoriesData: categoriesFilter
+                                ))
+                            );
+                          }
+                        },
                       ),
-                    ),
-                    onTap: () async{
-                      var categoriesFilter = await getFilteredProductCategories(
-                          restaurant.uuid,
-                          snapshot.data.filteredProductCategories[index].uuid,
-                          necessaryDataForAuth.city.uuid);
-                      if(categoriesFilter.filteredProductCategories.isEmpty){
-                        selectedCategoriesUuid = snapshot.data.filteredProductCategories[index];
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) {
-                            return RestaurantScreen(restaurant: restaurant);
-                          }),
-                        );
-                      }else{
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context)=> GroceryCategoriesScreen(
-                                restaurant: restaurant,
-                                parentCategory: snapshot.data.filteredProductCategories[index],
-                                filteredProductCategoriesData: categoriesFilter
-                            ))
-                        );
-                      }
-                    },
+                      Padding(
+                        padding: const EdgeInsets.only(left: 75.0),
+                        child: Divider(
+                          height: 1.0,
+                          color: AppColor.unselectedBorderFieldColor,
+                        ),
+                      ),
+                    ],
                   );
                 }),
               );
             }else{
-              return Container();
+              return Center(
+                child: SpinKitFadingCircle(
+                  color: AppColor.mainColor,
+                  size: 50.0,
+                ),
+              );
             }
           },
         ),
@@ -401,7 +424,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                                     padding: EdgeInsets.only(top: 40, left: 15),
                                     child: GestureDetector(
                                       child: SvgPicture.asset(
-                                          'assets/svg_images/rest_arrow_left.svg'),
+                                          'assets/svg_images/fermer_arrow_left.svg'),
                                       onTap: () async {
                                         if(await Internet.checkConnection()){
                                           homeScreenKey = new GlobalKey<HomeScreenState>();
@@ -631,257 +654,11 @@ class GroceryScreenState extends State<GroceryScreen>{
 
   @override
   Widget build(BuildContext context) {
-
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return Scaffold(
       body: Container(
         child: _buildRestaurantScreen()
       ),
     );
-    // return Scaffold(
-    //   backgroundColor: AppColor.themeColor,
-    //   body: Column(
-    //     mainAxisAlignment: MainAxisAlignment.start,
-    //     children: [
-    //       Align(
-    //         alignment: Alignment.topLeft,
-    //         child: InkWell(
-    //           hoverColor: AppColor.themeColor,
-    //           focusColor: AppColor.themeColor,
-    //           splashColor: AppColor.themeColor,
-    //           highlightColor: AppColor.themeColor,
-    //           onTap: () {
-    //             homeScreenKey = new GlobalKey<HomeScreenState>();
-    //             Navigator.of(context).pushAndRemoveUntil(
-    //                 MaterialPageRoute(
-    //                     builder: (context) => BlocProvider(
-    //                       create: (context) => RestaurantGetBloc(),
-    //                       child: new HomeScreen(),
-    //                     )),
-    //                     (Route<dynamic> route) => false);
-    //           },
-    //           child: Padding(
-    //             padding: EdgeInsets.only(top: 40),
-    //             child: Container(
-    //                 height: 40,
-    //                 width: 60,
-    //                 child: Padding(
-    //                   padding: EdgeInsets.only(
-    //                       top: 12, bottom: 12, right: 10),
-    //                   child: SvgPicture.asset(
-    //                       'assets/svg_images/arrow_left.svg'),
-    //                 )),),
-    //         ),
-    //       ),
-    //       Padding(
-    //         padding: const EdgeInsets.only(top: 24.0, bottom: 17),
-    //         child: Row(
-    //           children: [
-    //             Padding(
-    //               padding: EdgeInsets.only(left: 15),
-    //               child: Text(
-    //                 this.restaurant.name,
-    //                 style: TextStyle(
-    //                     fontSize: 24,
-    //                     color: Color(0xFF3F3F3F)),
-    //               ),
-    //             ),
-    //             InkWell(
-    //               hoverColor: AppColor.themeColor,
-    //               focusColor: Colors.white,
-    //               splashColor: Colors.white,
-    //               highlightColor: Colors.white,
-    //               child: Padding(
-    //                 padding: const EdgeInsets.only(left: 3.0),
-    //                 child: SvgPicture.asset(
-    //                     'assets/svg_images/rest_info.svg'),
-    //               ),
-    //               onTap: (){
-    //                 _restInfo();
-    //               },
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       Row(
-    //         children: [
-    //           Padding(
-    //             padding: const EdgeInsets.only(left: 15),
-    //             child: Container(
-    //               height: 26,
-    //               decoration: BoxDecoration(
-    //                   borderRadius: BorderRadius.circular(10),
-    //                   color: Color(0xFFEFEFEF)
-    //               ),
-    //               child: Center(
-    //                 child: Padding(
-    //                   padding: EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
-    //                   child: Row(
-    //                     children: [
-    //                       SvgPicture.asset('assets/svg_images/star.svg',
-    //                       ),
-    //                       Padding(
-    //                         padding: const EdgeInsets.only(left: 5),
-    //                         child: Text(restaurant.meta.rating.toString(),
-    //                           style: TextStyle(
-    //                           ),
-    //                         ),
-    //                       )
-    //                     ],
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //           Padding(
-    //             padding: const EdgeInsets.only(left: 16),
-    //             child: Container(
-    //               height: 26,
-    //               decoration: BoxDecoration(
-    //                   borderRadius: BorderRadius.circular(10),
-    //                   color: Color(0xFFEFEFEF)
-    //               ),
-    //               child: Center(
-    //                 child: Padding(
-    //                   padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
-    //                   child: Row(
-    //                     children: [
-    //                       Padding(
-    //                         padding: const EdgeInsets.only(right: 5),
-    //                         child: SvgPicture.asset('assets/svg_images/rest_car.svg',
-    //                         ),
-    //                       ),
-    //                       Text(
-    //                         '~' +  '${restaurant.meta.avgDeliveryTime}',
-    //                         style: TextStyle(
-    //                         ),
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //           Padding(
-    //             padding: const EdgeInsets.only(left: 16, right: 15),
-    //             child: Container(
-    //               height: 26,
-    //               decoration: BoxDecoration(
-    //                   borderRadius: BorderRadius.circular(10),
-    //                   color: Color(0xFFEFEFEF)
-    //               ),
-    //               child: Center(
-    //                 child: Padding(
-    //                   padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
-    //                   child: Text('${restaurant.meta.avgDeliveryPrice}',
-    //                     style: TextStyle(
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //       Padding(
-    //           padding: EdgeInsets.only(top: 30, left: 15),
-    //           child: Align(
-    //             alignment: Alignment.topLeft,
-    //             child: Text('Категории',
-    //               style: TextStyle(
-    //                   fontSize: 24
-    //               ),
-    //             ),
-    //           )
-    //       ),
-    //       FutureBuilder<FilteredProductCategoriesData>(
-    //         future: getFilteredProductCategories(
-    //             restaurant.uuid,
-    //             parentUuid,
-    //             necessaryDataForAuth.city.uuid),
-    //         builder: (BuildContext context,
-    //             AsyncSnapshot<FilteredProductCategoriesData> snapshot){
-    //           if(snapshot.connectionState ==
-    //               ConnectionState.done &&
-    //               snapshot.data.filteredProductCategories.length > 0){
-    //             return Expanded(
-    //               child: ListView(
-    //                 padding: EdgeInsets.zero,
-    //                 children: List.generate(snapshot.data.filteredProductCategories.length, (index){
-    //                   return InkWell(
-    //                     child: Padding(
-    //                       padding: const EdgeInsets.only(left: 15, right: 15),
-    //                       child: Row(
-    //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                         children: [
-    //                           Row(
-    //                             children: [
-    //                               Container(
-    //                                   height: 70,
-    //                                   width: 50,
-    //                                   padding: EdgeInsets.only(top: 8, bottom: 8),
-    //                                   child: Image.network((snapshot.data.filteredProductCategories[index].meta.images != null &&
-    //                                       snapshot.data.filteredProductCategories[index].meta.images[0] != null) ?
-    //                                     snapshot.data.filteredProductCategories[index].meta.images[0] : '',
-    //                                     fit: BoxFit.cover,
-    //                                   )
-    //                               ),
-    //                               Container(
-    //                                   child: Padding(
-    //                                     padding: const EdgeInsets.all(15),
-    //                                     child: Text(snapshot.data.filteredProductCategories[index].name),
-    //                                   )
-    //                               ),
-    //                             ],
-    //                           ),
-    //                           Container(
-    //                             padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-    //                             decoration: BoxDecoration(
-    //                               color: Color(0xFFEEEEEE),
-    //                               borderRadius: BorderRadius.circular(10)
-    //                             ),
-    //                               child: Text(
-    //                                   snapshot.data.filteredProductCategories[index].count.toString(),
-    //                                 style: TextStyle(
-    //                                   color: Color(0xFF4D9D46)
-    //                                 ),
-    //                               ))
-    //                         ],
-    //                       ),
-    //                     ),
-    //                     onTap: () async{
-    //                      var categoriesFilter = await getFilteredProductCategories(
-    //                           restaurant.uuid,
-    //                          snapshot.data.filteredProductCategories[index].uuid,
-    //                           necessaryDataForAuth.city.uuid);
-    //                      if(categoriesFilter.filteredProductCategories.isEmpty){
-    //                        selectedCategoriesUuid = snapshot.data.filteredProductCategories[index];
-    //                        Navigator.push(
-    //                          context,
-    //                          MaterialPageRoute(builder: (_) {
-    //                            return RestaurantScreen(restaurant: restaurant);
-    //                          }),
-    //                        );
-    //                      }else{
-    //                        Navigator.push(context,
-    //                            MaterialPageRoute(builder: (context)=> GroceryCategoriesScreen(
-    //                                restaurant: restaurant,
-    //                                parentCategory: snapshot.data.filteredProductCategories[index],
-    //                                filteredProductCategoriesData: categoriesFilter
-    //                            ))
-    //                        );
-    //                      }
-    //                     },
-    //                   );
-    //                 }),
-    //               ),
-    //             );
-    //           }else{
-    //             return Container();
-    //           }
-    //         },
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }

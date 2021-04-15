@@ -172,7 +172,7 @@ class CategoryListState extends State<CategoryList> {
               ),
 
               Container(
-                width: MediaQuery.of(context).size.width * 0.84,
+                width: MediaQuery.of(context).size.width * 0.8,
                 child: SingleChildScrollView(
                   controller: itemScrollController,
                   scrollDirection: Axis.horizontal,
