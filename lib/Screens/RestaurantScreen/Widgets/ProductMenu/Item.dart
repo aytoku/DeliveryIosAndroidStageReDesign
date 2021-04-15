@@ -360,13 +360,13 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                     children: [
                       Image.asset('assets/images/food.png',
                         fit: BoxFit.cover,
-                        height:
-                        MediaQuery.of(context).size.height,
+                        height: 180,
                         width: MediaQuery.of(context).size.width,
                       ),
                       Image.network(
                         getImage((restaurantDataItems.meta.images != null) ? restaurantDataItems.meta.images[0] : ''),
                         fit: BoxFit.cover,
+                        height: 180,
                         width: MediaQuery.of(context).size.width,
                       ),
                     ],

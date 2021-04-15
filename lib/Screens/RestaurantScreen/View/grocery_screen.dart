@@ -239,27 +239,15 @@ class GroceryScreenState extends State<GroceryScreen>{
                       ),
                     ),
                     onTap: () async{
-                      var categoriesFilter = await getFilteredProductCategories(
-                          restaurant.uuid,
-                          snapshot.data.filteredProductCategories[index].uuid,
-                          necessaryDataForAuth.city.uuid);
-                      if(categoriesFilter.filteredProductCategories.isEmpty){
-                        selectedCategoriesUuid = snapshot.data.filteredProductCategories[index];
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) {
-                            return RestaurantScreen(restaurant: restaurant);
-                          }),
-                        );
-                      }else{
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context)=> GroceryCategoriesScreen(
-                                restaurant: restaurant,
-                                parentCategory: snapshot.data.filteredProductCategories[index],
-                                filteredProductCategoriesData: categoriesFilter
-                            ))
-                        );
-                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) {
+                          return GroceryCategoriesScreen(
+                              restaurant: restaurant,
+                              parentCategory: snapshot.data.filteredProductCategories[index]
+                          );
+                        }),
+                      );
                     },
                   );
                 }),
