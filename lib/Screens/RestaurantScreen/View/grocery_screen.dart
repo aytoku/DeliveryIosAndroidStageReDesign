@@ -17,6 +17,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/Sl
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/FilteredProductCategories.dart';
@@ -219,15 +220,19 @@ class GroceryScreenState extends State<GroceryScreen>{
                             ],
                           ),
                           Container(
-                              padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                            height: 27,
+                              width: 56,
+                              padding: EdgeInsets.only(left: 0, right: 0, top: 5, bottom: 5),
                               decoration: BoxDecoration(
                                   color: Color(0xFFEEEEEE),
                                   borderRadius: BorderRadius.circular(10)
                               ),
-                              child: Text(
-                                snapshot.data.filteredProductCategories[index].count.toString(),
-                                style: TextStyle(
-                                    color: Color(0xFF4D9D46)
+                              child: Center(
+                                child: Text(
+                                  snapshot.data.filteredProductCategories[index].count.toString(),
+                                  style: TextStyle(
+                                      color: Colors.black
+                                  ),
                                 ),
                               ))
                         ],
@@ -260,7 +265,12 @@ class GroceryScreenState extends State<GroceryScreen>{
                 }),
               );
             }else{
-              return Container();
+              return Center(
+                child: SpinKitFadingCircle(
+                  color: AppColor.mainColor,
+                  size: 50.0,
+                ),
+              );
             }
           },
         ),
@@ -406,7 +416,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                                     padding: EdgeInsets.only(top: 40, left: 15),
                                     child: GestureDetector(
                                       child: SvgPicture.asset(
-                                          'assets/svg_images/rest_arrow_left.svg'),
+                                          'assets/svg_images/fermer_arrow_left.svg'),
                                       onTap: () async {
                                         if(await Internet.checkConnection()){
                                           homeScreenKey = new GlobalKey<HomeScreenState>();
@@ -636,7 +646,7 @@ class GroceryScreenState extends State<GroceryScreen>{
 
   @override
   Widget build(BuildContext context) {
-
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return Scaffold(
       body: Container(
         child: _buildRestaurantScreen() 

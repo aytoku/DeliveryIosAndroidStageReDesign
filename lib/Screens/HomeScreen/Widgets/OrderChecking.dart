@@ -171,7 +171,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               Padding(
                                 padding: EdgeInsets.only(top: 15),
                                 child: SvgPicture.asset(
-                                    'assets/svg_images/white_clock.svg'),
+                                    'assets/svg_images/white_clock.svg', color: Colors.black,),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
@@ -225,9 +225,9 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                     .contains(ordersStoryModelItem.state) ||
                                     in_the_way.contains(ordersStoryModelItem.state))
                                     ? SvgPicture.asset(
-                                    'assets/svg_images/white_bell.svg')
+                                    'assets/svg_images/white_bell.svg', color: Colors.black)
                                     : SvgPicture.asset(
-                                    'assets/svg_images/bell.svg'),
+                                    'assets/svg_images/bell.svg', color: Color(0xFFB5B5B5)),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
@@ -285,9 +285,9 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                 child: (in_the_way
                                     .contains(ordersStoryModelItem.state))
                                     ? SvgPicture.asset(
-                                    'assets/svg_images/white_ready.svg')
+                                    'assets/svg_images/white_ready.svg', color: Colors.black)
                                     : SvgPicture.asset(
-                                    'assets/svg_images/ready.svg'),
+                                    'assets/svg_images/ready.svg', color: Color(0xFFB5B5B5)),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
@@ -321,9 +321,9 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                                 child: (in_the_way
                                     .contains(ordersStoryModelItem.state))
                                     ? SvgPicture.asset(
-                                    'assets/svg_images/light_car.svg')
+                                    'assets/svg_images/light_car.svg', color: Colors.black)
                                     : SvgPicture.asset(
-                                    'assets/svg_images/car.svg'),
+                                    'assets/svg_images/car.svg', color: Color(0xFFB5B5B5)),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 5),

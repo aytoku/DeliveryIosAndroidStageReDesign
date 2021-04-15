@@ -250,28 +250,13 @@ class ScreenTitlePopState extends State<ScreenTitlePop> {
                       )),
                   onTap: (){
                     homeScreenKey = new GlobalKey<HomeScreenState>();
-                    Navigator.of(context).push(
-                        PageRouteBuilder(
-                            pageBuilder: (context, animation, anotherAnimation) {
-                              return BlocProvider(
-                              create: (context) => RestaurantGetBloc(),
-                              child: new HomeScreen(),
-                              );
-                            },
-                            transitionDuration: Duration(milliseconds: 300),
-                            transitionsBuilder:
-                                (context, animation, anotherAnimation, child) {
-//                                      animation = CurvedAnimation(
-//                                          curve: Curves.bounceIn, parent: animation);
-                              return SlideTransition(
-                                position: Tween(
-                                    begin: Offset(1.0, 0.0),
-                                    end: Offset(0.0, 0.0))
-                                    .animate(animation),
-                                child: child,
-                              );
-                            }
-                        ));
+                    Navigator.of(context).pushAndRemoveUntil(
+                        new MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => RestaurantGetBloc(),
+                            child: new HomeScreen(),
+                          ),
+                        ), (Route<dynamic> route) => false);
                   }
               ),
             ),
