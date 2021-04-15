@@ -210,7 +210,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
             child: Container(
-                height: 225,
+                height: 222,
                 width: 300,
                 child: Column(
                   children: <Widget>[
@@ -278,7 +278,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         child: Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 20),
+                          padding: EdgeInsets.only(top: 20, bottom: 10),
                           child: Center(
                             child: Text(
                               'Отмена',
@@ -736,7 +736,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                     padding: EdgeInsets.only(top: 40, left: 15),
                                     child: GestureDetector(
                                       child: SvgPicture.asset(
-                                          'assets/svg_images/rest_arrow_left.svg'),
+                                          'assets/svg_images/fermer_arrow_left.svg'),
                                       onTap: () async {
                                         if(await Internet.checkConnection()){
                                           homeScreenKey = new GlobalKey<HomeScreenState>();
