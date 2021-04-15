@@ -99,7 +99,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
                 if(animationSnapshot.connectionState != ConnectionState.done)
                   return Center(
                       child: Image(
-                        image: new AssetImage('assets/images/fermer.png'),
+                        image: new AssetImage('assets/images/Fermer_yellow.png'),
                       )
                   );
 

@@ -73,7 +73,7 @@ class CityScreenState extends State<CityScreen>{
       backgroundColor: Color(0xFF141414),
         body:  Stack(
           children: [
-            Center(child: Image.asset('assets/images/fermer.png',),),
+            Center(child: Image.asset('assets/images/Fermer_yellow.png',),),
             (currentUser.isLoggedIn) ? Align(
               alignment: Alignment.topLeft,
               child: Padding(
