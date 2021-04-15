@@ -26,6 +26,7 @@ import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../../data/data.dart';
+import '../../../../data/data.dart';
 import 'ItemCounter.dart';
 
 class MenuItem extends StatefulWidget {
@@ -167,19 +168,23 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
             padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 25),
             child: Align(
                 alignment: Alignment.bottomCenter,
-                child: FlatButton(
-                  child: Text(
-                    "Далее",
-                    style:
-                    TextStyle(color: AppColor.textColor, fontSize: 16),
+                child: InkWell(
+                  child: Container(
+                    height: 52,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColor.mainColor
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Далее",
+                        style:
+                        TextStyle(color: AppColor.textColor, fontSize: 16),
+                      ),
+                    ),
                   ),
-                  color: AppColor.mainColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: EdgeInsets.only(
-                      left: 160, top: 20, right: 160, bottom: 20),
-                  onPressed: ()async {
+                  onTap: ()async {
                     homeScreenKey = new GlobalKey<HomeScreenState>();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
@@ -201,7 +206,7 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
   Widget build(BuildContext context) {
 
     bool isScheduleAvailable = parent.restaurant.workSchedule.isAvailable();
-    //isScheduleAvailable = false;
+    //isScheduleAvailable = true;
     bool available = parent.restaurant.available.flag != null ? parent.restaurant.available.flag : true;
     super.build(context);
     GlobalKey<MenuItemCounterState> menuItemCounterKey = new GlobalKey();

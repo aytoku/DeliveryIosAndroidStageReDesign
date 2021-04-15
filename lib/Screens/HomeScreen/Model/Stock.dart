@@ -29,6 +29,9 @@ class Stock {
     this.description,
     this.banner,
     this.citiesUuid,
+    this.code,
+    this.offerStart,
+    this.offerEnd
   });
 
   String uuid;
@@ -38,6 +41,9 @@ class Stock {
   String image;
   String description;
   String banner;
+  String code;
+  DateTime offerStart;
+  DateTime offerEnd;
 
   factory Stock.fromJson(Map<String, dynamic> json) => Stock(
     uuid: json["uuid"] == null ? null : json["uuid"],
@@ -47,6 +53,9 @@ class Stock {
     image: json["image"] == null ? null : json["image"],
     description: json["description"] == null ? null : json["description"],
     banner: json["banner"] == null ? null : json["banner"],
+    code: json["code"],
+    offerStart: DateTime.parse(json["offer_start"]),
+    offerEnd: DateTime.parse(json["offer_end"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -57,5 +66,8 @@ class Stock {
     "image": image == null ? null : image,
     "banner": banner == null ? null : banner,
     "description": description == null ? null : description,
+    "code": code,
+    "offer_start": offerStart.toIso8601String(),
+    "offer_end": offerEnd.toIso8601String(),
   };
 }

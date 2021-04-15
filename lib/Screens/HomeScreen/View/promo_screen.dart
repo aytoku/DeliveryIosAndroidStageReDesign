@@ -19,6 +19,9 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../data/data.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../RestaurantScreen/Widgets/SliverTitleItems/SliverBackButton.dart';
 
 class PromoScreen extends StatefulWidget {
 
@@ -141,7 +144,10 @@ class PromoScreenState extends State<PromoScreen>{
                                 bottomRight: Radius.circular(0)),
                             child:  Stack(
                               children: [
-                                Center(child: Image.asset('assets/images/food.png')),
+                                Center(child: Image.asset('assets/images/food.png', height: 200.0,
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.cover,),
+                                ),
                                 Image.network(
                                   getImage((restaurant.meta.images != null && restaurant.meta.images.length > 0) ? restaurant.meta.images[0] : ''),
                                   height: 200.0,
@@ -291,6 +297,7 @@ class PromoScreenState extends State<PromoScreen>{
   Widget _buildRestaurantScreen() {
 
     List<Widget> sliverChildren = getSliverChildren();
+    GlobalKey<SliverBackButtonState>sliverImageKey = new GlobalKey();
     GlobalKey<SliverTextState>sliverTextKey = new GlobalKey();
 
     sliverScrollController.addListener(() async {
@@ -304,6 +311,18 @@ class PromoScreenState extends State<PromoScreen>{
         if(sliverTextKey.currentState != null){
           sliverTextKey.currentState.setState(() {
             sliverTextKey.currentState.title =  new Text('');
+          });
+        }
+      }
+      if(sliverImageKey.currentState != null && sliverScrollController.offset > 89){
+        sliverImageKey.currentState.setState(() {
+          sliverImageKey.currentState.image =
+          new SvgPicture.asset('assets/svg_images/arrow_left.svg');
+        });
+      }else{
+        if(sliverImageKey.currentState != null){
+          sliverImageKey.currentState.setState(() {
+            sliverImageKey.currentState.image =  null;
           });
         }
       }
@@ -340,8 +359,7 @@ class PromoScreenState extends State<PromoScreen>{
                         child: Padding(
                           padding:
                           EdgeInsets.only(top: 17, bottom: 17, right: 10),
-                          child:  SvgPicture.asset(
-                              'assets/svg_images/arrow_left.svg'),
+                          child:  SliverBackButton(key: sliverImageKey, image: null,),
                         )),
                     onTap: (){
                       Navigator.pop(context);
@@ -363,6 +381,42 @@ class PromoScreenState extends State<PromoScreen>{
                                 height: 230.0,
                                 width: MediaQuery.of(context).size.width,
                               ),
+                              Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 40, left: 15),
+                                    child: GestureDetector(
+                                      child: SvgPicture.asset(
+                                          'assets/svg_images/fermer_arrow_left.svg'),
+                                      onTap: () async {
+                                        if(await Internet.checkConnection()){
+                                          homeScreenKey = new GlobalKey<HomeScreenState>();
+                                          Navigator.of(context).pushAndRemoveUntil(
+                                              PageRouteBuilder(
+                                                  pageBuilder: (context, animation, anotherAnimation) {
+                                                    return BlocProvider(
+                                                      create: (context) => RestaurantGetBloc(),
+                                                      child: new HomeScreen(),
+                                                    );
+                                                  },
+                                                  transitionDuration: Duration(milliseconds: 300),
+                                                  transitionsBuilder:
+                                                      (context, animation, anotherAnimation, child) {
+                                                    return SlideTransition(
+                                                      position: Tween(
+                                                          begin: Offset(1.0, 0.0),
+                                                          end: Offset(0.0, 0.0))
+                                                          .animate(animation),
+                                                      child: child,
+                                                    );
+                                                  }
+                                              ), (Route<dynamic> route) => false);
+                                        }else{
+                                          noConnection(context);
+                                        }
+                                      },
+                                    ),
+                                  ))
                             ],
                           )),
                     ),
@@ -397,19 +451,48 @@ class PromoScreenState extends State<PromoScreen>{
                               child: Text(
                                 stock.name,
                                 style: TextStyle(
-                                    fontSize: 18
+                                    fontSize: 18,
+                                  fontWeight: FontWeight.w400
                                 ),
                               ),
                             ),
                             Align(
                               alignment: Alignment.topLeft,
-                              child: Text(
-                                stock.description,
-                                style: TextStyle(
-                                    fontSize: 18
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Text(
+                                  stock.description,
+                                  style: TextStyle(
+                                      fontSize: 14
+                                  ),
                                 ),
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 25),
+                              child: InkWell(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color(0xFF09B44D)
+                                  ),
+                                  height: 37,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Center(
+                                    child: Text(
+                                      'Скопировать код: ' + stock.code,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                        color: Colors.white
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                onTap: (){
+                                  savedPromo = stock;
+                                },
+                              ),
+                            )
                           ],
                         ),
                       ),

@@ -486,7 +486,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           FutureBuilder<List<Stock>>(
                               future: getStocks(necessaryDataForAuth.city.uuid),
                               builder: (context, AsyncSnapshot<List<Stock>> snapshot) {
-                                return (snapshot.connectionState == ConnectionState.done) ? Column(
+                                return (snapshot.connectionState == ConnectionState.done || snapshot.hasData) ? Column(
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(left: 22, top: 15, right: 20),

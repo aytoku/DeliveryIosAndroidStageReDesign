@@ -1119,6 +1119,7 @@ class AddressScreenState extends State<AddressScreen>
                                   padding: const EdgeInsets.only(right: 20),
                                   child: PromoText(
                                     key: promoTextKey,
+                                    parent: this,
                                   ),
                                 ),
                               ],
@@ -1202,6 +1203,7 @@ class AddressScreenState extends State<AddressScreen>
                                 padding: const EdgeInsets.only(right: 20),
                                 child: PromoText(
                                   key: promoTextKey,
+                                  parent: this,
                                 ),
                               ),
                             ],

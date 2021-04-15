@@ -164,19 +164,23 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 25),
             child: Align(
                 alignment: Alignment.bottomCenter,
-                child: FlatButton(
-                  child: Text(
-                    "Далее",
-                    style:
-                    TextStyle(color: AppColor.textColor, fontSize: 16),
+                child: InkWell(
+                  child: Container(
+                    height: 52,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColor.mainColor
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Далее",
+                        style:
+                        TextStyle(color: AppColor.textColor, fontSize: 16),
+                      ),
+                    ),
                   ),
-                  color: AppColor.mainColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: EdgeInsets.only(
-                      left: 110, top: 20, right: 110, bottom: 20),
-                  onPressed: () async {
+                  onTap: ()async {
                     homeScreenKey = new GlobalKey<HomeScreenState>();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(

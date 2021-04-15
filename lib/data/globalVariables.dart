@@ -5,11 +5,12 @@ import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';
 import 'package:flutter_app/Screens/ChatScreen/View/chat_screen_old_version.dart';
 import 'package:flutter_app/Screens/CityScreen/Model/FilteredCities.dart';
 import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
-import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/FilteredProductCategories.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/tickets_chat_screen.dart';
+
+import '../Screens/HomeScreen/Model/Stock.dart';
 
 Map<String,GlobalKey<OrderCheckingState>> orderCheckingStates = new Map<String,GlobalKey<OrderCheckingState>>();
 Map<String,GlobalKey<ChatMessageScreenState>> chatMessagesStates = new Map<String,GlobalKey<ChatMessageScreenState>>();
@@ -27,3 +28,4 @@ FilteredProductCategories selectedCategoriesUuid;
 String tempClientUuid = '';
 AssetImage assetImage = AssetImage('assets/gif/preloader_fermer.gif');
 bool lock = false;
+Stock savedPromo = new Stock();
