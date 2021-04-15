@@ -37,11 +37,11 @@ class MenuItemTitleState extends State<MenuItemTitle>{
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
-        padding: const EdgeInsets.only(top: 15, bottom: 10, left: 15),
+        padding: const EdgeInsets.only(top: 15, bottom: 0, left: 20),
         child: Text(title[0].toUpperCase() + title.substring(1),
           style: TextStyle(
             color: Color(0xFF424242),
-            fontSize: 21,
+            fontSize: 18,
           ),
         ),
       ),

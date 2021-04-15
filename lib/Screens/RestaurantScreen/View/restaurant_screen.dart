@@ -1092,7 +1092,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                         ));
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(top: 40),
+                    padding: EdgeInsets.only(top: 20),
                     child: Container(
                         height: 40,
                         width: 60,
@@ -1105,7 +1105,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      top: 40
+                      top: 20
                   ),
                   child: Text(
                     selectedCategoriesUuid.name,
@@ -1117,7 +1117,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 120),
+            padding: const EdgeInsets.only(top: 82),
             child: StaggeredGridView.countBuilder(
               physics: BouncingScrollPhysics(),
               padding: EdgeInsets.zero,
@@ -1127,14 +1127,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
               staggeredTileBuilder: (int index) {
                 if(index == menuWithTitles.length)
                   return StaggeredTile.extent(2, 80);
-
                 if (menuWithTitles[index] is MenuItemTitle) {
                   return StaggeredTile.extent(2, 50);
                 }
-                return StaggeredTile.extent(1, 300);
+                return StaggeredTile.extent(1, 260);
 
               },
-              mainAxisSpacing: 10.0,
+              mainAxisSpacing: 0.0,
               crossAxisSpacing: 0.0,
             ),
           ),
@@ -1217,10 +1216,91 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 restaurantDataItems = snapshot.data;
                 return _buildScreen();
               } else {
-                return Center(
-                  child: SpinKitFadingCircle(
-                    color: AppColor.mainColor,
-                    size: 50.0,
+                return Container(
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              hoverColor: AppColor.themeColor,
+                              focusColor: AppColor.themeColor,
+                              splashColor: AppColor.themeColor,
+                              highlightColor: AppColor.themeColor,
+                              onTap: () {
+                                Navigator.of(context).pushReplacement(
+                                    PageRouteBuilder(
+                                        pageBuilder: (context, animation, anotherAnimation) {
+                                          return new GroceryScreen(restaurant: restaurant,);
+                                        },
+                                        transitionDuration: Duration(milliseconds: 300),
+                                        transitionsBuilder:
+                                            (context, animation, anotherAnimation, child) {
+                                          return SlideTransition(
+                                            position: Tween(
+                                                begin: Offset(1.0, 0.0),
+                                                end: Offset(0.0, 0.0))
+                                                .animate(animation),
+                                            child: child,
+                                          );
+                                        }
+                                    ));
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 20),
+                                child: Container(
+                                    height: 40,
+                                    width: 60,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 12, bottom: 12,),
+                                      child: SvgPicture.asset(
+                                          'assets/svg_images/arrow_left.svg'),
+                                    )),),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 20
+                              ),
+                              child: Text(
+                                selectedCategoriesUuid.name,
+                                style: TextStyle(
+                                  fontSize: 18,),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 82),
+                        child: StaggeredGridView.countBuilder(
+                          physics: BouncingScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          crossAxisCount: 2,
+                          itemCount: menuWithTitles.length+1,
+                          itemBuilder: (BuildContext context, int index) => (index == menuWithTitles.length) ? ItemsPadding(key: itemsPaddingKey,) : menuWithTitles[index],
+                          staggeredTileBuilder: (int index) {
+                            if(index == menuWithTitles.length)
+                              return StaggeredTile.extent(2, 80);
+                            if (menuWithTitles[index] is MenuItemTitle) {
+                              return StaggeredTile.extent(2, 50);
+                            }
+                            return StaggeredTile.extent(1, 260);
+                          },
+                          mainAxisSpacing: 0.0,
+                          crossAxisSpacing: 0.0,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding:  EdgeInsets.only(bottom: 0),
+                          child: CartButton(
+                            key: basketButtonStateKey, restaurant: restaurant, source: CartSources.Restaurant,),
+                        ),
+                      )
+                    ],
                   ),
                 );
               }

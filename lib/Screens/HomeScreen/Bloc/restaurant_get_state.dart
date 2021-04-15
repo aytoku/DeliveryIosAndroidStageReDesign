@@ -11,7 +11,15 @@ abstract class RestaurantGetState extends Equatable {
 
 class RestaurantGetStateEmpty extends RestaurantGetState {}
 
-class RestaurantGetStateLoading extends RestaurantGetState {}
+class RestaurantGetStateLoading extends RestaurantGetState {
+  final bool showPrelaoder;
+
+  RestaurantGetStateLoading({this.showPrelaoder = false});
+
+
+  @override
+  List<Object> get props => [showPrelaoder];
+}
 
 class RestaurantGetStateSuccess extends RestaurantGetState {
   final List<FilteredStores> items;

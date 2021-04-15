@@ -83,78 +83,89 @@ class CartButtonState extends State<CartButton> {
             // ),
             Padding(
               padding: EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 10),
-              child: GestureDetector(
-                child: Container(
-                  padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
-                  height: 52,
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      // Text(
-                      //   (currentUser.cartModel.cookingTime != null)? '~ ${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
-                      //   style: TextStyle(
-                      //     fontSize: 12.0,
-                      //     color: AppColor.textColor,
-                      //   ),
-                      // ),
-                      Text('Корзина',
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              color: AppColor.textColor)),
-                      CartButtonCounter(
-                        key: buttonCounterKey,
+              child: Stack(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+                    height: 52,
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        // Text(
+                        //   (currentUser.cartModel.cookingTime != null)? '~ ${currentUser.cartModel.cookingTime ~/ 60} мин' : '',
+                        //   style: TextStyle(
+                        //     fontSize: 12.0,
+                        //     color: AppColor.textColor,
+                        //   ),
+                        // ),
+                        Text('Корзина',
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                color: AppColor.textColor)),
+                        CartButtonCounter(
+                          key: buttonCounterKey,
+                        ),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColor.mainColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  Material(
+                    type: MaterialType.transparency,
+                    child: InkWell(
+                      splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
+                      child: Container(
+                        height: 52,
                       ),
-                    ],
+                      onTap: () async {
+                        if (await Internet.checkConnection()) {
+                          if (currentUser.cartModel.items.length == 0) {
+                            Navigator.of(context).push(
+                                PageRouteBuilder(
+                                    pageBuilder: (context, animation, anotherAnimation) {
+                                      return EmptyCartScreen(restaurant: restaurant, source: source);
+                                    },
+                                    transitionDuration: Duration(milliseconds: 300),
+                                    transitionsBuilder:
+                                        (context, animation, anotherAnimation, child) {
+                                      return SlideTransition(
+                                        position: Tween(
+                                            begin: Offset(-1.0, 0.0),
+                                            end: Offset(0.0, 0.0))
+                                            .animate(animation),
+                                        child: child,
+                                      );
+                                    }
+                                ));
+                          } else {
+                            Navigator.of(context).push(
+                                PageRouteBuilder(
+                                    pageBuilder: (context, animation, anotherAnimation) {
+                                      return CartPageScreen(restaurant: restaurant, source: source);
+                                    },
+                                    transitionDuration: Duration(milliseconds: 300),
+                                    transitionsBuilder:
+                                        (context, animation, anotherAnimation, child) {
+                                      return SlideTransition(
+                                        position: Tween(
+                                            begin: Offset(-1.0, 0.0),
+                                            end: Offset(0.0, 0.0))
+                                            .animate(animation),
+                                        child: child,
+                                      );
+                                    }
+                                ));
+                          }
+                        } else {
+                          noConnection(context);
+                        }
+                      },
+                    ),
                   ),
-                  decoration: BoxDecoration(
-                    color: AppColor.mainColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onTap: () async {
-                  if (await Internet.checkConnection()) {
-                    if (currentUser.cartModel.items.length == 0) {
-                      Navigator.of(context).push(
-                          PageRouteBuilder(
-                              pageBuilder: (context, animation, anotherAnimation) {
-                                return EmptyCartScreen(restaurant: restaurant, source: source);
-                              },
-                              transitionDuration: Duration(milliseconds: 300),
-                              transitionsBuilder:
-                                  (context, animation, anotherAnimation, child) {
-                                return SlideTransition(
-                                  position: Tween(
-                                      begin: Offset(-1.0, 0.0),
-                                      end: Offset(0.0, 0.0))
-                                      .animate(animation),
-                                  child: child,
-                                );
-                              }
-                          ));
-                    } else {
-                      Navigator.of(context).push(
-                          PageRouteBuilder(
-                              pageBuilder: (context, animation, anotherAnimation) {
-                                return CartPageScreen(restaurant: restaurant, source: source);
-                              },
-                              transitionDuration: Duration(milliseconds: 300),
-                              transitionsBuilder:
-                                  (context, animation, anotherAnimation, child) {
-                                return SlideTransition(
-                                  position: Tween(
-                                      begin: Offset(-1.0, 0.0),
-                                      end: Offset(0.0, 0.0))
-                                      .animate(animation),
-                                  child: child,
-                                );
-                              }
-                          ));
-                    }
-                  } else {
-                    noConnection(context);
-                  }
-                },
+                ],
               ),
             ),
           ],
