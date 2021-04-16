@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/Centrifugo/API/fcm.dart';
+import 'package:flutter_app/Centrifugo/API/test_fcm.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Preloader/device_id_screen.dart';
@@ -625,7 +627,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           //     child: Text('sdf'),
                           //   ),
                           //   onTap: () async {
-                          //     createMessage('ka');
+                          //     testFcm(authCodeData.token, 'chat_message');
+                          //     // sendFCMToken(
+                          //     //     authCodeData.token,
+                          //     //     necessaryDataForAuth.device_id);
                           //   },
                           // ),
                           // Padding(
