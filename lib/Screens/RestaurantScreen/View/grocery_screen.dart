@@ -253,10 +253,13 @@ class GroceryScreenState extends State<GroceryScreen>{
                 }),
               );
             }else{
-              return Center(
-                child: SpinKitFadingCircle(
-                  color: AppColor.mainColor,
-                  size: 50.0,
+              return Padding(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 2),
+                child: Center(
+                  child: SpinKitFadingCircle(
+                    color: AppColor.mainColor,
+                    size: 50.0,
+                  ),
                 ),
               );
             }

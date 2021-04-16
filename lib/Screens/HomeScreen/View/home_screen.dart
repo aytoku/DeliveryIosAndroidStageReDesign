@@ -504,9 +504,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                     ),
                                     Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 10, left: 16, right: 15, bottom: 10),
+                                            top: 10, left: 0, right: 0, bottom: 10),
                                         child: Container(
                                           height: 100,
+                                          width: MediaQuery.of(context).size.width,
                                           child: ListView.builder(
                                               physics: BouncingScrollPhysics(),
                                               shrinkWrap: false,
@@ -516,9 +517,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                               itemBuilder: (context, index) {
                                                 return InkWell(
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(left: 10),
+                                                    padding: EdgeInsets.only(left: 20, right: (
+                                                        snapshot.data[index] == snapshot.data.last ? 20 : 0)),
                                                     child: Container(
-                                                      width: 130,
+                                                      width: MediaQuery.of(context).size.width * 0.7,
                                                       height: 100,
                                                       decoration: BoxDecoration(
                                                         borderRadius: BorderRadius.circular(10),
