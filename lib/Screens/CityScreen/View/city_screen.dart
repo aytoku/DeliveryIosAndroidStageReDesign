@@ -1,3 +1,4 @@
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
@@ -20,14 +21,19 @@ class CityScreen extends StatefulWidget {
   }
 }
 
+bool vis = true;
+
 class CityScreenState extends State<CityScreen>{
 
   TextEditingController cityController;
+  PageController pageController = PageController(initialPage: 1);
+
 
   @override
   void initState(){
     super.initState();
     cityController = new TextEditingController();
+
   }
 
   @override
@@ -35,7 +41,6 @@ class CityScreenState extends State<CityScreen>{
     super.dispose();
     cityController.dispose();
   }
-
 
   CityScreenState();
 
@@ -220,7 +225,29 @@ class CityScreenState extends State<CityScreen>{
                   ],
                 ),
               ),
-            )
+            ),
+            Visibility(
+              visible: vis,
+              child: Container(
+                color: AppColor.fieldColor,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Carousel(
+                  showIndicator: false,
+                  autoplay: false,
+                  images: [
+                    Transform(child: Image.asset('assets/images/welcome1.png', fit: BoxFit.cover,), transform: Matrix4.translationValues(0, -10, 0),),
+                    Transform(child: Image.asset('assets/images/welcome2.png', fit: BoxFit.cover,), transform: Matrix4.translationValues(0, -10, 0),),
+                    Transform(child: Image.asset('assets/images/welcome3.png', fit: BoxFit.cover,), transform: Matrix4.translationValues(0, -10, 0),),
+                    GestureDetector(child: Image.asset('assets/images/welcome4.png', fit: BoxFit.cover,), onTap: () {
+                      setState(() {
+                        vis = false;
+                      });
+                    },),
+                  ],
+                ),
+              ),
+            ),
           ],
         )
     );

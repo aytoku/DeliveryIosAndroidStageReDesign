@@ -279,136 +279,143 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
         //   },
         // ),
         Container(
-          height: 60,
+          height: 30,
           child: Stack(
             children: [
-              GestureDetector(
-                child: Padding(
-                    padding:
-                    EdgeInsets.only(left: 20, right: 5,),
-                    child: Center(
-                      child: Container(
-                        height: 45,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                ? AppColor.mainColor : AppColor.subElementsColor),
-                        child: Padding(
-                            padding: EdgeInsets.only(left: 15, right: 15),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Кухни",
-                                    style: TextStyle(
-                                        color: (!selectedCategoryFromHomeScreen
-                                            && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                              ? AppColor.textColor: AppColor.textColor,
-                                        fontSize: 15),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: SvgPicture.asset('assets/svg_images/arrow_down',
-                                      color: (!selectedCategoryFromHomeScreen
-                                                && AllStoreCategoriesData.selectedStoreCategories.length > 0)
-                                                 ? AppColor.textColor: AppColor.textColor,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                        ),
-                      ),
-                    ),
-                ),
-                onTap: () async {
-                  if (await Internet.checkConnection()) {
-                    _kitchensFilter(categories);
-                  } else {
-                    noConnection(context);
-                  }
-                },
+              // GestureDetector(
+              //   child: Padding(
+              //       padding:
+              //       EdgeInsets.only(left: 20, right: 5,),
+              //       child: Center(
+              //         child: Container(
+              //           height: 45,
+              //           decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.all(Radius.circular(10)),
+              //               color: (!selectedCategoryFromHomeScreen && AllStoreCategoriesData.selectedStoreCategories.length > 0)
+              //                   ? AppColor.mainColor : AppColor.subElementsColor),
+              //           child: Padding(
+              //               padding: EdgeInsets.only(left: 15, right: 15),
+              //               child: Center(
+              //                 child: Row(
+              //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                   children: [
+              //                     Text(
+              //                       "Кухни",
+              //                       style: TextStyle(
+              //                           color: (!selectedCategoryFromHomeScreen
+              //                               && AllStoreCategoriesData.selectedStoreCategories.length > 0)
+              //                                 ? AppColor.textColor: AppColor.textColor,
+              //                           fontSize: 15),
+              //                     ),
+              //                     Padding(
+              //                       padding: const EdgeInsets.only(left: 8.0),
+              //                       child: SvgPicture.asset('assets/svg_images/arrow_down',
+              //                         color: (!selectedCategoryFromHomeScreen
+              //                                   && AllStoreCategoriesData.selectedStoreCategories.length > 0)
+              //                                    ? AppColor.textColor: AppColor.textColor,
+              //                       ),
+              //                     )
+              //                   ],
+              //                 ),
+              //               )
+              //           ),
+              //         ),
+              //       ),
+              //   ),
+              //   onTap: () async {
+              //     if (await Internet.checkConnection()) {
+              //       _kitchensFilter(categories);
+              //     } else {
+              //       noConnection(context);
+              //     }
+              //   },
+              // ),
+              // (AllStoreCategoriesData.selectedStoreCategories.length != 0 && !selectedCategoryFromHomeScreen)
+              //     ? Padding(
+              //   padding: const EdgeInsets.only(left: 95, bottom: 23),
+              //   child: Container(
+              //       width: 23,
+              //       height: 23,
+              //       padding: EdgeInsets.all(0),
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(20),
+              //           color: AppColor.themeColor,
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: Colors.black12,
+              //               blurRadius: 2.0, // soften the shadow
+              //               spreadRadius: 1.0, //extend the shadow
+              //             )
+              //           ],
+              //       ),
+              //       child: Center(
+              //         child: Text('${AllStoreCategoriesData.selectedStoreCategories.length}',
+              //           style: TextStyle(
+              //               fontSize: 14
+              //           ),
+              //         ),
+              //       )
+              //   ),
+              // ): Container()
+              Padding(
+                padding: const EdgeInsets.only(left: 22.0),
+                child: Container(height: 30,child: Text('Продукты и рестораны',style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold
+                ),),),
               ),
-              (AllStoreCategoriesData.selectedStoreCategories.length != 0 && !selectedCategoryFromHomeScreen)
-                  ? Padding(
-                padding: const EdgeInsets.only(left: 95, bottom: 23),
-                child: Container(
-                    width: 23,
-                    height: 23,
-                    padding: EdgeInsets.all(0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: AppColor.themeColor,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 2.0, // soften the shadow
-                            spreadRadius: 1.0, //extend the shadow
-                          )
-                        ],
-                    ),
-                    child: Center(
-                      child: Text('${AllStoreCategoriesData.selectedStoreCategories.length}',
-                        style: TextStyle(
-                            fontSize: 14
-                        ),
-                      ),
-                    )
-                ),
-              ): Container()
             ],
           ),
         ),
       ],
     ));
-    categories.forEach((element) {
-      result.add(Container(
-        height: 60,
-        child: Container(
-          height: 45,
-          child: GestureDetector(
-            child: Padding(
-                padding:
-                EdgeInsets.only(
-                  left: 5,
-                  right: 5,
-                top: 7,
-                  bottom:7
-                ),
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)
-                          || !selectedCategoryFromHomeScreen)
-                          ? AppColor.subElementsColor
-                          : AppColor.mainColor),
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 15, right: 15),
-                      child: Center(
-                        child: Text(
-                          element.name[0].toUpperCase() + element.name.substring(1),
-                          style: TextStyle(
-                              color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)|| !selectedCategoryFromHomeScreen)
-                                  ? AppColor.textColor
-                                  : AppColor.textColor,
-                              fontSize: 15),
-                        ),
-                      )),
-                )),
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                selectedCategoryFromHomeScreen = true;
-                parent.restaurantGetBloc.add(CategoryFilterApplied(category: element, selectedCategoryFromHomeScreen: selectedCategoryFromHomeScreen));
-              } else {
-                noConnection(context);
-              }
-            },
-          ),
-        ),
-      ));
-    });
+    // categories.forEach((element) {
+    //   result.add(Container(
+    //     height: 60,
+    //     child: Container(
+    //       height: 45,
+    //       child: GestureDetector(
+    //         child: Padding(
+    //             padding:
+    //             EdgeInsets.only(
+    //               left: 5,
+    //               right: 5,
+    //             top: 7,
+    //               bottom:7
+    //             ),
+    //             child: Container(
+    //               height: 45,
+    //               decoration: BoxDecoration(
+    //                   borderRadius: BorderRadius.all(Radius.circular(10)),
+    //                   color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)
+    //                       || !selectedCategoryFromHomeScreen)
+    //                       ? AppColor.subElementsColor
+    //                       : AppColor.mainColor),
+    //               child: Padding(
+    //                   padding: EdgeInsets.only(left: 15, right: 15),
+    //                   child: Center(
+    //                     child: Text(
+    //                       element.name[0].toUpperCase() + element.name.substring(1),
+    //                       style: TextStyle(
+    //                           color: (!AllStoreCategoriesData.selectedStoreCategories.contains(element)|| !selectedCategoryFromHomeScreen)
+    //                               ? AppColor.textColor
+    //                               : AppColor.textColor,
+    //                           fontSize: 15),
+    //                     ),
+    //                   )),
+    //             )),
+    //         onTap: () async {
+    //           if (await Internet.checkConnection()) {
+    //             selectedCategoryFromHomeScreen = true;
+    //             parent.restaurantGetBloc.add(CategoryFilterApplied(category: element, selectedCategoryFromHomeScreen: selectedCategoryFromHomeScreen));
+    //           } else {
+    //             noConnection(context);
+    //           }
+    //         },
+    //       ),
+    //     ),
+    //   ));
+    // });
     return result;
   }
 
@@ -421,7 +428,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: Container(
-        height: 60,
+        height: 40,
         child: ListView(
             controller: catScrollController,
             scrollDirection: Axis.horizontal,
@@ -438,7 +445,7 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
       return Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Container(
-          height: 60,
+          height: 30,
           child: ListView(
               controller: catScrollController,
               scrollDirection: Axis.horizontal,

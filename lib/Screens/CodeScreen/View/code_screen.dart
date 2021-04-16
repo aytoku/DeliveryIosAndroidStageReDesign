@@ -436,10 +436,10 @@ class Button extends StatefulWidget {
 
 class ButtonState extends State<Button> {
   String error = '';
-  TextField code1;
-  TextField code2;
-  TextField code3;
-  TextField code4;
+  // TextField code1;
+  // TextField code2;
+  // TextField code3;
+  // TextField code4;
   Color color;
   final AsyncCallback onTap;
 

@@ -70,26 +70,38 @@ class PaymentButtonState extends State<PaymentButton>{
                   ),
                 ],
               ),
-              GestureDetector(
-                child: Container(
-                  height: 52,
-                  width: 168,
-                  decoration: BoxDecoration(
-                    color: AppColor.mainColor,
-                    borderRadius: BorderRadius.circular(10),
+              Stack(
+                children: [
+                  Container(
+                    height: 52,
+                    width: 168,
+                    decoration: BoxDecoration(
+                      color: AppColor.mainColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text('Заказать',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              color: AppColor.textColor)),
+                    ),
                   ),
-                  child: Center(
-                    child: Text('Заказать',
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            color: AppColor.textColor)),
-                  ),
-                ),
-                onTap: () async {
-                  if(onTap != null){
-                    await onTap();
-                  }
-                },
+                  Material(
+                    type: MaterialType.transparency,
+                    child: InkWell(
+                      splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
+                      child: Container(
+                        width: 168,
+                        height: 52,
+                      ),
+                      onTap: () async {
+                        if(onTap != null){
+                          await onTap();
+                        }
+                      },
+                    ),
+                  )
+                ],
               )
             ],
           ),

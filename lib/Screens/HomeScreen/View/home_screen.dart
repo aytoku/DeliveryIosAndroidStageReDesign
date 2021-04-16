@@ -362,7 +362,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                       child: Container(
                         height: 140,
                         child: Image(
-                          image: AssetImage('assets/images/Fermer.png'),
+                          image: AssetImage('assets/images/fermer.png'),
                         ),
                       )
                     ),
@@ -523,7 +523,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                                     padding: EdgeInsets.only(left: 20, right: (
                                                         snapshot.data[index] == snapshot.data.last ? 20 : 0)),
                                                     child: Container(
-                                                      width: MediaQuery.of(context).size.width * 0.7,
+                                                      width: 130,
                                                       height: 100,
                                                       decoration: BoxDecoration(
                                                         borderRadius: BorderRadius.circular(10),
@@ -550,7 +550,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                         )
                                     ),
                                   ],
-                                ) : Container();
+                                ) : Container(height: 130,);
                               }
                           ),
                           (!currentUser.isLoggedIn) ? Container() :

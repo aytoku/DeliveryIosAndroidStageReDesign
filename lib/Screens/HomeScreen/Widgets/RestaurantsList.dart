@@ -175,85 +175,85 @@ class RestaurantsListState extends State<RestaurantsList>{
                       SizedBox(
                         height: 4.0,
                       ),
-                      SizedBox(
-                        height: 30,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Container(
-                            //     padding: EdgeInsets.only(left: 8, right: 8, top: 0),
-                            //     height: 25,
-                            //     decoration: BoxDecoration(
-                            //         borderRadius: BorderRadius.circular(10),
-                            //         color: AppColor.mainColor
-                            //     ),
-                            //     child: Row(
-                            //       children: [
-                            //         SvgPicture.asset('assets/svg_images/rest_star.svg',
-                            //           color: AppColor.textColor,
-                            //         ),
-                            //         Padding(
-                            //           padding: const EdgeInsets.only(left: 3.0),
-                            //           child: Text("5.0",
-                            //             style: TextStyle(
-                            //                 color: AppColor.textColor
-                            //             ),
-                            //           ),
-                            //         )
-                            //       ],
-                            //     )
-                            // ),
-                            Container(
-                              height: 25,
-                              padding: EdgeInsets.only(left: 10, right: 10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColor.subElementsColor
-                              ),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 5.0, left: 0),
-                                    child: SvgPicture.asset(
-                                        'assets/svg_images/rest_car.svg'),
-                                  ),
-                                  Text(
-                                    restaurant.meta.avgDeliveryTime.toString(),
-                                    style: TextStyle(
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 15),
-                              child: Container(
-                                height: 25,
-                                padding: EdgeInsets.only(left: 10, right: 10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: AppColor.subElementsColor
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'от ${restaurant.meta.avgDeliveryPrice}',
-                                    style: TextStyle(
-                                        fontSize: 14.0,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // SizedBox(
+                      //   height: 30,
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       // Container(
+                      //       //     padding: EdgeInsets.only(left: 8, right: 8, top: 0),
+                      //       //     height: 25,
+                      //       //     decoration: BoxDecoration(
+                      //       //         borderRadius: BorderRadius.circular(10),
+                      //       //         color: AppColor.mainColor
+                      //       //     ),
+                      //       //     child: Row(
+                      //       //       children: [
+                      //       //         SvgPicture.asset('assets/svg_images/rest_star.svg',
+                      //       //           color: AppColor.textColor,
+                      //       //         ),
+                      //       //         Padding(
+                      //       //           padding: const EdgeInsets.only(left: 3.0),
+                      //       //           child: Text("5.0",
+                      //       //             style: TextStyle(
+                      //       //                 color: AppColor.textColor
+                      //       //             ),
+                      //       //           ),
+                      //       //         )
+                      //       //       ],
+                      //       //     )
+                      //       // ),
+                      //       Container(
+                      //         height: 25,
+                      //         padding: EdgeInsets.only(left: 10, right: 10),
+                      //         decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.circular(10),
+                      //             color: AppColor.subElementsColor
+                      //         ),
+                      //         child: Row(
+                      //           children: [
+                      //             Padding(
+                      //               padding: const EdgeInsets.only(right: 5.0, left: 0),
+                      //               child: SvgPicture.asset(
+                      //                   'assets/svg_images/rest_car.svg'),
+                      //             ),
+                      //             Text(
+                      //               restaurant.meta.avgDeliveryTime.toString(),
+                      //               style: TextStyle(
+                      //                   fontSize: 14.0,
+                      //                   color: Colors.black,
+                      //                   fontWeight: FontWeight.w500
+                      //               ),
+                      //               overflow: TextOverflow.ellipsis,
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //       Padding(
+                      //         padding: const EdgeInsets.only(right: 15),
+                      //         child: Container(
+                      //           height: 25,
+                      //           padding: EdgeInsets.only(left: 10, right: 10),
+                      //           decoration: BoxDecoration(
+                      //               borderRadius: BorderRadius.circular(10),
+                      //               color: AppColor.subElementsColor
+                      //           ),
+                      //           child: Center(
+                      //             child: Text(
+                      //               'от ${restaurant.meta.avgDeliveryPrice}',
+                      //               style: TextStyle(
+                      //                   fontSize: 14.0,
+                      //                   color: Colors.black,
+                      //                   fontWeight: FontWeight.w500
+                      //               ),
+                      //               overflow: TextOverflow.ellipsis,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 )

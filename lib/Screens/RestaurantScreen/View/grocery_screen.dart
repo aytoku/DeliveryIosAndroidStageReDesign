@@ -191,64 +191,73 @@ class GroceryScreenState extends State<GroceryScreen>{
             if(snapshot.connectionState ==
                 ConnectionState.done &&
                 snapshot.data.filteredProductCategories.length > 0){
-              return Column(
+              return ListView(
+                physics: NeverScrollableScrollPhysics(),
                 children: List.generate(snapshot.data.filteredProductCategories.length, (index){
-                  return InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                  height: 70,
-                                  width: 50,
-                                  padding: EdgeInsets.only(top: 8, bottom: 8),
-                                  child: Image.network((snapshot.data.filteredProductCategories[index].meta.images != null &&
-                                      snapshot.data.filteredProductCategories[index].meta.images[0] != null) ?
-                                  snapshot.data.filteredProductCategories[index].meta.images[0] : '',
-                                    fit: BoxFit.cover,
-                                  )
-                              ),
-                              Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15),
-                                    child: Text(snapshot.data.filteredProductCategories[index].name),
-                                  )
-                              ),
-                            ],
-                          ),
-                          Container(
-                            height: 27,
-                              width: 56,
-                              padding: EdgeInsets.only(left: 0, right: 0, top: 5, bottom: 5),
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFEEEEEE),
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
-                              child: Center(
-                                child: Text(
-                                  snapshot.data.filteredProductCategories[index].count.toString(),
-                                  style: TextStyle(
-                                      color: Colors.black
-                                  ),
+                  return Column(
+                    children: [
+                      FlatButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                    height: 70,
+                                    width: 50,
+                                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                                    child: Image.network((snapshot.data.filteredProductCategories[index].meta.images != null &&
+                                        snapshot.data.filteredProductCategories[index].meta.images[0] != null) ?
+                                    snapshot.data.filteredProductCategories[index].meta.images[0] : '',
+                                      fit: BoxFit.cover,
+                                    )
                                 ),
-                              ))
-                        ],
-                      ),
-                    ),
-                    onTap: () async{
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) {
-                          return GroceryCategoriesScreen(
-                              restaurant: restaurant,
-                              parentCategory: snapshot.data.filteredProductCategories[index]
+                                Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: Text(snapshot.data.filteredProductCategories[index].name),
+                                    )
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: 27,
+                                width: 56,
+                                padding: EdgeInsets.only(left: 0, right: 0, top: 5, bottom: 5),
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFEEEEEE),
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    snapshot.data.filteredProductCategories[index].count.toString(),
+                                    style: TextStyle(
+                                        color: Colors.black
+                                    ),
+                                  ),
+                                ))
+                          ],
+                        ),
+                        onPressed: () async{
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) {
+                              return GroceryCategoriesScreen(
+                                  restaurant: restaurant,
+                                  parentCategory: snapshot.data.filteredProductCategories[index]
+                              );
+                            }),
                           );
-                        }),
-                      );
-                    },
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 75.0),
+                        child: Divider(
+                          height: 1.0,
+                          color: AppColor.unselectedBorderFieldColor,
+                        ),
+                      )
+                    ],
                   );
                 }),
               );

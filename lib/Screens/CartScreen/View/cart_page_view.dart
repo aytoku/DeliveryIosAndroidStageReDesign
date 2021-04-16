@@ -429,76 +429,88 @@ class CartPageState extends State<CartPageScreen> {
                               ],
                             ),
                           ),
-                          GestureDetector(
-                            child: Container(
-                              height: 52,
-                              width: 168,
-                              decoration: BoxDecoration(
-                                color: AppColor.mainColor,
-                                borderRadius: BorderRadius.circular(10),
+                          Stack(
+                            children: [
+                              Container(
+                                height: 52,
+                                width: 168,
+                                decoration: BoxDecoration(
+                                  color: AppColor.mainColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: Text('Далее',
+                                      style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: AppColor.textColor)),
+                                ),
                               ),
-                              child: Center(
-                                child: Text('Далее',
-                                    style: TextStyle(
-                                        fontSize: 18.0,
-                                        color: AppColor.textColor)),
-                              ),
-                            ),
-                            onTap: () async {
-                              if (await Internet.checkConnection()) {
-                                if (currentUser.isLoggedIn) {
-                                  if(selectedPageId == 0){
-                                    Navigator.of(context).push(
-                                        PageRouteBuilder(
-                                            pageBuilder: (context, animation, anotherAnimation) {
-                                              return AddressScreen(restaurant: restaurant, isTakeAwayOrderConfirmation: false);
-                                            },
-                                            transitionDuration: Duration(milliseconds: 300),
-                                            transitionsBuilder:
-                                                (context, animation, anotherAnimation, child) {
-                                              return SlideTransition(
-                                                position: Tween(
-                                                    begin: Offset(-1.0, 0.0),
-                                                    end: Offset(0.0, 0.0))
-                                                    .animate(animation),
-                                                child: child,
-                                              );
-                                            }
-                                        ));
-                                  }else{
-                                    Navigator.of(context).push(
-                                        PageRouteBuilder(
-                                            pageBuilder: (context, animation, anotherAnimation) {
-                                              return AddressScreen(restaurant: restaurant, isTakeAwayOrderConfirmation: true);
-                                            },
-                                            transitionDuration: Duration(milliseconds: 300),
-                                            transitionsBuilder:
-                                                (context, animation, anotherAnimation, child) {
-                                              return SlideTransition(
-                                                position: Tween(
-                                                    begin: Offset(-1.0, 0.0),
-                                                    end: Offset(0.0, 0.0))
-                                                    .animate(animation),
-                                                child: child,
-                                              );
-                                            }
-                                        ));
-                                  }
-                                } else {
-                                  Navigator.push(
-                                    context,
-                                    new MaterialPageRoute(
-                                      builder: (context) => BlocProvider(
-                                        create: (context)=> AuthGetBloc(),
-                                        child: AuthScreen(source: AuthSources.Cart),
-                                      ),
-                                    ),
-                                  );
-                                }
-                              } else {
-                                noConnection(context);
-                              }
-                            },
+                              Material(
+                                type: MaterialType.transparency,
+                                child: InkWell(
+                                  splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
+                                  child: Container(
+                                    width: 168,
+                                    height: 52,
+                                  ),
+                                  onTap: () async {
+                                    if (await Internet.checkConnection()) {
+                                      if (currentUser.isLoggedIn) {
+                                        if(selectedPageId == 0){
+                                          Navigator.of(context).push(
+                                              PageRouteBuilder(
+                                                  pageBuilder: (context, animation, anotherAnimation) {
+                                                    return AddressScreen(restaurant: restaurant, isTakeAwayOrderConfirmation: false);
+                                                  },
+                                                  transitionDuration: Duration(milliseconds: 300),
+                                                  transitionsBuilder:
+                                                      (context, animation, anotherAnimation, child) {
+                                                    return SlideTransition(
+                                                      position: Tween(
+                                                          begin: Offset(-1.0, 0.0),
+                                                          end: Offset(0.0, 0.0))
+                                                          .animate(animation),
+                                                      child: child,
+                                                    );
+                                                  }
+                                              ));
+                                        }else{
+                                          Navigator.of(context).push(
+                                              PageRouteBuilder(
+                                                  pageBuilder: (context, animation, anotherAnimation) {
+                                                    return AddressScreen(restaurant: restaurant, isTakeAwayOrderConfirmation: true);
+                                                  },
+                                                  transitionDuration: Duration(milliseconds: 300),
+                                                  transitionsBuilder:
+                                                      (context, animation, anotherAnimation, child) {
+                                                    return SlideTransition(
+                                                      position: Tween(
+                                                          begin: Offset(-1.0, 0.0),
+                                                          end: Offset(0.0, 0.0))
+                                                          .animate(animation),
+                                                      child: child,
+                                                    );
+                                                  }
+                                              ));
+                                        }
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                            builder: (context) => BlocProvider(
+                                              create: (context)=> AuthGetBloc(),
+                                              child: AuthScreen(source: AuthSources.Cart),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    } else {
+                                      noConnection(context);
+                                    }
+                                  },
+                                ),
+                              )
+                            ],
                           )
                         ],
                       ),

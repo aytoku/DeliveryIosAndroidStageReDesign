@@ -1109,7 +1109,8 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      top: 20
+                      top: 20,
+                    // left: MediaQuery.of(context).size.width * 0.3,
                   ),
                   child: Text(
                     selectedCategoriesUuid.name,

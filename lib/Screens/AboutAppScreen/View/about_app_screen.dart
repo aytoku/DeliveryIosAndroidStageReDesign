@@ -36,7 +36,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         Center(
                           child: Padding(
                               padding: EdgeInsets.only(top: 20, bottom: 10),
-                              child: Image.asset('assets/images/Fermer.png')
+                              child: Image.asset('assets/images/fermer.png')
                           ),
                         ),
                         Padding(
