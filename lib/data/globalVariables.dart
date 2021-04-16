@@ -11,6 +11,8 @@ import 'package:flutter_app/Screens/HomeScreen/Widgets/OrderChecking.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Model/FilteredProductCategories.dart';
 import 'package:flutter_app/Screens/ServiceScreen/View/tickets_chat_screen.dart';
 
+import '../Screens/HomeScreen/Model/Stock.dart';
+
 Map<String,GlobalKey<OrderCheckingState>> orderCheckingStates = new Map<String,GlobalKey<OrderCheckingState>>();
 Map<String,GlobalKey<ChatMessageScreenState>> chatMessagesStates = new Map<String,GlobalKey<ChatMessageScreenState>>();
 Map<String,GlobalKey<TicketsChatMessageScreenState>> ticketsChatMessagesStates = new Map<String,GlobalKey<TicketsChatMessageScreenState>>();
@@ -25,5 +27,6 @@ FilteredCities selectedCity;
 String header = 'eda/fermer-market';
 FilteredProductCategories selectedCategoriesUuid;
 String tempClientUuid = '';
-AssetImage assetImage = AssetImage('assets/images/fermer.png');
-bool lock;
+AssetImage assetImage = AssetImage('assets/gif/preloader_fermer.gif');
+bool lock = false;
+Stock savedPromo = new Stock();

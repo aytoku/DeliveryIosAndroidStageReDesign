@@ -5,18 +5,26 @@ import 'package:flutter_app/Screens/OrderConfirmationScreen/API/promo_code.dart'
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import '../../../data/data.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../../../data/globalVariables.dart';
+import '../View/address_screen.dart';
 
 class PromoText extends StatefulWidget {
   PromoText({
     this.key,
-    this.title
+    this.title,
+    this.parent
   }) : super(key: key);
   final GlobalKey<PromoTextState> key;
   String title;
+  AddressScreenState parent;
 
   @override
   PromoTextState createState() {
-    return new PromoTextState(title);
+    return new PromoTextState(title, parent);
   }
 }
 
@@ -24,12 +32,16 @@ class PromoTextState extends State<PromoText>{
 
   String title = '  Введите\nпромокод';
   TextEditingController promoCodeField;
-  PromoTextState(title);
+  AddressScreenState parent;
+  PromoTextState(title, this.parent);
 
   @override
   void initState(){
     super.initState();
     promoCodeField = new TextEditingController();
+    if(savedPromo != null && savedPromo.code != null && savedPromo.stores.contains(parent.restaurant)){
+      promoCodeField.text = savedPromo.code;
+    }
     lock = false;
   }
 
@@ -160,7 +172,7 @@ class PromoTextState extends State<PromoText>{
                       CartModel tempCartModel = await sendPromo(title, currentUser.cartModel.uuid);
                       currentUser.cartModel = tempCartModel ?? currentUser.cartModel;
                       Navigator.pop(context);
-                      setState(() {
+                      parent.setState(() {
                         if(tempCartModel==null){
                           promoCodeAlert(context);
                           title = '  Введите\nпромокод';
@@ -168,6 +180,7 @@ class PromoTextState extends State<PromoText>{
                       });
                     }finally{
                       lock = false;
+                      savedPromo = null;
                     }
                   }else{
                     await Vibrate.vibrate();

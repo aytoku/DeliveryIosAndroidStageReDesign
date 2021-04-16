@@ -1122,6 +1122,7 @@ class AddressScreenState extends State<AddressScreen>
                                   padding: const EdgeInsets.only(right: 20),
                                   child: PromoText(
                                     key: promoTextKey,
+                                    parent: this,
                                   ),
                                 ),
                               ],
@@ -1206,6 +1207,7 @@ class AddressScreenState extends State<AddressScreen>
                                 padding: const EdgeInsets.only(right: 5),
                                 child: PromoText(
                                   key: promoTextKey,
+                                  parent: this,
                                 ),
                               ),
                             ],
@@ -1222,8 +1224,11 @@ class AddressScreenState extends State<AddressScreen>
                       onTap: () async {
                         if (await Internet.checkConnection()) {
                           if(isTakeAwayOrderConfirmation){
-                            showAlertDialog(context);
-                            await createOrder(
+                            if(selectedPaymentMethod == paymentMethods[1]){
+                              await makePayment();
+                            }else if(selectedPaymentMethod == paymentMethods[0]){
+                              showAlertDialog(context);
+                              await createOrder(
                                 currentUser.cartModel.uuid,
                                 isTakeAwayOrderConfirmation,
                                 false,
@@ -1234,7 +1239,12 @@ class AddressScreenState extends State<AddressScreen>
                                 '',
                                 '',
                                 commentField.text,
-                            );
+                              );
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
+                                      (Route<dynamic> route) => false);
+                            }
                           } else {
                             if(addressSelectorKey.currentState.myFavouriteAddressesModel.address == null
                                 && !isTakeAwayOrderConfirmation){
