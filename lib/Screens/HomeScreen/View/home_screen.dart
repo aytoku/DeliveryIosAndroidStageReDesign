@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/Centrifugo/API/fcm.dart';
+import 'package:flutter_app/Centrifugo/API/test_fcm.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Preloader/device_id_screen.dart';
@@ -403,7 +405,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                     ),
                     child: Center(
                       child: Image(
-                        image: AssetImage('assets/images/Fermer_yellow.png'),
+                        image: AssetImage('assets/images/fermer.png'),
                       ),
                     ),
                   );
@@ -523,7 +525,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                                     padding: EdgeInsets.only(left: 20, right: (
                                                         snapshot.data[index] == snapshot.data.last ? 20 : 0)),
                                                     child: Container(
-                                                      width: 130,
+                                                      width: MediaQuery.of(context).size.width * 0.7,
                                                       height: 100,
                                                       decoration: BoxDecoration(
                                                         borderRadius: BorderRadius.circular(10),

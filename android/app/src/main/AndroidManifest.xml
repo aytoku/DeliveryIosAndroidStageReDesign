@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
-        android:label="Fermer-Market"
+        android:label="Fermer Market"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
 
@@ -22,7 +22,7 @@
             android:value="true"/>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Application"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
