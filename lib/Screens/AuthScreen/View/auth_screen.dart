@@ -127,7 +127,6 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: Align(
                           alignment: Alignment.topCenter,
                           child: Container(
-                            height: 91,
                             width: 313,
                             decoration: BoxDecoration(
                               color: AppColor.mainColor,

@@ -208,97 +208,98 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Padding(
-          padding: EdgeInsets.only(bottom: 0),
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            child: Container(
-                height: 222,
-                width: 300,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20, right: 15),
-                      child: Text(
-                        'Все ранее добавленные блюда из ресторана ${currentUser.cartModel.storeData.name} будут удалены из корзины',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Divider(
-                      height: 1,
-                      color: Colors.grey,
-                    ),
-                    InkWell(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 20),
-                          child: Center(
-                            child: Text(
-                              'Ок',
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
+        return Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                  width: 300,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, top: 20, bottom: 20, right: 15),
+                        child: Text(
+                          'Все ранее добавленные блюда из ресторана ${currentUser.cartModel.storeData.name} будут удалены из корзины',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      onTap: () async {
-                        if (await Internet.checkConnection()) {
-                          currentUser.cartModel = await clearCart(necessaryDataForAuth.device_id);
-                          currentUser.cartModel = await addVariantToCart(productDataModel, necessaryDataForAuth.device_id, counterKey.currentState.counter);
-                          basketButtonStateKey.currentState.refresh();
-                          counterKey.currentState.refresh();
-                          menuItem.setState(() {
-
-                          });
-
-                          if(productDataModel.product.type == "variable"){
-                            Navigator.pop(context);
-                            panelController.close();
-                          }else{
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                          }
-
-
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 0),
-                            child: showAlertDialog(context),
-                          );
-                        } else {
-                          noConnection(context);
-                        }
-                      },
-                    ),
-                    Divider(
-                      height: 1,
-                      color: Colors.grey,
-                    ),
-                    InkWell(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 10),
-                          child: Center(
-                            child: Text(
-                              'Отмена',
-                              style: TextStyle(
-                                fontSize: 17,
+                      Divider(
+                        height: 1,
+                        color: Colors.grey,
+                      ),
+                      InkWell(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            child: Center(
+                              child: Text(
+                                'Ок',
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
                         ),
+                        onTap: () async {
+                          if (await Internet.checkConnection()) {
+                            currentUser.cartModel = await clearCart(necessaryDataForAuth.device_id);
+                            currentUser.cartModel = await addVariantToCart(productDataModel, necessaryDataForAuth.device_id, counterKey.currentState.counter);
+                            basketButtonStateKey.currentState.refresh();
+                            counterKey.currentState.refresh();
+                            menuItem.setState(() {
+
+                            });
+
+                            if(productDataModel.product.type == "variable"){
+                              Navigator.pop(context);
+                              panelController.close();
+                            }else{
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            }
+
+
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 0),
+                              child: showAlertDialog(context),
+                            );
+                          } else {
+                            noConnection(context);
+                          }
+                        },
                       ),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                )),
+                      Divider(
+                        height: 1,
+                        color: Colors.grey,
+                      ),
+                      InkWell(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            child: Center(
+                              child: Text(
+                                'Отмена',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  )),
+            ],
           ),
         );
       },
