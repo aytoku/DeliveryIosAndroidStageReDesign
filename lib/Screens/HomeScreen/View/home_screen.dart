@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Centrifugo/API/fcm.dart';
 import 'package:flutter_app/Centrifugo/API/test_fcm.dart';
+import 'package:flutter_app/Centrifugo/centrifugo.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Preloader/device_id_screen.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/ChatScreen/API/create_message.dart';
+import 'package:flutter_app/Screens/ChatScreen/API/get_filtered_messages.dart';
 import 'package:flutter_app/Screens/HomeScreen/API/getStocks.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
@@ -251,29 +253,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
         //     },
         //   ),
         // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
-        //   child: ListTile(
-        //     leading: SvgPicture.asset('assets/svg_images/service.svg'),
-        //     title: Text(
-        //       'Служба поддержки',
-        //       style: TextStyle(
-        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-        //     ),
-        //     onTap: () async {
-        //       if (await Internet.checkConnection()) {
-        //         Navigator.push(
-        //           context,
-        //           new MaterialPageRoute(
-        //             builder: (context) => new ChatScreen(),
-        //           ),
-        //         );
-        //       } else {
-        //         noConnection(context);
-        //       }
-        //     },
-        //   ),
-        // ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: ListTile(
+            leading: SvgPicture.asset('assets/svg_images/service.svg'),
+            title: Text(
+              'Служба поддержки',
+              style: TextStyle(
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+            ),
+            onTap: () async {
+              if (await Internet.checkConnection()) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new ChatScreen(),
+                  ),
+                );
+              } else {
+                noConnection(context);
+              }
+            },
+          ),
+        ),
       ]);
       allSideBarItems.add(
         Padding(
@@ -344,6 +346,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
 
   @override
   Widget build(BuildContext context) {
+    if(currentUser.isLoggedIn && Centrifugo.chat_subscription == null){
+      getChatUuid().then((value) => Centrifugo.chatSubscription(value));
+    }
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -524,13 +529,12 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                                         width: MediaQuery.of(context).size.width * 0.7,
                                                         height: 100,
                                                         decoration: BoxDecoration(
-                                                          color: Colors.grey,
                                                           borderRadius: BorderRadius.circular(10),
                                                         ),
                                                         child: ClipRRect(
                                                             borderRadius: BorderRadius.circular(10),
                                                             child: Image.network(snapshot.data[index].image,
-                                                              fit: BoxFit.cover,)),
+                                                              fit: BoxFit.cover,),),
                                                       ),
                                                     ),
                                                     onTap: (){
@@ -586,13 +590,11 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                                     width: MediaQuery.of(context).size.width * 0.7,
                                                     height: 100,
                                                     decoration: BoxDecoration(
-                                                      color: Colors.grey,
                                                       borderRadius: BorderRadius.circular(10),
                                                     ),
-                                                    // child: ClipRRect(
-                                                    //     borderRadius: BorderRadius.circular(10),
-                                                    //     child: Image.network(snapshot.data[index].image,
-                                                    //       fit: BoxFit.cover,)),
+                                                    child: ClipRRect(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        child: Image.asset('assets/images/load_image.png', fit: BoxFit.fill,)),
                                                   ),
                                                 );
                                               }),

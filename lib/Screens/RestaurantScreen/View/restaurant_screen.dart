@@ -235,7 +235,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
             child: Container(
-                height: 222,
+                height: 232,
                 width: 300,
                 child: Column(
                   children: <Widget>[

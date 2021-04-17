@@ -5,6 +5,7 @@ import 'package:flutter_app/Screens/ChatScreen/Model/CreateMessage.dart';
 import 'package:flutter_app/Screens/ChatScreen/Widgets/ChatFieldButton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 import '../../../data/data.dart';
 import '../../../data/data.dart';
@@ -27,13 +28,14 @@ class ChatScreenState extends State<ChatScreen> {
 
   ChatScreenState();
   TextEditingController messageField = new TextEditingController();
-  GlobalKey<ChatContentState> chatContentKey;
+  GlobalKey<ChatFieldButtonState> chatFieldKey;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     chatContentKey = GlobalKey();
+    chatFieldKey = GlobalKey();
   }
 
   @override
@@ -145,11 +147,16 @@ class ChatScreenState extends State<ChatScreen> {
                       cursorColor: Colors.grey,
                       controller: messageField,
                       maxLines: 5,
+                      onChanged: (text){
+                        chatFieldKey.currentState.setState(() {
+
+                        });
+                      },
                       decoration: new InputDecoration(
                         suffixIcon: InkWell(
                           child: Container(
                             padding: EdgeInsets.all(6),
-                            child: ChatFieldButton(parent: this),
+                            child: ChatFieldButton(parent: this, key: chatFieldKey,),
                           ),
                           onTap: () async{
                             await createMessage(messageField.text);
@@ -189,11 +196,13 @@ class ChatContent extends StatefulWidget {
 
 class ChatContentState extends State<ChatContent> {
   ChatData chatData;
+  ScrollController controller;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    controller = ScrollController();
   }
 
   @override
@@ -202,54 +211,119 @@ class ChatContentState extends State<ChatContent> {
     super.dispose();
   }
 
+  scrollToEnd(){
+    controller.animateTo(controller.position.maxScrollExtent, duration: Duration(milliseconds: 100), curve: Curves.ease);
+  }
+
+  List<Widget> buildChatList(){
+    List<Widget> result = new List<Widget>();
+    DateTime tempDate = new DateTime(1970);
+    chatData.chat.forEach((element) {
+      DateTime date = new DateTime(element.createdAt.year, element.createdAt.month, element.createdAt.day);
+      if(date != tempDate){
+        result.add(
+          Center(
+              child: Text(DateFormat.yMMMd(Localizations.localeOf(context).languageCode).format(date),
+                style: TextStyle(
+                  fontSize: 12
+                ),
+              )
+        ));
+        tempDate = date;
+      }
+      if(element.operatorUuid != ''){
+        result.add(Padding(
+          padding: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color(0xFFF6F6F6)
+                      ),
+                      padding: EdgeInsets.only(left: 16, right: 16, top: 9, bottom: 9),
+                      child: Text(element.msg,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            color: AppColor.textColor
+                        ),
+                      )
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    children: [
+                      Text(element.createdAt.hour.toString()
+                          + ' ' +
+                          element.createdAt.minute.toString()),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
+      }else{
+        result.add(Padding(
+          padding: const EdgeInsets.only(bottom: 15, left: 50, right: 15),
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Column(
+                    children: [
+                      Text(element.createdAt.hour.toString()
+                          + ' ' +
+                          element.createdAt.minute.toString()),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: SvgPicture.asset(!(element.unreaded) ?
+                        'assets/svg_images/read_message.svg' : 'assets/svg_images/unread_message.svg'),
+                      )
+                    ],
+                  ),
+                ),
+                Flexible(
+                  child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color(0xFF7D7D7D)
+                      ),
+                      padding: EdgeInsets.only(left: 16, right: 16, top: 9, bottom: 9),
+                      child: Text(element.msg,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            color: Colors.white
+                        ),
+                      )
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
+      }
+    });
+
+    return List.from(result.reversed);
+  }
+
   buildChatBody(){
     return Align(
       alignment: Alignment.bottomCenter,
       child: ListView(
+        reverse: true,
+        controller: controller,
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
         scrollDirection: Axis.vertical,
-        children: List.generate(chatData.chat.length, (index){
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 15, left: 50, right: 15),
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Column(
-                      children: [
-                        Text(chatData.chat[index].createdAt.hour.toString()
-                            + ' ' +
-                            chatData.chat[index].createdAt.minute.toString()),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: SvgPicture.asset('assets/svg_images/unread_message.svg'),
-                        )
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Color(0xFF7D7D7D)
-                        ),
-                        padding: EdgeInsets.only(left: 16, right: 16, top: 9, bottom: 9),
-                        child: Text(chatData.chat[index].msg,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              color: AppColor.textColor
-                          ),
-                        )
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        })
+        children: buildChatList()
       ),
     );
   }
@@ -264,7 +338,7 @@ class ChatContentState extends State<ChatContent> {
             AsyncSnapshot<ChatData> snapshot) {
           if (snapshot.connectionState ==
               ConnectionState.done &&
-              snapshot.data != null) {
+              snapshot.data != null || snapshot.hasData) {
             chatData = snapshot.data;
             return buildChatBody();
           } else {
