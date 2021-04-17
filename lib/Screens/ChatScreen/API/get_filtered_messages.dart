@@ -25,3 +25,12 @@ Future<ChatData> getFilteredMessage() async {
   print(response.body);
   return chatData;
 }
+
+Future<String> getChatUuid() async{
+  var filteredMessages = await getFilteredMessage();
+  if(filteredMessages == null || filteredMessages.chat.length == 0){
+    return '';
+  }else{
+    return filteredMessages.chat[0].chatUuid;
+  }
+}

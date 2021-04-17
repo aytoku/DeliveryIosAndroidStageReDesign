@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';
 import 'package:flutter_app/Screens/ServiceScreen/API/getTicketByUuid.dart';
 import 'package:flutter_app/Screens/ServiceScreen/API/sendTicketMessage.dart';
 import 'package:flutter_app/Screens/ServiceScreen/Model/TicketModel.dart';
@@ -55,7 +54,7 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
     return Scaffold(
       backgroundColor: Colors.white,
         key: _scaffoldKey,
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: Align(
@@ -199,42 +198,42 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
       print(chatMessageList.length);
       return buildChat();
     }
-    return Container(
-      color: Colors.white,
-      child: FutureBuilder<TicketsListRecord>(
-        future: getTicketByUuid(order_uuid),
-        builder:
-            (BuildContext context, AsyncSnapshot<TicketsListRecord> snapshot) {
-          print('tututuwapatututuwapa ' + order_uuid);
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.data != null) {
-            //ticketsChatMessagesStates.clear();
-            chatMessageList = new List<TicketsChatMessageScreen>();
-            chatMessageList.add(new TicketsChatMessageScreen(comment: new Comment(
-                senderType: 'client',
-                message: snapshot.data.description,
-                createdAtUnix: snapshot.data.createdAtUnix
-            ),));
-            if(snapshot.data.comments != null)
-              snapshot.data.comments.forEach((element) {
-                GlobalKey<ChatMessageScreenState> chatMessageScreenStateKey =
-                new GlobalKey<ChatMessageScreenState>();
-                //ticketsChatMessagesStates[element.uuid] = chatMessageScreenStateKey;
-                chatMessageList.add(new TicketsChatMessageScreen(
-                    comment: element, key: chatMessageScreenStateKey));
-              });
-            return buildChat();
-          } else {
-            return Center(
-              child: SpinKitFadingCircle(
-                color: AppColor.mainColor,
-                size: 50.0,
-              ),
-            );
-          }
-        },
-      ),
-    );
+    // return Container(
+    //   color: Colors.white,
+    //   child: FutureBuilder<TicketsListRecord>(
+    //     future: getTicketByUuid(order_uuid),
+    //     builder:
+    //         (BuildContext context, AsyncSnapshot<TicketsListRecord> snapshot) {
+    //       print('tututuwapatututuwapa ' + order_uuid);
+    //       if (snapshot.connectionState == ConnectionState.done &&
+    //           snapshot.data != null) {
+    //         //ticketsChatMessagesStates.clear();
+    //         chatMessageList = new List<TicketsChatMessageScreen>();
+    //         chatMessageList.add(new TicketsChatMessageScreen(comment: new Comment(
+    //             senderType: 'client',
+    //             message: snapshot.data.description,
+    //             createdAtUnix: snapshot.data.createdAtUnix
+    //         ),));
+    //         if(snapshot.data.comments != null)
+    //           snapshot.data.comments.forEach((element) {
+    //             GlobalKey<ChatMessageScreenState> chatMessageScreenStateKey =
+    //             new GlobalKey<ChatMessageScreenState>();
+    //             //ticketsChatMessagesStates[element.uuid] = chatMessageScreenStateKey;
+    //             chatMessageList.add(new TicketsChatMessageScreen(
+    //                 comment: element, key: chatMessageScreenStateKey));
+    //           });
+    //         return buildChat();
+    //       } else {
+    //         return Center(
+    //           child: SpinKitFadingCircle(
+    //             color: Colors.green,
+    //             size: 50.0,
+    //           ),
+    //         );
+    //       }
+    //     },
+    //   ),
+    // );
   }
 }
 

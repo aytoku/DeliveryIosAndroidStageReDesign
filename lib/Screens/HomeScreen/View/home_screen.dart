@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Centrifugo/API/fcm.dart';
 import 'package:flutter_app/Centrifugo/API/test_fcm.dart';
+import 'package:flutter_app/Centrifugo/centrifugo.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Preloader/device_id_screen.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_app/Screens/AuthScreen/View/auth_screen.dart';
 import 'package:flutter_app/Screens/CartScreen/API/get_cart_by_device_id.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/ChatScreen/API/create_message.dart';
+import 'package:flutter_app/Screens/ChatScreen/API/get_filtered_messages.dart';
 import 'package:flutter_app/Screens/HomeScreen/API/getStocks.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_bloc.dart';
 import 'package:flutter_app/Screens/HomeScreen/Bloc/restaurant_get_event.dart';
@@ -251,29 +253,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
         //     },
         //   ),
         // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(top: 10, bottom: 10),
-        //   child: ListTile(
-        //     leading: SvgPicture.asset('assets/svg_images/service.svg'),
-        //     title: Text(
-        //       'Служба поддержки',
-        //       style: TextStyle(
-        //           fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-        //     ),
-        //     onTap: () async {
-        //       if (await Internet.checkConnection()) {
-        //         Navigator.push(
-        //           context,
-        //           new MaterialPageRoute(
-        //             builder: (context) => new ChatScreen(),
-        //           ),
-        //         );
-        //       } else {
-        //         noConnection(context);
-        //       }
-        //     },
-        //   ),
-        // ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: ListTile(
+            leading: SvgPicture.asset('assets/svg_images/service.svg'),
+            title: Text(
+              'Служба поддержки',
+              style: TextStyle(
+                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+            ),
+            onTap: () async {
+              if (await Internet.checkConnection()) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new ChatScreen(),
+                  ),
+                );
+              } else {
+                noConnection(context);
+              }
+            },
+          ),
+        ),
       ]);
       allSideBarItems.add(
         Padding(
@@ -344,6 +346,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
 
   @override
   Widget build(BuildContext context) {
+    if(currentUser.isLoggedIn && Centrifugo.chat_subscription == null){
+      getChatUuid().then((value) => Centrifugo.chatSubscription(value));
+    }
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -513,46 +518,95 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                         child: Container(
                                           height: 100,
                                           width: MediaQuery.of(context).size.width,
-                                          child: ListView.builder(
+                                          child: SingleChildScrollView(
                                               physics: BouncingScrollPhysics(),
-                                              shrinkWrap: false,
                                               scrollDirection: Axis.horizontal,
                                               controller: stocksScrollController,
-                                              itemCount: snapshot.data.length,
-                                              itemBuilder: (context, index) {
-                                                return InkWell(
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(left: 20, right: (
-                                                        snapshot.data[index] == snapshot.data.last ? 20 : 0)),
-                                                    child: Container(
-                                                      width: MediaQuery.of(context).size.width * 0.7,
-                                                      height: 100,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(10),
-                                                      ),
-                                                      child: ClipRRect(
+                                              child: Row(
+                                                children: List.generate(snapshot.data.length, (index){
+                                                  return InkWell(
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(left: 20, right: (
+                                                          snapshot.data[index] == snapshot.data.last ? 20 : 0)),
+                                                      child: Container(
+                                                        width: MediaQuery.of(context).size.width * 0.7,
+                                                        height: 100,
+                                                        decoration: BoxDecoration(
                                                           borderRadius: BorderRadius.circular(10),
-                                                          child: Image.network(snapshot.data[index].image,
-                                                            fit: BoxFit.cover,)),
+                                                        ),
+                                                        child: ClipRRect(
+                                                            borderRadius: BorderRadius.circular(10),
+                                                            child: Image.network(snapshot.data[index].image,
+                                                              fit: BoxFit.cover,),),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  onTap: (){
-                                                    var stock = snapshot.data[index];
-                                                    if(stock.stores != null && stock.stores.isNotEmpty){
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(builder: (_) {
-                                                          return PromoScreen(stock: stock,);
-                                                        }),
-                                                      );
-                                                    }
-                                                  },
-                                                );
-                                              }),
+                                                    onTap: (){
+                                                      var stock = snapshot.data[index];
+                                                      if(stock.stores != null && stock.stores.isNotEmpty){
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(builder: (_) {
+                                                            return PromoScreen(stock: stock,);
+                                                          }),
+                                                        );
+                                                      }
+                                                    },
+                                                  );
+                                                }),
+                                              ),
+                                          ),
                                         )
                                     ),
                                   ],
-                                ) : Container(height: 130,);
+                                ) : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 22, top: 15, right: 20),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Акции и новинки',
+                                            style: TextStyle(
+                                                fontSize: 28,
+                                                fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 10, left: 0, right: 0, bottom: 10),
+                                        child: Container(
+                                          height: 100,
+                                          width: MediaQuery.of(context).size.width,
+                                          child: SingleChildScrollView(
+                                            physics: BouncingScrollPhysics(),
+                                            scrollDirection: Axis.horizontal,
+                                            controller: stocksScrollController,
+                                            child: Row(
+                                              children: List.generate(2, (index){
+                                                return Padding(
+                                                  padding: EdgeInsets.only(left: 20, right: (
+                                                      index == 1 ? 20 : 0)),
+                                                  child: Container(
+                                                    width: MediaQuery.of(context).size.width * 0.7,
+                                                    height: 100,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    child: ClipRRect(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        child: Image.asset('assets/images/load_image.png', fit: BoxFit.fill,)),
+                                                  ),
+                                                );
+                                              }),
+                                            ),
+                                          ),
+                                        )
+                                    ),
+                                  ],
+                                );
                               }
                           ),
                           (!currentUser.isLoggedIn) ? Container() :

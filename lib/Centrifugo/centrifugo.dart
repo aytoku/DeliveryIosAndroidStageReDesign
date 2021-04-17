@@ -1,13 +1,10 @@
 import 'dart:convert';
 
 import 'package:centrifuge/centrifuge.dart' as centrifuge;
-import 'package:flutter/material.dart';
+import 'package:flutter_app/Screens/ChatScreen/Model/CreateMessage.dart';
 import 'package:flutter_app/Screens/OrdersScreen/Model/OrdersDetailsModel.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'API/centrifugo.dart';
-import 'package:flutter_app/Screens/ChatScreen/Model/ChatHistoryModel.dart';
-import 'package:flutter_app/Screens/ChatScreen/View/chat_message_screen.dart';
-import 'package:flutter_app/Screens/CompletedOrderScreen/View/completed_order_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'dart:convert' as convert;
 
@@ -19,6 +16,8 @@ class Centrifugo{
   static centrifuge.Client client;
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   new FlutterLocalNotificationsPlugin();
+  static var subscription;
+  static var chat_subscription;
 
 
   static Future<void> connectToServer() async {
@@ -39,17 +38,39 @@ class Centrifugo{
     });
     client.connect();
 
-    final subscription = client.getSubscription('eda/orderstates/client/${authCodeData.userUUID}');
-    print('eda/orderstates/client/${authCodeData.userUUID}' + 'CENTRIFUGO');
+    statusSubscription();
+
+  }
+
+  static statusSubscription(){
+    subscription = client.getSubscription('eda/orderstates/client/${authCodeData.userUUID}');
 
     subscription.publishStream.listen((event){
+      print("STATUS TUT" + utf8.decode(event.data));
       var parsedJson = convert.jsonDecode(utf8.decode(event.data));
       showNotification(parsedJson);
-      messageHandler(parsedJson);
-      print("STATUS TUT" + utf8.decode(event.data));
+      statusHandler(parsedJson);
     });
 
     subscription.subscribe();
+  }
+
+  static chatSubscription(String chat_uuid){
+    if(chat_uuid == ''){
+      return;
+    }
+    chat_subscription = client.getSubscription('eda/order/message/${chat_uuid}');
+    chat_subscription.publishStream.listen((event){
+      print("CHAT TUT" + utf8.decode(event.data));
+      var parsedJson = convert.jsonDecode(utf8.decode(event.data));
+      var chat = Chat.fromJson(parsedJson['payload']);
+      if(chat.operatorUuid != ''){
+        showNotification(parsedJson);
+        messageHandler(parsedJson);
+      }
+    });
+
+    chat_subscription.subscribe();
   }
 
   static Future<void> OrderCheckingUpdater(String order_uuid, String order_state, Map<String, dynamic> data) async {
@@ -86,7 +107,27 @@ class Centrifugo{
     }
   }
 
-  static void messageHandler(Map<String, dynamic> message) async {
+  static void messageHandler(Map<String, dynamic> message) async{
+    var data =  message;
+    if(data.containsKey('tag')) {
+      switch (data['tag']){
+        case 'message' :
+          var chat = Chat.fromJson(message['payload']);
+          if(chatContentKey != null && chatContentKey.currentState != null){
+            if(chatContentKey.currentState.chatData != null){
+              chatContentKey.currentState.chatData.chat.add(chat);
+              // ignore: invalid_use_of_protected_member
+              chatContentKey.currentState.setState(() {
+
+              });
+            }
+          }
+          break;
+      }
+    }
+  }
+
+  static void statusHandler(Map<String, dynamic> message) async {
 
     //ios fix
     print(message);
@@ -114,46 +155,46 @@ class Centrifugo{
           OrderCheckingUpdater(order_uuid, order_state, data);
           break;
 
-        case 'chat_message' :
-          var payload = data['payload'];
-          var message = ChatMessage.fromJson(payload);
-          if(chatKey.currentState != null){
-            chatKey.currentState.setState(() {
-              chatKey.currentState.chatMessageList.insert(0, new ChatMessageScreen(chatMessage: message, key: new ObjectKey(message)));
-            });
-          }
-          String order_uuid = message.order_uuid;
-          if(orderCheckingStates.containsKey(order_uuid)) {
-            if(orderCheckingStates[order_uuid].currentState != null) {
-              orderCheckingStates[order_uuid].currentState.setState(() {
-              });
-            }
-          }
-          break;
-
-        case 'chat_messages_read' :
-          var payload = data['payload'];
-          List<dynamic> messagesUuid = payload['messages_uuid'];
-          if(chatKey.currentState != null && chatKey.currentState.order_uuid == payload['order_uuid']){
-            messagesUuid.forEach((element) {
-              if(chatMessagesStates.containsKey(element)){
-                // ignore: invalid_use_of_protected_member
-                if(chatMessagesStates[element].currentState != null) {
-                  chatMessagesStates[element].currentState.setState(() {
-                    chatMessagesStates[element].currentState.chatMessage.ack = true;
-                  });
-                } else {
-                  chatKey.currentState.chatMessageList.forEach((message) {
-                    if(message.chatMessage.uuid == element) {
-                      message.chatMessage.ack = true;
-                      return;
-                    }
-                  });
-                }
-              }
-            });
-          }
-          break;
+        // case 'chat_message' :
+        //   var payload = data['payload'];
+        //   var message = ChatMessage.fromJson(payload);
+        //   if(chatKey.currentState != null){
+        //     chatKey.currentState.setState(() {
+        //       chatKey.currentState.chatMessageList.insert(0, new ChatMessageScreen(chatMessage: message, key: new ObjectKey(message)));
+        //     });
+        //   }
+        //   String order_uuid = message.order_uuid;
+        //   if(orderCheckingStates.containsKey(order_uuid)) {
+        //     if(orderCheckingStates[order_uuid].currentState != null) {
+        //       orderCheckingStates[order_uuid].currentState.setState(() {
+        //       });
+        //     }
+        //   }
+        //   break;
+        //
+        // case 'chat_messages_read' :
+        //   var payload = data['payload'];
+        //   List<dynamic> messagesUuid = payload['messages_uuid'];
+        //   if(chatKey.currentState != null && chatKey.currentState.order_uuid == payload['order_uuid']){
+        //     messagesUuid.forEach((element) {
+        //       if(chatMessagesStates.containsKey(element)){
+        //         // ignore: invalid_use_of_protected_member
+        //         if(chatMessagesStates[element].currentState != null) {
+        //           chatMessagesStates[element].currentState.setState(() {
+        //             chatMessagesStates[element].currentState.chatMessage.ack = true;
+        //           });
+        //         } else {
+        //           chatKey.currentState.chatMessageList.forEach((message) {
+        //             if(message.chatMessage.uuid == element) {
+        //               message.chatMessage.ack = true;
+        //               return;
+        //             }
+        //           });
+        //         }
+        //       }
+        //     });
+        //   }
+        //   break;
       }
     }
   }

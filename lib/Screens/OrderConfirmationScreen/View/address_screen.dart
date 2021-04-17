@@ -1228,18 +1228,7 @@ class AddressScreenState extends State<AddressScreen>
                               await makePayment();
                             }else if(selectedPaymentMethod == paymentMethods[0]){
                               showAlertDialog(context);
-                              await createOrder(
-                                currentUser.cartModel.uuid,
-                                isTakeAwayOrderConfirmation,
-                                false,
-                              (restaurant.type == 'restaurant') ? eatInStore : false,
-                                null,
-                                '',
-                                '',
-                                '',
-                                '',
-                                commentField.text,
-                              );
+                              await createOrderSample();
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
                                       builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
@@ -1255,18 +1244,7 @@ class AddressScreenState extends State<AddressScreen>
                               await makePayment();
                             }else if(selectedPaymentMethod == paymentMethods[0]){
                               showAlertDialog(context);
-                              await createOrder(
-                                  currentUser.cartModel.uuid,
-                                  false,
-                                  false,
-                                  eatInStore,
-                                  addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-                                  entranceField.text,
-                                  floorField.text,
-                                  officeField.text,
-                                  intercomField.text,
-                                  commentField.text
-                              );
+                              await createOrderSample();
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
                                       builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
@@ -1312,26 +1290,15 @@ class AddressScreenState extends State<AddressScreen>
     }else{
       result = await SberAPI.googlePay(req, currentUser.cartModel.uuid);
     }
-    if(result.success){
+    if(result == null || result.success == false){
+      failedPayment(context);
+    }else if(result.success){
       showAlertDialog(context);
-      await createOrder(
-          currentUser.cartModel.uuid,
-          false,
-          false,
-          eatInStore,
-          addressSelectorKey.currentState.myFavouriteAddressesModel.address,
-          entranceField.text,
-          floorField.text,
-          officeField.text,
-          intercomField.text,
-          commentField.text
-      );
+      await createOrderSample();
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => OrderSuccessScreen(name: necessaryDataForAuth.name)),
               (Route<dynamic> route) => false);
-    }else if(result == null || result.success == false){
-      failedPayment(context);
     }
     // if(result.success){
     //   // if(result.data.acsUrl != null){
@@ -1382,7 +1349,8 @@ class AddressScreenState extends State<AddressScreen>
     currentUser.cartModel.items.forEach((item) {
       paymentItems.add(PaymentItem(name: item.product.name, price: item.totalItemPrice));
     });
-    paymentItems.add(PaymentItem(name: "Доставка", price: currentUser.cartModel.deliveryPrice + 1));
+    paymentItems.add(PaymentItem(name: "Доставка", price: currentUser.cartModel.deliveryPrice
+        + addressSelectorKey.currentState.myFavouriteAddressesModel.deliveryTariff.price));
 
 
     final Map<String, String> req =
@@ -1404,6 +1372,37 @@ class AddressScreenState extends State<AddressScreen>
     );
     print(req);
     return req;
+  }
+
+
+  createOrderSample() async {
+    if(isTakeAwayOrderConfirmation){
+      await createOrder(
+        currentUser.cartModel.uuid,
+        isTakeAwayOrderConfirmation,
+        false,
+        (restaurant.type == 'restaurant') ? eatInStore : false,
+        null,
+        '',
+        '',
+        '',
+        '',
+        commentField.text,
+      );
+    }else{
+      await createOrder(
+          currentUser.cartModel.uuid,
+          false,
+          false,
+          eatInStore,
+          addressSelectorKey.currentState.myFavouriteAddressesModel.address,
+          entranceField.text,
+          floorField.text,
+          officeField.text,
+          intercomField.text,
+          commentField.text
+      );
+    }
   }
 
   // String _loadHTML(String acsUrl, String paReq, String termUrl){
