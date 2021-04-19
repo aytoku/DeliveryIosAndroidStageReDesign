@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:flutter_app/Amplitude/amplitude.dart';
 import 'package:flutter_app/Centrifugo/centrifugo.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/CodeScreen/API/auth_code_data_pass.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_event.dart';
 import 'package:flutter_app/Screens/CodeScreen/Bloc/code_state.dart';
-import 'package:flutter_app/Screens/CodeScreen/Model/AuthCode.dart';
-import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:rxdart/rxdart.dart';
@@ -69,6 +66,7 @@ class CodeGetBloc extends Bloc<CodeEvent, CodeState> {
         await NecessaryDataForAuth.saveData();
 
          await Centrifugo.connectToServer();
+        //await new FirebaseNotifications().setUpFirebase();
 
         // Изменение флажка и переход на скрин
         currentUser.isLoggedIn = true;

@@ -130,6 +130,7 @@ class DeviceIdScreenState extends State<DeviceIdScreen> {
                   AmplitudeAnalytics.analytics.logEvent('open_app');
                 });
                 Centrifugo.connectToServer();
+                //new FirebaseNotifications().setUpFirebase();
                 if(necessaryDataForAuth.city == null){
                   return CityScreen();
                 }else{
