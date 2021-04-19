@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/OrderConfirmationScreen/Model/DeliveryTariff.dart';
@@ -88,17 +88,23 @@ class PaymentButtonState extends State<PaymentButton>{
                   ),
                   Material(
                     type: MaterialType.transparency,
-                    child: InkWell(
-                      splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
-                      child: Container(
-                        width: 168,
-                        height: 52,
-                      ),
-                      onTap: () async {
-                        if(onTap != null){
-                          await onTap();
-                        }
-                      },
+                    child: TapDebouncer(
+                      cooldown: const Duration(seconds: 5),
+                        onTap: () async {
+                          if(onTap != null){
+                            await onTap();
+                          }
+                        },
+                      builder: (BuildContext context, TapDebouncerFunc onTap) {
+                        return InkWell(
+                          splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
+                          child: Container(
+                            width: 168,
+                            height: 52,
+                          ),
+                         onTap: onTap,
+                        );
+                      }
                     ),
                   )
                 ],

@@ -1,4 +1,4 @@
-
+import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/CartScreen/API/change_item_count_in_cart.dart';
 import 'package:flutter_app/Screens/CartScreen/View/cart_screen.dart';
@@ -81,14 +81,20 @@ class CounterState extends State<Counter> {
     counter = order.count;
     return Row(
         children: [
-          InkWell(
-            onTap: () async {
-              if (counter != 1) {
-                await _incrementCounter_minus();
-                // counter = restaurantDataItems.records_count;
-              }
-            },
-            child: SvgPicture.asset('assets/svg_images/rest_minus.svg'),
+          TapDebouncer(
+            cooldown: const Duration(seconds: 1),
+              onTap: () async {
+                if (counter != 1) {
+                  await _incrementCounter_minus();
+                  // counter = restaurantDataItems.records_count;
+                }
+              },
+            builder: (BuildContext context, TapDebouncerFunc onTap) {
+              return InkWell(
+                onTap: onTap,
+                child: SvgPicture.asset('assets/svg_images/rest_minus.svg'),
+              );
+            }
           ),
           Container(
             child: Padding(
@@ -103,19 +109,21 @@ class CounterState extends State<Counter> {
               ),
             ),
           ),
-          InkWell(
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                await _incrementCounter_plus();
-                // setState(() {
-                //
-                //   // counter = restaurantDataItems.records_count;
-                // });
-              } else {
-                noConnection(context);
-              }
-            },
-            child: SvgPicture.asset('assets/svg_images/rest_plus.svg'),
+          TapDebouncer(
+            cooldown: const Duration(seconds: 1),
+              onTap: () async {
+                if (await Internet.checkConnection()) {
+                  await _incrementCounter_plus();
+                } else {
+                  noConnection(context);
+                }
+              },
+            builder: (BuildContext context, TapDebouncerFunc onTap) {
+              return InkWell(
+                onTap: onTap,
+                child: SvgPicture.asset('assets/svg_images/rest_plus.svg'),
+              );
+            }
           ),
         ]);
   }

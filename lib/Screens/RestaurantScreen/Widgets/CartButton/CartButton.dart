@@ -6,6 +6,7 @@ import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 
 import 'CartButtonCounter.dart';
 
@@ -115,54 +116,62 @@ class CartButtonState extends State<CartButton> {
                   ),
                   Material(
                     type: MaterialType.transparency,
-                    child: InkWell(
-                      splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
-                      child: Container(
-                        height: 52,
-                      ),
-                      onTap: () async {
-                        if (await Internet.checkConnection()) {
-                          if (currentUser.cartModel.items.length == 0) {
-                            Navigator.of(context).push(
-                                PageRouteBuilder(
-                                    pageBuilder: (context, animation, anotherAnimation) {
-                                      return EmptyCartScreen(restaurant: restaurant, source: source);
-                                    },
-                                    transitionDuration: Duration(milliseconds: 300),
-                                    transitionsBuilder:
-                                        (context, animation, anotherAnimation, child) {
-                                      return SlideTransition(
-                                        position: Tween(
-                                            begin: Offset(-1.0, 0.0),
-                                            end: Offset(0.0, 0.0))
-                                            .animate(animation),
-                                        child: child,
-                                      );
-                                    }
-                                ));
+                    child: TapDebouncer(
+                      cooldown: const Duration(seconds: 5),
+                        onTap: () async {
+                          if (await Internet.checkConnection()) {
+                            if (currentUser.cartModel.items.length == 0) {
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation, anotherAnimation) {
+                                    return EmptyCartScreen(
+                                        restaurant: restaurant, source: source);
+                                  },
+                                  transitionDuration:
+                                      Duration(milliseconds: 300),
+                                  transitionsBuilder: (context, animation,
+                                      anotherAnimation, child) {
+                                    return SlideTransition(
+                                      position: Tween(
+                                              begin: Offset(-1.0, 0.0),
+                                              end: Offset(0.0, 0.0))
+                                          .animate(animation),
+                                      child: child,
+                                    );
+                                  }));
+                            } else {
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation, anotherAnimation) {
+                                    return CartPageScreen(
+                                        restaurant: restaurant, source: source);
+                                  },
+                                  transitionDuration:
+                                      Duration(milliseconds: 300),
+                                  transitionsBuilder: (context, animation,
+                                      anotherAnimation, child) {
+                                    return SlideTransition(
+                                      position: Tween(
+                                              begin: Offset(-1.0, 0.0),
+                                              end: Offset(0.0, 0.0))
+                                          .animate(animation),
+                                      child: child,
+                                    );
+                                  }));
+                            }
                           } else {
-                            Navigator.of(context).push(
-                                PageRouteBuilder(
-                                    pageBuilder: (context, animation, anotherAnimation) {
-                                      return CartPageScreen(restaurant: restaurant, source: source);
-                                    },
-                                    transitionDuration: Duration(milliseconds: 300),
-                                    transitionsBuilder:
-                                        (context, animation, anotherAnimation, child) {
-                                      return SlideTransition(
-                                        position: Tween(
-                                            begin: Offset(-1.0, 0.0),
-                                            end: Offset(0.0, 0.0))
-                                            .animate(animation),
-                                        child: child,
-                                      );
-                                    }
-                                ));
+                            noConnection(context);
                           }
-                        } else {
-                          noConnection(context);
-                        }
-                      },
+                        },
+                        builder: (BuildContext context, TapDebouncerFunc onTap) {
+                        return InkWell(
+                          splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
+                          child: Container(
+                            height: 52,
+                          ),
+                          onTap: onTap,
+                        );
+                      }
                     ),
                   ),
                 ],

@@ -12,6 +12,7 @@ import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/CartButton/CartButton.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/FadeAnimation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverText.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -178,85 +179,85 @@ class PromoScreenState extends State<PromoScreen>{
                           SizedBox(
                             height: 4.0,
                           ),
-                          SizedBox(
-                            height: 30,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                    padding: EdgeInsets.only(left: 8, right: 8, top: 0),
-                                    height: 25,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: AppColor.mainColor
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset('assets/svg_images/rest_star.svg',
-                                          color: Colors.white,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 3.0),
-                                          child: Text(restaurant.meta.rating.toString(),
-                                            style: TextStyle(
-                                                color: AppColor.textColor
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                ),
-                                Container(
-                                  height: 25,
-                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: AppColor.subElementsColor
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 5.0, left: 0),
-                                        child: SvgPicture.asset(
-                                            'assets/svg_images/rest_car.svg'),
-                                      ),
-                                      Text(
-                                        restaurant.meta.avgDeliveryTime.toString(),
-                                        style: TextStyle(
-                                            fontSize: 14.0,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 15),
-                                  child: Container(
-                                    height: 25,
-                                    padding: EdgeInsets.only(left: 10, right: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: AppColor.subElementsColor
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '${restaurant.meta.avgDeliveryPrice}',
-                                        style: TextStyle(
-                                            fontSize: 14.0,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // SizedBox(
+                          //   height: 30,
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Container(
+                          //           padding: EdgeInsets.only(left: 8, right: 8, top: 0),
+                          //           height: 25,
+                          //           decoration: BoxDecoration(
+                          //               borderRadius: BorderRadius.circular(10),
+                          //               color: AppColor.mainColor
+                          //           ),
+                          //           child: Row(
+                          //             children: [
+                          //               SvgPicture.asset('assets/svg_images/rest_star.svg',
+                          //                 color: Colors.white,
+                          //               ),
+                          //               Padding(
+                          //                 padding: const EdgeInsets.only(left: 3.0),
+                          //                 child: Text(restaurant.meta.rating.toString(),
+                          //                   style: TextStyle(
+                          //                       color: AppColor.textColor
+                          //                   ),
+                          //                 ),
+                          //               )
+                          //             ],
+                          //           )
+                          //       ),
+                          //       Container(
+                          //         height: 25,
+                          //         padding: EdgeInsets.only(left: 10, right: 10),
+                          //         decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(10),
+                          //             color: AppColor.subElementsColor
+                          //         ),
+                          //         child: Row(
+                          //           children: [
+                          //             Padding(
+                          //               padding: const EdgeInsets.only(right: 5.0, left: 0),
+                          //               child: SvgPicture.asset(
+                          //                   'assets/svg_images/rest_car.svg'),
+                          //             ),
+                          //             Text(
+                          //               restaurant.meta.avgDeliveryTime.toString(),
+                          //               style: TextStyle(
+                          //                   fontSize: 14.0,
+                          //                   color: Colors.black,
+                          //                   fontWeight: FontWeight.w500
+                          //               ),
+                          //               overflow: TextOverflow.ellipsis,
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //       Padding(
+                          //         padding: const EdgeInsets.only(right: 15),
+                          //         child: Container(
+                          //           height: 25,
+                          //           padding: EdgeInsets.only(left: 10, right: 10),
+                          //           decoration: BoxDecoration(
+                          //               borderRadius: BorderRadius.circular(10),
+                          //               color: AppColor.subElementsColor
+                          //           ),
+                          //           child: Center(
+                          //             child: Text(
+                          //               '${restaurant.meta.avgDeliveryPrice}',
+                          //               style: TextStyle(
+                          //                   fontSize: 14.0,
+                          //                   color: Colors.black,
+                          //                   fontWeight: FontWeight.w500
+                          //               ),
+                          //               overflow: TextOverflow.ellipsis,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     )
@@ -470,27 +471,44 @@ class PromoScreenState extends State<PromoScreen>{
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 25),
-                              child: InkWell(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Color(0xFF09B44D)
-                                  ),
-                                  height: 37,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Center(
-                                    child: Text(
-                                      'Скопировать код: ' + stock.code,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                        color: Colors.white
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Color(0xFF09B44D)
+                                    ),
+                                    height: 37,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Center(
+                                      child: Text(
+                                        'Скопировать код: ' + stock.code,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                onTap: (){
-                                  savedPromo = stock;
-                                },
+                                  Material(
+                                    type: MaterialType.transparency,
+                                    child: InkWell(
+                                      splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        height: 37,
+                                      ),
+                                      onTap: () async {
+                                        savedPromo = stock;
+                                        Clipboard.setData(new ClipboardData(text: stock.code));
+                                        showToast();
+                                      },
+                                    ),
+                                  ),
+
+                                ],
                               ),
                             )
                           ],
@@ -551,6 +569,17 @@ class PromoScreenState extends State<PromoScreen>{
     );
   }
 
+  void showToast() async {
+    await Fluttertoast.showToast(
+        msg: "Код скопирован",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
+  }
 
   @override
   void initState() {

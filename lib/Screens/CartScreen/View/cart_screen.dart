@@ -221,6 +221,14 @@ class CartScreenState extends State<CartScreen> {
       padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
       child: Stack(
         children: [
+          Container(
+            height: 70,
+            width: 70,
+            decoration: BoxDecoration(
+              color: Colors.black12,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
           Align(
             alignment: Alignment.topLeft,
             child: ClipRRect(

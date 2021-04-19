@@ -4,6 +4,7 @@ import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/data/globalVariables.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 
 class OrderSuccessScreen extends StatefulWidget {
   final String name;
@@ -60,27 +61,34 @@ class OrderSuccessScreenState extends State<OrderSuccessScreen> {
                   child: Padding(
                     padding:
                     EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
-                    child: FlatButton(
-                      child: Text(
-                        'Продолжить',
-                        style: TextStyle(color: AppColor.textColor, fontSize: 18),
-                      ),
-                      color: AppColor.mainColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.only(
-                          left: 110, top: 20, right: 110, bottom: 20),
-                      onPressed: () {
-                        homeScreenKey = new GlobalKey<HomeScreenState>();
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => BlocProvider(
-                                  create: (context) => RestaurantGetBloc(),
-                                  child: new HomeScreen(),
-                                )),
-                                (Route<dynamic> route) => false);
-                      },
+                    child: TapDebouncer(
+                        // ignore: missing_return
+                        onTap: () {
+                          homeScreenKey = new GlobalKey<HomeScreenState>();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => BlocProvider(
+                                    create: (context) => RestaurantGetBloc(),
+                                    child: new HomeScreen(),
+                                  )),
+                                  (Route<dynamic> route) => false);
+                        },
+                        cooldown: const Duration(seconds: 3),
+                      builder: (BuildContext context, TapDebouncerFunc onTap) {
+                        return FlatButton(
+                          child: Text(
+                            'Продолжить',
+                            style: TextStyle(color: AppColor.textColor, fontSize: 18),
+                          ),
+                          color: AppColor.mainColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: EdgeInsets.only(
+                              left: 110, top: 20, right: 110, bottom: 20),
+                          onPressed: onTap,
+                        );
+                      }
                     ),
                   ),
                 ),

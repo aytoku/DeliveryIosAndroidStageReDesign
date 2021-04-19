@@ -17,6 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../data/data.dart';
 import '../../../data/data.dart';
 import '../../CodeScreen/View/code_screen.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 
 class AuthScreen extends StatefulWidget {
   AuthSources source;
@@ -304,7 +305,7 @@ class Button extends StatefulWidget {
 
 class ButtonState extends State<Button> {
   String error = '';
-  Color color = Color(0xFFF3F3F3);
+  Color color = AppColor.mainColor;
   AuthSources source;
   Color buttonColor = AppColor.textColor;
   AuthGetBloc authGetBloc;
@@ -315,7 +316,7 @@ class ButtonState extends State<Button> {
     String pattern = r'(^(?:[+]?7)[0-9]{10}$)';
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
-      return 'Укажите норер';
+      return 'Укажите номер';
     } else if (!regExp.hasMatch(value)) {
       return 'Указан неверный номер';
     }
@@ -326,39 +327,59 @@ class ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return GestureDetector(
-      child: Container(
-        width: 313,
-        height: 52,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
+    return Stack(
+      children: [
+        Container(
+          width: 313,
+          height: 52,
+          decoration: BoxDecoration(
+            color: widget.color,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+            child: Text('Далее',
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: buttonColor)),
+          ),
         ),
-        child: Center(
-          child: Text('Далее',
-              style: TextStyle(
-                  fontSize: 18.0,
-                  color: buttonColor)),
-        ),
-
-      ),
-      onTap: () async {
-        if (await Internet.checkConnection()) {
-          currentUser.phone = currentUser.phone.replaceAll('-', '');
-          currentUser.phone = currentUser.phone.replaceAll(' ', '');
-          print(currentUser.phone);
-          if (validateMobile(currentUser.phone) == null) {
-            if (currentUser.phone[0] != '+') {
-              currentUser.phone = '+' + currentUser.phone;
+        Material(
+          type: MaterialType.transparency,
+          child: TapDebouncer(
+            cooldown: const Duration(seconds: 10),
+              onTap: () async {
+                if (await Internet.checkConnection()) {
+                  currentUser.phone = currentUser.phone.replaceAll('-', '');
+                  currentUser.phone = currentUser.phone.replaceAll(' ', '');
+                  print(currentUser.phone);
+                  if (validateMobile(currentUser.phone) == null) {
+                    if (currentUser.phone[0] != '+') {
+                      currentUser.phone = '+' + currentUser.phone;
+                    }
+                    authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone)); // отправка события в bloc
+                  } else {
+                    authGetBloc.add(SetError('Указан неверный номер')); // отправка события в bloc
+                  }
+                } else {
+                  noConnection(context);
+                }
+              },
+            builder: (BuildContext context, TapDebouncerFunc onTap) {
+              return InkWell(
+                splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
+                onTap: onTap,
+                child: Container(
+                  width: 313,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              );
             }
-            authGetBloc.add(SendPhoneNumber(phoneNumber: currentUser.phone)); // отправка события в bloc
-          } else {
-            authGetBloc.add(SetError('Указан неверный номер')); // отправка события в bloc
-          }
-        } else {
-          noConnection(context);
-        }
-      },
+          ),
+        ),
+      ],
     );
   }
 }

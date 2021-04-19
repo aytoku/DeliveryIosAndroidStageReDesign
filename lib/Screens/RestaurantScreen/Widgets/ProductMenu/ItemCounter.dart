@@ -494,9 +494,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
                     ),
                   )
               ),
-              InkWell(
-                child: SvgPicture.asset('assets/svg_images/rest_plus.svg'),
-              ),
+              SvgPicture.asset('assets/svg_images/rest_plus.svg'),
             ],
           ),
         );
@@ -538,7 +536,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
               ),
             ),
           ),
-          GestureDetector(
+          InkWell(
             onTap: () async {
               if (await Internet.checkConnection()) {
                 if(foodRecords.type == 'variable'){

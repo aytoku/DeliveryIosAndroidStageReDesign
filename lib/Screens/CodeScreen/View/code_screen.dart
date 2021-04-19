@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Config/config.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/AuthScreen/API/auth_data_pass.dart';
 import 'package:flutter_app/Screens/AuthScreen/Bloc/phone_number_get_bloc.dart';
@@ -448,28 +449,49 @@ class ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return GestureDetector(
-      child: Container(
-        width: 313,
-        height: 52,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
+    return Stack(
+      children: [
+        Container(
+          width: 313,
+          height: 52,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+            child: Text('Далее',
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: AppColor.unselectedTextColor)),
+          ),
         ),
-        child: Center(
-          child: Text('Далее',
-              style: TextStyle(
-                  fontSize: 18.0,
-                  color: AppColor.unselectedTextColor)),
+        Material(
+          type: MaterialType.transparency,
+          child: TapDebouncer(
+            cooldown: const Duration(seconds: 10),
+              onTap: () async {
+                if (await Internet.checkConnection()) {
+                  await onTap();
+                } else {
+                  noConnection(context);
+                }
+              },
+            builder: (BuildContext context, TapDebouncerFunc onTap) {
+              return InkWell(
+                splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
+                child: Container(
+                  width: 313,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onTap: onTap,
+              );
+            }
+          ),
         ),
-      ),
-      onTap: () async {
-        if (await Internet.checkConnection()) {
-          await onTap();
-        } else {
-          noConnection(context);
-        }
-      },
+      ],
     );
   }
 

@@ -21,6 +21,7 @@ import '../../AuthScreen/View/auth_screen.dart';
 import '../../HomeScreen/View/home_screen.dart';
 import 'cart_screen.dart';
 import 'empty_cart_screen.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 
 
 class CartPageScreen extends StatefulWidget {
@@ -447,67 +448,74 @@ class CartPageState extends State<CartPageScreen> {
                               ),
                               Material(
                                 type: MaterialType.transparency,
-                                child: InkWell(
-                                  splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
-                                  child: Container(
-                                    width: 168,
-                                    height: 52,
-                                  ),
-                                  onTap: () async {
-                                    if (await Internet.checkConnection()) {
-                                      if (currentUser.isLoggedIn) {
-                                        if(selectedPageId == 0){
-                                          Navigator.of(context).push(
-                                              PageRouteBuilder(
-                                                  pageBuilder: (context, animation, anotherAnimation) {
-                                                    return AddressScreen(restaurant: restaurant, isTakeAwayOrderConfirmation: false);
-                                                  },
-                                                  transitionDuration: Duration(milliseconds: 300),
-                                                  transitionsBuilder:
-                                                      (context, animation, anotherAnimation, child) {
-                                                    return SlideTransition(
-                                                      position: Tween(
-                                                          begin: Offset(-1.0, 0.0),
-                                                          end: Offset(0.0, 0.0))
-                                                          .animate(animation),
-                                                      child: child,
-                                                    );
-                                                  }
-                                              ));
-                                        }else{
-                                          Navigator.of(context).push(
-                                              PageRouteBuilder(
-                                                  pageBuilder: (context, animation, anotherAnimation) {
-                                                    return AddressScreen(restaurant: restaurant, isTakeAwayOrderConfirmation: true);
-                                                  },
-                                                  transitionDuration: Duration(milliseconds: 300),
-                                                  transitionsBuilder:
-                                                      (context, animation, anotherAnimation, child) {
-                                                    return SlideTransition(
-                                                      position: Tween(
-                                                          begin: Offset(-1.0, 0.0),
-                                                          end: Offset(0.0, 0.0))
-                                                          .animate(animation),
-                                                      child: child,
-                                                    );
-                                                  }
-                                              ));
+                                child: TapDebouncer(
+                                  cooldown: const Duration(seconds: 5),
+                                    onTap: () async {
+                                    print('WAIT');
+                                      if (await Internet.checkConnection()) {
+                                        if (currentUser.isLoggedIn) {
+                                          if(selectedPageId == 0){
+                                            Navigator.of(context).push(
+                                                PageRouteBuilder(
+                                                    pageBuilder: (context, animation, anotherAnimation) {
+                                                      return AddressScreen(restaurant: restaurant, isTakeAwayOrderConfirmation: false);
+                                                    },
+                                                    transitionDuration: Duration(milliseconds: 300),
+                                                    transitionsBuilder:
+                                                        (context, animation, anotherAnimation, child) {
+                                                      return SlideTransition(
+                                                        position: Tween(
+                                                            begin: Offset(-1.0, 0.0),
+                                                            end: Offset(0.0, 0.0))
+                                                            .animate(animation),
+                                                        child: child,
+                                                      );
+                                                    }
+                                                ));
+                                          }else{
+                                            Navigator.of(context).push(
+                                                PageRouteBuilder(
+                                                    pageBuilder: (context, animation, anotherAnimation) {
+                                                      return AddressScreen(restaurant: restaurant, isTakeAwayOrderConfirmation: true);
+                                                    },
+                                                    transitionDuration: Duration(milliseconds: 300),
+                                                    transitionsBuilder:
+                                                        (context, animation, anotherAnimation, child) {
+                                                      return SlideTransition(
+                                                        position: Tween(
+                                                            begin: Offset(-1.0, 0.0),
+                                                            end: Offset(0.0, 0.0))
+                                                            .animate(animation),
+                                                        child: child,
+                                                      );
+                                                    }
+                                                ));
+                                          }
+                                        } else {
+                                          Navigator.push(
+                                            context,
+                                            new MaterialPageRoute(
+                                              builder: (context) => BlocProvider(
+                                                create: (context)=> AuthGetBloc(),
+                                                child: AuthScreen(source: AuthSources.Cart),
+                                              ),
+                                            ),
+                                          );
                                         }
                                       } else {
-                                        Navigator.push(
-                                          context,
-                                          new MaterialPageRoute(
-                                            builder: (context) => BlocProvider(
-                                              create: (context)=> AuthGetBloc(),
-                                              child: AuthScreen(source: AuthSources.Cart),
-                                            ),
-                                          ),
-                                        );
+                                        noConnection(context);
                                       }
-                                    } else {
-                                      noConnection(context);
-                                    }
-                                  },
+                                    },
+                                  builder: (BuildContext context, TapDebouncerFunc onTap) {
+                                    return InkWell(
+                                      splashColor: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
+                                      child: Container(
+                                        width: 168,
+                                        height: 52,
+                                      ),
+                                      onTap: onTap,
+                                    );
+                                  }
                                 ),
                               )
                             ],
