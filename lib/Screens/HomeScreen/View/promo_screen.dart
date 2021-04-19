@@ -476,7 +476,7 @@ class PromoScreenState extends State<PromoScreen>{
                                   Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: Color(0xFF09B44D)
+                                        color: AppColor.mainColor
                                     ),
                                     height: 37,
                                     width: MediaQuery.of(context).size.width,
@@ -485,7 +485,7 @@ class PromoScreenState extends State<PromoScreen>{
                                         'Скопировать код: ' + stock.code,
                                         style: TextStyle(
                                             fontSize: 18,
-                                            color: Colors.white
+                                            color: AppColor.textColor
                                         ),
                                       ),
                                     ),

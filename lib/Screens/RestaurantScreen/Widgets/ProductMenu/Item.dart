@@ -366,6 +366,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin, 
       return GestureDetector(
         onTapDown: _onTapDown,
         onTapUp: _onTapUp,
+        onLongPressEnd: _onLongPressEnd,
+        onHorizontalDragEnd: _onDragUpdate,
         child: Transform.scale(
           scale: _scale,
           child: Container(
@@ -571,34 +573,34 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin, 
                         Container(
                           child: Column(
                             children: [
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 20, bottom: 10, left: 16),
-                                  child: Text(restaurantDataItems.name,
-                                    style: TextStyle(
-                                        fontSize: 24
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              (restaurantDataItems.meta.description != "" &&
-                                  restaurantDataItems.meta.description != null)
-                                  ? Padding(
-                                padding:
-                                EdgeInsets.only(left: 15, top: 10, bottom: 10),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    restaurantDataItems.meta.description,
-                                    style: TextStyle(
-                                        color: Color(0xFFB0B0B0), fontSize: 13),
-                                  ),
-                                ),
-                              )
-                                  : Container(
-                                height: 0,
-                              ),
+                              // Align(
+                              //   alignment: Alignment.topLeft,
+                              //   child: Padding(
+                              //     padding: EdgeInsets.only(top: 20, bottom: 10, left: 16),
+                              //     child: Text(restaurantDataItems.name,
+                              //       style: TextStyle(
+                              //           fontSize: 24
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              // (restaurantDataItems.meta.description != "" &&
+                              //     restaurantDataItems.meta.description != null)
+                              //     ? Padding(
+                              //   padding:
+                              //   EdgeInsets.only(left: 15, top: 10, bottom: 10),
+                              //   child: Align(
+                              //     alignment: Alignment.topLeft,
+                              //     child: Text(
+                              //       restaurantDataItems.meta.description,
+                              //       style: TextStyle(
+                              //           color: Color(0xFFB0B0B0), fontSize: 13),
+                              //     ),
+                              //   ),
+                              // )
+                              //     : Container(
+                              //   height: 0,
+                              // ),
                               // Padding(
                               //   padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 15),
                               //   child: Row(
@@ -710,42 +712,42 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin, 
                                                 padding: EdgeInsets.only(top: 10, bottom: 10),
                                                 decoration: (productsDescription.variantGroups != null) ? BoxDecoration(
                                                   color: AppColor.themeColor,
-                                                  // boxShadow: [
-                                                  //   BoxShadow(
-                                                  //     color: Colors.black12,
-                                                  //     blurRadius: 4.0, // soften the shadow
-                                                  //     spreadRadius: 1.0, //extend the shadow
-                                                  //   )
-                                                  // ],
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black12,
+                                                      blurRadius: 4.0, // soften the shadow
+                                                      spreadRadius: 1.0, //extend the shadow
+                                                    )
+                                                  ],
                                                 ) : null,
                                                 child: Column(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: <Widget>[
-                                                    // Row(
-                                                    //   mainAxisAlignment: MainAxisAlignment.start,
-                                                    //   children: <Widget>[
-                                                    //     Expanded(child: Padding(
-                                                    //       padding: const EdgeInsets.only(left: 20, right: 10, top: 10),
-                                                    //       child: Container(
-                                                    //         child: RichText(text:
-                                                    //         TextSpan(
-                                                    //             children: <TextSpan>[
-                                                    //               TextSpan(text: restaurantDataItems.,
-                                                    //                 style: TextStyle(
-                                                    //                     fontSize: 15.0,
-                                                    //                     color: Color(0xFF000000)),),
-                                                    //             ]
-                                                    //         )
-                                                    //         ),
-                                                    //       ),
-                                                    //     )),
-                                                    //     Padding(
-                                                    //       padding: EdgeInsets.only(right: 20, top: 8),
-                                                    //       child: PriceField(key: priceFieldKey, restaurantDataItems: restaurantDataItems),
-                                                    //     )
-                                                    //   ],
-                                                    // ),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Expanded(child: Padding(
+                                                          padding: const EdgeInsets.only(left: 20, right: 10, top: 10),
+                                                          child: Container(
+                                                            child: RichText(text:
+                                                            TextSpan(
+                                                                children: <TextSpan>[
+                                                                  TextSpan(text: restaurantDataItems.name,
+                                                                    style: TextStyle(
+                                                                        fontSize: 16.0,
+                                                                        color: Color(0xFF000000)),),
+                                                                ]
+                                                            )
+                                                            ),
+                                                          ),
+                                                        )),
+                                                        Padding(
+                                                          padding: EdgeInsets.only(right: 20, top: 8),
+                                                          child: PriceField(key: priceFieldKey, restaurantDataItems: restaurantDataItems),
+                                                        )
+                                                      ],
+                                                    ),
                                                     SizedBox(
                                                       height: 4.0,
                                                     ),
@@ -779,14 +781,13 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin, 
                                                                     child: Padding(
                                                                       padding: const EdgeInsets.only(left: 15, right: 15),
                                                                       child: Row(
-                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                                         children: [
                                                                           Text(
                                                                             "Добавить",
                                                                             style:
                                                                             TextStyle(color: AppColor.textColor, fontSize: 18),
                                                                           ),
-                                                                          PriceField(key: priceFieldKey, restaurantDataItems: restaurantDataItems),
                                                                         ],
                                                                       ),
                                                                     ),
@@ -936,5 +937,14 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin, 
   void _onTapUp(TapUpDetails details) {
     _controller.reverse();
   }
+
+  void _onLongPressEnd(LongPressEndDetails details) {
+    _controller.reverse();
+  }
+
+  void _onDragUpdate(DragEndDetails details) {
+    _controller.reverse();
+  }
+
 }
 

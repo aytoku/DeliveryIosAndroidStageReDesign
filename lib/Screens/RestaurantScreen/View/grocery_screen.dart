@@ -253,8 +253,8 @@ class GroceryScreenState extends State<GroceryScreen>{
                       Padding(
                         padding: const EdgeInsets.only(left: 75.0),
                         child: Divider(
-                          height: 1.0,
-                          color: AppColor.unselectedBorderFieldColor,
+                          height: 0.5,
+                          color: AppColor.unselectedBorderFieldColor.withOpacity(0.5),
                         ),
                       )
                     ],
@@ -574,7 +574,7 @@ class GroceryScreenState extends State<GroceryScreen>{
                                 child: Center(
                                   child: Padding(
                                     padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
-                                    child: Text('от ${restaurant.meta.avgDeliveryPrice}',
+                                    child: Text('${restaurant.meta.avgDeliveryPrice}',
                                       style: TextStyle(
                                       ),
                                     ),

@@ -48,7 +48,7 @@ class PriceFieldState extends State<PriceField> {
       return Text(
         '${((restaurantDataItems.price+variantsPrice) * count).toStringAsFixed(0)} \₽',
         style: TextStyle(
-            fontSize: 15.0,
+            fontSize: 16.0,
             color: Color(0xFF000000)),
         overflow: TextOverflow.ellipsis,
       );

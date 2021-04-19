@@ -1177,7 +1177,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
         controller: panelController,
         color: Colors.transparent,
         minHeight: 0,
-        maxHeight: MediaQuery.of(context).size.height * 0.9,
+        // maxHeight: MediaQuery.of(context).size.height * 0.9,
         isDraggable: true,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12),

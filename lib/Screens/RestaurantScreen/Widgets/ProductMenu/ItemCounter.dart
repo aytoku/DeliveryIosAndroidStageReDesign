@@ -477,7 +477,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
         );
       }else{
         return Padding(
-          padding: const EdgeInsets.only(bottom: 0, right: 4, left: 2),
+          padding: const EdgeInsets.only(bottom: 0, right: 0, left: 2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

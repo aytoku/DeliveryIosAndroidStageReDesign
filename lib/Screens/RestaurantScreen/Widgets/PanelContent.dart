@@ -220,34 +220,34 @@ class PanelContentState extends State<PanelContent>{
                                               Container(
                                                 child: Column(
                                                   children: [
-                                                    Align(
-                                                      alignment: Alignment.topLeft,
-                                                      child: Padding(
-                                                        padding: EdgeInsets.only(top: 20, bottom: 0, left: 16),
-                                                        child: Text(restaurantDataItems.name,
-                                                          style: TextStyle(
-                                                              fontSize: 24
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    (productsDescription.product.meta.description != "" &&
-                                                        productsDescription.product.meta.description != null)
-                                                        ? Padding(
-                                                      padding:
-                                                      EdgeInsets.only(left: 15, top: 17, bottom: 17),
-                                                      child: Align(
-                                                        alignment: Alignment.topLeft,
-                                                        child: Text(
-                                                          productsDescription.product.meta.description,
-                                                          style: TextStyle(
-                                                              color: Color(0xFFB0B0B0), fontSize: 13),
-                                                        ),
-                                                      ),
-                                                    )
-                                                        : Container(
-                                                      height: 0,
-                                                    ),
+                                                    // Align(
+                                                    //   alignment: Alignment.topLeft,
+                                                    //   child: Padding(
+                                                    //     padding: EdgeInsets.only(top: 20, bottom: 0, left: 16),
+                                                    //     child: Text(restaurantDataItems.name,
+                                                    //       style: TextStyle(
+                                                    //           fontSize: 24
+                                                    //       ),
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
+                                                    // (productsDescription.product.meta.description != "" &&
+                                                    //     productsDescription.product.meta.description != null)
+                                                    //     ? Padding(
+                                                    //   padding:
+                                                    //   EdgeInsets.only(left: 15, top: 17, bottom: 17),
+                                                    //   child: Align(
+                                                    //     alignment: Alignment.topLeft,
+                                                    //     child: Text(
+                                                    //       productsDescription.product.meta.description,
+                                                    //       style: TextStyle(
+                                                    //           color: Color(0xFFB0B0B0), fontSize: 13),
+                                                    //     ),
+                                                    //   ),
+                                                    // )
+                                                    //     : Container(
+                                                    //   height: 0,
+                                                    // ),
                                                     Divider(height: 0, color: Color(0xFFE6E6E6),),
                                                     // Padding(
                                                     //   padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 15),
