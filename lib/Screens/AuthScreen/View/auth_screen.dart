@@ -139,6 +139,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                             ),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
@@ -148,6 +149,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         fontSize: 18,
                                         color: AppColor.textColor
                                     ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                                 Padding(
@@ -171,7 +173,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         filled: true,
                                         fillColor: AppColor.themeColor,
                                         counterText: '',
-                                        contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.19),
+                                        contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2),
                                         hintStyle: TextStyle(
                                           color: Color(0xFFC0BFC6),
                                         ),
