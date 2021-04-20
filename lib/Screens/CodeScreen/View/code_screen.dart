@@ -223,7 +223,7 @@ class _CodeScreenState extends State<CodeScreen> {
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: Container(
-                          height: 130,
+                          // height: 130,
                           width: 313,
                           decoration: BoxDecoration(
                             color: AppColor.mainColor,
@@ -244,8 +244,9 @@ class _CodeScreenState extends State<CodeScreen> {
                                     'Введите код из смс',
                                     style: TextStyle(
                                         fontSize: 18,
-                                        color: AppColor.unselectedTextColor
+                                        color: AppColor.textColor
                                     ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
@@ -334,7 +335,7 @@ class _CodeScreenState extends State<CodeScreen> {
                           bottom: 20, left: 0, right: 0, top: 10),
                       child: Button(
                         key: buttonStateKey,
-                        color: AppColor.fieldColor,
+                        color: AppColor.unselectedBorderFieldColor.withOpacity(0.2),
                         onTap: () async {
                           if (await Internet.checkConnection()) {
                             String temp = '';

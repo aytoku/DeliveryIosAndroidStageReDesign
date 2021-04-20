@@ -279,7 +279,6 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
         //   },
         // ),
         Container(
-          height: 30,
           child: Stack(
             children: [
               // GestureDetector(
