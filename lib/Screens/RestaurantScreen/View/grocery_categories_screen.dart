@@ -63,45 +63,45 @@ class GroceryCategoriesScreenState extends State<GroceryCategoriesScreen>{
             return  Container(
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: InkWell(
-                      hoverColor: AppColor.themeColor,
-                      focusColor: AppColor.themeColor,
-                      splashColor: AppColor.themeColor,
-                      highlightColor: AppColor.themeColor,
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only( top: 40),
-                        child: Container(
-                            height: 40,
-                            width: 60,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: 12, bottom: 12, right: 10),
-                              child: SvgPicture.asset(
-                                  'assets/svg_images/arrow_left.svg'),
-                            )),),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.topLeft,
+                  //   child: InkWell(
+                  //     hoverColor: AppColor.themeColor,
+                  //     focusColor: AppColor.themeColor,
+                  //     splashColor: AppColor.themeColor,
+                  //     highlightColor: AppColor.themeColor,
+                  //     onTap: () {
+                  //       Navigator.pop(context);
+                  //     },
+                  //     child: Padding(
+                  //       padding: EdgeInsets.only( top: 40),
+                  //       child: Container(
+                  //           height: 40,
+                  //           width: 60,
+                  //           child: Padding(
+                  //             padding: EdgeInsets.only(
+                  //                 top: 12, bottom: 12, right: 10),
+                  //             child: SvgPicture.asset(
+                  //                 'assets/svg_images/arrow_left.svg'),
+                  //           )),),
+                  //   ),
+                  // ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Column(
                         children: [
-                          Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                                child: Text(parentCategory.name,
-                                  style: TextStyle(
-                                      fontSize: 24
-                                  ),
-                                ),
-                              )
-                          ),
+                          // Align(
+                          //     alignment: Alignment.topLeft,
+                          //     child: Padding(
+                          //       padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          //       child: Text(parentCategory.name,
+                          //         style: TextStyle(
+                          //             fontSize: 24
+                          //         ),
+                          //       ),
+                          //     )
+                          // ),
                           Expanded(
                             child: ListView(
                               padding: EdgeInsets.zero,

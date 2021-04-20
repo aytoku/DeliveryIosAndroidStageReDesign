@@ -510,7 +510,7 @@ class MenuItemCounterState extends State<MenuItemCounter> {
     }
 
     return Padding(
-        padding: EdgeInsets.only(left: 15, bottom: 5),
+        padding: EdgeInsets.only(left: 0, bottom: 5),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           InkWell(
             onTap: () async {
