@@ -900,7 +900,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                 child: Center(
                                   child: Padding(
                                     padding: EdgeInsets.only(left:10, right: 10, top: 5, bottom: 5),
-                                    child: Text('от ${restaurant.meta.avgDeliveryPrice}',
+                                    child: Text('${restaurant.meta.avgDeliveryPrice}',
                                       style: TextStyle(
                                       ),
                                     ),
@@ -1279,16 +1279,16 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                                           'assets/svg_images/arrow_left.svg'),
                                     )),),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 20
-                              ),
-                              child: Text(
-                                selectedCategoriesUuid.name,
-                                style: TextStyle(
-                                  fontSize: 18,),
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: EdgeInsets.only(
+                            //       top: 20
+                            //   ),
+                            //   child: Text(
+                            //     selectedCategoriesUuid.name,
+                            //     style: TextStyle(
+                            //       fontSize: 18,),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
