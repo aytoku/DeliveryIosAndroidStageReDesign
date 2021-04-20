@@ -9,6 +9,9 @@ import 'package:flutter_app/Screens/HomeScreen/Model/FilteredStores.dart';
 import 'package:flutter_app/Screens/HomeScreen/View/home_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/grocery_categories_screen.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/View/restaurant_screen.dart';
+import 'package:flutter_app/Screens/RestaurantScreen/Widgets/CartButton/CartButton.dart';
+import 'package:flutter_app/Screens/CartScreen/View/cart_page_view.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/FadeAnimation.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/ProductCategories/CategoryList.dart';
 import 'package:flutter_app/Screens/RestaurantScreen/Widgets/SliverTitleItems/SliverBackButton.dart';
@@ -43,7 +46,7 @@ class GroceryScreenState extends State<GroceryScreen>{
   CategoryList categoryList;
   String parentUuid;
   ScrollController sliverScrollController = new ScrollController();
-
+  GlobalKey<CartButtonState> basketButtonStateKey;
   GlobalKey<SliverShadowState> sliverShadowKey;
   GroceryScreenState(this.restaurant);
 
@@ -637,6 +640,14 @@ class GroceryScreenState extends State<GroceryScreen>{
                 )
               ],
             ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding:  EdgeInsets.only(bottom: 0),
+                child: CartButton(
+                  key: basketButtonStateKey, restaurant: restaurant, source: CartSources.Restaurant,),
+              ),
+            )
           ],
         ),
       ),

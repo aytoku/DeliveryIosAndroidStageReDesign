@@ -370,6 +370,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         height: 140,
                         child: Image(
                           image: AssetImage('assets/images/fermer.png'),
+                          width: 150,
                         ),
                       )
                     ),

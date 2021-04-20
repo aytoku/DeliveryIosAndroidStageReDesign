@@ -240,8 +240,8 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin, 
                 bottom:  10),
             child: Center(
                 child: GestureDetector(
-                  onTapDown: _onTapDown,
-                    onTapUp: _onTapUp,
+                  // onTapDown: _onTapDown,
+                  //   onTapUp: _onTapUp,
                     onTap: () async {
                       if (await Internet.checkConnection()) {
                         if(!available || !isScheduleAvailable){
@@ -364,10 +364,10 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin, 
       );
     }else {
       return GestureDetector(
-        onTapDown: _onTapDown,
-        onTapUp: _onTapUp,
-        onLongPressEnd: _onLongPressEnd,
-        onHorizontalDragEnd: _onDragUpdate,
+        // onTapDown: _onTapDown,
+        // onTapUp: _onTapUp,
+        // onLongPressEnd: _onLongPressEnd,
+        // onHorizontalDragEnd: _onDragUpdate,
         child: Transform.scale(
           scale: _scale,
           child: Container(

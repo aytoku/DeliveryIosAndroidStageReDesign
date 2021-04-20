@@ -964,7 +964,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                 child: CartButton(
                   key: basketButtonStateKey, restaurant: restaurant, source: CartSources.Restaurant,),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -1071,6 +1071,7 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           Padding(
             padding: EdgeInsets.only(top: 15),
             child: Row(
+              // mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 InkWell(
                   hoverColor: AppColor.themeColor,
@@ -1108,17 +1109,30 @@ class RestaurantScreenState extends State<RestaurantScreen> {
                               'assets/svg_images/arrow_left.svg'),
                         )),),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: 20,
-                    // left: MediaQuery.of(context).size.width * 0.3,
-                  ),
-                  child: Text(
-                    selectedCategoriesUuid.name,
-                    style: TextStyle(
-                      fontSize: 18,),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        top: 20,
+                    ),
+                    child: Text(
+                      selectedCategoriesUuid.name,
+                      style: TextStyle(
+                        fontSize: 18,),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Container(
+                      height: 40,
+                      width: 60,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 12, bottom: 12,),
+                        child: SvgPicture.asset(
+                            ''),
+                      )),),
               ],
             ),
           ),
