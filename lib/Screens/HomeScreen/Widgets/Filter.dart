@@ -356,13 +356,13 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
               //       )
               //   ),
               // ): Container()
-              Padding(
-                padding: const EdgeInsets.only(left: 22.0),
-                child: Container(height: 30,child: Text('Продукты и рестораны',style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold
-                ),),),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 22.0),
+              //   child: Container(height: 30,child: Text('Продукты и рестораны',style: TextStyle(
+              //       fontSize: 40,
+              //       fontWeight: FontWeight.bold
+              //   ),),),
+              // ),
             ],
           ),
         ),
@@ -458,9 +458,10 @@ class FilterState extends State<Filter> with AutomaticKeepAliveClientMixin, Sing
         builder: (BuildContext context,
             AsyncSnapshot<Widget> snapshot){
           if(snapshot.connectionState == ConnectionState.done){
-            return snapshot.data;
+            // return snapshot.data;
+            return Container(width: 0.0, height: 0,);
           }
-          return Container(width: 0.0, height: 60,);
+          return Container(width: 0.0, height: 0,);
         },
       ),
     );
